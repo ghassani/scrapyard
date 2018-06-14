@@ -1,0 +1,52 @@
+
+<div class="">
+    {{ form_label(form.id) }}
+    {{ form_widget(form.id) }}
+</div>
+
+<div class="input-append">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, { 'attr' : { 'class' : 'form-control' } }) }}
+    <div class="btn-group">
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li class="text-center"><strong>Search Options</strong></li>
+            <li>{{ form_widget(form.nameOptions) }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="input-append">
+    {{ form_label(form.sku) }}
+    {{ form_widget(form.sku, { 'attr' : { 'class' : 'form-control' } }) }}
+    <div class="btn-group">
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li class="text-center"><strong>Search Options</strong></li>
+            <li>{{ form_widget(form.skuOptions) }}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="">
+    {{ form_label(form.priceFrom, "Price") }}
+    {{ form_widget(form.priceFrom,{'attr':{ 'placeholder' : 'From', 'class' : 'form-control'}}) }} 
+    {{ form_widget(form.priceTo,{'attr':{ 'placeholder' : 'To', 'class' : 'form-control'}}) }}
+</div>
+
+<div class="">
+    {{ form_label(form.costFrom, "Cost") }}
+    {{ form_widget(form.costFrom,{'attr':{ 'placeholder' : 'From', 'class' : 'form-control'}}) }} 
+    {{ form_widget(form.costTo,{'attr':{ 'placeholder' : 'To', 'class' : 'form-control'}}) }}
+</div>
+
+<div class="">
+    {{ form_label(form.status) }}
+    {{ form_widget(form.status,{'attr':{'class' : 'form-control'}}) }}
+</div>
+
+<div class="">
+    {{ form_label(form.isActive) }}
+    {{ form_widget(form.isActive,{'attr':{'class' : 'form-control'}}) }}
+</div>
+{{ form_rest(form) }}

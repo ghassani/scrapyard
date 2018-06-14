@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+		<service id="commerce.paypal.oauth_client" class="Spliced\Component\Commerce\Security\Authentication\Client\PayPalOAuth2Client">
+           <argument type="service" id="commerce.configuration" />
+           <argument type="service" id="kernel" />  
+           <tag name="commerce.configurable" />
+        </service>
+
+        <service id="commerce.customer.paypal_manager" class="Spliced\Component\Commerce\Security\User\PayPalUserManager" public="false">
+            <argument type="service" id="commerce.paypal.oauth_client" />
+            <argument type="service" id="commerce.customer.manager" />
+        </service>
+
+        <service id="commerce.security.authentication.provider.paypal" class="Spliced\Component\Commerce\Security\Authentication\Provider\PayPalAuthenticationProvider" public="false">
+            <argument /> <!-- Provider-shared Key -->
+            <argument type="service" id="commerce.paypal.oauth_client" />
+            <argument type="service" id="commerce.customer.manager" />
+            <argument type="service" id="security.user_checker" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="commerce.security.authentication.entry_point.paypal" class="Spliced\Component\Commerce\Security\EntryPoint\PayPalAuthenticationEntryPoint" public="true" abstract="true">
+            <argument type="service" id="commerce.paypal.oauth_client" />
+            <argument type="collection" />
+            <argument type="collection" />
+        </service>
+        
+        <service id="commerce.security.authentication.listener.paypal"
+                 class="Spliced\Component\Commerce\Security\Firewall\PayPalAuthenticationListener"
+                 parent="security.authentication.listener.abstract"
+                 abstract="true">
+        </service>
+
+
+	</services>
+
+</container>

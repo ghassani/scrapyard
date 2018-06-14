@@ -1,0 +1,66 @@
+{#
+	Product/tier_price_table_detailed.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+	@var includeNoTier
+#}
+{% set productTierData = product.tierPrices %}
+
+<table class="table table-striped table-bordered table-condensed product-tier-price-table">
+	<thead>
+		<tr>
+			<th>Qty</th>
+			<th>Unit Price</th>
+			<th>Total Price</th>
+			<th width="200"></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% if includeNoTier is defined %}
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		{% endif %}
+		{% for tierData in productTierData %}
+		<tr>
+			<td>
+				{% if  tierData.minQuantity != tierData.maxQuantity %}
+					{% if tierData.maxQuantity ==  -1 %}
+						<abbr title="Final price depends on the number of items you purchase.">{{ tierData.minQuantity }}+</abbr>
+					{% else %}
+						<abbr title="Final price depends on the number of items you purchase.">{{ tierData.minQuantity }}-{{ tierData.maxQuantity }}</abbr>
+					{% endif %}
+				{% else %}
+					{{ tierData.minQuantity }}
+				{%  endif %}
+			</td>
+			<td>
+				${{ commerce_product_price(product,tierData.minQuantity, tierData) }}&nbsp;<span class="strikethrough">${{ commerce_product_price(product, 1) }}</span>
+			</td>
+			<td>
+				{{ tierData.minQuantity == tierData.maxQuantity ? '$'~commerce_product_price_total(product,tierData.minQuantity,tierData) : 'Starting at $' ~ commerce_product_price_total(product,tierData.minQuantity,tierData) ~ ' for ' ~ tierData.minQuantity}}
+
+			</td>
+			<td>
+			    {% if product.availability == 1 %}
+				<form method="post" action="{{ path('cart_add') }}" class="add-to-cart-form">
+					<input type="hidden" name="id" value="{{  product.id }}"/>
+						{{ include('SplicedCommerceBundle:Product:Form/add_to_cart.html.twig', {
+							'product' : product,
+							'quantity' : tierData.minQuantity,
+							'btnClass' : 'btn-small'
+						}) }}
+				</form>
+				{% else %}
+				    {{ product.statusName }}
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

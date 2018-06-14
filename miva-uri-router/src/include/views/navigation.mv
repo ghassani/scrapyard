@@ -1,0 +1,17 @@
+<MvCOMMENT>
+ * Render_Navigation
+ *
+ * Renders Navigation
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Navigation" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.base_system_link" VALUE = "{ g.secure_adminurl $ 'Screen=SMOD&Tab=SMROUTER&Module_Type=system&Store_Code=' $ g.Store_Code }" />
+	<MvASSIGN NAME = "l.base_util_link" VALUE = "{ g.secure_adminurl $ 'Screen=SUTL&Tab=SMROUTER&Module_Code=spliced-router&Store_Code=' $ g.Store_Code }" />
+	<MvASSIGN NAME = "l.base_product_link" VALUE = "{ g.secure_adminurl $ 'Screen=PROD&Tab=SMROUTER&&Store_Code=' $ g.Store_Code $ '&Edit_Product=' $ g.Edit_Product }" />
+	<MvASSIGN NAME = "l.base_category_link" VALUE = "{ g.secure_adminurl $ 'Screen=CTGY&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Category=' $ g.Edit_Category }" />
+	<MvASSIGN NAME = "l.base_page_link" VALUE = "{ g.secure_adminurl $ 'Screen=PAGE&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Page=' $ g.Edit_Page }" />
+
+	<div class="form-actions text-right">
+		<a href="{ l.base_util_link $ '&Module_Action=' }"  class="button">Manage Routes</a>
+		<a href="{ l.base_system_link $ '&Module_Action=settings' }"  class="button">Settings</a>
+	</div>
+</MvFUNCTION>

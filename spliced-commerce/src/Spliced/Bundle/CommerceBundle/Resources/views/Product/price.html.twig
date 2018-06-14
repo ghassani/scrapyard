@@ -1,0 +1,21 @@
+{#
+	Product/price.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+#}
+
+{% set basePrice = commerce_product_price(product, null, null, null) %}
+{% set cartPrice = commerce_product_price(product, null, null, cartItem is defined ? cartItem : null) %}
+
+{%  if basePrice != cartPrice %}
+	<div class="price">
+		<small><span class="price-strikeout">${{ basePrice|number_format(2) }}</span></small> <span class="price">${{ cartPrice|number_format(2) }}</span>
+	</div>
+{% else %}
+	<div class="price">
+		<span class="price">${{ cartPrice|number_format(2) }}</span>
+	</div>
+{% endif %}
+

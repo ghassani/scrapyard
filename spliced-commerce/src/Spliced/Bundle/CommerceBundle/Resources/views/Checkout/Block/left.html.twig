@@ -1,0 +1,137 @@
+{{ block('form_widget_simple') }}
+
+{% if app.environment == 'dev' %}
+<div class="panel panel-danger">
+    <div class="panel-heading">Debug</div>
+    <div class="panel-body">
+        <div>Current Step: {{ commerce_checkout_manager().currentStep }}</div>
+        <div>Last Completed Step: {{ commerce_checkout_manager().lastCompletedStep }}</div>
+        <div>Last Step: {{ commerce_checkout_manager().lastStep }}</div>
+    </div>
+    <div class="panel-footer"></div>
+</div>
+{% endif %}
+
+{% if step > 1 %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+    	    {{ is_granted('ROLE_USER') ? "Welcome Back" : "Checking Out As Guest" }}
+	    </h3>
+    </div>
+
+    <div class="panel-body">
+    	{% if is_granted('ROLE_USER') %}
+    	<p>It's good to see you again {{ app.user.displayName }}</p>
+    	{% else %}
+    	<p>You are checking out as a guest using the email address {{ form.vars.data.email }}</p>
+    	{% endif %}
+	</div>
+</div>
+{% endif %}
+
+{% if step == 1 %}
+	{% if not is_granted('ROLE_USER') %}
+	<div class="alert alert-info alert-checkout-register-login">
+		<h4>Login or Register for Faster Checkout</h4>
+		<p>If you have previously registered with us, <strong><a href="{{ path('login') }}" class="ajax-link">click here to login</a></strong>. If this is your first time
+		shopping with us, continue below to optionally register or checkout as a guest.</p>
+    </div>
+    {% endif %}
+{% endif %}
+
+{% if step == 2 and not is_granted('ROLE_USER') %}
+	<div class="panel panel-default">
+		<div class="panel-heading">One Click Register &amp; Login</div>
+		<div class="panel-body">
+			<p>It's not too late to register. Quickly sign up and login with any of the following networks.</p>
+			{{ include("SplicedCommerceBundle:Security/Block:social_login_block.html.twig") }}
+		</div>
+	</div>
+{% endif %}
+
+{% if 2 <= commerce_checkout_manager().lastCompletedStep %}
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+            <h3 class="panel-title">
+	    	    Bill To <a href="{{ path('commerce_checkout') }}?step=2" class="checkout-move-step pull-right" data-step="2"><i class="icon-edit icon-white"></i></a>
+		    </h3>
+        </div>
+        <div class="panel-body">
+	    	<strong>{{ form.vars.data.billingFirstName }} {{ form.vars.data.billingLastName }}</strong><br>
+			{{ form.vars.data.billingAddress }}<br>
+			{% if form.vars.data.billingAddress2|length %}
+			    {{ form.vars.data.billingAddress2 }}<br>
+			{% endif %}
+			{{ form.vars.data.billingCity }}, {{ form.vars.data.billingState }} {{ form.vars.data.billingZipcode }} {{ form.vars.data.billingCountry }}
+		</div>
+	</div>
+
+	{% if form.vars.data.shippingAddress|length %}
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+                <h3 class="panel-title">
+                    Ship To <a href="{{ path('checkout') }}?step=2" class="checkout-move-step pull-right" data-step="2"><i class="icon-edit icon-white"></i></a>
+                </h3>
+            </div>
+		    <div class="panel-body">
+		    	<strong>{{ form.vars.data.shippingFirstName }} {{ form.vars.data.shippingLastName }}</strong><br>
+				{{ form.vars.data.shippingAddress }}<br>
+				{% if form.vars.data.shippingAddress2|length %}
+			        {{ form.vars.data.shippingAddress2 }}<br>
+			    {% endif %}
+				{{ form.vars.data.shippingCity }}, {{ form.vars.data.shippingState }} {{ form.vars.data.shippingZipcode }} {{ form.vars.data.shippingCountry }}
+			</div>
+		</div>
+	{% else %}
+		<div class="panel panel-default">
+		    <h3 class="block-head">
+		    	Ship To <a href="{{ path('checkout') }}?step=2" class="checkout-move-step pull-right" data-step="2"><i class="icon-edit icon-white"></i></a>
+			</h3>
+		    <div class="block-content">
+		    	<strong>{{ form.vars.data.billingFirstName }} {{ form.vars.data.billingLastName }}</strong><br>
+				{{ form.vars.data.billingAddress }} {{ form.vars.data.billingAddress2 }}<br>
+				{{ form.vars.data.billingCity }}, {{ form.vars.data.billingState }} {{ form.vars.data.billingZipcode }} {{ form.vars.data.billingCountry }}
+			</div>
+		</div>
+	{% endif %}
+{% endif %}
+
+{# if 3 <= commerce_checkout_manager().lastCompletedStep %}
+	<div class="panel panel-default">
+	    <h3 class="block-head">
+	    	Shipping Method <a href="{{ path('checkout') }}?step=3" class="checkout-move-step pull-right" data-step="3"><i class="icon-edit icon-white"></i></a>
+		</h3>
+	    <div class="block-content">
+	    	{% set shippingProvider = commerce_checkout_manager().getShippingProvider(form.vars.data.shipment.shipmentProvider) %}
+	    	{% set shippingMethod = shippingProvider.getMethod(form.vars.data.shipment.shipmentMethod) %}
+	    	{{ shippingMethod.label }}
+	    	{{ shippingMethod.label2 }}
+	    	${{ shippingMethod.price }}
+		</div>
+	</div>
+{% endif #}
+
+{% if 4 <= commerce_checkout_manager().lastCompletedStep %}
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+            <h3 class="panel-title">
+                Payment Method <a href="{{ path('checkout') }}?step=4" class="checkout-move-step pull-right" data-step="4"><i class="icon-edit icon-white"></i></a>
+            </h3>
+	    </div>
+	    <div class="panel-body">
+	        {% if form.vars.data.payment.paymentMethod is defined and form.vars.data.payment.paymentMethod|length %}
+    			{% set paymentMethod = commerce_checkout_manager().getPaymentProvider(form.vars.data.payment.paymentMethod) %}
+    			{{ paymentMethod.getOption('label') }}
+    			{% if order.payment.creditCard is defined and order.payment.creditCard|length %}
+    			    {% if order.payment.creditCard.lastFour|length %}
+    			    <div>Credit Card: XXXX-XXXX-XXXX-{{ order.payment.creditCard.lastFour }}</div>
+    			    <div>Expires: {{ order.payment.creditCard.cardExpirationMonth }}-{{ order.payment.creditCard.cardExpirationYear }}</div>
+    			    {% endif %}
+    			{% endif %}
+			{% else %}
+			    <div><strong>Payment Method Not Selected!</strong></div>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}

@@ -1,0 +1,64 @@
+<form method="post" action="{{ path('commerce_contact') }}" novalidate>
+	<div class="control-group">
+	 	{{ form_label(form.name,null,{ 'attr': { 'class' : 'control-label' } }) }}
+
+		<div class="controls">
+			<div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>
+                {{ form_widget(form.name,{'attr':{'class':'span5'}}) }}
+            </div>
+            {{ form_errors(form.name) }}
+		</div>
+	</div>
+
+	<div class="control-group">
+	 	{{ form_label(form.email, null, {'attr':{'class':'control-label'}}) }}
+
+		<div class="controls">
+			
+			<div class="input-prepend">
+                <span class="add-on"><i class="icon-envelope-alt "></i></span>
+                {{ form_widget(form.email,{'attr':{'class':'span5'}}) }}
+            </div>
+            {{ form_errors(form.email) }}
+		</div>
+	</div>
+
+	<div class="control-group">
+	 	{{ form_label(form.phone,null,{'attr':{'class':'control-label'}}) }}
+
+		<div class="controls">
+			
+			<div class="input-prepend">
+                <span class="add-on"><i class="icon-mobile-phone"></i></span>
+                {{ form_widget(form.phone,{'attr':{'class':'span5'}}) }}
+            </div>
+            {{ form_errors(form.phone) }}
+		</div>
+	</div>
+	<div class="control-group">
+	 	{{ form_label(form.subject,'Subject',{'attr':{'class':'control-label'}}) }}
+
+		<div class="controls">
+			
+			<div class="input-prepend">
+                <span class="add-on"><i class="icon-lightbulb"></i></span>
+                {{ form_widget(form.subject,{'attr':{'class':'span5'}}) }}
+            </div>
+            {{ form_errors(form.subject) }}
+		</div>
+	</div>
+	<div class="control-group">
+	 	{{ form_label(form.comment,null,{'attr':{'class':'control-label'}}) }}
+        
+		<div class="controls">
+			{{ form_widget(form.comment,{'attr':{'rows' : 5, 'class':'span5'}}) }}
+		</div>
+		{{ form_errors(form.comment) }}
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-success">Contact Us</button>
+	</div>
+	{{ form_rest(form) }}
+</form>

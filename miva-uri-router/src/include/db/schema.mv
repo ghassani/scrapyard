@@ -1,0 +1,62 @@
+
+
+<MvCOMMENT>
+ * Route_Create_Schema
+ *
+ * Create the database tables for this modules use
+</MvCOMMENT>
+<MvFUNCTION NAME = "Route_Create_Schema" PARAMETERS = "" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	
+	<MvQUERY NAME   = "Merchant"
+	     QUERY  = "{ 'CREATE TABLE IF NOT EXISTS ' $ g.Store_Table_Prefix $ 'Router_Settings
+			  (
+			    enabled ' 						$ [ g.Module_Library_Native_DBAPI ].DB_Type_BOOL( )			$ ' DEFAULT 1,
+			    not_found_enabled ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_BOOL( )			$ ' DEFAULT 1,
+			    not_found_page ' 				$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 50 )		$ ' NOT NULL DEFAULT \'NTFD\',
+			    product_route_pattern ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 255 )		$ ' NOT NULL,
+			    product_route_pattern_space ' 	$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 1 )		$ ' NOT NULL DEFAULT  \'-\',
+				product_add_action ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    product_delete_action ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    product_update_action ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    category_route_pattern ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 255 )		$ ' NOT NULL,
+			    category_route_pattern_space '  $ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 1 )		$ ' NOT NULL DEFAULT  \'-\',
+			    category_add_action ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    category_delete_action ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    category_update_action ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    page_route_pattern ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 255 )		$ ' NOT NULL ,
+			    page_route_pattern_space ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 1 )		$ ' NOT NULL DEFAULT  \'-\',
+			    page_add_action ' 				$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    page_delete_action ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    page_update_action ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL DEFAULT  1,
+			    extension_settings ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_MEMO()			$ ' NULL
+			  )' }">
+	<MvIF EXPR = "{ g.MvQUERY_Error }">
+		<MvFUNCTIONRETURN VALUE = "{ [ g.Module_Library_Utilities ].Error( 'SM-ROUTER-DB', g.MvQUERY_Error ) }">
+	</MvIF>
+
+	<MvQUERY NAME   = "Merchant"
+	     QUERY  = "{ 'CREATE TABLE IF NOT EXISTS ' $ g.Store_Table_Prefix $ 'Route
+			  (
+			    id	' 					$ [ g.Module_Library_Native_DBAPI ].DB_Type_NUMBER( 0, 0 )	$ ' NOT NULL AUTO_INCREMENT,
+			    product_code ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 50 )		$ ' DEFAULT NULL,
+			    product_category_code ' $ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 50 )		$ ' DEFAULT NULL,
+			    category_code ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 50 )		$ ' DEFAULT NULL,
+			    page_code ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 50 )		$ ' DEFAULT NULL,
+			    request_path ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 255 )		$ ' DEFAULT NULL,
+			    redirect_path ' 		$ [ g.Module_Library_Native_DBAPI ].DB_Type_CHAR( 255 )		$ ' DEFAULT NULL,
+			    options '				$ [ g.Module_Library_Native_DBAPI ].DB_Type_MEMO( )			$ ' DEFAULT NULL,
+			    is_canonical ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_BOOL( )			$ ' DEFAULT 0, 
+			    is_active ' 			$ [ g.Module_Library_Native_DBAPI ].DB_Type_BOOL( )			$ ' DEFAULT 1, 
+			    PRIMARY KEY (`id`), 
+			    UNIQUE KEY `request_path_idx` (`request_path`),
+			    INDEX  `active_idx` (`is_active`, `is_canonical`),
+			    INDEX  `product_code_idx` (`product_code`),
+			    INDEX  `category_code_idx` (`category_code`),
+			    INDEX  `page_code_idx` (`page_code`)
+			  ) ENGINE = INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci' }">
+	<MvIF EXPR = "{ g.MvQUERY_Error }">
+		<MvFUNCTIONRETURN VALUE = "{ [ g.Module_Library_Utilities ].Error( 'SM-ROUTER-DB', g.MvQUERY_Error ) }">
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>

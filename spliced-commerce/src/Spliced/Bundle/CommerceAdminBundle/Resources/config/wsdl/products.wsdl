@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="urn:arnleadservicewsdl"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="urn:productsservicewsdl">
+
+    <types>
+        <xsd:schema targetNamespace="urn:productswsdl">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+            <complexType name="Array">
+			<complexContent>
+				<restriction base="SOAP-ENC:Array">
+					<sequence>
+						<element name="test" type="string" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+					</sequence>
+					<attributeGroup ref="SOAP-ENC:arrayType" xsd:arrayType="string[]" />
+				</restriction>
+			</complexContent>
+		</complexType>
+        </xsd:schema>
+    </types>
+ 
+    <message name="getProductRequest">
+        <part name="value" type="xsd:string" />
+        <part name="isSku" type="xsd:bool" />
+    </message>
+    <message name="getProductResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <message name="getProductsRequest">
+        <part name="filters" type="Array" />
+    </message>
+    <message name="getProductsResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <portType name="productswsdlPortType">
+        <operation name="getProduct">
+            <documentation>Retrieve an product by id or sku</documentation>
+            <input message="tns:getProductRequest"/>
+            <output message="tns:getProductResponse"/>
+        </operation>
+        <operation name="getProducts">
+            <documentation>Retrieve products by specified filters</documentation>
+            <input message="tns:getProductsRequest"/>
+            <output message="tns:getProductsResponse"/>
+        </operation>
+    </portType>
+	
+    <binding name="productswsdlBinding" type="tns:productswsdlPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getProduct">
+            <soap:operation soapAction="urn:arnleadservicewsdl#getProduct" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:productswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:productswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+        <operation name="getProducts">
+            <soap:operation soapAction="urn:arnleadservicewsdl#getProducts" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:productswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:productswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+    </binding>
+
+    <service name="productswsdl">
+        <port name="productswsdlPort" binding="tns:productswsdlBinding">
+            <soap:address location="/service/soap/products" />
+        </port>
+    </service>
+    
+</definitions>

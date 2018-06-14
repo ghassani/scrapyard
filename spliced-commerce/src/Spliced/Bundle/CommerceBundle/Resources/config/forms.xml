@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <services>
+
+		<service id="spliced.form.type.bootstrap_checkbox" class="Spliced\Component\Form\Type\BootstrapCheckboxFormType">
+		    <tag name="form.type" alias="bootstrap_checkbox" />
+		</service>
+
+		<service id="spliced.form.type.bootstrap_radio" class="Spliced\Component\Form\Type\BootstrapRadioFormType">
+		    <tag name="form.type" alias="bootstrap_radio" />
+		</service>
+
+		<service id="commerce.product.attribute_option_user_data_form_builder" class="Spliced\Component\Commerce\Product\ProductAttributeOptionUserDataFormBuilder">
+		    <argument type="service" id="form.factory" />
+		    <argument type="service" id="commerce.cart" />
+		</service>
+<!--
+		<service id="commerce.form.type.expiration_date" class="Spliced\Component\Commerce\Form\Field\ExpirationDateType">
+		    <tag name="form.type" alias="expiration_date" />
+		</service> -->
+		
+    </services>
+
+</container>

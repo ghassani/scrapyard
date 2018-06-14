@@ -1,0 +1,13 @@
+<form id="search_mini_form" action="{{ path('commerce_search') }}" method="get">
+	<fieldset>
+        <div class="input-group">
+            <input type="text" class="form-control" id="search-query" name="q" placeholder="Search by memory type, part number, or system model">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+		<div id="search-autocomplete" class="search-autocomplete">
+
+		</div>
+	</fieldset>
+</form>

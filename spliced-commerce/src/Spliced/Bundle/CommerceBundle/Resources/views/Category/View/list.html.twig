@@ -1,0 +1,67 @@
+{#
+	Category/View/list.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var products
+#}
+
+
+{{ knp_pagination_render(paginator) }}
+
+<ul class="unstyled category-product-list">
+    {% if products.items|length %}
+    	{% for product in products %}
+    		<li>
+    			<h4><a href="{{ path(product.urlSlug) }}">{{ product.name }}</a></h4>
+    
+    			{% if commerce_cart_contains(product) %}
+    				<div class="alert alert-info">You already have {{ commerce_cart_quantity(product) }} of these in your shopping cart.</div>
+    			{% endif %}
+    
+    			<div class="row">
+    				<div class=:col-lg-4">
+    					<p>
+    					<a href="{{ path(product.urlSlug) }}" title="{{ product.name }}">
+    						{% if product.images|length %}
+    							<img src="{{ commerce_resize_product_image(product.images.first, commerce_get_config('commerce.product.image_category_view_list_width'), commerce_get_config('commerce.product.image_category_view_list_height')) }}" alt="{{ product.name }}" class="product_image img-rounded" />
+    						{% else %}
+    							<img src="" alt="PUT DEFAULT IMAGE HERE" />
+    						{% endif %}
+    					</a>
+    					</p>
+    
+    					{%  if product.data|length  %}
+    						<div class="well product-description">{{ product.data.shortDescription|raw }}</div>
+    					{%  endif  %}
+    
+    				</div>
+    				<div class=:col-lg-5">
+    					{% if product.tierData|length %}
+    						{{  include("SplicedCommerceBundle:Product:tier_price_table.html.twig", {'product' : product, 'includeNoTier' : true }) }}
+    					{% else %}
+    	    				<div class="row">
+    	    					<div class=:col-lg-3 price-col">
+    						    	<blockquote>
+    								    {{  include("SplicedCommerceBundle:Product:price.html.twig", {'product' : product}) }}
+    								    <small>Lifetime Warranty</small>
+    								    <small>Ships Within 24hours</small>
+    							    </blockquote>
+    						    </div>
+    						    <div class=:col-lg-2">
+    							    {{ include('SplicedCommerceBundle:Product:Form/add_to_cart.html.twig', { 'product' : product }) }}
+    						    </div>
+    						</div>
+    					{% endif %}
+    		    	</div>
+    	    	</div>
+    
+    		</li>
+    	{% endfor %}
+    {% else %}
+        <li>
+            <div class="alert alert-error">No Products Found</div>
+        </li>
+	{% endif %}
+</ul>
+{{ knp_pagination_render(paginator) }}

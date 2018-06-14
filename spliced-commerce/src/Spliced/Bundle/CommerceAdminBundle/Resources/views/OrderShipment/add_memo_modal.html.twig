@@ -1,0 +1,23 @@
+
+  <div class="modal fade" id="addShipmentMemo" tabindex="-1" role="dialog" aria-labelledby="addShipmentMemoLabel" aria-hidden="true">
+    <form role="form" class="" method="post" action="{{ path('commerce_admin_order_shipment_add_memo', { 'shipmentId' : order.shipment.id }) }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add Shipment Memo <small>Order {{ order.orderNumber }}</small></h4>
+        </div>
+        <div class="modal-body">
+        	{% if order.shipment.shipmentStatus == 'complete' or order.shipment.shipmentStatus == 'shipped' %}
+        	
+        	{% endif %}
+        	{{ include('SplicedCommerceAdminBundle:OrderShipment:add_memo_form.html.twig') }}
+        </div>
+        <div class="modal-footer">
+	    	<button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+	    	<button type="submit" class="btn btn-success">Add Memo</button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>

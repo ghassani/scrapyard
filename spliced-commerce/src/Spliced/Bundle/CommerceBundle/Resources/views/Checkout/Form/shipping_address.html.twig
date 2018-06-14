@@ -1,0 +1,71 @@
+{% form_theme form 'SplicedCommerceBundle:Form:bootstrap_radio.html.twig' %}
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.shippingAddress2 "SplicedCommerceBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+
+{{ form_errors(form) }}
+
+{% if form.storedAddresses is defined %}
+	<div class="input-prepend input-append pull-right">
+    	<span class="add-on">Stored Addresses:&nbsp;</span>
+    	{{ form_widget(form.storedAddresses, { 'attr' : { 'class' : '' } } ) }}
+    	<div class="btn-group">
+	    	<button class="btn btn-success">Use Address</button>
+	    </div>
+    </div>
+	<div class="clearfix"></div>
+{% endif %}
+
+<div class="checkout-shipping-address">
+	<div class="row">
+		<div class="col-sm-6 col-lg-6">
+			{{ form_row(form.shippingFirstName) }}
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			{{ form_row(form.shippingLastName) }}
+		</div>
+	</div>
+	
+    {{ form_row(form.shippingCompany, { 'attr' : { 'class' : '' }}) }}
+    
+    {{ form_row(form.shippingAddress, { 'attr' : { 'class' : 'required-for-shipping-rates' }}) }}
+    {{ form_row(form.shippingAddress2) }}
+    
+    {{ form_row(form.shippingCountry, { 'attr' : { 'class' : 'required-for-shipping-rates' }}) }} 
+    
+
+    
+    <div class="row">
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.shippingCity, { 'attr' : { 'class' : 'required-for-shipping-rates' }}) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.shippingState, { 'attr' : { 'class' : 'required-for-shipping-rates' }}) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.shippingZipcode, { 'attr' : { 'class' : 'required-for-shipping-rates' }}) }}
+    	</div>
+    </div>
+    
+    
+    <div class="row">
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.shippingPhoneNumber) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    	</div>
+    </div>
+    
+	{% if form.saveShippingAddress is defined %}
+	    <div class="controls controls-row span2_5">
+	    	<label class="checkbox">
+	    		Save In Address Book {{ form_widget(form.saveShippingAddress, { 'attr' : { 'class' : '', 'placeholder' : '' } } ) }}
+	    	</label>
+	        {{ form_errors(form.saveShippingAddress) }}
+	    </div>
+	    
+    {% endif %}
+        
+    <div class="clearfix"></div>
+</div>

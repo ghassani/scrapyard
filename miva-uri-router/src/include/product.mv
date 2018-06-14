@@ -1,0 +1,319 @@
+<MvCOMMENT>
+| Module_Product_Head
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Head" PARAMETERS = "module var, tab, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Head(module var, tab, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.tab NE 'SMROUTER' }">
+		<MvFUNCTIONRETURN VALUE = "1"> 
+	</MvIF>
+	
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+<MvCOMMENT>
+| Module_Product_Tabs
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Tabs" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Tabs(l.module:code var, product var)') }">
+	</MvIFDEF>
+
+	<MvCOMMENT>
+		Load the router settings here (if not already loaded) because it will 
+		be executed on each request and made available to the next functions
+	</MvCOMMENT>
+
+	<MvIF EXPR = "{ NOT g.router_settings  }">
+		<MvIF EXPR = "{ NOT Router_Settings_Load_Admin(g.router_settings) }">
+			
+		</MvIF>
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "SMROUTER:Routes">
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Product_Content
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Content" PARAMETERS = "module var, tab, load_fields, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Content(module var, tab, load_fields, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.tab NE 'SMROUTER' }">
+		<MvFUNCTIONRETURN VALUE = 1>
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL g.router_settings }">
+		<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load_Admin(g.router_settings) }" />
+	</MvIF>
+
+	<MvEVAL EXPR = "{ Render_Css()  }" />	
+	<MvEVAL EXPR = "{ Render_Js()  }" />			
+	<MvEVAL EXPR = "{ Render_Messages()  }" />		
+
+	<MvIF EXPR = "{ ISNULL g.module_action }">
+		<MvASSIGN NAME = "g.module_action" VALUE = "list" />
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'edit' OR g.module_action EQ 'update' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_Edit(l.module, l.tab, l.load_fields, l.product) }">	
+	<MvELSEIF EXPR = "{ g.module_action EQ 'new' OR g.module_action EQ 'save' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_New(l.module, l.tab, l.load_fields, l.product) }">
+	<MvELSEIF EXPR = "{ g.module_action EQ 'redirect' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_Redirect(l.module, l.tab, l.load_fields, l.product) }">
+	</MvIF>
+
+
+	<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_List(l.module, l.tab, l.load_fields, l.product) }">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Product_Content_Route_Redirect" PARAMETERS = "module var, tab, load_fields, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Content_Route_Redirect(module var, tab, load_fields, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Route_Load_By_Id(g.route_id, l.route) }">
+		<div class="alert alert-danger">Route Not Found</div>
+		<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_List(l.module, l.tab, l.load_fields, l.product) }">
+	</MvIF>
+
+	<div class="page-header">
+		<h1>Turn Route <MvEVAL EXPR = "{ l.route:id }" /> Into A Redirect</h1>
+	</div>
+
+
+	<MvEVAL EXPR = "{ Render_Route_Convert_Redirect(l.route, l.product) }" />
+	
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Product_Content_Route_List
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Content_Route_List" PARAMETERS = "module var, tab, load_fields, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Content_Route_List(module var, tab, load_fields, product var)') }">
+	</MvIFDEF>
+
+	<div class="page-header">
+		<h1>Product Routes</h1>
+	</div>
+
+	<MvASSIGN NAME="l.route_count" VALUE = "{ Routes_Load_By_Product_Code(g.edit_product, l.routes) }" />	
+
+	<MvEVAL EXPR = "{ Render_Route_List(l.routes, 'product') }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_Product_Content_Route_New
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Content_Route_New" PARAMETERS = "module var, tab, load_fields, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Content_Route_New(module var, tab, load_fields, product var)') }">
+	</MvIFDEF>
+
+	<div class="page-header">
+		<a class="btn btn-sm btn-primary pull-right" href="{ g.router_settings:admin_product_url }"><i class="fa fa-list"></i>  Back To List</a>
+		<h1>New Route For <MvEVAL EXPR = "{ l.product:code }" /></h1>		
+	</div>
+
+	<input type="hidden" name="Module_Action" value="save" />
+
+	<MvEVAL EXPR = "{ Render_Product_Route_Form(l.null, l.null, l.product) }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_Product_Content_Route_Edit
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Content_Route_Edit" PARAMETERS = "module var, tab, load_fields, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Content_Route_Edit(module var, tab, load_fields, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Route_Load_By_Id(g.route_id, l.route) AND ISNULL g.route }">
+		<div class="alert alert-danger">Route Not Found</div>
+		<MvFUNCTIONRETURN VALUE = "{ Module_Product_Content_Route_List(l.module, l.tab, l.load_fields, l.product) }">
+	</MvIF>
+
+	<div class="page-header">
+		<a class="btn btn-sm btn-primary pull-right" href="{ g.router_settings:admin_product_url }"><i class="fa fa-list"></i> Back To List</a>
+		<h1>Editing Route For #<MvEVAL EXPR = "{ l.route:id $ ' For ' $ l.product:code }" /></h1>
+	</div>
+
+	<input type="hidden" name="Module_Action" value="update" />
+	<input type="hidden" name="Route_Id" value="{ g.Route_Id }" />
+
+	<MvEVAL EXPR = "{ Render_Product_Route_Form(l.route, l.null, l.product) }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_Product_Validate
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Validate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Validate(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT g.router_settings  }">
+		<MvIF EXPR = "{ NOT Router_Settings_Load_Admin(g.router_settings) }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Loading Module Settings') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{ (g.module_action EQ 'save' AND NOT ISNULL g.route) OR (g.module_action EQ 'update' AND NOT ISNULL g.route) }">		
+		<MvIF EXPR = "{ NOT Validate_Route(g.route) }">
+			<MvIF EXPR = "{ miva_array_elements(g.module_error_messages) EQ 0  }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Validating Your Input') }" />
+			</MvIF>			
+			<MvFUNCTIONRETURN VALUE = 0>
+		</MvIF>		
+	</MvIF>
+
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Product_Insert
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Insert" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Insert(module var, product var)') }">
+	</MvIFDEF>
+
+
+	<MvIF EXPR = "{ g.router_settings:enabled NE 1 OR g.router_settings:product_save_action EQ 0 }">
+		<MvFUNCTIONRETURN VALUE = 1>
+	</MvIF>
+
+	<MvIF EXPR = "{ l.product:cancat_id }">
+		<MvIF EXPR="{ NOT [ g.Module_Library_DB ].Category_Load_ID(l.product:cancat_id, l.product:category) }" />
+
+		</MvIF>
+	</MvIF>
+	
+	<MvASSIGN NAME = "l.genenerated_route" VALUE= "{ Generate_Product_Route(l.product, g.router_settings:product_route_pattern, g.router_settings:product_route_pattern_space) }" />
+
+	<MvASSIGN NAME = "l.result" VALUE= "{ Route_Load_By_Request_Path(l.genenerated_route, l.matched_route) }" />
+
+
+	<MvIF EXPR = "{ NOT l.matched_route:id }">
+		<MvASSIGN NAME = "l.product_route:request_path" 		 VALUE = "{ l.genenerated_route }" />
+		<MvASSIGN NAME = "l.product_route:product_code" 		 VALUE = "{ l.product:code }" />
+		<MvASSIGN NAME = "l.product_route:product_category_code" VALUE = "{ l.product:category:code }" />
+		<MvASSIGN NAME = "l.product_route:is_canonical" 		 VALUE = "1" />
+		<MvASSIGN NAME = "l.product_route:is_active" 			 VALUE = "{ l.product:active }" />
+
+		<MvASSIGN NAME = "l.result" VALUE = "{ Route_Save(l.product_route) }" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Product_Update
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Update" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Update(module var, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Process_Route_Action(l.product, 'product') }">
+
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Product_Delete
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Product_Delete" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Product_Delete(l.module:code var, product var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT g.router_settings  }">
+		<MvIF EXPR = "{ NOT Router_Settings_Load_Admin(g.router_settings) }">
+			
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{g.route_settings:product_delete_action EQ 0 }">		
+		<MvFUNCTIONRETURN VALUE = 1 />
+	<MvELSEIF EXPR = "{ g.route_settings:product_delete_action EQ 1 }">		
+		<MvIF EXPR = "{ Routes_Delete_By_Product_Code(l.product:code) }">
+			
+		</MvIF>
+	<MvELSEIF EXPR = "{g.route_settings:product_delete_action EQ 2 }">		
+		<MvIF EXPR = "{ Routes_Load_By_Product_Code(l.product:code, l.routes) }">
+			<MvFOREACH ITERATOR = "l.route" ARRAY = "l.routes" INDEX = "l.index">
+				<MvASSIGN NAME = "l.route:redirect_path" VALUE = "/" />
+				<MvASSIGN NAME = "l.route:options:header_status" VALUE = "301" />
+				<MvIF EXPR = "{ NOT Route_Update(l.route) }">
+				</MvIF>
+			</MvFOREACH>
+		</MvIF>		
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Notify_Product_Insert
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Notify_Product_Insert" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Notify_Product_Insert(l.module:code var, product var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Notify_Product_Delete
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Notify_Product_Delete" PARAMETERS = "module var, product var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Notify_Product_Delete(l.module:code var, product var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>

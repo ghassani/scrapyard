@@ -1,0 +1,99 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Products | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_product_filter') }}" class="form form-horizontal product-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:Product:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Product <small>List</small></h1>
+	</div>
+	
+    
+	{{ knp_pagination_render(products) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if products.isSorted('product.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Name', 'product.name') }}</th>	            	
+	            	<th{% if products.isSorted('product.sku') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Sku', 'product.sku') }}</th>	            	
+	            	<th{% if products.isSorted('product.type') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Type', 'product.type') }}</th>	            	
+	            	<th{% if products.isSorted('product.price') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Price', 'product.price') }}</th>	            	
+	            	<th{% if products.isSorted('product.cost') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Cost', 'product.cost') }}</th>	            	
+	            	<th{% if products.isSorted('product.availability') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Availability', 'product.availability') }}</th>	            	
+	            	<th{% if products.isSorted('product.manageStock') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Managed Stock', 'product.manageStock') }}</th>	            	
+	            	<th{% if products.isSorted('product.isActive') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Active', 'product.isActive') }}</th>	            	
+	            	<th{% if products.isSorted('product.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(products, 'Created On', 'product.createdAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for product in products %}
+	            <tr>
+					<td><input type="checkbox" value="{{ product.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_product_edit', { 'id': product.id }) }}">{{ product.sku }}</a></td>	
+	                <td><a href="{{ path('commerce_admin_product_edit', { 'id': product.id }) }}">{{ product.name }}</a></td>
+	                <td>{{ product.type }}</td>	
+	                <td>${{ product.price|number_format(2) }}</td>	            
+	                <td>${{ product.cost|number_format(2) }}</td>	
+	                <td>{{ product.availabilityName }}</td>
+	                <td><i class="icon {{ product.manageStock ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+	                <td><i class="icon {{ product.isActive ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+	                <td>{% if product.createdAt %}{{ product.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>
+		                <ul class="list-inline">
+		                    <li>
+		                        <a href="{{ path('commerce_admin_product_edit', { 'id': product.id }) }}"><i class="icon-edit"></i></a>
+		                    </li>
+		                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction" class="form-control list-batch-action">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary list-batch-action-button">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(products) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_product_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% block title %}{{ form.vars.data.title }} | Content Pages | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ContentPage:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block content -%}
+
+{% form_theme form "SplicedCommerceAdminBundle:Form:bootstrap_form_row.html.twig" %}
+
+<div class="page-header">
+	<h1>Content Page <small>{{ page.title }}</small></h1>
+</div>
+
+<form role="form" action="{{ path('commerce_admin_content_page_update', { 'id': page.id }) }}" class="form content_page_admin-form" method="post" {{ form_enctype(form) }}>
+	{{ include('SplicedCommerceAdminBundle:ContentPage:form.html.twig') }}
+	
+	<ul class="record-actions list-inline">
+    	<li>
+        	<button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Update</button>
+		</li>
+	</ul>
+	{{ form_rest(form) }}
+</form>
+
+
+<ul class="record-actions list-inline">
+    <li>
+        <a href="{{ path('commerce_admin_content_page') }}" class="btn btn-warning">
+            <i class="icon-circle-arrow-left icon-white"></i> Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('commerce_admin_content_page_delete', { 'id': page.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit"><i class="icon-trash icon-white"></i> Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

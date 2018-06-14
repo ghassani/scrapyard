@@ -1,0 +1,27 @@
+{{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+{{ include("SplicedCommerceBundle:Checkout/Block:flashes.html.twig") }}
+
+{% form_theme form 'SplicedCommerceBundle:Checkout/Form:payment_method.html.twig' %}
+{{ form_errors(form.payment) }}
+<form method="post" action="{{ path('checkout') }}" id="checkout-form-payment" class="checkout-form" novalidate>
+	<fieldset class="">
+		<div class="page-header">
+			<h1>Payment Method</h1>
+		</div>
+
+	</fieldset>
+
+	{{ form_widget(form.payment.paymentMethod,{
+		'mainForm' : form,
+		'step' : step,
+		'order' : form.vars.data,
+	}) }}
+	    
+	{{ include("SplicedCommerceBundle:Checkout/Form:custom_fields.html.twig") }}
+	
+	{{ form_rest(form) }}
+	<div class="form-actions">
+		<a href="{{ path('commerce_checkout', { 'step' : 3 }) }}" data-step="3" class="btn btn-info checkout-move-step checkout-disable-on-submit" id="checkout-back-button">Back</a>
+		<input type="submit" class="btn btn-success checkout-disable-on-submit" value="Continue" id="checkout-continue-button" />
+	</div>
+</form>

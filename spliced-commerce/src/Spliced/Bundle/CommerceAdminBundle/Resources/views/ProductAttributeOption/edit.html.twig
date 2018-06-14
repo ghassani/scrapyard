@@ -1,0 +1,85 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}{{ form.vars.data.name }} | Product Attribute Options | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ProductAttributeOption:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs">
+  <li class="active"><a href="#Details" data-toggle="tab">Details</a></li>
+  {% if attributeOption.optionType != 1 %}
+  	<li class=""><a href="#Values" data-toggle="tab">Values</a></li>
+  {% endif %}
+</ul>
+
+<div class="alert alert-info alert-edit-info">
+  <ul class="list-unstyled">
+  	<li><strong>Created On:</strong> {{ form.vars.data.createdAt|date('m/d/Y h:i a') }}</li>
+  	<li><strong>Last Updated:</strong> {{ form.vars.data.updatedAt|date('m/d/Y h:i a') }}</li>
+  	<li><strong>Type:</strong></li>
+  	<li><strong>Key:</strong> {{ form.vars.data.key }}</li>
+  	<li><strong>ID:</strong> {{ form.vars.data.id }}</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content -%}
+
+<div class="page-header">
+	<h1>Product Attribute Option <small>Editing {{ attributeOption.id }}</small></h1>
+</div>
+
+<form action="{{ path('commerce_admin_product_attribute_option_update', { 'id' : attributeOption.id }) }}" class="form product-attribute-option-form" method="post" {{ form_enctype(form) }}>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="Details" data-toggle="tab">
+	    <div class="page-header">
+	        <h2><small>Details</small></h2>
+	    </div>
+        {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:form.html.twig", { }) }}
+        
+        {% if attributeOption.optionType == 1 %}
+        	<div class="page-header">
+		        <h2><small>Settings</small></h2>
+		    </div>
+		    
+		    {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:user_data_input.html.twig", {}) }}
+		    
+        	<div class="page-header">
+		        <h2><small>Data Validation</small></h2>
+		    </div>
+		    
+		    {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:user_data_input_validation.html.twig", {}) }}
+		    
+		    {# form_rest(attributeOptionUserDataForm) #}
+		{% elseif attributeOption.optionType == 2 %}
+        	<div class="page-header">
+		        <h2><small>Settings</small></h2>
+		    </div>
+		    
+		    {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:user_data_selection.html.twig", {}) }}
+
+		    {#{ form_rest(attributeOptionUserDataForm) #}
+        {% endif %}
+	</div>
+	
+	{% if attributeOption.optionType == 2 %}
+		<div class="tab-pane" id="Values" data-toggle="tab">
+		    <div class="page-header">
+		        <h2><small>Values</small></h2>
+		    </div>
+		    {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:values_user_data_selection.html.twig", {}) }}
+		</div>
+	{% endif %}
+</div>
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Update</button>
+</div>
+
+{{ form_widget(form._token) }}
+
+</form>
+{% endblock %}

@@ -1,0 +1,24 @@
+<MvCOMMENT>
+ * Render_Messages
+ *
+ * Renders Any Error Messages
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Messages" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Error_Messages" INDEX = "l.index">
+		<div class="alert alert-error alert-danger"><MvEVAL EXPR = "{ l.message }" /></div>
+	</MvFOREACH>
+
+	<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Success_Messages" INDEX = "l.index">
+		<div class="alert alert-success"><MvEVAL EXPR = "{ l.message }" /></div>
+	</MvFOREACH>
+
+	<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Warning_Messages" INDEX = "l.index">
+		<div class="alert alert-warning"><MvEVAL EXPR = "{ l.message }" /></div>
+	</MvFOREACH>
+
+	<MvIFDEF NAME = "DEV">
+		<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Debug_Messages" INDEX = "l.index">
+			<div class="alert alert-info"><MvEVAL EXPR = "{ l.message }" /></div>
+		</MvFOREACH>
+	</MvIFDEF>
+</MvFUNCTION>

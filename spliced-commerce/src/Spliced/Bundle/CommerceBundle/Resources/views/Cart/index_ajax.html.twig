@@ -1,0 +1,56 @@
+<div id="modal-message" class="modal hide fade {{ class is defined ? class : '' }}" tabindex="-1">
+    <div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    	<h3>Shopping Cart</h3>
+    </div>
+    <div class="modal-body"> 	
+    	<table class="table table-striped product-add-to-cart-modal-table">
+			<thead>
+				<tr>
+					<th colspan="2">Item</th>
+					<th>Quantity</th>
+					<th>Unit</th>
+					<th>Ext</th>
+				</tr>
+			</thead>
+			{% if items|length %}
+			<tfoot>
+				<tr>
+					<th colspan="4"><div class="text-right">Cart Total</div></th>
+					<th>${{ commerce_cart_subtotal() }}</th>
+				</tr>
+			</tfoot>
+			{% endif %}
+			<tbody>
+		    {% if items|length %}
+		        {% for cartItem in items %}
+					<tr>
+						<td>
+							{% if cartItem.product.images|length %}
+								<img align="left" src="{{  commerce_resize_product_image(cartItem.product.images.first, commerce_get_config('commerce.product.image_cart_width'), commerce_get_config('commerce.product.image_cart_height')) }}" alt="{{ cartItem.product.name }}" />
+							{% else %}
+								<!-- DEFAULT IMAGE HERE -->
+							{% endif %}
+						</td>
+						<td>{{ cartItem.product.name }}</td>
+						<td>{{ cartItem.quantity }}</td>
+						<td>${{ commerce_product_price(cartItem.product, cartItem.quantity) }}</td>
+						<td>${{ commerce_product_price_total(cartItem.product, cartItem.quantity) }}</td>
+					</tr>
+				{% endfor %}
+			{% else %}
+			    <tr>
+			        <td colspan="5"><div class="text-center">Your shopping cart is currently empty.</div></td>
+			    </tr>
+			{% endif %}
+			</tbody>
+		</table>
+    </div>
+    <div class="modal-footer">
+    	<button type="button" data-dismiss="modal" class="btn btn-close" id="modal-btn-close" data-href="">Continue Shopping</button>
+    	{% if items|length %}
+	    <a href="{{ path('commerce_cart') }}" class="btn btn-primary" id="modal-btn-checkout">Edit Cart</a>
+	    <a href="{{ path('commerce_checkout') }}" class="btn btn-success" id="modal-btn-checkout">Checkout Now</a>
+	    {% endif %}
+    </div>
+</div>

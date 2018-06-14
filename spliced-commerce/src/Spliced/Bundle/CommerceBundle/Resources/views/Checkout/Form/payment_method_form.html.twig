@@ -1,0 +1,16 @@
+{% block choice_widget_expanded %}
+{% spaceless %}
+<div {{ block('widget_container_attributes') }}>
+	<table class="table table-striped checkout-payment-methods">
+	{% for child in form %}
+		{% set method = get_payment_provider(child.vars.value) %}
+		<tr>
+			<th>{{ form_widget(child, {'attr': {'class': attr.widget_class|default('')}}) }}</th>
+			<th>{{ method.label }} <small>{{ method.label2 }}</small></th>
+		</tr>
+	{% endfor %} 
+	</table>
+</div> 
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+

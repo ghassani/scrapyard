@@ -1,0 +1,57 @@
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+		<thead>
+			<tr>
+				<th>Created On</th>
+				<th>Created By</th>
+				<th>Memo</th>
+				<th>Amount Paid</th>
+				<th>Transaction ID</th>
+				<th>Status Change</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th colspan="7" class="text-right">
+					<div class="btn-group">
+						<button type="button" class="btn btn-xs btn-success {{ order.payment.paymentStatus == 'complete' ? 'disabled' : '' }}">Add Payment</button>
+						<a class="btn btn-xs btn-info add-order-payment-memo" href="{{ path('commerce_admin_order_payment_add_memo', { 'paymentId' : order.payment.id }) }}">Add Memo</a>
+					</div>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% if order.payment.memos|length %}
+				{% for memo in order.payment.memos %}
+				<tr>
+					<td>{{ memo.createdAt|date('m/d/Y h:i a') }}</td>
+					<td>{{ memo.createdBy }}</td>
+					<td>{{ memo.memo }}</td>
+					<td>${{ number_format(memo.amountPaid) }}</td>
+					<td>{{ memo.merchantTransactionId }}</td>
+					<td>
+					    {%  if memo.previousStatus != memo.changedStatus %}
+					        {{  memo.previousStatus }} to {{ memo.changedStatus }}
+					    {%  endif %}
+					</td>
+					<td>
+						{% if memo.memoData|length %}
+						<a data-toggle="modal" href="#payment-memo-{{ memo.id }}-response" title="">Raw Response</a>
+						{{ include('SplicedCommerceAdminBundle:Common/Modal:default.html.twig', {
+							'modalId' : 'payment-memo-'~memo.id~'-response',
+							'modalLabeledBy' : 'payment-memo-'~memo.id~'-response-label',
+							'title' : 'Memo '~memo.id~' for payment '~order.payment.id~' Raw Response',
+							'contentInclude' : 'SplicedCommerceAdminBundle:Order:payment_response.html.twig',
+							
+						}) }}
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			{% else %}
+				<tr>
+					<td colspan="7"><div class="text-center">No Memos</div></td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>

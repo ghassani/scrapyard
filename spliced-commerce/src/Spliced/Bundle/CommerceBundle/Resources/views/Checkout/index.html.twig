@@ -1,0 +1,14 @@
+{% extends "SplicedCommerceBundle:Layouts:default.html.twig" %}
+
+{% block title %}Checkout | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('commerce_checkout') }}" />
+{% endblock %}
+
+{% block content %}
+    <div id="checkout-content">
+        {{ include("SplicedCommerceBundle:Checkout:index_content.html.twig") }}
+    </div>
+{% endblock %}
+

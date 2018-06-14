@@ -1,0 +1,37 @@
+{% set pagerData = products.getPaginationData() %}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:fh="http://purl.org/syndication/history/1.0">
+    <title>{{ commerce_get_config('commerce.store.name') }} Product Feed - Page {{ page }}</title>
+    <link href="{{ commerce_get_config('commerce.store.url') }}"/>
+    <link type="application/atom+xml" rel="self" href="{{ commerce_get_config('commerce.store.url') ~ path('commerce_product_feed',{'page' : page }) }}"/>
+    <link rel="first" href="{{ commerce_get_config('commerce.store.url') ~ path('commerce_product_feed',{'page' : 1 }) }}"/>
+    <link rel="next" href="{{ commerce_get_config('commerce.store.url') ~ path('commerce_product_feed',{'page' : pagerData.next }) }}"/>
+    <link rel="last" href="{{ commerce_get_config('commerce.store.url') ~ path('commerce_product_feed',{'page' : pagerData.last }) }}"/>
+    <updated>{{"now"|date('Y-m-dTH:i:sZ')}}</updated>
+    <id>products-page-{{ page is defined ? page : 1 }}</id>
+    <author>
+        <name>{{ commerce_get_config('commerce.store.name') }}</name>
+        <email>{{ commerce_get_config('commerce.store.email.webmaster') }}</email>
+    </author>
+    {% for product in products %}
+    <entry>
+      <title>{{ product.name }}</title>
+      <link rel="alternate" type="text/html" href="{{ commerce_get_config('commerce.store.url') }}/{{ path(product.urlSlug) }}" />
+      <id>{{ product.sku }}</id>
+      <published>{{ product.createdAt|date('Y-m-dTH:i:sZ') }}</published>
+      <updated>{{ product.updatedAt|date('Y-m-dTH:i:sZ') }}</updated>
+      <summary type="html">
+          {% spaceless %}
+          {% if product.images|length %}
+            {{ '<img src="'|e }}{{ commerce_get_config('commerce.store.url') ~ commerce_resize_product_image(product.images.first, commerce_get_config('commerce.product.image_feed_width'), commerce_get_config('commerce.product.image_feed_height')) }}{{ '" />'|e }}
+          {% endif %}
+          {{ product.data.shortDescription }}
+          {{ '<p><strong>'|e }}
+          ${{ commerce_product_price(product) }}
+           {{ '</p></strong>'|e }}
+          {% endspaceless %}
+      </summary>
+      <content type="html">{{ product.data.longDescription }}</content>
+    </entry>
+    {% endfor %}
+</feed>

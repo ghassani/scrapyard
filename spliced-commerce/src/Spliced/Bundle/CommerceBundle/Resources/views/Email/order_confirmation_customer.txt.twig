@@ -1,0 +1,51 @@
+{% set paymentMethod = get_payment_provider(order.payment.paymentMethod) %}
+{% set shippingProvider = get_shipping_provider(order.shipment.shipmentProvider) %}
+{% set shippingMethod = shippingProvider.getMethod(order.shipment.shipmentMethod) %}
+Hello {{ order.billingFirstName }} {{ order.billingLastName }}
+
+Thank you for your order from {{ commerce_get_config('commerce.store.name') }}.
+
+Once your package ships we will send an email with a link to track your order.
+
+You can check the status of your order by visiting the following url:
+
+{{ commerce_get_config('commerce.store.url') }}{{ path('account') }}
+
+If you have any questions about your order please contact us at {{ commerce_get_config('commerce.store.email.sales') }} or call us at {{ commerce_get_config('commerce.store.phone.service') }} {{ commerce_get_config('commerce.store.phone.service_hours') }}.
+
+Your order number is {{ order.orderNumber }} and the details of your order are below. Thank you again for your business.
+
+
+Billing Address
+-------------------------
+{{ order.billingAddress }} {{ order.billingAddress2 }}
+{{ order.billingCity }}, {{ order.billingState }} {{ order.billingZipcode }}
+{{ order.billingCountry }}
+{{ order.billingPhoneNumber }}
+
+Shipping Address
+-------------------------
+{{ order.shippingAddress }} {{ order.shippingAddress2 }}
+{{ order.shippingCity }}, {{ order.shippingState }} {{ order.shippingZipcode }}
+{{ order.shippingCountry }}
+{{ order.shippingPhoneNumber }}
+
+Shipping Method
+-------------------------
+{{ shippingMethod.getOption('label') }} {{ shippingMethod.getOption('label2') }}
+
+Payment Method
+-------------------------
+{{ paymentMethod.getOption('label') }} {{ paymentMethod.getOption('label2') }}
+
+Ordered Items
+-------------------------
+{% for item in order.items %}
+{{ item.sku }} | {{ item.name }} x{{ item.quantity }} @ ${{ item.salePrice|number_format(2) }} each - ${{ item.finalPrice|number_format(2) }} total
+{% endfor %}
+
+
+Subtotal: ${{ commerce_order_subtotal(order, false) }}
+Taxes: ${{ commerce_order_tax(order) }}
+Shipping: ${{ commerce_order_shipping(order) }}
+Total ${{ commerce_order_total(order, true) }}

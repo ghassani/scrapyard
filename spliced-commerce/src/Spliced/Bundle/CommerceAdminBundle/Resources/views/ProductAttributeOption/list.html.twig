@@ -1,0 +1,105 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Product Attribute Options | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ProductAttributeOption:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+
+<form role="form" action="{{ path('commerce_admin_product_attribute_option_filter') }}" class="form form-horizontal product-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Product Attribute Option <small>Managment</small></h1>
+	</div>
+
+	{{ knp_pagination_render(attributeOptions) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed table-striped">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if attributeOptions.isSorted('attributeOption.key') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(attributeOptions, 'Key', 'attributeOption.key') }}</th>	            	
+	            	<th{% if attributeOptions.isSorted('attributeOption.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(attributeOptions, 'Name', 'attributeOption.name') }}</th>	            	
+	            	<th{% if attributeOptions.isSorted('attributeOption.publicLabel') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(attributeOptions, 'Public Label', 'attributeOption.publicLabel') }}</th>	            	
+	            	<th{% if attributeOptions.isSorted('attributeOption.optionType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(attributeOptions, 'Option Type', 'attributeOption.optionType') }}</th>
+	            	<th{% if attributeOptions.isSorted('attributeOption.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(attributeOptions, 'Created On', 'attributeOption.createdAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% if attributeOptions|length %}
+    	        {% for attributeOption in attributeOptions %}
+    	            <tr>
+    					<td><input type="checkbox" value="{{ attributeOption.id }}" name="ids[]" /></td>	
+    	                <td><a href="{{ path('commerce_admin_product_attribute_option_edit', { 'id': attributeOption.id }) }}">{{ attributeOption.key }}</a></td>	
+    	                <td>{{ attributeOption.name }}</td>
+    	                <td>{{ attributeOption.publicLabel }}</td>
+    	                <td>
+    	                    {% if attributeOption.optionType ==  1 %}
+    	                        User Input
+    	                    {% elseif attributeOption.optionType ==  2 %}
+    	                        User Selection
+    	                    {% endif %}
+    	                </td>
+    	                <td>{{ attributeOption.createdAt|date('m/d/Y h:i a') }}</td>
+    	                <td>
+    	                	<a class="confirm-action" href="{{ path('commerce_admin_product_attribute_option_delete', { 'id': attributeOption.id }) }}"><i class="icon-trash icon-red"></i></a>
+    	                	<a href="{{ path('commerce_admin_product_attribute_option_edit', { 'id': attributeOption.id }) }}"><i class="icon-edit"></i></a>
+    	                </td>
+    	            </tr>
+    	            {% if attributeOption.description|length %}
+    	            <tr>
+    	                <td></td>
+    	                <td colspan="6">
+    	                    {{ attributeOption.description }}
+    	                </td>
+    	            </tr>
+    	            {% endif %}
+    	        {% endfor %}
+    	    {% else %}
+    	        <tr><td colspan="7" class="text-center"><strong>No Records Found</strong></td></tr>
+    	    {% endif %}
+	        </tbody>
+	    </table>
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction" class="form-control">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(attributeOptions) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_product_attribute_option_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

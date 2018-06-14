@@ -1,0 +1,71 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+{% block title %}My Account | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : customer} %}
+{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+	    <h1>Account Dashboard</h1>
+    </div>
+    
+	<p>Welcome back <strong>{{ app.user.displayName }}!</strong></p>
+
+	<p>From your My Account Dashboard you have the ability to view a
+	snapshot of your recent account activity and update your account
+	information. Use the naviagion menu to the right to update various
+	aspects of your account.</p>
+
+
+	<div class="page-header">
+	    <h1 id="orders">Recent Orders</h1>
+	</div>
+	
+	{{ include("SplicedCommerceBundle:Order:order_table_brief.html.twig",{ 'orders' : recentOrders }) }}
+
+	<div class="text-right">
+	    <a href="{{ path('commerce_account_orders') }}" class="btn btn-small btn-info">View All Orders</a>
+	</div>
+	
+	<div class="page-header">
+	    <h1 id="overview">Account Overview</h1>
+	</div>
+	
+	<div class="row">
+		<div class="span5">
+			<fieldset>
+				<legend>Contact Information</legend>
+				<blockquote>
+				    <div>{{ customer.displayName }}</div>
+				    <div>{{ customer.email }}</div>
+				</blockquote>
+			</fieldset>
+
+			
+		</div>
+		<div class="span4">
+			<fieldset>
+				<legend>Newsletter</legend>
+			</fieldset>
+
+			{% if customer.profile.newsletterSubscriber %}
+				<p>Subscribed</p>
+			{% else %}
+				<p>Not Subscribed</p>
+
+				<p class="well">
+				If you register for our newsletter, you will receive exclusive promotions and specials.
+				</p>
+				<a href="{{ path('commerce_newsletter_subscribe') }}" class="btn btn-success" title="">Subscribe</a>
+			{% endif %}
+		</div>
+	</div>
+	
+{% endblock %}

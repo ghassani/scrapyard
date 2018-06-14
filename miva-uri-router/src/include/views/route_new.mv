@@ -1,0 +1,14 @@
+<MvCOMMENT>
+ * Render_New_Route
+ *
+ * Renders New Route Screen
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Route_New" PARAMETERS = "route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+	<MvEVAL EXPR = "{ Render_Route_Form(l.route, l.null) }" />
+
+	<div class="form-actions text-right">
+		<button class="btn btn-success" role="button" type="submit"><i class="fa  fa-floppy-o"></i> Save</button>
+	</div>
+
+</MvFUNCTION>

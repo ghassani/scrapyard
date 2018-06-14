@@ -1,0 +1,76 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+
+{% block left -%}
+	<form action="{{ path('commerce_admin_route_filter') }}" class="form route-filter-form" method="post" {{ form_enctype(filterForm) }}>
+        {{ form_widget(filterForm) }}
+        <p>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </p>
+    </form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Route <small>List</small></h1>
+	</div>
+	
+    
+	{{ knp_pagination_render(routes) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if routes.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Id', 'e.id') }}</th>	            	
+	            	<th{% if routes.isSorted('e.requestPath') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'requestPath', 'e.requestPath') }}</th>
+	            	<th{% if routes.isSorted('e.targetPath') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'targetPath', 'e.targetPath') }}</th>	            	<th{% if routes.isSorted('e.pageId') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Pageid', 'e.pageId') }}</th>	            	<th{% if routes.isSorted('e.otherId') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Otherid', 'e.otherId') }}</th>	            	<th{% if routes.isSorted('e.requestPath') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Requestpath', 'e.requestPath') }}</th>	            	<th{% if routes.isSorted('e.targetPath') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Targetpath', 'e.targetPath') }}</th>	            	<th{% if routes.isSorted('e.options') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Options', 'e.options') }}</th>	            	<th{% if routes.isSorted('e.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(routes, 'Description', 'e.description') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for route in routes %}
+	            <tr>
+					<td><input type="checkbox" value="{{ route.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_route_edit', { 'id': route.id }) }}">{{ route.id }}</a></td>	
+	                <td>{{ route.requestPath }}</td>	
+	                <td>{{ route.targetPath }}</td>	
+	                <td>{{ route.options }}</td>	
+	                <td>{{ route.description }}</td>	
+	                <td>
+                        <a href="{{ path('commerce_admin_route_edit', { 'id': route.id }) }}">
+                            <i class="icon-edit"></i>
+                        </a>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    <ul class="inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(routes) }}
+    
+	    	    <div class="form-actions">
+		    <ul class="inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_route_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

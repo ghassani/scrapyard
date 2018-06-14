@@ -1,0 +1,22 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% block content -%}
+    <div class="page-header">
+    	<h1>Route <small>Creating</small></h1>
+	</div>
+	<fieldset>
+    <form action="{{ path('commerce_admin_route_create') }}" class="form" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit">Create</button>
+        </p>
+    </form>
+	</fieldset>
+        <ul class="record-actions inline">
+    <li>
+        <a href="{{ path('commerce_admin_route') }}" class="btn btn-warning">
+            <i class="icon-circle-arrow-left icon-white"></i> Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

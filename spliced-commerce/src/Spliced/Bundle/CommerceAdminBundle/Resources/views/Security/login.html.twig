@@ -1,0 +1,23 @@
+{% extends "SplicedCommerceAdminBundle:Layouts:login.html.twig" %}
+
+{% block content %}
+
+<form role="form" action="{{ path("admin_login_check") }}" method="post">
+  <div class="form-group">
+    {{ form_label(form._username, "E-Mail Address") }}
+    {{ form_widget(form._username, { 'attr' : { 'class' : 'form-control' }}) }}
+  </div>
+  <div class="form-group">
+    {{ form_label(form._password, "Password") }}
+    {{ form_widget(form._password, { 'attr' : { 'class' : 'form-control' }}) }}
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember Me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default btn-lg">Login</button>
+  {{ form_rest(form) }}
+</form>
+
+{% endblock %}

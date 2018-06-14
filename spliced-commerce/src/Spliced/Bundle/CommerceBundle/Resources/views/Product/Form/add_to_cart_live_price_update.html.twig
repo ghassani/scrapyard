@@ -1,0 +1,33 @@
+{#
+	Product/Form/add_to_cart.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+	@var quantity
+	@var noDropdown
+	@var noQuantity
+#}
+
+<div class="add-to-cart">
+	<form method="post" action="{{ path('commerce_cart_add') }}" class="add-to-cart-form">
+		<input type="hidden" name="id" value="{{  product.id }}" class="product_id" />
+		<div class="input-append">
+			{% if noQuantity is defined %}
+				<input type="hidden" name="quantity" data-target="product-price-{{ product.id }}" data-baseprice="{{ commerce_product_price(product,1) }}" data-tier="{%spaceless%}{{ product.tierDataAsJson }}{%endspaceless%}" id="add-to-cart-qty-{{ product.id }}" class="quantity add-to-cart-qty" value="{{ quantity is defined ? quantity : 1 }}" />
+			{% else %}
+				<input type="text" name="quantity" data-target="product-price-{{ product.id }}" data-baseprice="{{ commerce_product_price(product,1) }}" data-tier="{%spaceless%}{{ product.tierDataAsJson }}{%endspaceless%}" id="add-to-cart-qty-{{ product.id }}" class="span1 quantity add-to-cart-qty" value="{{ quantity is defined ? quantity : 1 }}" />
+			{% endif %}
+			<button class="btn btn-info {{ btnClass is defined ? btnClass : '' }}" type="submit">Add to Cart</button>
+			{% if not noDropdown is defined %}
+			<div class="btn-group">
+				<button class="btn btn-success dropdown-toggle {{ btnClass is defined ? btnClass : '' }}" data-toggle="dropdown"><span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a href="#TieredPricing">Make it a Kit</a></li>
+					<li><a href="#WarrantyInformation">Warranty Details</a></li>
+				</ul>
+			</div>
+			{% endif %}
+		</div>
+	</form>
+</div>

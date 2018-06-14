@@ -1,0 +1,19 @@
+{#
+	Product/Form/add_to_cart_adjustable.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+	@var quantity
+	@var btnClass
+#}
+
+<div class="add-to-cart">
+	<form method="post" action="{{ path('commerce_cart_add') }}" class="add-to-cart-form add-to-cart-form-adjustable">
+		<input type="hidden" name="id" value="{{  product.id }}" class="product_id" />
+		<div class="input-append">
+			<input type="number" name="quantity" class="add-to-cart-quantity quantity" value="{{ quantity is defined ? quantity : 1 }}" />
+			<button class="btn btn-info {{ btnClass is defined ? btnClass : '' }}" type="submit">Add to Cart</button>
+		</div>
+	</form>
+</div>

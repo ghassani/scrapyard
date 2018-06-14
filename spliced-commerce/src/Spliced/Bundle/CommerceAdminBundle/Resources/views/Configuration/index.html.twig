@@ -1,0 +1,46 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Configuration:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs">
+    {%  for group in groups %}
+      <li><a href="{{path('commerce_admin_configuration', {'group' : group }) }}">{{ group }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock -%}
+    
+{% block content -%}
+
+<div class="page-header">
+	<h1>Configuration <small>Management</small></h1>
+</div>
+
+<form class="form-horizontal" role="form">
+    {% if forms|length %}
+        {% for childGroup, form in forms %}    
+            {% form_theme form 'SplicedCommerceAdminBundle:Form:bootstrap_form_row.html.twig' %}
+            <div>
+                <h2>{{ childGroup }}</h2>
+                
+                {% for field in form %}
+                    
+                    {% if field.vars.attr.help is defined and field.vars.attr.help|length %}
+                        {{ form_row(field, { 'help_bubble_text' : field.vars.attr.help}) }}
+                    {% else %}
+                        {{ form_row(field) }}
+                    {% endif %}
+                {% endfor %}
+                
+                {{ form_rest(form) }}
+            </div>
+        {% endfor %} 
+    {% endif %}
+    
+</form>
+
+{% endblock %}

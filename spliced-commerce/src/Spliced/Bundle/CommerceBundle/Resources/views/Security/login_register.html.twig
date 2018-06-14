@@ -1,0 +1,63 @@
+{% extends 'SplicedCommerceBundle::Layouts/default.html.twig' %}
+
+{% form_theme loginForm "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme registrationForm "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% block title %}Login/Register | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('account_login') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="register-login">
+	<div class="page-header">
+	    <h1>Log In or Register for an Acount</h1>
+	</div>
+	
+	<div class="social-login">{{ include("SplicedCommerceBundle:Security/Block:social_login_inline.html.twig") }}</div>
+
+	<div class="row">
+	    
+		<div class="col-lg-6 col-sm-6">
+			<form action="{{ path("login_check") }}" method="post" class="form-login">
+				<div class="panel panel-default panel-login">
+					<div class="panel-heading">Log-In To Your Account</div>
+					<div class="panel-body">
+						{% if error is defined and error|length %}
+						    <div class="alert alert-danger">{{ error }}</div>
+						{% endif %}
+												
+						{{ form_row(loginForm._username) }}
+						{{ form_row(loginForm._password) }}
+						
+						{{ form_rest(loginForm) }}
+					</div>
+					<div class="panel-footer">
+						<button type="submit" class="btn btn-primary">Login</button>
+						<small class="pull-right"><a href="{{ path('commerce_forgot_password') }}">Forgot your password?</a></small>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class=" col-lg-6 col-sm-6">
+			<form method="post" action="{{ path('login') }}" role="form" class="form-registration" novalidate>
+				<div class="panel panel-default panel-register">
+					<div class="panel-heading">Create a New Account</div>
+					<div class="panel-body">
+						{{ form_row(registrationForm.firstName) }}
+						{{ form_row(registrationForm.lastName) }}
+						{{ form_row(registrationForm.email) }}
+						
+						{{ form_rest(registrationForm) }}
+					</div>
+					<div class="panel-footer">
+						<button type="submit" class="btn btn-success">Register</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

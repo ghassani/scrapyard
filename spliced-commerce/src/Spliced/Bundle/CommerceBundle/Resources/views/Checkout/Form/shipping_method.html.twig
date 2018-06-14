@@ -1,0 +1,20 @@
+{% block choice_widget_expanded %}
+{% spaceless %}
+<div {{ block('widget_container_attributes') }}>
+	<table class="table table-striped checkout-shipping-methods">
+	{% for child in form %}
+		{% set method = get_shipping_method_by_full_name(child.vars.value) %}
+		<tr>
+			<td>{{ form_widget(child, {'attr': {'class': attr.widget_class|default('')}}) }}</td>
+			<td>{{ method.label }} <small>{{ method.label2 }}</small></td>
+			{% if method.price == 0 %}
+				<td><strong style="color:green;">${{ method.price }}</strong></td>
+			{% else %}
+				<td><strong>${{ method.price }}</strong></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+{% endspaceless %}
+{% endblock choice_widget_expanded %}

@@ -1,0 +1,45 @@
+
+
+<MvFUNCTION NAME = "Licensing_Server_Push_Action" PARAMETERS = "module var, action, license_key" STANDARDOUTPUTLEVEL = "">
+    <MvASSIGN NAME = "l.domain"      VALUE = "{ s.server_name }" />
+    <MvASSIGN NAME = "l.code"        VALUE = "{ l.module:code }" />
+    <MvASSIGN NAME = "l.version"     VALUE = "{ l.module:version }" />
+    <MvASSIGN NAME = "l.remote_addr" VALUE = "{ s.remote_addr }" />
+
+    <MvCALL 
+        ACTION="{ crypto_base64_decode('aHR0cDovL2xpY2Vuc2luZy5zcGxpY2VkbWVkaWEuY29tL2FwaS9wdXNoLWFjdGlvbg==') }" 
+        METHOD="POST" 
+        FIELDS="l.action,l.domain,l.code,l.version,l.license_key,l.remote_addr"
+        TIMEOUT="5">
+    
+    </MvCALL>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Licensing_Server_Get_Current_Version" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+    <MvASSIGN NAME = "l.domain"      VALUE = "{ s.server_name }" />
+    <MvASSIGN NAME = "l.code"        VALUE = "{ l.module:code }" />
+    <MvASSIGN NAME = "l.version"     VALUE = "{ l.module:version }" />
+    <MvASSIGN NAME = "l.remote_addr" VALUE = "{ s.remote_addr }" />
+    <MvASSIGN NAME = "l.format"      VALUE = "xml" />
+
+    <MvASSIGN NAME = "l.version_response_xml" VALUE = "{ l.null }" />        
+
+    <MvCALL 
+        ACTION="{ crypto_base64_decode('aHR0cDovL2xpY2Vuc2luZy5zcGxpY2VkbWVkaWEuY29tL2FwaS92ZXJzaW9uL2N1cnJlbnQv') $ l.code }" 
+        METHOD="POST" 
+        FIELDS="l.domain,l.remote_addr,l.version,l.format"
+        TIMEOUT="5">
+        <MvASSIGN NAME = "l.version_response_xml" VALUE = "{ l.version_response_xml $ s.callvalue }" />        
+    </MvCALL>
+
+    <MvIF EXPR = "{ xml_parse_var(l.version_response_xml, l.response_root) }">
+        <MvFOREACH ITERATOR = "l.child" ARRAY = "l.response_root:response:children" INDEX = "l.index">
+            <MvIF EXPR = "{ l.child:name EQ 'version' }">
+                <MvFUNCTIONRETURN VALUE = "{ l.child:value }" />
+            </MvIF>
+        </MvFOREACH>
+    </MvIF>
+
+    
+    <MvFUNCTIONRETURN VALUE = 0 />
+</MvFUNCTION>

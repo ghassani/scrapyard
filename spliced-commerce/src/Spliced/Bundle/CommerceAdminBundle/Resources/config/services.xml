@@ -1,0 +1,162 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="spliced.commerce.logger.class">Spliced\Component\Commerce\Logger\Logger</parameter>
+
+    	
+        <parameter key="spliced.commerce.breadcrumb.class">Spliced\Component\Commerce\Breadcrumb\BreadcrumbManager</parameter>
+        <parameter key="spliced.commerce.media.image.class">Spliced\CommerceBundle\Media\Image</parameter>
+        <parameter key="spliced.commerce.product.repository.class">Spliced\Bundle\CommerceAdminBundle\Repository\ProductRepository</parameter>
+        
+        <parameter key="spliced.commerce.helper.product.price.class">Spliced\Component\Commerce\Helper\Product\Price</parameter>
+        <parameter key="spliced.commerce.router.class">Spliced\Component\Commerce\Routing\Router</parameter>
+    </parameters>
+ 
+    <services>
+    	
+        <service id="commerce.logger" class="%spliced.commerce.logger.class%">
+	        <argument type="service" id="kernel" />
+        </service>
+        
+        
+        <service id="commerce.checkout_custom_field_manager" class="Spliced\Component\Commerce\Checkout\CheckoutCustomFieldManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="commerce.product_manager" class="Spliced\Component\Commerce\Product\ProductManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="commerce.category_manager" class="Spliced\Component\Commerce\Category\CategoryManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="commerce.product_attribute_option_manager" class="Spliced\Component\Commerce\Product\ProductAttributeOptionManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="commerce.product_manager" />
+	    	<argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="commerce.product_specification_option_manager" class="Spliced\Component\Commerce\Product\ProductSpecificationOptionManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="commerce.product_manager" />
+	    	<argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="commerce.affiliate_manager" class="Spliced\Component\Commerce\Affiliate\AffiliateManager">
+	        <argument type="service" id="commerce.admin.configuration" />
+	        <argument type="service" id="session" />
+        </service>
+
+        <service id="commerce.checkout_manager" class="Spliced\Component\Commerce\Checkout\CheckoutManager">
+        	<argument type="service" id="commerce.admin.configuration" />
+        	<argument type="service" id="commerce.order_manager" />
+        	<argument type="service" id="commerce.cart" />
+        	<argument type="service" id="commerce.payment_manager" />
+        	<argument type="service" id="commerce.shipping_manager" />
+        	<argument type="service" id="session" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="commerce.checkout_custom_field_manager" />
+        	<argument type="service" id="commerce.affiliate_manager" />
+        </service>
+ 
+        <service id="commerce.checkout_notifier_manager" class="Spliced\Component\Commerce\Checkout\CheckoutNotifier\CheckoutNotifierManager">
+	    	<argument>%commerce.checkout_notifiers%</argument>
+        </service>
+
+        <service id="commerce.product.filter_manager" class="Spliced\Component\Commerce\Product\ProductFilterManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="session" />
+        </service>
+
+        <service id="commerce.image_manager" class="Spliced\Component\Commerce\Media\ImageManager">
+        	<argument type="service" id="kernel" />
+        </service>
+        
+        <service id="commerce.shipping_manager" class="Spliced\Component\Commerce\Shipping\ShippingManager">
+	    	<argument>%commerce.shipping_methods%</argument>
+	        <argument type="service" id="commerce.admin.configuration" />
+	        <argument type="service" id="commerce.cart" />
+        </service>
+
+        <service id="commerce.payment_manager" class="Spliced\Component\Commerce\Payment\PaymentManager">
+	    	<argument>%commerce.payment_methods%</argument>
+	        <argument type="service" id="commerce.admin.configuration" />
+	        <argument type="service" id="commerce.security.encryption_manager" />
+	        <argument type="service" id="commerce.cart" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="service" id="router" />
+        </service>
+        
+        <service id="commerce.security.encryption_manager" class="Spliced\Component\Commerce\Security\Encryption\EncryptionManager">
+        	<argument type="service" id="commerce.admin.configuration" />
+        </service>        
+        
+
+        <service id="commerce.cart" class="Spliced\Component\Commerce\Cart\CartManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="session" />
+	        <argument type="service" id="security.context" />
+	        <argument type="service" id="commerce.visitor_manager" />
+        </service>
+
+     
+        <service id="commerce.order_manager" class="Spliced\Component\Commerce\Order\OrderManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="commerce.cart" />
+	    	<argument type="service" id="commerce.helper.order" /> 
+	    	<argument type="service" id="commerce.helper.product.price" />
+	    	<argument type="service" id="commerce.security.encryption_manager" />
+	    	<argument type="service" id="commerce.affiliate_manager" />
+	    	<argument type="service" id="session" />
+	    	<argument type="service" id="security.context" />
+	    	<argument type="service" id="commerce.logger" />
+        </service>
+
+        <service id="commerce.checkout_custom_field_manager" class="Spliced\Component\Commerce\Checkout\CheckoutCustomFieldManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+        </service>
+
+        <service id="commerce.helper.product.price" class="Spliced\Component\Commerce\Helper\Product\Price">
+	    	<argument type="service" id="commerce.cart" />
+	    	<argument type="service" id="commerce.admin.configuration" />
+        </service>
+
+        <service id="commerce.helper.order" class="Spliced\Component\Commerce\Helper\Order">
+	    	<argument type="service" id="commerce.admin.configuration" />
+        </service>
+
+        <service id="commerce.router" class="%spliced.commerce.router.class%">
+            <argument type="service" id="router" />
+            <argument type="service" id="commerce.admin.configuration" />
+            <argument type="service" id="commerce.admin.entity_manager" />
+            <argument type="service" id="session" />
+            <argument type="service" id="commerce.affiliate_manager" />
+            <argument type="service" id="kernel" />
+        </service>
+
+	    <service id="commerce.visitor_manager" class="Spliced\Component\Commerce\Visitor\VisitorManager">
+			<argument type="service" id="commerce.admin.configuration" />
+		    <argument type="service" id="commerce.affiliate_manager" />
+		    <argument type="service" id="session" />
+		    <tag name="commerce.configurable" />
+	    </service>
+
+        <service id="commerce.content_page_manager" class="Spliced\Component\Commerce\Content\ContentPageManager">
+            <argument type="service" id="commerce.admin.configuration" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+	    <service id="commerce.admin.form_factory" class="Spliced\Component\Commerce\Form\AdminFormFactory">
+			<argument type="service" id="service_container" />
+	    </service>
+    </services>  
+</container>

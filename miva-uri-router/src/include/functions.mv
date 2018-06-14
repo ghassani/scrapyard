@@ -1,0 +1,806 @@
+<MvCOMMENT>
+|
+| Queue_Error_Message
+|
+| Queue an error message to be rendered to the admin user when something went wrong
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Queue_Error_Message" PARAMETERS = "message" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('Route', 'Queue_Error_Message(message)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.elements" VALUE = "{ miva_array_insert( g.Module_Error_Messages, l.message, -1 ) }" />
+</MvFUNCTION>
+
+<MvCOMMENT>
+|
+| Queue_Success_Message
+|
+| Queue a success message to be rendered to the admin user when something was completed
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Queue_Success_Message" PARAMETERS = "message" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('Route', 'Queue_Success_Message(message)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.elements" VALUE = "{ miva_array_insert( g.Module_Success_Messages, l.message, -1 ) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Queue_Warning_Message" PARAMETERS = "message" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('Route', 'Queue_Warning_Message(message)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.elements" VALUE = "{ miva_array_insert( g.Module_Warning_Messages, l.message, -1 ) }" />
+</MvFUNCTION>
+
+<MvCOMMENT>
+|
+| Queue_Debug_Message
+| 
+| Queue a debug message to be rendered when compiled with development on
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Queue_Debug_Message" PARAMETERS = "message" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('Route', 'Queue_Debug_Message(message)') }">
+	</MvIFDEF>
+
+	<MvIFDEF NAME = "DEV">
+		<MvASSIGN NAME = "l.elements" VALUE = "{ miva_array_insert( g.Module_Debug_Messages, l.message, -1 ) }" />
+	</MvIFDEF>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+|
+| Validate_Route
+| 
+| Validates a route before saving or updating
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Validate_Route" PARAMETERS = "route var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('Route', 'Validate_Route(route var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR="{ ISNULL l.route:request_path }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Error Creating Route. Request Path Can\'t Be Empty') }" />
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF>
+
+	<MvCOMMENT><MvIF EXPR = "{ ISNULL l.route:product_code AND ISNULL l.route:category_code  AND ISNULL l.route:page_code AND ISNULL l.route:redirect_path }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Error Creating Route. Please Enter All Required Fields') }" />
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF></MvCOMMENT>
+
+	<MvIF EXPR = "{ NOT ISNULL l.route:request_path AND indexof('/', l.route:request_path, 1) EQ 0 }">
+		<MvASSIGN NAME = "l.route:request_path" VALUE = "{ '/' $ l.route:request_path }" />
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT ISNULL l.route:product_code AND Routes_Count_By_Product_Code(l.route:product_code) EQ 0 }">
+		<MvASSIGN NAME = "l.route:is_canonical" VALUE = "1" />
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT ISNULL l.route:category_code AND Routes_Count_By_Category_Code(l.route:category_code) EQ 0 }">
+		<MvASSIGN NAME = "l.route:is_canonical" VALUE = "1" />
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT ISNULL l.route:page_code AND Routes_Count_By_Page_Code(l.route:page_code) EQ 0 }">
+		<MvASSIGN NAME = "l.route:is_canonical" VALUE = "1" />
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT ISNULL l.route:redirect_path AND ISNULL l.route:options:header_status }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Redirects Require a Header Status Code') }" />
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF>
+
+	<MvASSIGN NAME="l.result" VALUE="{ Route_Load_By_Request_Path(l.route:request_path, l.matched_route) }" />
+
+	<MvIF EXPR = "{ l.result GT 0 AND l.matched_route:id NE l.route:id }">
+		<MvIF EXPR = "{ NOT ISNULL l.route:id }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('Request Path Already Exists On Route ID ' $ l.matched_route:id $ ' - ' $ l.route:id) }" />
+		<MvELSE>
+			<MvEVAL EXPR = "{ Queue_Error_Message('Request Path Already Exists On Route ID ' $ l.matched_route:id) }" />
+		</MvIF>		
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+|
+| Validate_Router_Settings
+| 
+| Validates router settings before saving or updating
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Validate_Router_Settings" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.return" VALUE = 1 />
+
+	<MvCOMMENT>
+	| Validate Default Product Route Pattern
+	</MvCOMMENT>
+	<MvIF EXPR = "{ ISNULL l.router_settings:product_route_pattern }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Product Route Pattern is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL l.router_settings:product_route_pattern_space }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Product Route Pattern Space Character is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvCOMMENT>
+	| Validate Default Category Route Pattern
+	</MvCOMMENT>
+	<MvIF EXPR = "{ ISNULL l.router_settings:category_route_pattern }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Category Route Pattern is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL l.router_settings:category_route_pattern_space }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Category Route Pattern Space Character is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvCOMMENT>
+	| Validate Default Page Route Pattern
+	</MvCOMMENT>
+	<MvIF EXPR = "{ ISNULL l.router_settings:page_route_pattern }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Page Route Pattern is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL l.router_settings:page_route_pattern_space }">
+		<MvEVAL EXPR = "{ Queue_Error_Message('Default Page Route Pattern Space Character is Required') }" />
+		<MvASSIGN NAME = "l.return" VALUE = 0 />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "{ l.return }">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Process_Batch_List_Action" PARAMETERS = "ids var, action" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.success_count" VALUE = "0" />
+
+	<MvFOREACH ITERATOR = "l.route_id" ARRAY = "l.ids" INDEX = "l.index">
+		<MvIF EXPR = "{ l.action EQ 'delete' }">
+			<MvIF EXPR = "{ Routes_Delete_By_Field('id', l.route_id) }">
+				<MvASSIGN NAME = "l.success_count" VALUE = "{ l.success_count + 1 }" />
+			</MvIF>
+		<MvELSEIF EXPR = "{ l.action EQ 'activate' }">		
+			<MvIF EXPR = "{ Route_Set_Active_By_Id(l.route_id) }">
+				<MvASSIGN NAME = "l.success_count" VALUE = "{ l.success_count + 1}" />
+			</MvIF>
+		<MvELSEIF EXPR = "{ l.action EQ 'deactivate' }">
+			<MvIF EXPR = "{ Route_Set_Not_Active_By_Id(l.route_id) }">
+				<MvASSIGN NAME = "l.success_count" VALUE = "{ l.success_count + 1 }" />
+			</MvIF>
+		</MvIF>
+	</MvFOREACH>
+
+	<MvIF EXPR = "{ miva_array_elements(l.ids) EQ l.success_count }">
+		<MvIF EXPR = "{ l.action EQ 'delete' }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Routes Successfully Deleted') }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'activate' }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Routes Successfully Activated') }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'deactivate' }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Routes Successfully Deactivated') }" />
+		</MvIF>
+	<MvELSEIF EXPR = "{ l.success_count EQ 0 }">
+		<MvIF EXPR = "{ l.action EQ 'delete' }">
+			<MvEVAL EXPR = "{ Queue_Warning_Message('Not All Routes Could Be Successfully Deleted') }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'activate' }">
+			<MvEVAL EXPR = "{ Queue_Warning_Message('Not All Routes Could Be Successfully Activated') }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'deactivate' }">
+			<MvEVAL EXPR = "{ Queue_Warning_Message('Not All Routes Could Be Successfully Deactivated') }" />
+		</MvIF>
+	<MvELSE>
+		<MvIF EXPR = "{ l.action EQ 'delete' }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('Error Deleting Routes ' $ (l.success_count) $ '/' $ miva_array_elements(l.ids) ) }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'activate' }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('Error Activating Routes ' $ (l.success_count) $ '/' $ miva_array_elements(l.ids) ) }" />
+		<MvELSEIF EXPR = "{ l.action EQ 'deactivate' }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('Error Deactivating Routes ' $ (l.success_count) $ '/' $ miva_array_elements(l.ids) ) }" />
+		</MvIF>
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE ="{ l.success_count }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Process_Route_Action" PARAMETERS = "object var, context" STANDARDOUTPUTLEVEL = "">
+	<MvIF EXPR = "{ l.context EQ 'product' }">
+		<MvREFERENCE NAME = "l.product" VARIABLE = "l.object">
+		<MvIF EXPR = "{ NOT ISNULL g.original_edit_product AND g.original_edit_product NE g.edit_product }">
+			<MvIF EXPR = "{ NOT Routes_Update_Product_Code(g.original_edit_product, g.edit_product) }">
+				
+			</MvIF>
+		</MvIF>
+	<MvELSEIF EXPR = "{ l.context EQ 'category' }">
+		<MvREFERENCE NAME = "l.category" VARIABLE = "l.object">
+		<MvIF EXPR = "{ NOT ISNULL g.original_edit_category AND g.original_edit_category NE g.edit_category }">
+			<MvIF EXPR = "{ NOT Routes_Update_Category_Code(g.original_edit_category, g.edit_category) }">
+				
+			</MvIF>
+		</MvIF>
+	<MvELSEIF EXPR = "{ l.context EQ 'page' }">
+		
+		<MvASSIGN NAME = "l.page_result" VALUE = "{ [ g.Module_Feature_TUI_DB ].Page_Load_Code(g.edit_page, l.page) }" />
+
+		<MvIF EXPR = "{ NOT ISNULL g.original_edit_page AND g.original_edit_page NE g.edit_page }">
+			<MvIF EXPR = "{ NOT Routes_Update_Page_Code(g.original_edit_page, g.edit_page) }">
+				
+			</MvIF>
+		</MvIF>
+	</MvIF>	
+
+	<MvIF EXPR = "{ miva_array_elements(g.route_ids) GT 0 }">
+		<MvIF EXPR = "{ NOT Process_Batch_List_Action(g.route_ids, g.batch_form_action) }">
+			
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{ g.module_action EQ 'save' AND NOT ISNULL g.route }">
+		<MvIF EXPR = "{ Route_Save(g.route) }">			
+			<MvEVAL EXPR = "{ Queue_Success_Message('Route Successfully Created') }" />
+		<MvELSE>			
+			<MvEVAL EXPR = "{ Queue_Error_Message('Error Trying to Save Route') }" />
+		</MvIF>
+		<MvFUNCTIONRETURN VALUE = 1>
+	<MvELSEIF EXPR="{ g.module_action EQ 'update' AND NOT ISNULL g.route }">
+		<MvIF EXPR = "{ Route_Update(g.route) }">			
+			<MvEVAL EXPR = "{ Queue_Success_Message('Route Successfully Updated') }" />
+		<MvELSE>			
+			<MvEVAL EXPR = "{ Queue_Error_Message('Error When Updating Route') }" />
+		</MvIF>
+		<MvFUNCTIONRETURN VALUE = 1>
+	</MvIF>
+
+	<MvIF EXPR = "{ l.context EQ 'product' }">
+		<MvIF EXPR = "{ g.router_settings:enabled NE 1 OR g.router_settings:product_update_action EQ 0 }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvASSIGN NAME = "l.genenerated_route" VALUE= "{ Generate_Product_Route(l.product, g.router_settings:product_route_pattern, g.router_settings:product_route_pattern_space) }" />
+
+		<MvASSIGN NAME = "l.matched_route_result"   VALUE= "{ Route_Load_By_Request_Path(l.genenerated_route, l.matched_route) }" />
+		<MvASSIGN NAME = "l.canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Product_Code(l.product:code, l.canonical_route) }" />
+		
+		<MvIF EXPR = "{ l.matched_route_result EQ 0 AND l.canonical_route_result EQ 0 }">
+			<MvASSIGN NAME = "l.product_route:request_path" 		 VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.product_route:product_code" 		 VALUE = "{ l.product:code }" />
+			<MvASSIGN NAME = "l.product_route:product_category_code" VALUE = "{ l.product:category:code }" />
+			<MvASSIGN NAME = "l.product_route:is_canonical" 		 VALUE = "1" />
+			<MvASSIGN NAME = "l.product_route:is_active" 			 VALUE = "{ l.product:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.product_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving No Route On Update. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvFUNCTIONRETURN VALUE = "1">
+		</MvIF>
+
+		<MvIF EXPR = "{ l.canonical_route:request_path EQ l.generated_route }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvIF EXPR = "{ g.router_settings:product_update_action EQ 1 }">
+			<MvIF EXPR = "{ l.canonical_route_result }">
+				<MvASSIGN NAME = "l.canonical_route:request_path" VALUE = "{ l.genenerated_route }" />
+
+				<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+					<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+				</MvIF>
+			</MvIF>
+		<MvELSEIF EXPR = "{ g.router_settings:product_update_action EQ 2 }">
+			<MvASSIGN NAME = "l.canonical_route:redirect_path" 			VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.canonical_route:is_canonical" 			VALUE = "0" />
+			<MvASSIGN NAME = "l.canonical_route:options:header_status"  VALUE = "301" />
+
+			<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "1" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "{ l.product:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+		<MvELSEIF EXPR = "{ g.router_settings:product_update_action EQ 3 }">
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "0" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "{ l.product:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+		</MvIF>
+
+
+
+
+
+	<MvELSEIF EXPR = "{ l.context EQ 'category' }">
+	
+		<MvIF EXPR = "{ g.router_settings:enabled NE 1 OR g.router_settings:category_update_action EQ 0 }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvASSIGN NAME = "l.genenerated_route" VALUE= "{ Generate_Category_Route(l.category, g.router_settings:category_route_pattern, g.router_settings:category_route_pattern_space) }" />
+
+		<MvASSIGN NAME = "l.matched_route_result"   VALUE= "{ Route_Load_By_Request_Path(l.genenerated_route, l.matched_route) }" />
+		<MvASSIGN NAME = "l.canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Category_Code(l.category:code, l.canonical_route) }" />
+		
+		<MvIF EXPR = "{ l.matched_route_result EQ 0 AND l.canonical_route_result EQ 0 }">
+			<MvASSIGN NAME = "l.category_route:request_path" 		 VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.category_route:category_code" 		 VALUE = "{ l.category:code }" />
+			<MvASSIGN NAME = "l.category_route:category_category_code" VALUE = "{ l.category:category:code }" />
+			<MvASSIGN NAME = "l.category_route:is_canonical" 		 VALUE = "1" />
+			<MvASSIGN NAME = "l.category_route:is_active" 			 VALUE = "{ l.category:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.category_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving No Route On Update. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvFUNCTIONRETURN VALUE = "1">
+		</MvIF>
+
+		<MvIF EXPR = "{ l.canonical_route:request_path EQ l.generated_route }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvIF EXPR = "{ g.router_settings:category_update_action EQ 1 }">
+			<MvIF EXPR = "{ l.canonical_route_result }">
+				<MvASSIGN NAME = "l.canonical_route:request_path" VALUE = "{ l.genenerated_route }" />
+
+				<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+					<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+				</MvIF>
+			</MvIF>
+		<MvELSEIF EXPR = "{ g.router_settings:category_update_action EQ 2 }">
+			<MvASSIGN NAME = "l.canonical_route:redirect_path" 			VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.canonical_route:is_canonical" 			VALUE = "0" />
+			<MvASSIGN NAME = "l.canonical_route:options:header_status"  VALUE = "301" />
+
+			<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "1" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "{ l.category:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+		<MvELSEIF EXPR = "{ g.router_settings:category_update_action EQ 3 }">
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "0" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "{ l.category:active }" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+		</MvIF>
+
+	<MvELSEIF EXPR = "{ l.context EQ 'page' }">
+
+		<MvIF EXPR = "{ g.router_settings:enabled NE 1 OR g.router_settings:page_update_action EQ 0 }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvASSIGN NAME = "l.genenerated_route" VALUE= "{ Generate_Page_Route(l.page, g.router_settings:page_route_pattern, g.router_settings:page_route_pattern_space) }" />
+
+		<MvASSIGN NAME = "l.matched_route_result"   VALUE= "{ Route_Load_By_Request_Path(l.genenerated_route, l.matched_route) }" />
+		<MvASSIGN NAME = "l.canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Page_Code(l.page:code, l.canonical_route) }" />
+		
+		<MvIF EXPR = "{ l.matched_route_result EQ 0 AND l.canonical_route_result EQ 0 }">
+			<MvASSIGN NAME = "l.page_route:request_path" 	 VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.page_route:page_code" 		 VALUE = "{ l.page:code }" />
+			<MvASSIGN NAME = "l.page_route:is_canonical"  	 VALUE = "1" />
+			<MvASSIGN NAME = "l.page_route:is_active" 	 	 VALUE = "1" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.page_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving No Route On Update. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvFUNCTIONRETURN VALUE = "1">
+		</MvIF>
+
+		<MvIF EXPR = "{ l.canonical_route:request_path EQ l.generated_route }">
+			<MvFUNCTIONRETURN VALUE = 1>
+		</MvIF>
+
+		<MvIF EXPR = "{ g.router_settings:page_update_action EQ 1 }">
+			<MvIF EXPR = "{ l.canonical_route_result }">
+				<MvASSIGN NAME = "l.canonical_route:request_path" VALUE = "{ l.genenerated_route }" />
+
+				<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+					<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+				</MvIF>
+			</MvIF>
+		<MvELSEIF EXPR = "{ g.router_settings:page_update_action EQ 2 }">
+			<MvASSIGN NAME = "l.canonical_route:redirect_path" 			VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.canonical_route:is_canonical" 			VALUE = "0" />
+			<MvASSIGN NAME = "l.canonical_route:options:header_status"  VALUE = "301" />
+
+			<MvIF EXPR = "{ NOT Route_Update(l.canonical_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Updating Canonical Route' $ g.Error_Message ) }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "1" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "1" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+
+		<MvELSEIF EXPR = "{ g.router_settings:page_update_action EQ 3 }">
+
+			<MvASSIGN NAME = "l.new_route" VALUE = "{ l.canonical_route }" />
+
+			<MvASSIGN NAME = "l.new_route:id" 					  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:redirect_path" 		  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:options:header_status"  VALUE = "{ l.null }" />
+			<MvASSIGN NAME = "l.new_route:request_path"   		  VALUE = "{ l.genenerated_route }" />
+			<MvASSIGN NAME = "l.new_route:is_canonical"   		  VALUE = "0" />
+			<MvASSIGN NAME = "l.new_route:is_active"   		  	  VALUE = "1" />
+
+			<MvIF EXPR = "{ NOT Route_Save(l.new_route) }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Saving Route. ' $ g.Error_Message ) }" />
+			</MvIF>
+		</MvIF>
+
+	</MvIF>	
+
+	
+</MvFUNCTION>
+
+<MvCOMMENT>
+|
+| Genererate_Miva_Shortlink_Routes
+| 
+| Generates Miva Short Links (if active) for all Products, Categories, and Pages.
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Genererate_Miva_Shortlink_Routes" PARAMETERS = "" STANDARDOUTPUTLEVEL = "">
+
+	<MvCOMMENT>Check SEO Settings To See If We Should Auto-Generate Routes For Products, Categories, And Pages</MvComment>
+	<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Library_DB ].SEOSettings_Load(l.seo_settings) }" />
+
+
+	<MvIF EXPR = "{ l.seo_settings:sf_active AND l.seo_settings:sl_active }">
+		<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Library_DB ].ProductList_Load_All(l.products) }" />
+
+		<MvFOREACH ITERATOR = "l.product" ARRAY = "l.products" INDEX = "l.index">
+			<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ '/' }" />
+			<MvIF EXPR = "{ l.seo_settings:prefix }">
+				<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ l.product:generated_seo_link $ l.seo_settings:prefix $ l.seo_settings:url_delim  }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.seo_settings:sc_always }">
+				<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ l.product:generated_seo_link $ g.Store_Code $ l.seo_settings:url_delim  }" />
+			</MvIF>			
+
+			<MvIF EXPR = "{ l.seo_settings:prod_lit }">
+				<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ l.product:generated_seo_link $ l.seo_settings:prod_lit $ l.seo_settings:url_delim  }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ l.product:generated_seo_link $ l.product:code }" />
+
+			<MvIF EXPR = "{ l.seo_settings:suffix }">
+				<MvASSIGN NAME = "l.product:generated_seo_link" VALUE = "{ l.product:generated_seo_link $ '.' $ l.seo_settings:suffix }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.product:generated_seo_link NE '/' }">
+				<MvASSIGN NAME = "l.null" VALUE = "{ Route_Load_By_Request_Path(l.product:generated_seo_link, l.product_route) }" />
+
+				<MvIF EXPR = "{ NOT l.product_route:id }">
+					<MvASSIGN NAME = "l.product_route:request_path" VALUE = "{ l.product:generated_seo_link }" />
+					<MvASSIGN NAME = "l.product_route:product_code" VALUE = "{ l.product:code }" />
+					<MvASSIGN NAME = "l.product_route:is_canonical" VALUE = "1" />
+
+					<MvIF EXPR = "{ l.product:cancat_id }">
+						<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Library_DB ].Category_Load_ID(l.product:cancat_id, l.canonical_category) }" />
+						<MvIF EXPR = "{ l.canonical_category:code }">
+							<MvASSIGN NAME = "l.product_route:product_category_code" VALUE = "{ l.canonical_category:code }" />
+						</MvIF>
+					</MvIF>
+
+					<MvASSIGN NAME = "l.null" VALUE = "{ Route_Save(l.product_route) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+
+
+		<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Library_DB ].CategoryList_Load_All(l.categories) }" />
+
+		<MvFOREACH ITERATOR = "l.category" ARRAY = "l.categories" INDEX = "l.index">
+			<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ '/' }" />
+			<MvIF EXPR = "{ l.seo_settings:prefix }">
+				<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ l.category:generated_seo_link $ l.seo_settings:prefix $ l.seo_settings:url_delim  }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.seo_settings:sc_always }">
+				<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ l.category:generated_seo_link $ g.Store_Code $ l.seo_settings:url_delim  }" />
+			</MvIF>			
+
+			<MvIF EXPR = "{ l.seo_settings:cat_lit }">
+				<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ l.category:generated_seo_link $ l.seo_settings:cat_lit $ l.seo_settings:url_delim  }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ l.category:generated_seo_link $ l.category:code }" />
+
+			<MvIF EXPR = "{ l.seo_settings:suffix }">
+				<MvASSIGN NAME = "l.category:generated_seo_link" VALUE = "{ l.category:generated_seo_link $ '.' $ l.seo_settings:suffix }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.category:generated_seo_link NE '/' }">
+				<MvASSIGN NAME = "l.null" VALUE = "{ Route_Load_By_Request_Path(l.category:generated_seo_link, l.category_route) }" />
+
+				<MvIF EXPR = "{ NOT l.category_route:id }">
+					<MvASSIGN NAME = "l.category_route:request_path" VALUE = "{ l.category:generated_seo_link }" />
+					<MvASSIGN NAME = "l.category_route:category_code" VALUE = "{ l.category:code }" />
+					<MvASSIGN NAME = "l.category_route:is_canonical" VALUE = "1" />
+
+					<MvASSIGN NAME = "l.null" VALUE= "{ Route_Save(l.category_route) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+
+
+		<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Feature_TUI_DB ].PageList_Load_All(l.pages) }" />
+
+		<MvFOREACH ITERATOR = "l.page" ARRAY = "l.pages" INDEX = "l.index">
+			<MvIF EXPR = "{ indexofi('EMAIL_', l.page:code, 1) GT 0 OR indexofi('ORDER_', l.page:code, 1) GT 0 }">
+				<MvFOREACHCONTINUE>
+			</MvIF>
+
+			<MvASSIGN NAME = "l.page:generated_seo_link" VALUE = "{ '/' }" />
+			<MvIF EXPR = "{ l.seo_settings:prefix }">
+				<MvASSIGN NAME = "l.page:generated_seo_link" VALUE = "{ l.page:generated_seo_link $ l.seo_settings:prefix $ l.seo_settings:url_delim  }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.seo_settings:sc_always }">
+				<MvASSIGN NAME = "l.page:generated_seo_link" VALUE = "{ l.page:generated_seo_link $ g.Store_Code $ l.seo_settings:url_delim  }" />
+			</MvIF>			
+
+			<MvASSIGN NAME = "l.page:generated_seo_link" VALUE = "{ l.page:generated_seo_link $ l.page:code }" />
+
+			<MvIF EXPR = "{ l.seo_settings:suffix }">
+				<MvASSIGN NAME = "l.page:generated_seo_link" VALUE = "{ l.page:generated_seo_link $ '.' $ l.seo_settings:suffix }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ l.page:generated_seo_link NE '/' }">
+			
+				<MvASSIGN NAME = "l.null" VALUE= "{ Route_Load_By_Request_Path(l.page:generated_seo_link, l.page_route) }" />
+
+				<MvIF EXPR = "{ NOT l.page_route:id }">
+					<MvASSIGN NAME = "l.page_route:request_path" VALUE = "{ l.page:generated_seo_link }" />
+					<MvASSIGN NAME = "l.page_route:page_code" VALUE = "{ l.page:code }" />
+					<MvASSIGN NAME = "l.page_route:is_canonical" VALUE = "1" />
+					<MvASSIGN NAME = "l.null" VALUE= "{ Route_Save(l.page_route) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+	</MvIF>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+|
+| Generate_Product_Route
+| 
+| Generates and Sluggifies a Product Route
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Generate_Product_Route" PARAMETERS = "product var, token_string, space" STANDARDOUTPUTLEVEL = "">
+
+	<MvIF EXPR = "{ l.product:cancat_id }">
+		<MvASSIGN NAME = "l.null" VALUE = "{ [ g.Module_Library_DB ].Category_Load_ID(l.product:cancat_id, l.product:category) }" />
+	</MvIF>
+	
+	<MvASSIGN name = "l.replacements[1]:token" value = "id">
+	<MvASSIGN name = "l.replacements[2]:token" value = "name">
+	<MvASSIGN name = "l.replacements[3]:token" value = "code">
+	<MvASSIGN name = "l.replacements[4]:token" value = "sku">
+	<MvASSIGN name = "l.replacements[5]:token" value = "category_code">
+	<MvASSIGN name = "l.replacements[6]:token" value = "category_name">
+	<MvASSIGN name = "l.replacements[7]:token" value = "store_code">
+	<MvASSIGN name = "l.replacements[1]:value" value = "{ l.product:id }">	
+	<MvASSIGN name = "l.replacements[2]:value" value = "{ l.product:name }">	
+	<MvASSIGN name = "l.replacements[3]:value" value = "{ l.product:code }">	
+	<MvASSIGN name = "l.replacements[4]:value" value = "{ l.product:sku }">
+	<MvASSIGN name = "l.replacements[5]:value" value = "{ l.product:category:code }">
+	<MvASSIGN name = "l.replacements[6]:value" value = "{ l.product:category:name }">
+	<MvASSIGN name = "l.replacements[7]:value" value = "{ g.store_code }">
+
+	<MVASSIGN NAME="l.category_paths" VALUE = "{ Build_Category_Paths(l.product:category) }" />
+
+	<MvASSIGN name = "l.replacements[8]:token" value = "category_code_path">
+	<MvASSIGN name = "l.replacements[9]:token" value = "category_name_path">
+	<MvASSIGN name = "l.replacements[8]:value" value = "{ l.category_paths:code }">
+	<MvASSIGN name = "l.replacements[9]:value" value = "{ l.category_paths:name }">
+
+	<MvFUNCTIONRETURN VALUE = "{ Sluggify(tokenize(l.token_string, l.replacements), l.space) }">
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+|
+| Generate_Category_Route
+| 
+| Generates and Sluggifies a Category Route
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Generate_Category_Route" PARAMETERS = "category var, token_string, space" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name = "l.replacements[1]:token" value = "id">
+	<MvASSIGN name = "l.replacements[2]:token" value = "name">
+	<MvASSIGN name = "l.replacements[3]:token" value = "code">
+	<MvASSIGN name = "l.replacements[4]:token" value = "store_code">
+	<MvASSIGN name = "l.replacements[1]:value" value = "{ l.category:id }">	
+	<MvASSIGN name = "l.replacements[2]:value" value = "{ l.category:name }">	
+	<MvASSIGN name = "l.replacements[3]:value" value = "{ l.category:code }">	
+	<MvASSIGN name = "l.replacements[4]:value" value = "{ g.store_code }">
+
+	<MVASSIGN NAME="l.category_paths" VALUE = "{ Build_Category_Paths(l.category) }" />
+	<MvASSIGN name = "l.replacements[5]:token" value = "code_path">
+	<MvASSIGN name = "l.replacements[6]:token" value = "name_path">
+	<MvASSIGN name = "l.replacements[5]:value" value = "{ l.category_paths:code }">
+	<MvASSIGN name = "l.replacements[6]:value" value = "{ l.category_paths:name }">
+
+	<MvFUNCTIONRETURN VALUE = "{ Sluggify(tokenize(l.token_string, l.replacements), l.space) }">
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+|
+| Generate_Page_Route
+| 
+| Generates and Sluggifies a Page Route
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Generate_Page_Route" PARAMETERS = "page var, token_string, space" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name = "l.replacements[1]:token" value = "id">
+	<MvASSIGN name = "l.replacements[2]:token" value = "name">
+	<MvASSIGN name = "l.replacements[3]:token" value = "code">
+	<MvASSIGN name = "l.replacements[4]:token" value = "store_code">
+	<MvASSIGN name = "l.replacements[1]:value" value = "{ l.page:id }">	
+	<MvASSIGN name = "l.replacements[2]:value" value = "{ l.page:name }">	
+	<MvASSIGN name = "l.replacements[3]:value" value = "{ l.page:code }">	
+	<MvASSIGN name = "l.replacements[4]:value" value = "{ g.store_code }">
+
+	<MvFUNCTIONRETURN VALUE = "{ Sluggify(tokenize(l.token_string, l.replacements), l.space) }">
+</MvFUNCTION>
+
+<MvCOMMENT>
+|
+| Build_Category_Paths
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Build_Category_Paths" PARAMETERS = "category var" STANDARDOUTPUTLEVEL = "">
+	<MvIF EXPR = "{ ISNULL l.category:parent_id OR l.category:parent_id EQ 0 }">
+		<MvFUNCTIONRETURN VALUE = "{ l.category:name }" />
+	</MvIF>
+
+	<MvASSIGN NAME = "l.return:code" VALUE = "{ l.category:code }" />
+	<MvASSIGN NAME = "l.return:name" VALUE = "{ l.category:name }" />
+
+	<MvASSIGN NAME = "l.result" VALUE = "{ [ g.Module_Library_DB ].Category_Load_Id(l.category:parent_id, l.parent_category ) }" />
+
+	<MvWHILE EXPR = "{ l.parent_category:parent_id GE 0 }">
+		
+		<MvASSIGN NAME = "l.return:code" VALUE = "{ l.parent_category:code $ '/' $ l.return:code }" />
+		<MvASSIGN NAME = "l.return:name" VALUE = "{ l.parent_category:name $ '/' $ l.return:name }" />
+
+		<MvASSIGN NAME = "l.result" VALUE = "{ [ g.Module_Library_DB ].Category_Load_Id(l.parent_category:parent_id, l.parent_category ) }" />
+
+		<MvIF EXPR = "{ ISNULL l.parent_category:parent_id OR l.parent_category:parent_id EQ 0 }">
+			<MvASSIGN NAME = "l.return:code" VALUE = "{ l.parent_category:code $ '/' $ l.return:code }" />
+			<MvASSIGN NAME = "l.return:name" VALUE = "{ l.parent_category:name $ '/' $ l.return:name }" />
+			<MvWHILESTOP>
+		</MvIF>
+	</MvWHILE>
+
+	<MvFUNCTIONRETURN VALUE = "{ l.return }" />
+</MvFUNCTION>
+
+<MvCOMMENT>
+|
+| Sluggify
+| 
+| Sluggifies a uri
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Sluggify" PARAMETERS = "string, space_replacement" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.org" VALUE = "{ l.string }" />
+
+	<MvIF EXPR = "{ ISNULL l.space_replacement OR len(l.space_replacement) GT 1 }">
+		<MvASSIGN NAME = "l.space_replacement" VALUE = "_" />
+	</MvIF>
+
+	<MvCOMMENT>Replace All Characters NOT: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?# </MvCOMMENT>
+	<MvASSIGN NAME = "l.remove_characters" INDEX="1"  VALUE = "{ asciichar(33) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="2"  VALUE = "{ asciichar(34) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="3"  VALUE = "{ asciichar(36) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="4"  VALUE = "{ asciichar(38) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="5"  VALUE = "{ asciichar(39) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="6"  VALUE = "{ asciichar(40) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="7"  VALUE = "{ asciichar(41) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="8"  VALUE = "{ asciichar(42) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="9"  VALUE = "{ asciichar(43) }" />
+	<MvASSIGN NAME = "l.remove_characters" INDEX="10" VALUE = "{ asciichar(44) }" />
+
+	<MvASSIGN NAME = "l.string" VALUE = "{ glosub_array(l.string, l.remove_characters, l.null) }" />
+
+	<MvASSIGN NAME = "l.space" VALUE = "{ asciichar(32) }" />
+	<MvASSIGN NAME = "l.slash" VALUE = "{ asciichar(47) }" />
+	<MvASSIGN NAME = "l.dash"  VALUE = "{ asciichar(45) }" />
+	<MvASSIGN NAME = "l.double_space_replacement" VALUE = "{ l.space_replacement $ l.space_replacement }" />
+	<MvASSIGN NAME = "l.double_slash" VALUE = "{ l.slash $ l.slash }" />
+	<MvASSIGN NAME = "l.double_dash"  VALUE = "{ l.dash $ l.dash }" />
+	<MvASSIGN NAME = "l.empty_space_replacement_segment"  VALUE = "{ l.slash $ l.space_replacement $ l.slash }" />
+	<MvASSIGN NAME = "l.empty_dashed_segment" VALUE = "{ l.slash $ l.dash $ l.slash}" />
+
+	<MvIF EXPR = "{ indexof(l.slash, l.string, 1) NE 1 }">
+		<MvASSIGN NAME = "l.string" VALUE = "{ l.slash $ l.string }" />
+	</MvIF>
+
+	<MvASSIGN NAME = "l.string" VALUE = "{ glosub(tolower(l.string), l.space, l.space_replacement) }" />
+
+
+	<MvWHILE EXPR = "{ indexof(l.double_space_replacement, l.string, 1) GT 0 }">
+		<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.double_space_replacement, l.space_replacement) }" />
+	</MvWHILE>
+
+	<MvWHILE EXPR = "{ indexof(l.double_space_replacement, l.string, 1) GT 0 OR indexof(l.double_slash, l.string, 1) GT 0 OR indexof(l.double_dash, l.string, 1) GT 0 }">
+		<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.double_space_replacement, l.space) }" />
+		<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.double_slash, l.slash) }" />
+		<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.double_dash, l.dash) }" />
+	</MvWHILE>
+	
+	<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.empty_space_replacement_segment, l.null) }" />
+	<MvASSIGN NAME = "l.string" VALUE = "{ glosub(l.string, l.empty_dashed_segment, l.null) }" />
+
+	<MvFUNCTIONRETURN VALUE = "{ l.string }" />
+</MvFUNCTION>
+
+

@@ -1,0 +1,11 @@
+<MvCOMMENT>
+ * Render_Head
+ *
+ * Renders Any Error Messages
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Head" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+	<MvEVAL EXPR = "{ Render_Css() }" />
+	
+	<MvEVAL EXPR = "{ Render_Js() }" />
+</MvFUNCTION>

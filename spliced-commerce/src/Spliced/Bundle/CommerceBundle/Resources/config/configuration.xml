@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="commerce.configuration.class">Spliced\Component\Commerce\Configuration\ConfigurationManager</parameter>
+        <parameter key="commerce.core_configuration.class">Spliced\Component\Commerce\Configuration\CoreConfiguration</parameter>
+        
+		<!-- Define our Entity Classes -->
+        <parameter key="commerce.entity.affiliate.class">Spliced\Bundle\CommerceBundle\Entity\Affiliate</parameter>
+        <parameter key="commerce.entity.category.class">Spliced\Bundle\CommerceBundle\Entity\Category</parameter>
+        <parameter key="commerce.entity.configuration.class">Spliced\Bundle\CommerceBundle\Entity\Configuration</parameter>
+        <parameter key="commerce.entity.content_page.class">Spliced\Bundle\CommerceBundle\Entity\ContentPage</parameter>
+        <parameter key="commerce.entity.checkout_custom_field.class">Spliced\Bundle\CommerceBundle\Entity\CheckoutCustomField</parameter>
+        <parameter key="commerce.entity.product.class">Spliced\Bundle\CommerceBundle\Entity\Product</parameter>
+        <parameter key="commerce.entity.product_attribute.class">Spliced\Bundle\CommerceBundle\Entity\ProductAttribute</parameter>
+        <parameter key="commerce.entity.product_attribute_option.class">Spliced\Bundle\CommerceBundle\Entity\ProductAttributeOption</parameter>
+        <parameter key="commerce.entity.product_attribute_option_value.class">Spliced\Bundle\CommerceBundle\Entity\ProductAttributeOptionValue</parameter>
+        <parameter key="commerce.entity.product_attribute_option_value_product.class">Spliced\Bundle\CommerceBundle\Entity\ProductAttributeOptionValueProduct</parameter>
+		<parameter key="commerce.entity.product_specification.class">Spliced\Bundle\CommerceBundle\Entity\ProductSpecification</parameter>
+        <parameter key="commerce.entity.product_specification_option.class">Spliced\Bundle\CommerceBundle\Entity\ProductSpecificationOption</parameter>
+        <parameter key="commerce.entity.product_specification_option_value.class">Spliced\Bundle\CommerceBundle\Entity\ProductSpecificationOptionValue</parameter>
+        <parameter key="commerce.entity.product_upsale.class">Spliced\Bundle\CommerceBundle\Entity\ProductUpsale</parameter>
+        <parameter key="commerce.entity.product_bundled_item.class">Spliced\Bundle\CommerceBundle\Entity\ProductBundledItem</parameter>
+        <parameter key="commerce.entity.product_content.class">Spliced\Bundle\CommerceBundle\Entity\ProductContent</parameter>
+        <parameter key="commerce.entity.product_tier_price.class">Spliced\Bundle\CommerceBundle\Entity\ProductTierPrice</parameter>
+        <parameter key="commerce.entity.product_image.class">Spliced\Bundle\CommerceBundle\Entity\ProductImage</parameter>
+        <parameter key="commerce.entity.manufacturer.class">Spliced\Bundle\CommerceBundle\Entity\Manufacturer</parameter>
+        <parameter key="commerce.entity.route.class">Spliced\Bundle\CommerceBundle\Entity\Route</parameter>
+        <parameter key="commerce.entity.cart.class">Spliced\Bundle\CommerceBundle\Entity\Cart</parameter>
+        <parameter key="commerce.entity.cart_item.class">Spliced\Bundle\CommerceBundle\Entity\CartItem</parameter>
+        <parameter key="commerce.entity.contact_message.class">Spliced\Bundle\CommerceBundle\Entity\ContactMessage</parameter>
+        <parameter key="commerce.entity.customer.class">Spliced\Bundle\CommerceBundle\Entity\Customer</parameter>
+        <parameter key="commerce.entity.customer_address.class">Spliced\Bundle\CommerceBundle\Entity\CustomerAddress</parameter>
+        <parameter key="commerce.entity.customer_credit_card.class">Spliced\Bundle\CommerceBundle\Entity\CustomerCreditCard</parameter>
+        <parameter key="commerce.entity.customer_profile.class">Spliced\Bundle\CommerceBundle\Entity\CustomerProfile</parameter>
+        <parameter key="commerce.entity.newsletter_subscriber.class">Spliced\Bundle\CommerceBundle\Entity\NewsletterSubscriber</parameter>
+        <parameter key="commerce.entity.order.class">Spliced\Bundle\CommerceBundle\Entity\Order</parameter>
+        <parameter key="commerce.entity.order_item.class">Spliced\Bundle\CommerceBundle\Entity\OrderItem</parameter>
+        <parameter key="commerce.entity.order_memo.class">Spliced\Bundle\CommerceBundle\Entity\OrderMemo</parameter>
+        <parameter key="commerce.entity.order_payment.class">Spliced\Bundle\CommerceBundle\Entity\OrderPayment</parameter>
+        <parameter key="commerce.entity.order_payment_memo.class">Spliced\Bundle\CommerceBundle\Entity\OrderPaymentMemo</parameter>
+        <parameter key="commerce.entity.order_shipment.class">Spliced\Bundle\CommerceBundle\Entity\OrderShipment</parameter>
+        <parameter key="commerce.entity.order_shipment_memo.class">Spliced\Bundle\CommerceBundle\Entity\OrderShipmentMemo</parameter>
+        <parameter key="commerce.entity.search_term.class">Spliced\Bundle\CommerceBundle\Entity\SearchTerm</parameter>
+        <parameter key="commerce.entity.user.class">Spliced\Bundle\CommerceBundle\Entity\User</parameter>
+        <parameter key="commerce.entity.visitor.class">Spliced\Bundle\CommerceBundle\Entity\Visitor</parameter>
+        <parameter key="commerce.entity.visitor_request.class">Spliced\Bundle\CommerceBundle\Entity\VisitorRequest</parameter>
+		
+		<!-- Define our Document Classes in an Array -->
+	    <parameter key="commerce.entity_classes" type="collection">
+	        <parameter key="affiliate">%commerce.entity.affiliate.class%</parameter>
+	        <parameter key="category">%commerce.entity.category.class%</parameter>
+	        <parameter key="configuration">%commerce.entity.configuration.class%</parameter>
+	        <parameter key="content_page">%commerce.entity.content_page.class%</parameter>
+	        <parameter key="checkout_custom_field">%commerce.entity.checkout_custom_field.class%</parameter>
+	        <parameter key="product">%commerce.entity.product.class%</parameter>
+	        <parameter key="product_attribute">%commerce.entity.product_attribute.class%</parameter>
+	        <parameter key="product_attribute_option">%commerce.entity.product_attribute_option.class%</parameter>
+	        <parameter key="product_attribute_option_value">%commerce.entity.product_attribute_option_value.class%</parameter>
+	        <parameter key="product_attribute_option_value_product">%commerce.entity.product_attribute_option_value_product.class%</parameter>
+	        <parameter key="product_specification">%commerce.entity.product_specification.class%</parameter>
+	        <parameter key="product_specification_option">%commerce.entity.product_specification_option.class%</parameter>
+	        <parameter key="product_specification_option_value">%commerce.entity.product_specification_option_value.class%</parameter>
+	        <parameter key="product_bundled_item">%commerce.entity.product_bundled_item.class%</parameter>
+	        <parameter key="product_upsale">%commerce.entity.product_upsale.class%</parameter>
+	        <parameter key="product_content">%commerce.entity.product_content.class%</parameter>
+	        <parameter key="product_image">%commerce.entity.product_image.class%</parameter>
+	        <parameter key="product_tier_price">%commerce.entity.product_tier_price.class%</parameter>
+	        <parameter key="manufacturer">%commerce.entity.manufacturer.class%</parameter>
+	        <parameter key="route">%commerce.entity.route.class%</parameter>
+	        <parameter key="cart">%commerce.entity.cart.class%</parameter>
+	        <parameter key="cart_item">%commerce.entity.cart_item.class%</parameter>
+	        <parameter key="contact_message">%commerce.entity.contact_message.class%</parameter>
+	        <parameter key="customer">%commerce.entity.customer.class%</parameter>
+	        <parameter key="customer_address">%commerce.entity.customer_address.class%</parameter>
+	        <parameter key="customer_credit_card">%commerce.entity.customer_credit_card.class%</parameter>
+	        <parameter key="customer_profile">%commerce.entity.customer_profile.class%</parameter>
+	        <parameter key="newsletter_subscriber">%commerce.entity.newsletter_subscriber.class%</parameter>
+	        <parameter key="order">%commerce.entity.order.class%</parameter>
+	        <parameter key="order_item">%commerce.entity.order_item.class%</parameter>
+	        <parameter key="order_memo">%commerce.entity.order_memo.class%</parameter>
+	        <parameter key="order_payment">%commerce.entity.order_payment.class%</parameter>
+	        <parameter key="order_payment_memo">%commerce.entity.order_payment_memo.class%</parameter>
+	        <parameter key="order_shipment">%commerce.entity.order_shipment.class%</parameter>
+	        <parameter key="order_shipment_memo">%commerce.entity.order_shipment_memo.class%</parameter>
+	        <parameter key="search_term">%commerce.entity.search_term.class%</parameter>
+	        <parameter key="user">%commerce.entity.user.class%</parameter>
+	        <parameter key="visitor">%commerce.entity.visitor.class%</parameter>
+	        <parameter key="visitor_request">%commerce.entity.visitor_request.class%</parameter>
+	    </parameter>
+	    
+	    <!-- Configuration Field Types -->
+	    <parameter key="commerce.configuration.field.array.class">Spliced\Component\Commerce\Configuration\Type\ArrayType</parameter>
+	    <parameter key="commerce.configuration.field.boolean.class">Spliced\Component\Commerce\Configuration\Type\BooleanType</parameter>
+	    <parameter key="commerce.configuration.field.countries.class">Spliced\Component\Commerce\Configuration\Type\CountriesType</parameter>
+	    <parameter key="commerce.configuration.field.email.class">Spliced\Component\Commerce\Configuration\Type\EmailType</parameter>
+	    <parameter key="commerce.configuration.field.encrypted.class">Spliced\Component\Commerce\Configuration\Type\EncryptedType</parameter>
+	    <parameter key="commerce.configuration.field.float.class">Spliced\Component\Commerce\Configuration\Type\FloatType</parameter>
+	    <parameter key="commerce.configuration.field.html.class">Spliced\Component\Commerce\Configuration\Type\HtmlType</parameter>
+	    <parameter key="commerce.configuration.field.integer.class">Spliced\Component\Commerce\Configuration\Type\IntegerType</parameter>
+	    <parameter key="commerce.configuration.field.status.class">Spliced\Component\Commerce\Configuration\Type\StatusType</parameter>
+	    <parameter key="commerce.configuration.field.text.class">Spliced\Component\Commerce\Configuration\Type\TextType</parameter>
+    </parameters> 
+
+    <services>
+    	
+        <service id="commerce.configuration" class="%commerce.configuration.class%">
+        	<argument>%commerce.entity_classes%</argument>
+        	<argument type="service" id="commerce.entity_manager" />
+        	<argument type="service" id="kernel" />
+        </service>
+        
+        <service id="commerce.core_configuration" class="%commerce.core_configuration.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<tag name="commerce.configurable" />
+        </service>
+        
+        <!-- Configuration Field Type Definitions -->
+        <service id="commerce.configuration.field.array" class="%commerce.configuration.field.array.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.boolean" class="%commerce.configuration.field.boolean.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.countries" class="%commerce.configuration.field.countries.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.email" class="%commerce.configuration.field.email.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.encrypted" class="%commerce.configuration.field.encrypted.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.float" class="%commerce.configuration.field.float.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.html" class="%commerce.configuration.field.html.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.integer" class="%commerce.configuration.field.integer.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.status" class="%commerce.configuration.field.status.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        <service id="commerce.configuration.field.text" class="%commerce.configuration.field.text.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+    </services>
+</container>

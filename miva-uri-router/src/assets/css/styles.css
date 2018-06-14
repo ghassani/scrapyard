@@ -1,0 +1,66 @@
+<style>
+	.form-actions{
+		border-top: 1px solid #c1c1c1;
+		padding-top: 10px;
+		margin-top: 10px;
+	}
+
+	input[name="Batch_Form_Action"] {
+		width: 150px;
+	}
+
+		/*table.route-list-product{
+			
+		}
+
+		table.route-list-product thead th{
+			background: #1EABBD;
+			color: #fff;
+			font-weight: bold;
+		}
+
+		table.route-list-product tbody td{
+			
+		}
+
+		.tabledetails-form th{ 
+			text-align: left;
+			width: 150px;
+		}
+		.tabledetails-settings-form th{
+			width: 250px;
+		}
+		.alert{
+			padding: 10px;
+		}
+		.alert.alert-error,
+		.alert.alert-danger{
+			background: red;
+			color: #fff;
+			font-weight:bold;
+		}
+		.alert.alert-success{
+			background: green;
+			color: #fff;
+			font-weight:bold;
+		}
+		.button{
+			background: #cecece;
+			padding: 3px;
+			border: 1px soliod #c1c1c1;
+		}
+		.form-actions{
+			padding: 10px;
+		}
+		.text-right{
+			text-align: right;
+		}
+		.text-left{
+			text-align: left;
+		}
+		.text-center{
+			text-align: center;
+		}
+
+*/
+	</style>

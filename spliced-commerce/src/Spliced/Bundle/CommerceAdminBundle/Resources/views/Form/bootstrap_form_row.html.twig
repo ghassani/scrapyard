@@ -1,0 +1,115 @@
+{#
+ money_widget
+#}
+{% block money_widget %}
+	{% spaceless %}
+		<div class="input-group">
+		  <span class="input-group-addon">{{ money_pattern|replace({"{{ widget }}" : ""}) }}</span>
+		  {{ block('form_widget_simple') }}
+		</div>
+	{% endspaceless %}
+{% endblock money_widget %}
+
+{#
+ dimensions_widget
+#}
+{% block dimensions_widget %}
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">L</span>
+		  {{ form_widget(form.length, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+	
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">W</span>
+		  {{ form_widget(form.width, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+	
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">H</span>
+		  {{ form_widget(form.height, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+{% endblock dimensions_widget %}
+
+{#
+ weight_widget
+#}
+{% block weight_widget %}
+<div class="form-group">
+	<div class="col-sm-8 col-lg-8">
+	{{ form_widget(form.weight, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+	</div>
+	<div class="col-sm-4 col-lg-4">
+	{{ form_widget(form.unit, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+	</div>
+</div>
+{% endblock weight_widget %}
+
+{#
+ form_label
+#}
+{% block form_label %}
+    {% if not compound %}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {% endif %}
+    {% if required %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+    {% endif %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}
+    	{% if help_bubble_text is defined %}
+    	<a href="javascript:void(0);" data-toggle="popover" title="{{ help_bubble_text|raw }}">?</a>
+    	{% endif %}
+    </label>
+{% endblock form_label %}
+
+
+{#
+ form_widget_simple
+#}
+{% block form_widget_simple %}
+    {% set type = type|default('text') %}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{% endblock form_widget_simple %}
+
+{#
+ widget_attributes
+#}
+{% block widget_attributes %}
+id="{{ id }}" 
+name="{{ full_name }}" 
+{% if attr.class is defined %}class="form-control {{ attr.class }}" {% else %}class="form-control" {% endif %}
+{% if read_only %}readonly="readonly" {% endif %}
+{% if disabled %}disabled="disabled" {% endif %}
+{% if required %}required="required" {% endif %}
+{% if max_length %}maxlength="{{ max_length }}" {% endif %}
+{% if pattern %}pattern="{{ pattern }}" {% endif %}
+{% for k,v in attr %}
+    {% if k != 'class' %}
+        {{ k }}="{{ v }}" 
+    {% endif %}
+{% endfor %}
+{% endblock widget_attributes %}
+
+{#
+ form_row
+#}
+{% block form_row %}
+	{% spaceless %}
+		<div class="form-group">
+		    {{ form_label(form, null, form.vars) }}
+		    {{ form_widget(form, form.vars) }}
+		    {% if help_text is defined %}
+		    	<span class="help-block">{{ help_text }}</span>
+		    {% endif %}
+			{{ form_errors(form) }}
+		</div>
+	{% endspaceless %}
+{% endblock form_row %}

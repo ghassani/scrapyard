@@ -1,0 +1,38 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Visitor:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="" class="form form-horizontal order-filter-form" method="post">
+
+</form>
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+   	<h1>Visitor <small>Browsers</small></h1>
+</div>
+
+<div class="well well-small">
+	<p>The following browser data are from visitors between {{ from|date('m/d/Y') }} to {{ to|date('m/d/Y') }}</p>
+</div>
+
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+	<thead>
+		<tr>
+			<th>Browser</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for browser,count in browsers %}
+		<tr>
+			<td>{{ browser }}</td>
+			<td>{{ count }} </td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

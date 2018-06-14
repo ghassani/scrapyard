@@ -1,0 +1,11 @@
+<h1>Contact Form Submission</h1>
+
+<ul>
+    <li><strong>Name:</strong> {{ submission.name }}</li>
+    <li><strong>E-Mail:</strong> {{ submission.email }}</li>
+    <li><strong>Phone:</strong> {{ submission.phone }}</li>
+    <li><strong>Subject:</strong> {{ submission.subject }}</li>
+    <li><strong>Comment:</strong> {{ submission.comment }}</li>
+</ul>
+
+<p>Submitted on {{ submission.createdAt|date('m/d/Y h:i a') }}</p>

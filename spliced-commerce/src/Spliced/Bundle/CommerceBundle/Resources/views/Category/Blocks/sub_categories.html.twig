@@ -1,0 +1,21 @@
+{#
+	Category/Block/sub_categories.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var categories
+#}
+{% if category is defined and category.children|length %}
+<div class="panel panel-default panel-category-tree-block">
+	<div class="panel-heading">Sub Categories}</div>
+	<ul class="list-group">
+	    {% if category.children|length %}
+            {% for c in category.children %}
+                <li class="list-group-item"><a href="{{ path('commerce_category_view_by_slug', { 'slug' : c.urlSlug }) }}">{{ c.name }}</a></li>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item text-center"><strong>No Sub Categories</strong></li>
+        {% endif %}
+	</ul>
+</div>
+{% endif %}

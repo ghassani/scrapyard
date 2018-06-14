@@ -1,0 +1,7 @@
+{% for field in form %}
+    <div class="row-fluid">
+        {{ form_widget(field) }}
+    </div>
+{% endfor %}
+{{ form_rest(form) }}
+

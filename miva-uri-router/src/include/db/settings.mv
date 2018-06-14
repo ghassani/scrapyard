@@ -1,0 +1,218 @@
+
+<MvCOMMENT>
+ * Router_Settings_Insert
+ *
+ * Insert default settings structure into the database
+</MvCOMMENT>
+<MvFUNCTION NAME = "Router_Settings_Insert" PARAMETERS = "" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Router_Settings_Insert()') }">
+	</MvIFDEF>
+
+	<MvCOMMENT>DEFAULT SETTINGS</MvCOMMENT>
+	<MvASSIGN NAME = "l.router_settings:enabled" 						VALUE = "1" />
+	<MvASSIGN NAME = "l.router_settings:not_found_enabled" 				VALUE = "1" />
+	<MvASSIGN NAME = "l.router_settings:not_found_page" 				VALUE = "NTFD" />
+	<MvASSIGN NAME = "l.router_settings:product_route_pattern" 			VALUE = "/%category_name%/product/%name%" />
+	<MvASSIGN NAME = "l.router_settings:product_route_pattern_space" 	VALUE = "-" />
+	<MvASSIGN NAME = "l.router_settings:product_add_action" 			VALUE = "1" />
+	<MvASSIGN NAME = "l.router_settings:product_update_action" 			VALUE = "2" />
+	<MvASSIGN NAME = "l.router_settings:product_delete_action" 			VALUE = "2" />
+	<MvASSIGN NAME = "l.router_settings:category_route_pattern" 		VALUE = "/category/%name%" />
+	<MvASSIGN NAME = "l.router_settings:category_add_action" 			VALUE = "1" />
+	<MvASSIGN NAME = "l.router_settings:category_update_action" 		VALUE = "2" />
+	<MvASSIGN NAME = "l.router_settings:category_delete_action" 		VALUE = "2" />
+	<MvASSIGN NAME = "l.router_settings:category_route_pattern_space" 	VALUE = "-" />
+	<MvASSIGN NAME = "l.router_settings:page_route_pattern" 			VALUE = "/%name%" />
+	<MvASSIGN NAME = "l.router_settings:page_route_pattern_space" 		VALUE = "-" />
+	<MvASSIGN NAME = "l.router_settings:page_add_action" 				VALUE = "1" />
+	<MvASSIGN NAME = "l.router_settings:page_update_action" 			VALUE = "2" />
+	<MvASSIGN NAME = "l.router_settings:page_delete_action" 			VALUE = "2" />
+
+	<MvQUERY 
+		NAME	= "Merchant" 
+		QUERY	= "{ '
+			INSERT INTO ' $ g.Store_Table_Prefix $ 'Router_Settings 
+			(
+				enabled, 
+				not_found_enabled, not_found_page, 
+				product_route_pattern,  product_route_pattern_space, 	product_add_action, 	product_update_action, 		product_delete_action, 
+				category_route_pattern, category_route_pattern_space, 	category_add_action, 	category_update_action, 	category_delete_action,
+				page_route_pattern, 	page_route_pattern_space, 		page_add_action, 		page_update_action, 		page_delete_action, 
+				extension_settings
+			) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' }" 
+		FIELDS="
+			l.router_settings:enabled, 
+			l.router_settings:not_found_enabled, 
+			l.router_settings:not_found_page,
+			l.router_settings:product_route_pattern,
+			l.router_settings:product_route_pattern_space,
+			l.router_settings:product_add_action,
+			l.router_settings:product_update_action,
+			l.router_settings:product_delete_action,
+			l.router_settings:category_route_pattern,
+			l.router_settings:category_route_pattern_space,
+			l.router_settings:category_add_action,
+			l.router_settings:category_update_action,
+			l.router_settings:category_delete_action,
+			l.router_settings:page_route_pattern,
+			l.router_settings:page_route_pattern_space,
+			l.router_settings:page_add_action,
+			l.router_settings:page_update_action,
+			l.router_settings:page_delete_action,
+			l.router_settings:extension_settings
+	">
+
+	<MvIF EXPR = "{ g.MvQUERY_Error }">
+		<MvFUNCTIONRETURN VALUE = "{ [ g.Module_Library_Utilities ].Error( 'SM-ROUTER-DB', g.MvQUERY_Error ) }">
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE =1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Routes_Settings_Update
+ *
+ * Updates Route Settings
+</MvCOMMENT>
+<MvFUNCTION NAME = "Router_Settings_Update" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Settings_Update(router_settings var)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.forward_slash" VALUE = "/" />
+
+	<MvIF EXPR = "{ indexof(l.forward_slash, l.router_settings:product_route_pattern, 1) EQ 0 }">
+		<MvASSIGN NAME = "l.router_settings:product_route_pattern" VALUE = "{ l.forward_slash $ l.router_settings:product_route_pattern }" />
+	</MvIF>
+
+	<MvIF EXPR = "{ indexof(l.forward_slash, l.router_settings:category_route_pattern, 1) EQ 0 }">
+		<MvASSIGN NAME = "l.router_settings:category_route_pattern" VALUE = "{ l.forward_slash $ l.router_settings:category_route_pattern }" />
+	</MvIF>
+
+	<MvIF EXPR = "{ indexof(l.forward_slash, l.router_settings:page_route_pattern, 1) EQ 0 }">
+		<MvASSIGN NAME = "l.router_settings:page_route_pattern" VALUE = "{ l.forward_slash $ l.router_settings:page_route_pattern }" />
+	</MvIF>
+
+	<MvASSIGN NAME = "l.router_settings:product_delete_action" VALUE = "{ tolower(l.router_settings:product_delete_action) }" />
+	<MvASSIGN NAME = "l.router_settings:category_delete_action" VALUE = "{ tolower(l.router_settings:category_delete_action) }" />
+	<MvASSIGN NAME = "l.router_settings:page_delete_action" VALUE = "{ tolower(l.router_settings:page_delete_action) }" />
+
+	<MvQUERY NAME = "Merchant" QUERY = "{ 'UPDATE ' $ g.Store_Table_Prefix $ 'Router_Settings
+		SET 
+			enabled = ?,
+			not_found_enabled = ?, 
+			not_found_page = ?, 
+			product_route_pattern = ?,
+			product_route_pattern_space = ?,
+			product_add_action = ?,
+			product_update_action = ?,
+			product_delete_action = ?,
+			category_route_pattern = ?,
+			category_route_pattern_space = ?,
+			category_add_action = ?,
+			category_update_action = ?,
+			category_delete_action = ?,
+			page_route_pattern = ?,
+			page_route_pattern_space = ?,
+			page_add_action = ?,
+			page_update_action = ?,
+			page_delete_action = ?,
+			extension_settings = ?
+		' }" FIELDS = "
+			l.router_settings:enabled, 
+			l.router_settings:not_found_enabled, 
+			l.router_settings:not_found_page,
+			l.router_settings:product_route_pattern,
+			l.router_settings:product_route_pattern_space,
+			l.router_settings:product_add_action,
+			l.router_settings:product_update_action,
+			l.router_settings:product_delete_action,
+			l.router_settings:category_route_pattern,
+			l.router_settings:category_route_pattern_space,
+			l.router_settings:category_add_action,
+			l.router_settings:category_update_action,
+			l.router_settings:category_delete_action,
+			l.router_settings:page_route_pattern,
+			l.router_settings:page_route_pattern_space,
+			l.router_settings:page_add_action,
+			l.router_settings:page_update_action,
+			l.router_settings:page_delete_action,
+			l.router_settings:extension_settings
+		">
+
+		<MvIF EXPR = "{ g.MvQUERY_Error }">
+			<MvASSIGN NAME = "l.result" VALUE = "{ Queue_Error_Message(g.MvQUERY_Error) }" />
+			<MvFUNCTIONRETURN VALUE = 0 />
+		</MvIF>
+
+		<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+
+<MvCOMMENT>
+ * Router_Settings_Load
+ *
+ * Load route settings
+</MvCOMMENT>
+<MvFUNCTION NAME = "Router_Settings_Load" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Router_Settings_Load(router_settings var)') }">
+	</MvIFDEF>
+
+	<MvOPENVIEW NAME="Merchant" VIEW="RouteSettings" QUERY="{ 'SELECT * FROM ' $ g.Store_Table_Prefix $ 'Router_Settings' }">
+
+	<MvIF EXPR = "{ g.MvOPENVIEW_Error }">
+		<MvFUNCTIONRETURN VALUE = "{ [ g.Module_Library_Utilities ].Error( 'SM-ROUTER-000011', g.MvOPENVIEW_Error ) }">
+	</MvIF>
+
+	<MvIF EXPR="{ NOT Route.d.EOF }">
+		<MvASSIGN NAME = "l.router_settings:enabled" VALUE = "{ RouteSettings.d.enabled }" />
+		<MvASSIGN NAME = "l.router_settings:not_found_enabled" VALUE = "{ RouteSettings.d.not_found_enabled }" />
+		<MvASSIGN NAME = "l.router_settings:not_found_page" VALUE = "{ RouteSettings.d.not_found_page }" />
+		<MvASSIGN NAME = "l.router_settings:product_route_pattern" VALUE = "{ RouteSettings.d.product_route_pattern }" />
+		<MvASSIGN NAME = "l.router_settings:product_route_pattern_space" VALUE = "{ RouteSettings.d.product_route_pattern_space }" />
+		<MvASSIGN NAME = "l.router_settings:product_delete_action" VALUE = "{ RouteSettings.d.product_delete_action }" />
+		<MvASSIGN NAME = "l.router_settings:product_update_action" VALUE = "{ RouteSettings.d.product_update_action }" />
+		<MvASSIGN NAME = "l.router_settings:product_add_action" VALUE = "{ RouteSettings.d.product_add_action }" />
+		<MvASSIGN NAME = "l.router_settings:category_route_pattern" VALUE = "{ RouteSettings.d.category_route_pattern }" />
+		<MvASSIGN NAME = "l.router_settings:category_route_pattern_space" VALUE = "{ RouteSettings.d.category_route_pattern_space }" />
+		<MvASSIGN NAME = "l.router_settings:category_delete_action" VALUE = "{ RouteSettings.d.category_delete_action }" />
+		<MvASSIGN NAME = "l.router_settings:category_update_action" VALUE = "{ RouteSettings.d.category_update_action }" />
+		<MvASSIGN NAME = "l.router_settings:category_add_action" VALUE = "{ RouteSettings.d.category_add_action }" />
+		<MvASSIGN NAME = "l.router_settings:page_route_pattern" VALUE = "{ RouteSettings.d.page_route_pattern }" />
+		<MvASSIGN NAME = "l.router_settings:page_route_pattern_space" VALUE = "{ RouteSettings.d.page_route_pattern_space }" />
+		<MvASSIGN NAME = "l.router_settings:page_delete_action" VALUE = "{ RouteSettings.d.page_delete_action }" />
+		<MvASSIGN NAME = "l.router_settings:page_update_action" VALUE = "{ RouteSettings.d.page_update_action }" />
+		<MvASSIGN NAME = "l.router_settings:page_add_action" VALUE = "{ RouteSettings.d.page_add_action }" />
+		<MvASSIGN NAME = "l.router_settings:extension_settings" VALUE = "{ miva_array_deserialize(RouteSettings.d.extension_settings) }" />
+	<MvELSE>
+		<MvCLOSEVIEW NAME = "Merchant" VIEW = "RouteSettings">
+		<MvFUNCTIONRETURN VALUE = 0 />
+	</MvIF>
+
+	<MvCLOSEVIEW NAME = "Merchant" VIEW = "RouteSettings">
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Router_Settings_Load_Admin
+ *
+ * Load route settings related to admin interface
+</MvCOMMENT>
+<MvFUNCTION NAME = "Router_Settings_Load_Admin" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Router_Settings_Load_Admin(router_settings var)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load(l.router_settings) }" />
+
+	<MvASSIGN NAME = "l.router_settings:admin_storeutility_url" VALUE = "{ g.secure_adminurl $ 'Screen=SUTL&Tab=SMROUTER&Module_Code=spliced-mm-uri-router&Store_Code=' $ g.Store_Code }" />
+	<MvASSIGN NAME = "l.router_settings:admin_system_url" 		VALUE = "{ g.secure_adminurl $ 'Screen=SMOD&Tab=SMROUTER&Module_Type=system&Store_Code=' $ g.Store_Code }" />
+	<MvASSIGN NAME = "l.router_settings:admin_product_url" 		VALUE = "{ g.secure_adminurl $ 'Screen=PROD&Tab=SMROUTER&&Store_Code=' $ g.Store_Code $ '&Edit_Product=' $ g.Edit_Product }" />
+	<MvASSIGN NAME = "l.router_settings:admin_category_url" 	VALUE = "{ g.secure_adminurl $ 'Screen=CTGY&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Category=' $ g.Edit_Category }" />
+	<MvASSIGN NAME = "l.router_settings:admin_page_url" 		VALUE = "{ g.secure_adminurl $ 'Screen=PAGE&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Page=' $ g.Edit_Page }" />
+
+	<MvFUNCTIONRETURN VALUE = "{ l.result }" />
+</MvFUNCTION>

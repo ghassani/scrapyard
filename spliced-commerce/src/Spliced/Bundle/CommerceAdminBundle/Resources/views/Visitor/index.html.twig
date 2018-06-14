@@ -1,0 +1,102 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Visitor:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_visitor_filter') }}" class="form form-horizontal order-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:Visitor:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Visitor <small>List</small></h1>
+	</div>
+
+    
+	{{ knp_pagination_render(visitors) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+	        <thead>
+	            <tr>
+	            	<th></th>	                	            	
+	            	<th{% if visitors.isSorted('visitor.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(visitors, 'ID', 'visitor.id') }}</th>
+	            	<th{% if visitors.isSorted('visitor.initialReferer') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(visitors, 'Initial Referer', 'visitor.initialReferer') }}</th>	
+	            	<th{% if visitors.isSorted('visitor.initialRefererUrl') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(visitors, 'Initial Referer Domain', 'visitor.initialRefererUrl') }}</th>
+	            	<th{% if visitors.isSorted('visitor.userAgent') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(visitors, 'User Agent', 'visitor.userAgent') }}</th>	                	            	    	            	
+	            	<th>Requests</th>
+	            	<th>Orders</th>
+	            	<th{% if visitors.isSorted('visitor.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(visitors, 'Created At', 'visitor.createdAt') }}</th>	                	            	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for visitor in visitors %}
+	            {% set userAgentData = parse_user_agent(visitor.userAgent, true) %}
+	            <tr>
+					<td><input type="checkbox" value="{{ visitor.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_visitor_view', { 'id' : visitor.id }) }}">{{ visitor.id }}</a></td>
+	                <td>{{ visitor.initialReferer }}</td>
+	                <td>
+	                    {% if visitor.initialRefererUrl|length %}
+	                    {% set urlData = parse_url(visitor.initialRefererUrl) %}
+	                    {{  urlData.scheme }}://{{  urlData.host }}
+	                    <br /><a href="javascript:alert('{{ visitor.initialRefererUrl }}');">Full</a>
+	                    {% endif %}
+	                </td>	
+	                <td>
+	                	{% if userAgentData|length %}
+	                		{{ userAgentData }}<br />
+	                	{% endif %}
+	                	<a href="javascript:alert('{{ visitor.userAgent }}');">Raw</a>
+	                </td>	
+	                <td>{{ visitor.requests|length }}</td>	
+	                <td>{{ visitor.orders|length }}</td> 	
+	                <td>{% if visitor.createdAt %}{{ visitor.createdAt|date('m/d/y h:i a') }}{% endif %}</td>	
+	                <td>
+		                <ul class="list-inline">
+		                    <li>
+		                        <a href="{{ path('commerce_admin_visitor_view', { 'id' : visitor.id }) }}"><i class="icon-edit"></i></a>
+		                    </li>
+		                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction" class="form-control">
+	                <option value="">Select an action</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+	    
+    	{{ knp_pagination_render(visitors) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+    </form>
+{% endblock %}

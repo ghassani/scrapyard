@@ -1,0 +1,7 @@
+<MvFUNCTION NAME = "Module_JSON" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvCOMMENT>
+		<MvIF EXPR = "{ g.Module_Function EQ 'CustomFieldList_Load_Query' }">			<MvFUNCTIONRETURN VALUE = "{ JSON_CustomFieldList_Load_Query( l.module ) }">
+	</MvCOMMENT>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>

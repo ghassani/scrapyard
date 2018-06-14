@@ -1,0 +1,30 @@
+{# 
+    Security/Form/login.html.twig
+    
+    @var optional boolean noLabels
+    @var optional boolean noSocialLogin
+#}
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+<form action="{{ path("login_check") }}" method="post" class="form-horizontal login-form">
+
+	{% if error is defined and error|length %}
+	    <div><pre>{{ error }}</pre></div>
+	{% endif %}
+	
+	{% if not noSocialLogin is defined %}
+
+	{% endif %}
+	
+	{{ form_row(form._username) }}
+	{{ form_row(form._password) }}
+
+
+			
+	<div class="form-actions">
+	<button type="submit" class="btn btn-primary">Login</button>
+	    <small><a href="{{ path('commerce_forgot_password') }}">Forgot your password?</a></small>
+	</div>
+
+	{{ form_rest(form) }}
+</form>

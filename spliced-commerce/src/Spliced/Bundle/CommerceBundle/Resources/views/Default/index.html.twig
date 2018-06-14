@@ -1,0 +1,24 @@
+{% extends 'SplicedCommerceBundle::Layouts/2columns-left.html.twig' %}
+
+{% block title %}{{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}" />
+{% endblock %}
+
+{% block left %}				
+{% endblock %}
+
+{% block pre_content %}
+{% endblock %}
+
+{% block content %}
+    <div class="block-base block-great-deals block-blue">
+		<div class="block-head">Daily Specials - <small>Don't miss out on our daily specials! New specials every day!</small></div>
+		<div class="block-content">
+		    <!-- <p class="text-center intro text-blue"></p> -->
+		    {{ commerce_top_products()|raw }}
+		</div>
+		<div class="block-foot"></div>
+	</div>
+{% endblock %}

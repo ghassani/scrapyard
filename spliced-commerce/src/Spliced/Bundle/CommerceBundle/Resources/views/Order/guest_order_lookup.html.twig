@@ -1,0 +1,49 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/default.html.twig' %}
+
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme formAlt "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% block title %}Order Status Lookup | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>Order Status Lookup</h1>
+</div>
+
+<div class="alert alert-info">
+    Use one of the following methods to lookup your order to check it's status. If you checked out while logged in, 
+    you can access all your orders from <a href="{{ path('commerce_account') }}">your account page</a>.
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-xs-12">
+        <form method="post" action="{{ path('commerce_guest_order_lookup') }}">
+            <h3>Lookup By <small>Order Number &amp; E-Mail Address</small></h3>
+            {{ form_row(form.orderNumber) }}
+            {{ form_row(form.email) }}
+
+            {{ form_rest(form) }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success"><i class="icon-search"></i> Lookup</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6 col-md-12 col-xs-12">
+        <form method="post" action="{{ path('commerce_guest_order_lookup') }}">
+            <h3>Lookup By <small>E-Mail Address &amp; Billing Zipcode</small></h3>
+            {{ form_row(formAlt.email) }}
+            {{ form_row(formAlt.billingZipcode) }}
+
+            {{ form_rest(formAlt) }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success"><i class="icon-search"></i> Lookup</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

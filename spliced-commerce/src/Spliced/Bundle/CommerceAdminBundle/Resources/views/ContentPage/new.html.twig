@@ -1,0 +1,28 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% block title %}New Content Page | {{ parent() }}{% endblock %}
+
+{% block content -%}
+    <div class="page-header">
+    	<h1>Content Page <small>Creating</small></h1>
+	</div>
+	
+	<fieldset>
+	    <form action="{{ path('commerce_admin_content_page_save') }}" class="form" method="post" {{ form_enctype(form) }}>
+	    	{{ include('SplicedCommerceAdminBundle:ContentPage:form.html.twig') }}
+
+	    	{{ form_rest(form) }}
+	    	
+		    <ul class="record-actions list-inline">
+	        	<li>
+	            	<button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</button>
+	    		</li>
+			    <li>
+			        <a href="{{ path('commerce_admin_content_page') }}" class="btn btn-warning">
+			            <i class="icon-circle-arrow-left icon-white"></i> Back to the list
+			        </a>
+			    </li>
+			</ul>
+	    </form>
+	</fieldset>
+{% endblock %}

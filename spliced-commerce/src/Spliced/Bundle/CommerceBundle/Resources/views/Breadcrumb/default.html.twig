@@ -1,0 +1,17 @@
+<div class="breadcrumbs">
+	<ul class="inline list-inline">
+		<li class="home first"><a href="{{  path('homepage') }}" title="Home">Home</a></li>
+		<li class="sep"></li>
+        {% set i = 1 %}
+        {% for crumb in breadcrumbs %}
+			
+			{% if i != breadcrumbs|length %}
+			    <li class="item{{ i }}"><a href="{{ crumb.href }}" title="{{ crumb.title }}">{{ crumb.anchor }}</a></li>
+			    <li class="sep {{ i == breadcrumbs|length-1 ? "before-last" : "" }}"></li>
+			{% else %}
+			    <li class="last item{{ i }}"><a href="{{ crumb.href }}" title="{{ crumb.title }}">{{ crumb.anchor }}</a></li>
+			{% endif %}
+			{% set i = i + 1 %}
+		{% endfor %}
+	</ul>
+</div>

@@ -1,0 +1,182 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+
+{% block title %}Order {{ order.orderNumber }} | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : order.customer} %}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Order Number {{ order.orderNumber }} <small>{{ commerce_order_status(order) }}</small></h1>
+</div>
+
+<div class="alert alert-info">
+    <p>Below is an overview of the order. Need a printable copy? <br />
+    {% if app.user and is_granted('ROLE_USER') %}
+    <a href="{{ path('account_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'format' : 'pdf' }) }}">
+        Download the order details PDF
+    </a>
+    or 
+    <a href="{{ path('account_order_view_printer_friendly', {'orderNumber' : order.orderNumber }) }}">
+        view a printer friendly version
+    </a>
+    {% else %}
+    <a href="{{ path('commerce_guest_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'format' : 'pdf', 'c' : order.protectCode }) }}">
+        Download the order details PDF
+    </a>
+    or 
+    <a href="{{ path('commerce_guest_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'c' : order.protectCode }) }}">
+        view a printer friendly version
+    </a>
+    
+    {% endif %}
+.</p></div>
+
+<div class="alert alert-warning">
+    <p>Your order is currently <strong>{{ commerce_order_status(order) }}</strong>.</p>
+    <p>Received on {{ order.completedAt|date('m/d/Y h:i a') }}. 
+    Last updated on {{ order.updatedAt|date('m/d/Y h:i a') }}</p>
+</div>
+
+<div class="row row-order-view">
+
+    <div class="col-lg-6 col-sm-6">
+        <div class="panel panel-default panel-order-billing">
+            <div class="panel-heading">Billing Address</div>
+            <div class="panel-body">
+                <address>
+                    {{ order.billingFirstName }} {{ order.billingLastName }}<br />
+                    {{ order.billingAddress }} {{ order.billingAddress2 }}<br />
+                    {{ order.billingCity }} {{ order.billingState }} {{ order.billingZipcode }}<br />
+                    {{ order.billingCountry }}
+                </address>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 col-sm-6">
+        <div class="panel panel-default panel-order-shipping">
+            <div class="panel-heading">Shipping Address</div>
+            <div class="panel-body">
+               <address>
+                    {{ order.shippingName }}<br />
+                    {% if order.shippingAttn|length %}
+                        {{ order.shippingAttn }}<br />
+                    {% endif %}
+                    {{ order.shippingAddress }} {{ order.shippingAddress2 }}<br />
+                    {{ order.shippingCity }} {{ order.shippingState }} {{ order.shippingZipcode }}<br />
+                    {{ order.shippingCountry }}
+                </address>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<br />
+
+<div class="row row-order-view">
+
+    <div class="col-lg-6 col-sm-6">
+        <div class="panel panel-default panel-order-shipment">
+            <div class="panel-heading">Shipping Method</div>
+            <div class="panel-body">
+                {{ shippingMethod.label }} {{ shippingMethod.label2 }}<br />
+                <strong>Shipping Cost:</strong> ${{ order.shipment.shipmentPaid|number_format(2) }}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 col-sm-6">
+        <div class="panel panel-default panel-order-shipping">
+            <div class="panel-heading">Payment Method</div>
+            <div class="panel-body">
+                {{ paymentMethod.label }} {{ paymentMethod.label2 }}<br />
+                {% if paymentMethod.acceptsCreditCards and  order.payment.creditCard|length %}
+                Credit Card Last Four: {{ order.payment.creditCard.lastFour }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% if order.shipment|length and order.shipment.memos|length %}
+<h3>Shipment Information</h3>
+<table class="table-condensed table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Tracking Number</th>
+			<th>Shipper</th>
+			<th></th>
+		</tr>
+	</thead>
+    <tbody>
+        {% for memo in order.shipment.memos %}
+            <tr>
+                <td>{{ memo.createdAt|date('m/d/Y h:i a') }}</td>
+                <td>{{ memo.trackingNumber }}</td>
+                <td>{{ shippingMethod.label }} {{ shippingMethod.label2 }}</td>
+                <td><a href="{{ shippingMethod.getOption('tracking_url')|replace({"%s":memo.trackingNumber}) }}" target="blank" title="Track Shipment"><i class="icon-road"></i> Track</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+
+{# if order.payment|length and order.payment.memos|length %}
+<h3>Payments Recieved</h3>
+<table class="table-condensed table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Amount Recieved</th>
+			<th>Method</th>
+			<th></th>
+		</tr>
+	</thead>
+    <tbody>
+        {% for memo in order.payment.memos %}
+            <tr>
+                <td>{{ memo.createdAt|date('m/d/Y h:i a') }}</td>
+                <td>${{ memo.amountPaid }}</td>
+                <td>{{ paymentMethod.label }} {{ paymentMethod.label2 }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif #}
+
+<h3>Ordered Items</h3>
+
+{{ include("SplicedCommerceBundle:Order:order_items_table.html.twig") }}
+
+{% if order.customFields|length %}
+    {% for customFieldValue in order.customFields %}
+        {% if customFieldValue.fieldValue|length %}
+            <div><strong>{{ customFieldValue.field.fieldLabel }}:</strong> {{ customFieldValue.fieldValue }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div class="form-actions">
+    {% if app.user and is_granted('ROLE_USER') %}
+    <a href="{{ path('account_order_view_printer_friendly', {'orderNumber' : order.orderNumber }) }}" class="btn btn-info"><i class="icon-print"></i> View Printable Version</a>
+    <a href="{{ path('account_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'format' : 'pdf' }) }}" class="btn btn-info"><i class="icon-download-alt"></i> Download Printable PDF</a>
+    <a href="{{ path('account') }}" class="btn btn-warning">Back To Account</a>
+    {% else %}
+    <a href="{{ path('commerce_guest_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'c' : order.protectCode }) }}" class="btn btn-info"><i class="icon-print"></i> View Printable Version</a>
+    <a href="{{ path('commerce_guest_order_view_printer_friendly', {'orderNumber' : order.orderNumber, 'format' : 'pdf', 'c' : order.protectCode }) }}" class="btn btn-info"><i class="icon-download-alt"></i> Download Printable PDF</a>
+    {% endif %}
+</div>
+{% endblock content %}

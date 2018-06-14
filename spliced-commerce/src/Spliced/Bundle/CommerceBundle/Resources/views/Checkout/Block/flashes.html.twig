@@ -1,0 +1,17 @@
+{% set flashTypes = {
+    'checkout_error' : 'alert-danger', 
+    'checkout_success' : 'alert-success',
+    'checkout_info' : 'alert-info',
+    'checkout_warning' : 'alert-warning'
+} %}
+
+{% for flashType,class in flashTypes %}
+    {% if app.session.flashBag.has(flashType) %}
+        {% for message in app.session.flashBag.get(flashType) %}
+        <div class="main-alert alert {{ class }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message|raw }}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endfor %}

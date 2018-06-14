@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <!--
+    <parameters>
+        <parameter key="spliced_commerce_admin.example.class">Spliced\Bundle\CommerceAdminBundle\Example</parameter>
+    </parameters>
+    -->
+    <services>
+
+		<!--
+			Exception Listener
+		-->
+		<service id="commerce.admin.listener.exception" class="Spliced\Component\Commerce\EventListener\ExceptionEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    <argument type="service" id="templating" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="kernel" />
+		    <argument type="service" id="commerce.logger" />
+		    <tag name="kernel.event_listener" event="kernel.exception" method="onAdminKernelException" />
+		</service>
+        
+		<!--
+			Order Listener
+		-->
+		<service id="commerce.admin.listener.order" class="Spliced\Component\Commerce\EventListener\OrderEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    <argument type="service" id="commerce.order_manager" />
+		    <argument type="service" id="commerce.helper.order" />
+		    <argument type="service" id="templating" />
+		    <argument type="service" id="mailer" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.order.update" method="onOrderUpdate" />
+		    <tag name="kernel.event_listener" event="commerce.order.shipped" method="onOrderShipped" />
+		    <tag name="kernel.event_listener" event="commerce.order.shipment.update" method="onOrderShipmentUpdate" />
+		    <tag name="kernel.event_listener" event="commerce.order.payment.update" method="onOrderPaymentUpdate" />
+		    <tag name="kernel.event_listener" event="commerce.order.return" method="onOrderReturn" />
+		    <tag name="kernel.event_listener" event="commerce.order.cancel" method="onOrderCancel" />
+		    <tag name="kernel.event_listener" event="commerce.order.incomplete_followup" method="onIncompleteOrderFollowupNotification" />
+		</service>
+		
+        
+		<!--
+			Category Admin Listener
+		-->
+		<service id="commerce.admin.listener.category" class="Spliced\Component\Commerce\EventListener\CategoryAdminEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.category.save" method="onCategorySave" />
+		    <tag name="kernel.event_listener" event="commerce.category.update" method="onCategoryUpdate" />
+		    
+		</service>
+
+        
+		<!--
+			Product Admin Listener
+		-->
+		<service id="commerce.admin.listener.product" class="Spliced\Component\Commerce\EventListener\ProductAdminEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.product.save" method="onProductSave" />
+		    <tag name="kernel.event_listener" event="commerce.product.update" method="onProductUpdate" />
+		    <tag name="kernel.event_listener" event="commerce.product.delete" method="onProductDelete" />
+		    <tag name="kernel.event_listener" event="commerce.product.category.add" method="onProductCategoryAdd" />
+		    <tag name="kernel.event_listener" event="commerce.product.category.delete" method="onProductCategoryDelete" />
+		    <tag name="kernel.event_listener" event="commerce.product.image.add" method="onProductImageAdd" />
+		    <tag name="kernel.event_listener" event="commerce.product.image.delete" method="onProductImageDelete" />
+		</service>
+		
+		<!--
+			Product Attribute Option Admin Listener
+		-->
+		<service id="commerce.admin.listener.product.attribute_option" class="Spliced\Component\Commerce\EventListener\ProductAttributeOptionAdminEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.product.attribute_option.save" method="onProductAttributeOptionSave" />
+		    <tag name="kernel.event_listener" event="commerce.product.attribute_option.update" method="onProductAttributeOptionUpdate" />
+			<tag name="kernel.event_listener" event="commerce.product.attribute_option.delete" method="onProductAttributeOptionDelete" />
+			<tag name="kernel.event_listener" event="commerce.product.attribute_option.value.delete" method="onProductAttributeOptionValueDelete" />
+		</service>
+		
+		<!--
+			Product Specification Option Admin Listener
+		-->
+		<service id="commerce.admin.listener.product.specification_option" class="Spliced\Component\Commerce\EventListener\ProductSpecificationOptionAdminEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.product.specification_option.save" method="onProductSpecificationOptionSave" />
+		    <tag name="kernel.event_listener" event="commerce.product.specification_option.update" method="onProductSpecificationOptionUpdate" />
+			<tag name="kernel.event_listener" event="commerce.product.specification_option.delete" method="onProductSpecificationOptionDelete" />
+			<tag name="kernel.event_listener" event="commerce.product.specification_option.value.delete" method="onProductSpecificationOptionValueDelete" />
+		</service>
+		
+
+		<!--
+			Cms Page Admin Listener
+		-->
+		<service id="commerce.admin.listener.exception" class="Spliced\Component\Commerce\EventListener\ContentPageAdminEventListener">
+		    <argument type="service" id="commerce.admin.configuration" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.cms_page.save" method="onContentPageSave" />
+		    <tag name="kernel.event_listener" event="commerce.cms_page.update" method="onContentPageUpdate" />
+		    <tag name="kernel.event_listener" event="commerce.cms_page.delete" method="onContentPageDelete" />
+		</service>
+		
+    </services>
+
+
+</container>

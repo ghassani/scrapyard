@@ -1,0 +1,109 @@
+{% macro cart_item_row(item, userDataForms) %}
+	{% import _self as helper %}
+		<tr id="item-{{ item.id }}">
+			<td class="item-remove text-center"><input type="checkbox" name="cart[{{ item.id  }}][remove]" value="1" /></td>
+			<td class="item-image">				
+				<a href="{{ path('commerce_product_view_by_slug', { 'slug' : item.product.urlSlug }) }}">
+					{% if item.product.images|length %}
+						<img class="img-rounded" src="{{  commerce_resize_product_image(item.product.images.first, commerce_get_config('commerce.product.image_cart_width'), commerce_get_config('commerce.product.image_cart_height')) }}" alt="{{ item.product.name }}" />
+					{% else %}
+						<img class="img-rounded" src="http://placehold.it/{{ commerce_get_config('commerce.product.image_cart_width') ~ 'x' ~ commerce_get_config('commerce.product.image_cart_height') }}" alt="{{ item.product.name }}" />
+					{% endif %}
+				</a>
+			</td>
+			<td class="item-sku"><a href="{{ path('commerce_product_view_by_slug', { 'slug' : item.product.urlSlug }) }}" class="product-link">{{ item.product.sku }}</a></td>
+			<td class="item-name">
+				<a href="{{ path('commerce_product_view_by_slug', { 'slug' : item.product.urlSlug }) }}" class="product-link">{{ item.product.name }}</a>
+				{% if item.priceAdjustmentType|length and 0 <= item.priceAdjustment %}
+						
+						{% if item.priceAdjustmentType == 1 %}
+						&nbsp;-&nbsp;<small>Adds ${{ item.priceAdjustment|number_format(2) }} each</small>
+						{% elseif item.priceAdjustmentType == 2 %}
+						&nbsp;-&nbsp;<small>Saves you ${{ item.priceAdjustment|number_format(2) }} each</small>
+						{% elseif item.priceAdjustmentType == 3 %}
+						&nbsp;-&nbsp;<small>{{ item.priceAdjustment|number_format(0) }}% off each</small>
+						{% elseif item.priceAdjustmentType == 4 %}
+						&nbsp;-&nbsp;<small>Adds {{ item.priceAdjustment|number_format(0) }}% each</small>
+						{% elseif item.priceAdjustmentType == 5 %}
+						&nbsp;-&nbsp;<small>For ${{ item.priceAdjustment|number_format(2) }} each</small>
+						{% endif %}
+					{% endif %}
+				{% if item.isChild %}
+					<ul class="item-child-requirement-list">
+						<li>Required by {{ item.parent.product.name }}
+							{% if item.parent.isChild %}
+								{{ helper.cart_item_parent_requirement_parent(item.parent) }}
+							{% endif %}
+						</li>
+					</ul>
+				{% endif %}
+			</td>
+			<td class="item-quantity">
+				<div class="form-group">
+					<input type="hidden" value="{{ item.product.id }}" name="cart[{{ item.id  }}][product]" />
+					<input type="hidden" value="{{ item.isChild ? item.parent.id : null }}" name="cart[{{ item.id  }}][parent]" />
+									
+					{% if item.nonRemovable or item.product.hasPriceAlteringAttributes %}
+						<input type="hidden" value="{{ item.quantity}}" name="cart[{{ item.id  }}][quantity]" />
+						{{ item.quantity}}
+						{%  if item.product.hasPriceAlteringAttributes and not item.nonRemovable %}
+							<a href="{{  path('commerce_cart_add', { 'id' : item.product.id }) }}">
+								<span class="glyphicon glyphicon-plus"></span> Add Another
+							</a>
+						{% endif %}
+					{% else %}
+						<input type="text" class="form-control quantity" value="{{ item.quantity}}" size="3" name="cart[{{ item.id  }}][quantity]" />
+					{% endif %}
+				</div>
+			</td>
+			<td class="item-price">
+				{{ include('SplicedCommerceBundle:Product:price.html.twig', { 'product' : item.product, 'cartItem' : item }) }}
+			</td>
+			<td class="item-ext-price">
+				{{ include('SplicedCommerceBundle:Product:ext_price.html.twig', { 'product' : item.product, 'cartItem' : item }) }}
+                {% set itemTax = commerce_product_tax(item.product, item) %}
+				{% if itemTax > 0 %}
+				 	<div class="cart-item-tax"><small>+ ${{ itemTax|number_format(2) }} tax</small></div>
+				{% endif %}
+			</td>	
+			<td class="item-actions">
+				{% if not item.nonRemovable %}
+				<a href="{{ path('commerce_cart_remove', { 'itemId' : item.id}) }}" class="cart-remove-item" rel="{{ item.id }}"><i class="icon-trash"></i></a>
+				{% endif %}
+			</td>
+		</tr>
+		{% if userDataForms[item.id] is defined and userDataForms[item.id]|length %}
+			<tr>
+				<td></td>
+				<td colspan="6">
+					{% form_theme userDataForms[item.id] "SplicedCommerceBundle:Form:bootstrap_form_row_product_attribute_user_data.html.twig" %}
+					<div class="form-horizontal">
+						{{ form_rest(userDataForms[item.id]) }}
+					</div>
+				</td>
+			</tr>
+		{% endif %}
+		
+		{% if item.children|length %}
+			{% for child in item.children %}
+				{{ helper.cart_item_row(child, userDataForms) }}
+			{% endfor %}
+		{% endif %}
+{% endmacro %}
+
+					
+{% macro cart_item_parent_requirement_parent(item) %}
+	{% import _self as helper %}
+		<ul>
+			<li>Which is required by {{ item.parent.product.name }}
+				{% if item.parent.isChild %}
+					{{ helper.cart_item_parent_requirement_parent(item.parent) }}
+				{% endif %}
+			</li>
+		</ul>
+{% endmacro %}
+
+{% macro cart_item_modal_row(item) %}
+	{% import _self as helper %}
+	
+{% endmacro %}

@@ -1,0 +1,67 @@
+{% macro product_image_prototype(prototype, product) %}
+	{% form_theme prototype "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+		<tr class="main-body product-image-__name__">
+		        <td>
+		            {{ form_row(prototype.uploadedImage) }}
+		        </td>
+		        <td></td>
+		        <td></td>
+		        <td>{{ form_row(prototype.isMain) }}</td>
+		        <td><a href="javascript:void(0);" class="delete-product-image" title="Delete Image"><i class="icon icon-trash"></i></a></td>
+		</tr>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro product_image(image, product) %}
+	{% form_theme image "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+		<tr class="main-body product-image-{{ image.vars.data.id }}">
+			<td>
+				<img src="{{  commerce_resize_product_image(image.vars.data, 200, 99) }}" class="img-rounded" />
+			</td>
+		    <td>
+		    	{{ image.vars.data.filePath }}{{ image.vars.data.fileName }}
+			</td>
+		    <td>{{ image.vars.data.fileType }}</td>
+		    <td><i class="{{ image.vars.data.isMain ? 'icon-check icon-green' : 'icon-remove icon-red' }}"></i></td>
+		    <td>
+		    	<a href="{{ path('commerce_admin_product_image_delete', {'productId' : product.id, 'imageId' : image.vars.data.id }) }}" class="delete-product-image" title="Delete Image"><i class="icon icon-trash"></i></a>
+			</td>
+		</tr>
+    {% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<table class="table table-striped table-bordered table-condensed product-image-table">
+	<thead>
+		<tr>
+			<th>Thumbnail</th>
+			<th>File Path</th>
+			<th>File Type</th>
+			<th>Is Main Photo</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% if form.images|length %}
+	    	{% for image in form.images %}
+	    	    {{ renderHelper.product_image(image, product) }}
+	    	{% endfor %}
+		{% endif %}
+		<tr class="no-results {{ form.images|length ? 'hide' : '' }}">
+			<td colspan="5" class="text-center">
+		    	<strong>No Images Found</strong>
+		    </td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th colspan="5" class="text-right">
+			    <a class="btn btn-primary btn-sm add-product-image" href="javascript:void(0);" data-prototype="{{ renderHelper.product_image_prototype(form.images.vars.prototype)|e }}" title="Add Image"><i class="icon icon-plus"></i> Add Image</a>
+			</th>
+	    </tr>
+	</tfoot>
+</table>
+

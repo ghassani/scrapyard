@@ -1,0 +1,61 @@
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+<div class="checkout-login">
+    <div class="page-header">
+        <h1>Checkout</h1>
+    </div>
+    
+    {{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+    {{ include("SplicedCommerceBundle:Checkout/Block:flashes.html.twig") }}
+    
+    {{ form_errors(form) }}    
+    
+    {{ include("SplicedCommerceBundle:Security/Block:social_login_inline.html.twig") }}
+    
+    <div class="row">
+
+    	<div class="col-lg-6 col-sm-6">
+    		<div class="page-header">
+    		    <h3>New Customers</h3>
+    		</div>
+                <form method="post" action="{{ path('commerce_checkout') }}" class="checkout-form" novalidate>
+        			        
+        			{{ form_row(form.billingFirstName) }}
+        			{{ form_row(form.billingLastName) }}
+        			{{ form_row(form.email) }}
+        			
+
+                    {% if not is_granted('ROLE_USER') and form.customer is defined  %}
+                    {% form_theme form.customer 'SplicedCommerceBundle:Form:repeated_password_field_labeless.html.twig' %}
+  
+                    <div class="alert alert-info">You can optionally provide a password to register an account. This will allow you to keep track of your order easier, as well as make future purchases a breeze</div>
+                    
+                    {% form_theme form.customer "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6">
+                            {{ form_row(form.customer.plainPassword) }}
+                        </div>
+                    </div>
+                    
+                    {{ form_rest(form.customer) }}
+                    
+                    {% endif %}
+
+        
+        			<div class="form-actions">
+        				<ul class="unstyled list-unstyled">
+        					<li><button type="submit" class="btn btn-block btn-primary checkout-disable-on-submit" id="checkout-start-button">Continue Checkout</button></li>
+        				</ul>
+        			</div>
+        			{{ form_rest(form) }}
+        		</form>
+    	</div>
+    	<div class="col-lg-6 col-sm-6">
+    		<div class="page-header">
+    		    <h3>Existing Customers Please Login Here</h3>
+    		</div>
+    		{{ render(controller('SplicedCommerceBundle:Security:loginBlock', {'withLabels' : false})) }}
+    	</div>
+    	
+    </div>
+</div>

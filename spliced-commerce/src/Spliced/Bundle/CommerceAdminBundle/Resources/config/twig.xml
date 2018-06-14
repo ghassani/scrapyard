@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="commerce.twig.extension.text.class">Spliced\Component\Commerce\Twig\Extension\TextExtension</parameter>
+        <parameter key="commerce.twig.extension.router.class">Spliced\Component\Commerce\Twig\Extension\RouterExtension</parameter>
+        <parameter key="commerce.twig.extension.configuration.class">Spliced\Component\Commerce\Twig\Extension\ConfigurationExtension</parameter>
+        <parameter key="commerce.twig.extension.product.class">Spliced\Component\Commerce\Twig\Extension\ProductExtension</parameter>
+        <parameter key="commerce.twig.extension.product_price.class">Spliced\Component\Commerce\Twig\Extension\ProductPriceExtension</parameter>
+        <parameter key="commerce.twig.extension.controller.class">Spliced\Component\Commerce\Twig\Extension\ControllerExtension</parameter>
+    	<parameter key="commerce.twig.extension.shipping_manager.class">Spliced\Component\Commerce\Twig\Extension\ShippingManagerExtension</parameter>
+    	<parameter key="commerce.twig.extension.payment_manager.class">Spliced\Component\Commerce\Twig\Extension\PaymentManagerExtension</parameter>
+    	<parameter key="commerce.twig.extension.order.class">Spliced\Component\Commerce\Twig\Extension\OrderExtension</parameter>
+    	<parameter key="commerce.twig.extension.cart.class">Spliced\Component\Commerce\Twig\Extension\CartExtension</parameter>
+    	<parameter key="commerce.twig.extension.encryption.class">Spliced\Component\Commerce\Twig\Extension\EncryptionExtension</parameter>
+    	<parameter key="commerce.twig.extension.visitor.class">Spliced\Component\Commerce\Twig\Extension\VisitorExtension</parameter>
+    	<parameter key="commerce.twig.extension.locale.class">Spliced\Component\Commerce\Twig\Extension\LocaleExtension</parameter>
+    	<parameter key="commerce.twig.extension.multiple_app_kernel.class">Spliced\Component\Commerce\Twig\Extension\MultipleAppKernelExtension</parameter>
+    </parameters>
+    
+    <services>
+        <service id="commerce.twig.extension.text" class="%commerce.twig.extension.text.class%"  public="false">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="commerce.twig.extension.router" class="%commerce.twig.extension.router.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.router" />
+        </service>
+
+        <service id="commerce.twig.extension.configuration" class="%commerce.twig.extension.configuration.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.admin.configuration" />
+        </service>
+
+        <service id="commerce.twig.extension.product" class="%commerce.twig.extension.product.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.admin.configuration" />
+            <argument type="service" id="commerce.image_manager" />
+        </service>
+
+        <service id="commerce.twig.extension.product_price" class="%commerce.twig.extension.product_price.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.helper.product.price" />
+        </service>
+
+        <service id="commerce.twig.extension.order" class="%commerce.twig.extension.order.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.helper.order" />
+        </service>
+        
+        <service id="commerce.twig.extension.encryption" class="%commerce.twig.extension.encryption.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.security.encryption_manager" />
+        </service>
+        
+        <service id="commerce.twig.extension.cart" class="%commerce.twig.extension.cart.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.cart" />
+            <argument type="service" id="commerce.helper.product.price" />
+        </service>
+
+        <service id="commerce.twig.extension.controller" class="%commerce.twig.extension.controller.class%" public="false">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="commerce.twig.extension.shipping_manager" class="%commerce.twig.extension.shipping_manager.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.shipping_manager" />
+        </service>
+        
+        <service id="commerce.twig.extension.payment_manager" class="%commerce.twig.extension.payment_manager.class%"  public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="commerce.payment_manager" />
+        </service>
+        
+        <service id="commerce.twig.extension.visitor" class="%commerce.twig.extension.visitor.class%"  public="false">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="twig.extension.debug_helper" class="Spliced\Component\Twig\Extension\VariableHelperExtension"  public="false">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="twig.extension.chart" class="Spliced\Bundle\CommerceAdminBundle\Twig\Extension\ChartExtension"  public="true">
+            <tag name="twig.extension" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service> 
+        
+        <service id="twig.extension.locale" class="%commerce.twig.extension.locale.class%">
+            <tag name="twig.extension" />
+        </service> 
+        
+        <service id="twig.extension.multiple_app_kernel" class="%commerce.twig.extension.multiple_app_kernel.class%">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service> 
+    </services>
+</container>

@@ -1,0 +1,193 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Order:content_section_header.html.twig') }}
+{% endblock %}
+
+
+{% block left -%}
+
+<ul class="list-unstyled order-dates">
+	<li><span class="label label-info">Started: {{ order.createdAt|date('m/d/Y h:i a') }}</span></li>
+	<li><span class="label label-success">Completed: {{ order.completedAt|date('m/d/Y h:i a') }}</span></li>
+	<li><span class="label label-default">Last Updated: {{ order.updatedAt|date('m/d/Y h:i a') }}</span></li>
+	<li><span class="label label-warning">Start IP: {{ order.startIp }} - Finish IP: {{ order.finishIp }}</span></li>
+</ul>
+
+<ul class="nav nav-pills nav-stacked">
+  <li class="">
+    <a href="#Overview">
+      <span class="badge pull-right">{{ order.orderStatus }}</span>
+      Overview
+    </a>
+  </li>
+  
+  <li class="">
+    <a href="#Customer">
+      Customer
+    </a>
+  </li>
+  
+  {% if order.payment|length %}
+  <li class="">
+    <a href="#Payment"><span class="badge pull-right">{{ order.payment.paymentStatus }}</span>Payment</a>
+    <ul>
+    	<li>{{ get_payment_provider(order.payment.paymentMethod).getOption('label') }}</li>
+    </ul>
+  </li>
+  {% endif %}
+  
+  {% if order.shipment|length %}
+  <li class="">
+    <a href="#Shipment"><span class="badge pull-right">{{ order.shipment.shipmentStatus }}</span>Shipment</a>
+	<ul>
+		<li>{{ get_shipping_provider(order.shipment.shipmentProvider).getMethod(order.shipment.shipmentMethod).getOption('label') }}</li>
+	</ul>
+  </li>
+  {% endif %}
+  
+  {% if order.visitor|length %}
+  <li class="">
+    <a href="#Vistitor"><span class="badge pull-right">{{ order.visitor.requests|length }} Requests</span>Visit Information</a>
+  </li>
+  {% endif %}
+  
+  <li class="">
+    <a href="#Memos"><span class="badge pull-right">{{ order.memos|length }}</span>Memos</a>
+  </li>
+</ul>
+{% endblock %}
+
+
+
+{% block content -%}
+
+<div class="page-header">
+	<h1>Order <small>{{ order.orderNumber|length ? order.orderNumber : 'INCOMPLETE' }}</small>
+	<small class="pull-right"><span class="label label-info">{{ order.orderStatus }}</span></small>
+	</h1>
+</div>
+
+<div class="page-header">
+	<h2 id="Overview">Overview</h2>
+</div>
+	<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+		<tr>
+			<th>Billing Address</th>
+			<th>Shipping Address</th>
+		</tr>
+		<tr>
+			<td>
+				{{ order.billingFirstName }} {{ order.billingLastName }} <br />
+				{{ order.billingAddress}} {{ order.billingAddress2 }} <br />
+				{{ order.billingCity }}, {{ order.billingState }} {{ order.billingZipcode }} <br />
+				{{ order.billingCountry }}
+			</td>
+			<td>
+				{{ order.shippingName }} <br />
+				{% if order.shippingAttn|length %}
+					{{ order.shippingAttn }} <br />
+				{% endif %}
+				{{ order.shippingAddress}} {{ order.shippingAddress2 }} <br />
+				{{ order.shippingCity }}, {{ order.shippingState }} {{ order.shippingZipcode }} <br />
+				{{ order.shippingCountry }}
+			</td>
+		</tr>
+		<tr>
+			<th>Shipping Method</th>
+			<th>Payment Method</th>
+		</tr>
+		<tr>
+			<td>
+				{% if order.shipment|length %}
+					{{ get_shipping_provider(order.shipment.shipmentProvider).getMethod(order.shipment.shipmentMethod).getOption('label') }}
+					{{ get_shipping_provider(order.shipment.shipmentProvider).getMethod(order.shipment.shipmentMethod).getOption('label2') }}
+				{% endif %}
+			</td>
+			<td>
+		
+				{% if order.payment|length %}
+					{{ get_payment_provider(order.payment.paymentMethod).getOption('label') }}
+					{% if get_payment_provider(order.payment.paymentMethod).acceptsCreditCards %}
+						{% if order.payment.creditCard.isEncrypted() %}
+							<div>Card Number: {{ commerce_decrypt(order.protectCode, order.payment.creditCard.cardNumber) }}</div>
+						{% else %}
+							<div>Card Number: XXXX-XXXX-XXXX-{{ order.payment.creditCard.lastFour }}</div>
+						{% endif %}
+						<div>Expiration Date: {{ order.payment.creditCard.cardExpiration }}</div>
+						<div>CVV: {{ order.payment.creditCard.cardCvv }}</div>
+					{% endif %}
+				{% endif %} 
+			</td> 
+		</tr>
+	</table>	
+
+	
+	{{ include('SplicedCommerceAdminBundle:Order:items_table.html.twig') }}
+	
+<hr />
+			
+<div class="page-header">
+	<h2 id="Customer">Customer <small class="pull-right"><span class="label label-info">{{ order.customer|length ? 'Registered' : 'Guest' }}</span></small></h2>
+</div>
+
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+	<tbody>
+		<tr>
+			<th>E-Mail</th>
+			<td>{{ order.email }}</td>
+			<th>Account</th>
+			<td>
+				{% if order.customer|length %}
+					<a href="#">Registered</a>
+				{% else %}
+					Guest
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th>Billing Phone</th>
+			<td>{{ order.billingPhoneNumber|length ? order.billingPhoneNumber : '-' }}</td>
+			<th>Shipping Phone</th>
+			<td>{{ order.shippingPhoneNumber|length ? order.shippingPhoneNumber : '-' }}</td>
+		</tr>
+	</tbody>
+</table>
+			
+<hr />
+
+{% if order.payment|length %}	
+	<div class="page-header">
+		<h2 id="Payment">Payment <small class="pull-right"><span class="label label-info">{{ order.payment.paymentStatus }}</span></small></h2>
+	</div>
+
+	{{ include('SplicedCommerceAdminBundle:Order:payment_memo_table.html.twig') }}
+	
+	<hr />
+{% endif %}
+
+{% if order.shipment|length %}
+	<div class="page-header">	
+		<h2 id="Shipment">Shipment <small class="pull-right"><span class="label label-info">{{ order.shipment.shipmentStatus }}</span></small></h2>
+	</div>
+	
+	{{ include('SplicedCommerceAdminBundle:Order:shipment_memo_table.html.twig') }}
+	
+	<hr />
+{% endif %}
+
+{% if order.visitor|length %}
+	<div class="page-header">	
+		<h2 id="Visitor">Visitor Information <small class="pull-right"><span class="label label-info">{{ order.visitor.requests|length }} Requests</span></small></h2>
+	</div>
+	
+	
+	{{ include('SplicedCommerceAdminBundle:Order:visitor_information_table.html.twig') }}
+{% endif %}
+
+<div class="page-header">
+	<h2 id="Memos">Memos</h2>
+</div>
+{{ include('SplicedCommerceAdminBundle:Order:memos_table.html.twig') }}
+
+{% endblock %}

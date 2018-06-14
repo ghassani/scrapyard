@@ -1,0 +1,19 @@
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded visitor-request-table">
+	<thead>
+		<tr>
+			<th>Time</th>
+			<th>Request Path</th>
+			<th>Referer</th>
+		</tr>
+	</thead>
+	<tbody>
+	
+		{% for request in visitor.requests %}
+			<tr>
+				<td>{{ request.createdAt|date('m/d - h:i a') }}</td>
+				<td>{{ request.requestedPath }}</td>
+				<td>{{ request.referer }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

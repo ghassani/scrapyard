@@ -1,0 +1,70 @@
+{% macro product_tier_price_prototype(prototype) %}
+	{% form_theme prototype "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+        <tr class="main-body tier-price-__name__">
+    	    <td>{{ form_row(prototype.minQuantity) }}</td>
+    		<td>{{ form_row(prototype.maxQuantity) }}</td>
+    		<td>{{ form_row(prototype.adjustmentType) }}</td>
+    		<td>{{ form_row(prototype.adjustment) }}</td>
+    		<td>{{ form_row(prototype.options) }}</td>
+    		<td>
+    		    <a href="javascript:void(0);" class="delete-product-price-tier" title="Delete Tier Price">
+    		        <i class="icon icon-trash"></i>
+    		    </a>
+    		</td>
+    	</tr> 
+    {% endspaceless %}
+{% endmacro %}
+
+
+{% macro product_tier_price(tierPrice, product) %}
+	{% form_theme tierPrice "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+        <tr class="main-body tier-price-{{ tierPrice.vars.data.id }}">
+    	    <td>{{ form_row(tierPrice.minQuantity) }}</td>
+    		<td>{{ form_row(tierPrice.maxQuantity) }}</td>
+    		<td>{{ form_row(tierPrice.adjustmentType) }}</td>
+    		<td>{{ form_row(tierPrice.adjustment) }}</td>
+    		<td>{{ form_row(tierPrice.options) }}</td>
+    		<td>
+    			<a href="{{ path('commerce_admin_product_tier_price_delete', {'productId' : product.id, 'tierPriceId' : tierPrice.vars.data.id }) }}" class="delete-product-price-tier" data-target="tr.tier-price{{ tierPrice.vars.data.id }}" title="Delete Tier Price">
+        			<i class="icon icon-trash"></i>
+        		</a>
+    		</td>
+    	</tr> 
+    {% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<table class="table table-striped table-bordered table-condensed product-price-tier-table">
+	<thead>
+		<tr>
+			<th>Min Quantity</th>
+			<th>Max Quantity</th>
+			<th>Adjustment Type</th>
+			<th>Adjustment</th>
+			<th>Options</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="6" class="text-right">
+			    <a class="btn btn-primary btn-sm add-product-price-tier" href="javascript:void(0);" data-prototype="{{ renderHelper.product_tier_price_prototype(form.tierPrices.vars.prototype)|e }}" title="Add Tier"><i class="icon icon-plus"></i> Add Tier</a>
+			</th>
+	    </tr>
+	</tfoot>
+	<tbody>
+		{% if form.tierPrices|length %}
+	        {% for tierPrice in form.tierPrices %}
+	        	{{ renderHelper.product_tier_price(tierPrice, product) }}
+	        {% endfor %}
+	    {% endif %}
+	    <tr class="no-results {{  form.tierPrices|length ? 'hide' : '' }}">
+	        <td class="text-center" colspan="6">
+	            <strong>No Tier Pricing Set</strong>
+	        </td>
+	    </tr>
+    </tbody>
+</table>

@@ -1,0 +1,15 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+{% javascripts
+    '@SplicedCommerceBundle/Resources/public/js/jquery/jqueryui.custom.js'
+    '@SplicedCommerceBundle/Resources/public/bootstrap/js/bootstrap.js'
+    '@SplicedCommerceBundle/Resources/public/js/bootstrap-select.min.js'
+    '@SplicedCommerceBundle/Resources/public/js/jquery/easing.js'
+    '@SplicedCommerceBundle/Resources/public/js/jquery/blockui.js'
+    '@SplicedCommerceBundle/Resources/public/js/ajax_response.js'
+    '@SplicedCommerceBundle/Resources/public/js/cart.js'
+    '@SplicedCommerceBundle/Resources/public/js/checkout.js'
+    '@SplicedCommerceBundle/Resources/public/js/app.js'
+    filter='?yui_js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}

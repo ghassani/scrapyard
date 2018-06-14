@@ -1,0 +1,31 @@
+{#
+
+#}
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+{% block title %}Adding New Address | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : customer} %}
+{% endblock right %}
+
+{% block content %}
+<div class="page-header">
+	<h1>Add Address</h1>
+</div>
+
+<div class="alert alert-info">You can add addresses to your account profile for speedier checkout in the future. You will be able to select from your
+stored addresses during the checkout process, with the exception of some 3rd party payment providers such as PayPal.</div>
+
+<form method="post" action="{{ path('commerce_account_addresses_add') }}" novalidate>
+	
+	{{ include("SplicedCommerceBundle:Customer/Form:customer_address_form.html.twig") }}
+
+	<div class="form-actions">
+		<input type="submit" class="btn btn-success" value="Add Address" />
+		<a href="{{ path('commerce_account_address_book') }}" class="btn btn-warning">Cancel</a> 
+	</div>
+</form>
+{% endblock content %}

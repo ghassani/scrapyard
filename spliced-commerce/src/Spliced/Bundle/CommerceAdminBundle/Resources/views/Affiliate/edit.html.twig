@@ -1,0 +1,28 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}{{ form.vars.data.name }} | Affiliates | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Affiliate:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs">
+  <li class="active"><a href="#Details" data-toggle="tab">Details</a></li>
+</ul>
+{% endblock %}
+
+{% block content -%}
+<div class="page-header">
+	<h1>Affiliate <small>{{ form.vars.data.name }}</small></h1>
+</div>
+
+<form action="{{ path('commerce_admin_affiliate_update', { 'id' : form.vars.data.id }) }}" class="form affiliate-form" method="post" {{ form_enctype(form) }}>
+    {{ include('SplicedCommerceAdminBundle:Affiliate:form.html.twig') }}
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Update Affiliate</button>
+        <a href="{{ path('commerce_admin_affiliate') }}" class="btn btn-warning"><i class=" icon-remove"></i> Cancel</a>
+    </div>
+</form>
+{% endblock %}

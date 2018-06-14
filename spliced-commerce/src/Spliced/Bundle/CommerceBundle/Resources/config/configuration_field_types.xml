@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+	    <parameter key="commerce.configuration.field.array.class">Spliced\Component\Commerce\Configuration\Type\ArrayType</parameter>
+	    <parameter key="commerce.configuration.field.boolean.class">Spliced\Component\Commerce\Configuration\Type\BooleanType</parameter>
+	    <parameter key="commerce.configuration.field.countries.class">Spliced\Component\Commerce\Configuration\Type\CountriesType</parameter>
+	    <parameter key="commerce.configuration.field.email.class">Spliced\Component\Commerce\Configuration\Type\EmailType</parameter>
+	    <parameter key="commerce.configuration.field.encrypted.class">Spliced\Component\Commerce\Configuration\Type\EncryptedType</parameter>
+	    <parameter key="commerce.configuration.field.float.class">Spliced\Component\Commerce\Configuration\Type\FloatType</parameter>
+	    <parameter key="commerce.configuration.field.html.class">Spliced\Component\Commerce\Configuration\Type\HtmlType</parameter>
+	    <parameter key="commerce.configuration.field.integer.class">Spliced\Component\Commerce\Configuration\Type\IntegerType</parameter>
+	    <parameter key="commerce.configuration.field.status.class">Spliced\Component\Commerce\Configuration\Type\StatusType</parameter>
+	    <parameter key="commerce.configuration.field.text.class">Spliced\Component\Commerce\Configuration\Type\TextType</parameter>
+	    <parameter key="commerce.configuration.field.string.class">Spliced\Component\Commerce\Configuration\Type\StringType</parameter>
+	    <parameter key="commerce.configuration.field.locale.class">Spliced\Component\Commerce\Configuration\Type\LocaleType</parameter>
+	    <parameter key="commerce.configuration.field.url.class">Spliced\Component\Commerce\Configuration\Type\UrlType</parameter>
+	    <parameter key="commerce.configuration.field.template.class">Spliced\Component\Commerce\Configuration\Type\TemplateType</parameter>
+	    <parameter key="commerce.configuration.field.email_template.class">Spliced\Component\Commerce\Configuration\Type\EmailTemplateType</parameter>
+    </parameters> 
+
+    <services>
+    	
+        <service id="commerce.configuration.field.array" class="%commerce.configuration.field.array.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.boolean" class="%commerce.configuration.field.boolean.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.countries" class="%commerce.configuration.field.countries.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.email" class="%commerce.configuration.field.email.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.encrypted" class="%commerce.configuration.field.encrypted.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.security.encryption_manager" />
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.float" class="%commerce.configuration.field.float.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.html" class="%commerce.configuration.field.html.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.integer" class="%commerce.configuration.field.integer.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.status" class="%commerce.configuration.field.status.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.text" class="%commerce.configuration.field.text.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.string" class="%commerce.configuration.field.string.class%">
+        	<tag name="commerce.configuration_type" />
+        </service> 
+               
+        <service id="commerce.configuration.field.locale" class="%commerce.configuration.field.locale.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+               
+        <service id="commerce.configuration.field.url" class="%commerce.configuration.field.url.class%">
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.template" class="%commerce.configuration.field.template.class%">
+        	<argument type="service" id="kernel" />
+        	
+        	<tag name="commerce.configuration_type" />
+        </service>
+        
+        <service id="commerce.configuration.field.email_template" class="%commerce.configuration.field.email_template.class%">
+        	<argument type="service" id="kernel" />
+        	
+        	<tag name="commerce.configuration_type" />
+        </service>
+    </services>
+</container>

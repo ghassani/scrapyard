@@ -1,0 +1,712 @@
+#
+# This file is part of the SplicedCommerceBundle package.
+#
+# (c) Spliced Media <http://www.splicedmedia.com/>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# core_configuration.yml
+#
+# This file holds the default configuration used by the system
+# that are not defined in any other configurable services.
+#
+# To inject your own configuration values, see:
+# 
+# Spliced\Component\Commerce\Configuration\ConfigurableInterface
+#
+# @author Gassan Idriss <ghassani@splicedmedia.com>
+
+commerce.category.filter.default_display_mode:
+    type: text
+    key: commerce.category.filter.default_display_mode
+    value: list
+    group: Catalog
+    child_group: Categories
+    position: 0
+    label: Default Display Mode
+    required: false
+    help: The default mode to display a list of products when viewing a category
+commerce.category.filter.default_order_by:
+    type: text
+    key: commerce.category.filter.default_order_by
+    value: price_asc
+    group: Catalog
+    child_group: Categories
+    position: 0
+    label: Default Order
+    required: false
+    help: The default sort to display a list of products when viewing a category
+commerce.category.filter.default_per_page:
+    type: integer
+    key: commerce.category.filter.default_per_page
+    value: 10
+    group: Catalog
+    child_group: Categories
+    position: 0
+    label: Default Products Per Page
+    required: false
+    help: The default number of products to display per page when viewing a category
+commerce.category.filter.max_per_page:
+    type: integer
+    key: commerce.category.filter.max_per_page
+    value: 50
+    group: Catalog
+    child_group: Categories
+    position: 0
+    label: Max Products Per Page
+    required: false
+    help: The maximum number of products to display per page when viewing a category
+commerce.cms.404_layout:
+    type: text
+    key: commerce.cms.404_layout
+    value: SplicedCommerceBundle:Layouts:default.html.twig
+    group: Content
+    child_group: Layouts
+    position: 0
+    label: '404 Layout'
+    required: false
+    help: The layout used when redering a 404 page not found
+commerce.cms.default_layout:
+    type: text
+    key: commerce.cms.default_layout
+    value: SplicedCommerceBundle:Layouts:default.html.twig
+    group: Content
+    child_group: Layouts
+    position: 0
+    label: Default Layout
+    required: false
+    help: The default layout used for content pages
+commerce.order.order_number_date_format:
+    type: text
+    key: commerce.order.order_number_date_format
+    value: mdy
+    group: Sales
+    child_group: Orders
+    position: 0
+    label: Order Number Date Format
+    required: false
+commerce.order.order_number_format:
+    type: text
+    key: commerce.order.order_number_format
+    value: '{prefix}{date}{id}'
+    group: Sales
+    child_group: Orders
+    position: 0
+    label: Order Number Format
+    help: "Available replacements:<br />\r\n{prefix}<br />\r\n{date}<br />\r\n{id}<br />\r\n{customerId}"
+    required: true
+commerce.order.order_number_prefix:
+    type: text
+    key: commerce.order.order_number_prefix
+    value: W
+    group: Sales
+    child_group: Orders
+    position: 0
+    label: Default Order Number Prefix
+    required: false
+commerce.path.web:
+    type: text
+    key: commerce.path.web
+    value: /update/me
+    group: Paths
+    child_group: ~
+    position: 0
+    label: 'Product Image Storage Path'
+    required: false
+commerce.product.feed.per_page:
+    type: text
+    key: commerce.product.feed.per_page
+    value: '25'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Feed Items Per Page'
+    required: false
+commerce.product.image_block_height:
+    type: integer
+    key: commerce.product.image_block_height
+    value: '80'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Block Image Height'
+    required: false
+commerce.product.image_block_width:
+    type: integer
+    key: commerce.product.image_block_width
+    value: '160'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Block Image Width'
+    required: false
+commerce.product.image_cart_height:
+    type: integer
+    key: commerce.product.image_cart_height
+    value: '60'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Cart Image Height'
+    required: false
+commerce.product.image_cart_width:
+    type: integer
+    key: commerce.product.image_cart_width
+    value: '140'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Cart Image Width'
+    required: false
+commerce.product.image_category_view_grid_height:
+    type: integer
+    key: commerce.product.image_category_view_grid_height
+    value: '120'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Category View Grid Image Height'
+    required: false
+commerce.product.image_category_view_grid_width:
+    type: integer
+    key: commerce.product.image_category_view_grid_width
+    value: '280'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Category View Grid Image Width'
+    required: false
+commerce.product.image_category_view_list_height:
+    type: integer
+    key: commerce.product.image_category_view_list_height
+    value: '140'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Category View List Image Height'
+    required: false
+commerce.product.image_category_view_list_width:
+    type: integer
+    key: commerce.product.image_category_view_list_width
+    value: '300'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Category View List Image Width'
+    required: false
+commerce.product.image_feed_height:
+    type: integer
+    key: commerce.product.image_feed_height
+    value: '60'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Feed Image Height'
+    required: false
+commerce.product.image_feed_width:
+    type: integer
+    key: commerce.product.image_feed_width
+    value: '140'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'Feed Image Width'
+    required: false
+commerce.product.image_view_height:
+    type: integer
+    key: commerce.product.image_view_height
+    value: '350'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'View Image Height'
+    required: false
+commerce.product.image_view_thumbnail_height:
+    type: integer
+    key: commerce.product.image_view_thumbnail_height
+    value: '50'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'View Image Thumbnail Height'
+    required: false
+commerce.product.image_view_thumbnail_width:
+    type: integer
+    key: commerce.product.image_view_thumbnail_width
+    value: '100'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'View Image Thumbnail Width'
+    required: false
+commerce.product.image_view_width:
+    type: integer
+    key: commerce.product.image_view_width
+    value: '700'
+    group: Catalog
+    child_group: Products
+    position: 0
+    label: 'View Image Width'
+    required: false
+commerce.sales.calculation_precision:
+    type: integer
+    key: commerce.sales.calculation_precision
+    value: '2'
+    group: Sales
+    child_group: Calculations
+    position: 0
+    label: 'Calculation Precision'
+    required: false
+commerce.sales.checkout.allow_guest_checkout:
+    type: boolean
+    key: commerce.sales.checkout.allow_guest_checkout
+    value: '1'
+    group: Sales
+    child_group: Checkout
+    position: 0
+    label: 'Allow Guest Checkout'
+    required: false
+commerce.sales.email.bounced:
+    type: email
+    key: commerce.sales.email.bounced
+    value: some@email.com
+    group: Sales
+    child_group: E-Mails
+    position: 0
+    label: 'Bounced Email Noifications To'
+    required: false
+commerce.sales.email.cancellation.notify:
+    type: boolean
+    key: commerce.sales.email.cancellation.notify
+    value: '1'
+    group: Sales
+    child_group: E-Mails
+    position: 0
+    label: 'Notify Customer On Cancellation'
+    required: false
+commerce.sales.email.cancellation.subject:
+    type: text
+    key: commerce.sales.email.cancellation.subject
+    value: 'Order {orderNumber} Cancelled'
+    group: Sales
+    child_group: E-Mails
+    position: 0
+    label: '{storeName} - Cancellation Email Subject'
+    required: false
+commerce.sales.email.confirmation.subject:
+    type: text
+    key: commerce.sales.email.confirmation.subject
+    value: '{storeName} - Order Confirmation # {orderNumber} '
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Order Confirmation Email Subject'
+    required: false
+commerce.sales.email.confirmation_admin.subject:
+    type: text
+    key: commerce.sales.email.confirmation_admin.subject
+    value: '{storeName} -  New Order # {orderNumber} - {paymentStatus}'
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Order Confirmation Admin Email Subject'
+    required: false
+commerce.sales.email.from:
+    type: email
+    key: commerce.sales.email.from
+    value: some@email.com
+    group: Sales
+    child_group: E-Mails
+    position: 0
+    label: 'Sales Emails From'
+    required: false
+commerce.sales.email.incomplete_order_followup.subject:
+    type: text
+    key: commerce.sales.email.incomplete_order_followup.subject
+    value: 'Regarding Your Attempted Order On {storeName}'
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Incomplete Order Followup Subject'
+    required: false
+commerce.sales.email.new_account.subject:
+    type: text
+    key: commerce.sales.email.new_account.subject
+    value: 'Your Account Has Been Created'
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'New Account Email Subject'
+    required: false
+commerce.sales.email.payment.notify:
+    type: boolean
+    key: commerce.sales.email.payment.notify
+    value: '1'
+    group: Sales
+    child_group: E-Mail Settings
+    position: 0
+    label: 'Notify Customer On Payment Update'
+    required: false
+commerce.sales.email.payment.subject:
+    type: text
+    key: commerce.sales.email.payment.subject
+    value: '{storeName} -  Order {orderNumber} Payment Received'
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Payment Update Email Subject'
+    required: false
+commerce.sales.email.return.notify:
+    type: boolean
+    key: commerce.sales.email.return.notify
+    value: '1'
+    group: Sales
+    child_group: E-Mail Settings
+    position: 0
+    label: 'Notify Customer On Item Returned/Refunded'
+    required: false
+commerce.sales.email.return.subject:
+    type: text
+    key: commerce.sales.email.return.subject
+    value: '{storeName} -  Order {orderNumber} Returned'
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Order Returned Email Subject'
+    required: false
+commerce.sales.email.shipment.notify:
+    type: boolean
+    key: commerce.sales.email.shipment.notify
+    value: '1'
+    group: Sales
+    child_group: E-Mail Settings
+    position: 0
+    label: 'Notify Customer On Shipment Updates'
+    required: false
+commerce.sales.email.shipment.subject:
+    type: text
+    key: commerce.sales.email.shipment.subject
+    value: '{storeName} -  Order {orderNumber} Shipment Confirmation '
+    group: Sales
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Shipment Update Email Subject'
+    required: false
+commerce.sales.email.to_admin:
+    type: email
+    key: commerce.sales.email.to_admin
+    value: some@email.com
+    group: Sales
+    child_group: E-Mails
+    position: 0
+    required: false
+commerce.sales.tax_rate:
+    type: float
+    key: commerce.sales.tax_rate
+    value: '0.085'
+    group: Sales
+    child_group: Taxes
+    position: 0
+    label: 'Default Tax Rate'
+    required: false
+commerce.sales.tax_rate_states:
+    type: array
+    key: commerce.sales.tax_rate_states
+    value: []
+    group: Sales
+    child_group: Taxes
+    position: 0
+    label: 'State Tax Rates'
+    required: false
+commerce.security.encryption.iv:
+    type: text
+    key: commerce.security.encryption.iv
+    value: 1a345i6y912r45b78bc234x6as912e45
+    group: Security
+    child_group: Encryption
+    position: 0
+    label: 'Encryption IV'
+    required: false
+commerce.store.default_locale:
+    type: locale
+    key: commerce.store.default_locale
+    value: en
+    group: Store
+    child_group: Locale
+    position: 0
+    label: 'Default Store Locale/Language'
+    required: true
+commerce.store.default_country:
+    type: country
+    key: commerce.store.default_country
+    value: US
+    group: Store
+    child_group: Locale
+    position: 0
+    label: 'Default Store Locale/Language'
+    required: true
+commerce.store.email.bounced:
+    type: email
+    key: commerce.store.email.bounced
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Bounced Email Notifications To'
+    required: false
+commerce.store.email.contact:
+    type: email
+    key: commerce.store.email.contact
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Contact Email Notifications To'
+    required: false
+commerce.store.email.contact_bounced:
+    type: email
+    key: commerce.store.email.contact_bounced
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Bounced Contact Email Notifications To'
+    required: false
+commerce.store.email.force_password_reset.subject:
+    type: text
+    key: commerce.store.email.force_password_reset.subject
+    value: 'User Password Reset'
+    group: Store
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Force Password Reset Email Subject'
+    required: false
+commerce.store.email.from:
+    type: text
+    key: commerce.store.email.from
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Email From'
+    required: false
+commerce.store.email.noreply:
+    type: email
+    key: commerce.store.email.noreply
+    value: noreply@somedomain.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'NoReply Email'
+    required: false
+commerce.store.email.password_reset.subject:
+    type: text
+    key: commerce.store.email.password_reset.subject
+    value: 'User Password Reset Request'
+    group: Store
+    child_group: E-Mail Subjects
+    position: 0
+    label: 'Password Reset Email Subject'
+    required: false
+commerce.store.email.returns:
+    type: email
+    key: commerce.store.email.returns
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Store Returns Email Address'
+    required: false
+commerce.store.email.sales:
+    type: email
+    key: commerce.store.email.sales
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Sales Email Address'
+    required: false
+commerce.store.email.support:
+    type: email
+    key: commerce.store.email.support
+    value: some@email.coms
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Support Email Address'
+    required: false
+commerce.store.email.webmaster:
+    type: email
+    key: commerce.store.email.webmaster
+    value: some@email.com
+    group: Store
+    child_group: E-Mails
+    position: 0
+    label: 'Webmaster Email Address'
+    required: false
+commerce.store.email_on_404:
+    type: boolean
+    key: commerce.store.email_on_404
+    value: ''
+    group: Store
+    child_group: E-Mail Settings
+    position: 0
+    label: 'Email Webmaster On 404 Error'
+    required: false
+commerce.store.email_on_exception:
+    type: boolean
+    key: commerce.store.email_on_exception
+    value: '1'
+    group: Store
+    child_group: E-Mail Settings
+    position: 0
+    label: 'Email Webmaster On Website Exception'
+    required: false
+commerce.store.name:
+    type: text
+    key: commerce.store.name
+    value: 'My Store'
+    group: Store
+    child_group: General
+    position: 0
+    label: 'Store Name'
+    required: false
+commerce.store.phone.service:
+    type: text
+    key: commerce.store.phone.service
+    value: 555-555-5555
+    group: Store
+    child_group: General
+    position: 0
+    label: 'Service Phone Number'
+    required: false
+commerce.store.phone.service_hours:
+    type: text
+    key: commerce.store.phone.service_hours
+    value: 'Monday through Saturday 9am-6pm PST. Sunday 10am-6pm.'
+    group: Store
+    child_group: General
+    position: 0
+    label: 'Service Phone Hours'
+    required: false
+commerce.store.url:
+    type: text
+    key: commerce.store.url
+    value: 'http://www.mydomain.com'
+    group: Store
+    child_group: URLs
+    position: 0
+    label: 'Store URL'
+    required: false
+commerce.store.url_secure:
+    type: text
+    key: commerce.store.url_secure
+    value: 'https://www.mydomain.com'
+    group: Store
+    child_group: URLs
+    position: 0
+    label: 'Store Secure URL'
+    required: false
+commerce.template.email.confirmation:
+    type: email_template
+    key: commerce.template.email.confirmation
+    value: 'SplicedCommerceBundle:Email:order_confirmation_customer.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Order Confirmation Email Template'
+    required: false
+commerce.template.email.confirmation_plain:
+    type: email_template
+    key: commerce.template.email.confirmation_plain
+    value: 'SplicedCommerceBundle:Email:order_confirmation_customer.txt.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Order Confirmation Plain Text Email Template'
+    required: false
+commerce.template.email.confirmation_admin:
+    type: email_template
+    key: commerce.template.email.confirmation_admin
+    value: 'SplicedCommerceBundle:Email:order_confirmation_admin.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Order Confirmation Admin Email Template'
+    required: false
+commerce.template.email.contact_notification:
+    type: email_template
+    key: commerce.template.email.contact_notification
+    value: 'SplicedCommerceBundle:Email:contact_notification.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Contact Notification Email Template'
+    required: false
+commerce.template.email.force_password_reset:
+    type: email_template
+    key: commerce.template.email.force_password_reset
+    value: 'SplicedCommerceBundle:Email:force_password_reset.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Force Password Reset Email Template'
+    required: false
+commerce.template.email.new_account:
+    type: email_template
+    key: commerce.template.email.new_account
+    value: 'SplicedCommerceBundle:Email:new_account.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'New Account Email Template'
+    required: false
+commerce.template.email.new_account_plain:
+    type: email_template
+    key: commerce.template.email.new_account_plain
+    value: 'SplicedCommerceBundle:Email:new_account.txt.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'New Account Plain Text Email Template'
+    required: false
+commerce.template.email.password_reset:
+    type: email_template
+    key: commerce.template.email.password_reset
+    value: 'SplicedCommerceBundle:Email:password_reset.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Password Reset Email Template'
+    required: false
+commerce.template.email.shipment:
+    type: email_template
+    key: commerce.template.email.shipment
+    value: 'SplicedCommerceBundle:Email:order_shipment.html.twig'
+    group: Store
+    child_group: E-Mail Templates
+    position: 0
+    label: 'Order Shipment Email Template'
+    required: false
+commerce.visitor.log_bot_requests:
+    type: boolean
+    key: commerce.visitor.log_bot_requests
+    value: '1'
+    group: Visitor
+    child_group: Logging
+    position: 1
+    label: 'Log Bot Requests'
+    help: ''
+    required: false
+commerce.visitor.log_visitor_requests:
+    type: boolean
+    key: commerce.visitor.log_visitor_requests
+    value: '1'
+    group: Visitor
+    child_group: Logging
+    position: 1
+    label: 'Log Visitor Requests'
+    help: ''
+    required: false
+    

@@ -1,0 +1,206 @@
+{#
+	Content Prototype 
+#}
+{% macro product_content_prototype(prototype) %}
+	{% import _self as renderHelper %}
+	{% spaceless %}
+		<div class="form-group">
+			<div class="col-sm-4 col-lg-4">
+				{{ form_row(prototype.language) }}
+			</div>
+			<div class="col-sm-8 col-lg-8">{{ form_row(prototype.name) }}</div>
+		</div>
+
+		
+		<div class="form-group">
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(prototype.shortDescription, { 'attr' : { 'class' : 'wysiwyg-' } }) }}
+			</div>
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(prototype.longDescription, { 'attr' : { 'class' : 'wysiwyg-' } }) }}
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(prototype.metaKeywords) }}
+			</div>
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(prototype.metaDescription) }}
+			</div>
+		</div>
+		
+		<div class="clearfix"></div>
+		
+		<div class="alert alert-info">When referencing templates, javascripts, and stylesheets you can use a a valid @Resource</div>
+			
+        <div class="form-group">
+        	<div class="col-lg-12">
+        		{{ form_row(prototype.viewLayout) }}
+        	</div>
+        </div>
+        
+        <div class="form-group">
+        	<div class="col-lg-6">
+        	    <label>Stylesheets
+        	        <a href="javascript:void(0);" class="btn btn-primary btn-xs add-content-stylesheet" data-prototype="{{ renderHelper.product_content_stylesheet_prototype(prototype.viewStylesheets.vars.prototype)|e }}"><i class="icon icon-plus"></i>Add Stylesheet</a>
+        	    </label>
+        	    <div class="product-content-stylesheets">
+        	    	{% for stylesheet in prototype.viewStylesheets %}
+        	    		{{ renderHelper.product_content_stylesheet_prototype(stylesheet) }}
+        	    	{% endfor %}
+        	    </div>
+        	</div>
+        	<div class="col-lg-6">
+        		<label>JavaScripts
+        	       <a href="javascript:void(0);" class="btn btn-primary btn-xs add-content-javascript" data-prototype="{{ renderHelper.product_content_javascript_prototype(prototype.viewJavascripts.vars.prototype)|e }}"><i class="icon icon-plus"></i> Add Javascript</a>
+        	    </label>
+        	    <div class="product-content-javascripts">
+        	    	{% for javascript in prototype.viewJavascripts %}
+        	    		{{ renderHelper.product_content_javascript_prototype(javascript) }}
+        	    	{% endfor %}
+        	    </div>
+        	</div>
+        </div>
+    {% endspaceless %}
+{% endmacro %}
+{#
+	Existingt Content
+#}
+{% macro product_content(content) %}
+	{% import _self as renderHelper %}
+	{% spaceless %}
+		<div class="form-group">
+			<div class="col-sm-4 col-lg-4">
+				{{ form_row(content.language) }}
+			</div>
+			<div class="col-sm-8 col-lg-8">{{ form_row(content.name) }}</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(content.shortDescription, { 'attr' : { 'class' : 'wysiwyg' } }) }}
+			</div>
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(content.longDescription, { 'attr' : { 'class' : 'wysiwyg' } }) }}
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(content.metaKeywords) }}
+			</div>
+			<div class="col-sm-6 col-lg-6">
+				{{ form_row(content.metaDescription) }}
+			</div>
+		</div>
+		
+		<div class="clearfix"></div>
+		
+		<div class="alert alert-info">When referencing templates, javascripts, and stylesheets you can use a a valid @Resource</div>
+		
+        <div class="form-group">
+        	<div class="col-lg-12">
+        		{{ form_row(content.viewLayout) }}
+        	</div>
+        </div>
+        
+        <div class="form-group">
+        	<div class="col-lg-6">
+        	    <label>Stylesheets
+        	        <a href="javascript:void(0);" class="btn btn-primary btn-xs add-content-stylesheet" data-prototype="{{ renderHelper.product_content_stylesheet_prototype(content.viewStylesheets.vars.prototype)|e }}"><i class="icon icon-plus"></i>Add Stylesheet</a>
+        	    </label>
+        	    <table class="table table-bordered table-condensed table-striped product-content-stylesheets">
+					<tbody>
+						{% set rowNumber = 0 %}
+						{% for stylesheet in content.viewStylesheets %}
+	        	    		{{ renderHelper.product_content_stylesheet(content, stylesheet, rowNumber) }}
+	        	    		{% set rowNumber = rowNumber + 1 %}
+	        	    	{% endfor %}
+					</tbody>
+				</table>
+        	</div>
+        	<div class="col-lg-6">
+        		<label>JavaScripts
+        	       <a href="javascript:void(0);" class="btn btn-primary btn-xs add-content-javascript" data-prototype="{{ renderHelper.product_content_javascript_prototype(content.viewJavascripts.vars.prototype)|e }}"><i class="icon icon-plus"></i> Add Javascript</a>
+        	    </label>
+				<table class="table table-bordered table-condensed table-striped product-content-javascripts">
+					<tbody>
+						{% set rowNumber = 0 %}
+						{% for javascript in content.viewJavascripts %}
+	        	    		{{ renderHelper.product_content_javascript(content, javascript, rowNumber) }}
+	        	    		{% set rowNumber = rowNumber + 1 %}
+	        	    	{% endfor %}
+					</tbody>
+				</table>
+        	</div>
+        </div>
+    {% endspaceless %}
+{% endmacro %}
+{#
+	Stylesheet Prototype
+#}
+{% macro product_content_stylesheet_prototype(prototype) %}
+	{% spaceless %}
+	<tr class="stylesheet stylesheet-__name__">
+		<td>{{ form_widget(prototype) }}</td>
+		<td><a href="javascript:void(0);" title="Delete" class="delete-product-content-stylesheet"><i class="icon-trash"></i></a></td>
+	</tr>
+	{% endspaceless %}
+{% endmacro %}
+{#
+	Existing Stylesheet
+#}
+{% macro product_content_stylesheet(content, stylesheet, rowNumber) %}
+	{% spaceless %}
+	<tr class="stylesheet {{ content.vars.data.language }}-stylesheet-{{ rowNumber }}">
+		<td>{{ form_widget(stylesheet) }}</td>
+		<td><a href="javascript:void(0);" data-target="tr.{{ content.vars.data.language }}-stylesheet-{{ rowNumber }}" title="Delete" class="delete-product-content-stylesheet"><i class="icon-trash"></i></a></td>
+	</tr>
+	{% endspaceless %}
+{% endmacro %}
+{#
+	Javascript Prototype
+#}
+{% macro product_content_javascript_prototype(prototype) %}
+	{% spaceless %}
+	<tr class="javascript javascript-__name__">
+		<td>{{ form_widget(prototype) }}</td>
+		<td><a href="javascript:void(0);" title="Delete" class="delete-product-content-javascript"><i class="icon-trash"></i></a></td>
+	</tr>
+	{% endspaceless %}
+{% endmacro %}
+{#
+	Existing Javascript
+#}
+{% macro product_content_javascript(content, javascript, rowNumber) %}
+	{% spaceless %}
+	<tr class="javascript {{ content.vars.data.language }}-javascript-{{ rowNumber }}">
+		<td>{{ form_widget(javascript) }}</td>
+		<td><a href="javascript:void(0);" data-target="tr.{{ content.vars.data.language }}-javascript-{{ rowNumber }}" title="Delete" class="delete-product-content-javascript"><i class="icon-trash"></i></a></td>
+	</tr>
+	{% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<ul id="productDataTabs" class="nav nav-tabs">
+	<li><a href="#data-{{ commerce_get_config('commerce.store.default_locale','en') }}" tabindex="-1" data-toggle="tab">Default ({{ locale_get_display_name(commerce_get_config('commerce.store.default_locale','en')) }})</a></li>
+	<li class="dropdown">
+		<a href="#" id="availableLanguages" class="dropdown-toggle" data-toggle="dropdown">Available Languages <b class="caret"></b></a>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="availableLanguages">
+			{% for content in form.content %}
+				<li><a href="#data-{{ content.vars.data.language }}" tabindex="-1" data-toggle="tab">{{ locale_get_display_name(content.vars.data.language) }}</a></li>
+			{% endfor %}
+			<li><a href="javascript:void(0);" data-prototype="{{ renderHelper.product_content_prototype(form.content.vars.prototype)|e }}"><i class="icon icon-plus"></i> Add New Language</a></li>
+		</ul>
+	</li>
+</ul>
+
+<div id="productDataTabs" class="tab-content">
+{% for content in form.content %}
+	<div id="data-{{ content.vars.data.language }}" class="tab-pane fade in {{ content.vars.data.language == commerce_get_config('commerce.store.default_locale','en') ? 'active' : '' }}">
+		{{ renderHelper.product_content(content) }}
+	</div>
+{% endfor %}
+</div>

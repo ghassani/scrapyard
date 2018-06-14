@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="urn:arnleadservicewsdl"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="urn:ordersservicewsdl">
+
+    <types>
+        <xsd:schema targetNamespace="urn:orderswsdl">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+            <complexType name="Array">
+			<complexContent>
+				<restriction base="SOAP-ENC:Array">
+					<sequence>
+						<element name="test" type="string" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+					</sequence>
+					<attributeGroup ref="SOAP-ENC:arrayType" xsd:arrayType="string[]" />
+				</restriction>
+			</complexContent>
+		</complexType>
+        </xsd:schema>
+    </types>
+ 
+    <message name="getOrderRequest">
+        <part name="orderId" type="xsd:int" />
+    </message>
+    <message name="getOrderResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <message name="getOrdersRequest">
+        <part name="filters" type="Array" />
+    </message>
+    <message name="getOrdersResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <message name="updateOrderRequest">
+        <part name="orderId" type="xsd:int" />
+        <part name="fields" type="Array" />
+    </message>
+    <message name="updateOrderResponse">
+        <part name="return" type="xsd:string" />
+    </message> 
+    
+    <message name="addShipmentMemoRequest">
+        <part name="shipmentId" type="xsd:int" />
+        <part name="userMemo" type="Array" />
+    </message>
+    <message name="addShipmentMemoResponse">
+        <part name="return" type="xsd:string" />
+    </message> 
+    
+    <message name="addPaymentMemoRequest">
+        <part name="paymentId" type="xsd:int" />
+        <part name="userMemo" type="Array" />
+    </message>
+    <message name="addPaymentMemoResponse">
+        <part name="return" type="xsd:string" />
+    </message> 
+    
+    <message name="returnOrderRequest">
+        <part name="orderId" type="xsd:int" />
+    </message>
+    <message name="returnOrderResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <message name="cancelOrderRequest">
+        <part name="orderId" type="xsd:int" />
+    </message>
+    <message name="cancelOrderResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <message name="getOrderDecryptedCreditCardRequest">
+        <part name="orderId" type="xsd:int" />
+    </message>
+    <message name="getOrderDecryptedCreditCardResponse">
+        <part name="return" type="xsd:string" />
+    </message>
+    
+    <portType name="orderswsdlPortType">
+        <operation name="getOrder">
+            <documentation>Retrieve an order by id</documentation>
+            <input message="tns:getOrderRequest"/>
+            <output message="tns:getOrderResponse"/>
+        </operation>
+        <operation name="getOrders">
+            <documentation>Retrieve orders by specified filters</documentation>
+            <input message="tns:getOrdersRequest"/>
+            <output message="tns:getOrdersResponse"/>
+        </operation>
+        <operation name="updateOrder">
+            <documentation>Update an order</documentation>
+            <input message="tns:updateOrderRequest"/>
+            <output message="tns:updateOrderResponse"/>
+        </operation>
+        <operation name="addShipmentMemo">
+            <documentation>Add a memo to a shipment</documentation>
+            <input message="tns:addShipmentMemoRequest"/>
+            <output message="tns:addShipmentMemoResponse"/>
+        </operation>
+        <operation name="addPaymentMemo">
+            <documentation>Add a memo to a payment</documentation>
+            <input message="tns:addPaymentMemoRequest"/>
+            <output message="tns:addPaymentMemoResponse"/>
+        </operation>
+        <operation name="cancelOrder">
+            <documentation>Cancel one order by ID</documentation>
+            <input message="tns:cancelOrderRequest"/>
+            <output message="tns:cancelOrderResponse"/>
+        </operation>
+        <operation name="returnOrder">
+            <documentation>Set on order to returned by ID</documentation>
+            <input message="tns:returnOrderRequest"/>
+            <output message="tns:returnOrderResponse"/>
+        </operation>
+        <operation name="getOrderDecryptedCreditCard">
+            <documentation>Get a Credit Card Orders Decrypted Information</documentation>
+            <input message="tns:getOrderDecryptedCreditCardRequest"/>
+            <output message="tns:getOrderDecryptedCreditCardResponse"/>
+        </operation>
+        
+    </portType>
+	
+    <binding name="orderswsdlBinding" type="tns:orderswsdlPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getOrder">
+            <soap:operation soapAction="urn:arnleadservicewsdl#getOrder" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="getOrders">
+            <soap:operation soapAction="urn:arnleadservicewsdl#getOrders" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="updateOrder">
+            <soap:operation soapAction="urn:arnleadservicewsdl#updateOrder" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="addShipmentMemo">
+            <soap:operation soapAction="urn:arnleadservicewsdl#addShipmentMemo" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="addPaymentMemo">
+            <soap:operation soapAction="urn:arnleadservicewsdl#addPaymentMemo" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+        
+        <operation name="cancelOrder">
+            <soap:operation soapAction="urn:arnleadservicewsdl#cancelOrder" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+        
+        <operation name="returnOrder">
+            <soap:operation soapAction="urn:arnleadservicewsdl#returnOrder" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+        <operation name="getOrderDecryptedCreditCard">
+            <soap:operation soapAction="urn:arnleadservicewsdl#getOrderDecryptedCreditCard" style="rpc"/>
+
+            <input>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+
+            <output>
+                <soap:body use="encoded" namespace="urn:orderswsdl"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        
+    </binding>
+
+    <service name="orderswsdl">
+        <port name="orderswsdlPort" binding="tns:orderswsdlBinding">
+            <soap:address location="/service/soap/orders" />
+        </port>
+    </service>
+    
+</definitions>

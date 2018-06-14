@@ -1,0 +1,14 @@
+<html>
+<body>
+<h4>404 Not Found - {{ commerce_get_config('commerce.store.name') }}</h4>
+
+<p>Requsted Page and/or System Message: {{ exception.message }}</p>
+
+<p>Below is the stack trace of the error and additional details.</p>
+
+<pre>
+	{{ exception.traceAsString }}
+</pre>
+
+</body>
+</html>

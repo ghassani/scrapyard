@@ -1,0 +1,39 @@
+<script>
+{% if product is defined %}
+var tierData{{ product.id }} = {
+    {% for key,tierData in product.tierData %}
+    data{{ key }}: {
+    	minQuantity: {{ tierData.minQuantity }},
+    	minQuantity: {{ tierData.maxQuantity }},
+    	adjustmentType: "{{ tierData.adjustmentType }}",
+    	adjustment: {{ tierData.adjustment }},
+    	options: {
+    		{% for key,option in tierData.options %}
+    		{{ key }}: {{ option }},
+    		{% endfor %}
+    	},
+    },
+    {% endfor %}
+};
+{% elseif products is defined %}
+ var tierData = {
+    {% for product in products %}
+        {{ product.id }}: {
+    	    {% for key,tierData in product.tierData %}
+    	    data{{ key }}: {
+    	    	minQuantity: {{ tierData.minQuantity }},
+    	    	minQuantity: {{ tierData.maxQuantity }},
+    	    	adjustmentType: "{{ tierData.adjustmentType }}",
+    	    	adjustment: {{ tierData.adjustment }},
+    	    	options: {
+    	    		{% for key,option in tierData.options %}
+    	    		{{ key }}: {{ option }},
+    	    		{% endfor %}
+    	    	},
+    	    },
+    	    {% endfor %}
+    	},
+    {% endfor %}
+ };
+{% endif %}
+</script>

@@ -1,0 +1,34 @@
+{% macro category_list_html(categories, isRoot) %}
+	{% import _self as helper %}
+	<ul class="{{ isRoot ? 'category-selection-list' : 'child-category-selection-list' }}">
+	    {% for category in categories %}
+	    	<li class="{{ isRoot ? 'root-category' : 'child-category' }}">
+
+	    		<a href="{{ path('commerce_admin_category_edit', { 'id' : category.id }) }}">{{ category.name }}</a>
+	    		
+	    		{% if category.children|length %}
+	    			{{ helper.category_list_html(category.children, false) }}
+	    		{% endif %}
+	    	</li>
+	    {% endfor %}
+	</ul>
+{% endmacro %}
+
+{% macro category_selection_html(categories, product, isRoot) %}
+	{% import _self as helper %}
+	<ul class="{{ isRoot ? 'category-selection-list' : 'child-category-selection-list' }}">
+	    {% for category in categories %}
+	    	<li class="{{ isRoot ? 'root-category' : 'child-category' }}">
+	    		{% if product.hasCategory(category) %}
+	    			<input type="checkbox" value="{{ category.id }}" name="categories[]" id="category_{{ category.id }}" checked="checked" disabled="disabled" /> {{ category.name }}
+	    		{% else %}
+	    			<input type="checkbox" value="{{ category.id }}" name="categories[]" id="category_{{ category.id }}" /> {{ category.name }}
+	    		{% endif %}
+	    		
+	    		{% if category.children|length %}
+	    			{{ helper.category_selection_html(category.children, product, false) }}
+	    		{% endif %}
+	    	</li>
+	    {% endfor %}
+	</ul>
+{% endmacro %}

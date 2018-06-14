@@ -1,0 +1,61 @@
+{%  import "SplicedCommerceBundle:Order:macros.html.twig" as helper %}
+
+<table class="check-item-review-table table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Part #</th>
+			<th>Description</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="4" rowspan="5">
+			    {% if form.vars.data.customFields|length %}
+			        <p><strong>Additional Information:</strong></p>
+			        {% for customFieldValue in order.customFields  %}
+			            {% if customFieldValue.fieldValue|length %}
+			            <div>
+			                {{ customFieldValue.field.fieldLabel }}: {{ customFieldValue.fieldValue }}
+			            </div>
+			            {% endif %} 
+			        {% endfor %}
+			    {% endif %}
+			    
+			</td>
+		</tr>
+		<tr>
+			<th>Subtotal</th>
+			<td>
+				${{ commerce_order_subtotal(form.vars.data, false) }} 
+			</td>
+		</tr>
+		{% if commerce_order_tax(form.vars.data) > 0 %}
+		<tr>
+			<th>Taxes</th>
+			<td>${{ commerce_order_tax(form.vars.data) }}</td>
+		</tr>
+		{% endif %}
+		<tr>
+
+			<th>Shipping</th>
+			<td>${{ commerce_order_shipping(form.vars.data) }}</td>
+		</tr>
+		<tr>
+			<th>Total</th>
+			<td>
+				<div class="price">
+					<span class="price">${{ commerce_order_total(form.vars.data, true) }}</span>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	{% for item in items %}
+		{{ helper.order_item_review_row(item, false, {}) }}
+	{%  endfor %}
+	</tbody>
+</table>

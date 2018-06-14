@@ -1,0 +1,44 @@
+{% extends "SplicedCommerceBundle:Layouts:2columns-left.html.twig" %}
+
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+
+{% block title %}Subscribe to Newsletter | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('commerce_newsletter_subscribe') }}" />
+{% endblock %}
+
+{% block left %}
+    {{ include('SplicedCommerceBundle:Newsletter:social_block.html.twig') }}
+    {{ include('SplicedCommerceBundle:Newsletter:unsubscribe_info_block.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Newsletter <small>Subscribe</small></h1>
+     </div>   
+     
+     <form method="post" action="">
+         <div class="alert alert-info">
+             <p>Subscribing to our newsletter will notify you first of upcomming specials and promotions. It will
+                also keep you up to date with changes and updates to our website. Just <strong>enter your email address below</strong>.</p>
+          </div>
+            
+            <div>
+                {{ form_row(form.email,{
+                    'attr':{ 
+                        'placeholder' : 'Enter Your Email Address', 
+                        'class' : 'input-block-level'
+                    }
+                }) }}
+                
+            </div>
+            
+            {{ form_rest(form) }}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Sign Up</button>
+            </div>
+        </form>
+
+{% endblock %}

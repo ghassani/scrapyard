@@ -1,0 +1,68 @@
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Orders</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_order') }}">Submitted</a></li>
+          <li><a href="{{ path('commerce_admin_order_incomplete') }}">Incomplete &amp; Abandoned</a></li>
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Start To Date</a></li>
+          <li><a href="#">Week To Daten</a></li>
+          <li><a href="#">Month To Date</a></li>
+          <li><a href="#">Past 3 Months</a></li>
+          <li><a href="#">Past 6 Months</a></li>
+        </ul>
+      </li> 
+    </ul>
+    
+    {% if order is defined %}
+    <ul class="nav navbar-nav navbar-right">
+         <li class="dropdown">
+             {% if order.orderStatus == 'incomplete' or order.orderStatus == 'abandoned' %}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Incomplete Order #{{ order.orderNumber|length ? order.orderNumber : order.id }} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path('commerce_admin_order_incomplete_followup', {'id':order.id}) }}">Send Incomplete Order Followup Email</a></li>
+                  <li><a href="#">Inquire About</a></li>
+                </ul>
+             {% else %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order {{ order.orderNumber|length ? order.orderNumber : order.id }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Download Order PDF</a></li>
+              <li><a href="#">View Printer Friendly</a></li>
+              
+              <li role="presentation" class="divider"></li>
+              <li><a href="#">Add Memo</a></li>
+              <li><a href="#">Add Payment Memo</a></li>
+              <li><a href="#">Add Shipment Memo</a></li>
+          
+              <li role="presentation" class="divider"></li>
+              <li><a href="#">Resend Customer Notification</a></li>
+              <li><a href="#">Resend Admin Notification</a></li>
+            </ul>
+             {% endif %}
+          </li>
+      </ul>
+      {% else %}
+    
+            <form class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Enter Order Number">
+              </div>
+              <button type="submit" class="btn btn-default">Go</button>
+            </form>
+      {% endif %}
+    
+  </div><!-- /.navbar-collapse -->
+</nav>

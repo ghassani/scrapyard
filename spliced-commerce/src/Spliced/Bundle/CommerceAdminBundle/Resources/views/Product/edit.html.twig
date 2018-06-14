@@ -1,0 +1,240 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}{{ product.name }} | Products | {{ parent() }}{% endblock %}
+
+{% block javascripts -%}
+    {{ parent() }}
+	{% javascripts
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_attribute.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_specification.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_tier_price.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_upsale.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_related_products.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_bundled_item.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_content.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_image.js'
+	    '@SplicedCommerceAdminBundle/Resources/public/js/product_category.js'
+	    filter='?yui_js'
+	    output='/js/commerce_admin_product.js'
+	%} 
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs" data-spy="affix" data-offset-top="60">
+  <li class="active"><a href="#Details">Details</a></li>
+  <li class=""><a href="#Pricing">Pricing</a></li>
+  <li class=""><a href="#Media">Media</a></li>
+  <li class=""><a href="#Content">Content</a></li>
+  <li class=""><a href="#Categories">Categories</a></li>
+  <li class=""><a href="#Inventory">Inventory</a></li>
+  <li class=""><a href="#Specifications">Specifications</a></li>
+  <li class=""><a href="#Attributes">Attributes</a></li>
+  <li class=""><a href="#BundledItems">Bundled Items</a></li>
+  <li class=""><a href="#RelatedProducts">Related Products</a></li>  
+  <!--<li class=""><a href="#Upsales">Upsales</a></li>-->
+  <li class=""><a href="#Routes">Routes</a></li>
+  <li class=""><a href="#Sales">Sales</a></li>
+</ul>
+{% endblock %}
+
+{% block content -%}
+<div class="product-edit">    
+    <div class="page-header">
+    	<h1>Product <small>{{ product.sku }} - {{ product.name }}</small></h1>
+    </div>
+    
+    <form action="{{ path('commerce_admin_product_update', { 'id': product.id }) }}" class="form form-product" method="post" {{ form_enctype(form) }}>
+   		{#
+   		Product Details   		
+   		#}
+   		<div id="Details" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Details</small></h2>
+    	    </div>
+    		{{ include("SplicedCommerceAdminBundle:Product:detail_form.html.twig", {  }) }}
+    	</div>
+   		{#
+   		Product Pricing   		
+   		#}
+    	<div id="Pricing" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Pricing</small></h2>
+    	    </div>
+    		{{ include("SplicedCommerceAdminBundle:Product:pricing.html.twig", {  }) }}
+    	    
+    	    
+    	    <div class="page-header">
+    	        <h2><small>Tier Pricing</small></h2>
+    	    </div>
+    	    
+    	    <div class="well well-small well-sm">
+    	    	Tiered pricing allows you to alter the sale price of an item with various pricing rules to 
+    	    	adjust the price of the product when ordered in certain quantity amounts.
+    	    </div>
+    	    
+    	    {{ include("SplicedCommerceAdminBundle:Product:tier_pricing.html.twig", {  }) }}
+    	    
+    	</div>
+   		{#
+   		Product Media   		
+   		#}
+    	<div id="Media" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Images</small></h2>
+    	    </div>
+    		{{ include("SplicedCommerceAdminBundle:Product:images.html.twig", { }) }}
+    	</div>
+   		{#
+   		Product Content   		
+   		#}
+    	<div id="Content" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Content</small></h2>
+    	    </div>
+    		{{ include("SplicedCommerceAdminBundle:Product:content.html.twig", { }) }}
+    	</div>
+   		{#
+   		Product Categories   		
+   		
+    	<div id="Categories" class="content-pane">
+    	
+    		<div class="page-header">
+                <h2><small>Categories</small></h2>
+            </div>
+            {{ include("SplicedCommerceAdminBundle:Product:categories.html.twig", {  }) }}
+    	</div>
+    	#}
+   		{#
+   		Product Inventory   		
+   		#}
+    	<div id="Inventory" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Inventory</small></h2>
+    	    </div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:inventory.html.twig", {  }) }}
+    	</div>
+   		{#
+   		Product Specifications   		
+   		#}
+    	<div id="Specifications" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Specifications</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Use Specifications to let the user know about various features a product may have to offer, as well as
+	    	 	provide faceted filters when viewing products in a category or when a customer searches the store.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:specifications.html.twig", {  }) }}
+    	</div>
+    	
+   		{#
+   		Product Attributes   		
+   		
+    	<div id="Attributes" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Attributes</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Assign pre-created attributes to products to allow users to interact with the product during the checkout process.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:attributes.html.twig", {  }) }}
+    	</div>
+    	#}
+   		{#
+   		Product Bundled Items   		
+   		
+    	<div id="BundledItems" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Bundled Items</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Bundled items are automatically added to the shopping cart when this product is added.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:bundled_items.html.twig", {  }) }}
+    	</div>
+    	#}
+   		{#
+   		Product Upsales   		
+   		
+    	<div id="Upsales" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Upsales</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Upsales are offered to customers viewing a product, or when an item has been added to the shopping cart.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:upsales.html.twig", {  }) }}
+    	</div>
+    	#}
+   		{#
+   		Product Related Products   		
+   		#}
+    	<div id="RelatedProducts" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Related Products</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Related products show up as additional offers on the product display page.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:related_products.html.twig", {  }) }}
+    	</div>
+    	
+   		{#
+   		Product Routes 		
+   		#}
+    	<div id="Routes">
+    	    <div class="page-header">
+    	        <h2><small>Routes</small></h2>
+    	    </div>
+	    	<div class="well well-small well-sm">
+	    	 	Routes define paths in the frontend catalog that map to this product. By default, there is always a system route accessible from the system path listed in the table below.
+	    	</div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:routes.html.twig", {  }) }}
+    	</div>
+    	
+   		{#
+   		Product Sales History   		
+   		#}
+    	<div id="Sales" class="content-pane">
+    	    <div class="page-header">
+    	        <h2><small>Sales</small></h2>
+    	    </div>
+    	    {{ include("SplicedCommerceAdminBundle:Product:sales.html.twig", {  }) }}
+    	</div>
+
+    
+	    <div class="form-actions">
+	        <ul class="record-actions list-inline">
+	            <li><button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Update</button></li>
+	            <li>
+	        		<a href="{{ path('commerce_admin_product') }}" class="btn btn-warning">
+	        	    	<i class="icon-circle-arrow-left icon-white"></i> Back to the list
+	        	    </a>
+	        	</li>
+	        </ul>
+	    </div>
+
+    	{{ form_widget(form._token) }}
+    </form>
+    
+    <div class="form-actions">
+        <ul class="record-sub-actions list-inline">
+        	<li>
+        	    <form action="{{ path('commerce_admin_product_delete', { 'id': product.id }) }}" method="post">
+        	        <input type="hidden" name="_method" value="DELETE" />
+        	        {{ form_widget(delete_form) }}
+        	        <button class="btn btn-danger" type="submit"><i class="icon-trash icon-white"></i> Delete</button>
+        	    </form>
+            </li>
+        </ul>
+    </div>
+    
+</div>
+{% endblock %}

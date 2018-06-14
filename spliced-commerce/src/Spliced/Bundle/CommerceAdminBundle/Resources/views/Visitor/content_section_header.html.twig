@@ -1,0 +1,29 @@
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <a class="navbar-brand" href="{{ path('commerce_admin_visitor') }}">Visitors</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">By Affiliate <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_visitor') }}">Amazon</a></li>
+          <li><a href="{{ path('commerce_admin_visitor') }}">Google</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="{{ path('commerce_admin_visitor_bots') }}">Bot Visits</a>
+      </li>
+    </ul> 
+    
+    {% if visitor is defined %}
+    
+      {% else %}
+
+      {% endif %}
+    
+  </div><!-- /.navbar-collapse -->
+</nav>

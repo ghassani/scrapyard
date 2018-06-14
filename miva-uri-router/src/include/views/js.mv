@@ -1,0 +1,28 @@
+<MvFUNCTION NAME = "Render_Js" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvCOMMENT>
+		<script language="JavaScript" src="{ g.clientside_url $ 'Filename=ajax.js' }"></script>
+		<MvIF EXPR = "{ g.Merchant_Version GE 9 }">
+			<script language="JavaScript" src="{ g.clientside_url $ 'Filename=admin/ui.js' }"></script>
+			<script language="JavaScript" src="{ g.clientside_url $ 'Filename=admin/v55_ui.js' }"></script>
+		<MvELSE>
+			<script language="JavaScript" src="{ g.clientside_url $ 'Filename=admin/ui.js' }"></script>
+		</MvIF>
+		<script language="JavaScript" src="{ g.clientside_url $ 'Filename=admin/functions.js' }"></script>
+		<script language="JavaScript" src="{ g.clientside_url $ 'Filename=admin/mmscreen.js' }"></script>
+	</MvCOMMENT>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function($){
+	$('[data-toggle=tooltip]').tooltip({});
+});
+</script>
+
+<MvINCLUDE FILE = "assets/js/route_form.js"> 
+<MvINCLUDE FILE = "assets/js/route_list.js"> 
+
+<MvEVAL EXPR = "{ [ g.Module_Admin ].JavaScript_SetVariables( 'g', 'Store_Code, Adminurl, Screen, Tab, Module_Action, Route_Id, Route_Ids' ) }">
+
+</MvFUNCTION>

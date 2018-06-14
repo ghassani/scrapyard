@@ -1,0 +1,35 @@
+{% block choice_widget_expanded %}
+{% spaceless %}
+<div {{ block('widget_container_attributes') }}>
+	<table class="table table-striped checkout-payment-methods">
+	{% for index,child in form %}
+		{% set method = get_payment_provider(child.vars.value) %}
+		{% set is_selected = value[index] is defined and value[index] %}
+		<tr id="method_{{ method.name }}_selector" class="payment_method_selector">
+			<th width="10">{{ form_widget(child, {'attr': {'class': attr.widget_class|default('')}}) }}</th>
+			<th>
+				<a href="#" data-method="{{ method.name }}" title="{{ method.label }}">{{ method.label }} <small>{{ method.label2 }}</small></a>
+				{% if method.acceptsCreditCards %}
+					<img src="{{ asset('/bundles/splicedcommerce/images/icons/payments/visa_medium.png') }}" />
+					<img src="{{ asset('/bundles/splicedcommerce/images/icons/payments/mastercard_medium.png') }}" />
+					<img src="{{ asset('/bundles/splicedcommerce/images/icons/payments/discover_medium.png') }}" />
+					<img src="{{ asset('/bundles/splicedcommerce/images/icons/payments/american_express_medium.png') }}" />
+				{% endif %}
+			</th>
+		</tr>
+		<tr id="method_{{ method.name }}_content" class="payment_method_content {{ is_selected ? '' : 'hidden' }}">
+			<td colspan="2">
+			{{ include("SplicedCommerceBundle:Checkout:Payment/"~method.name~"_checkout_form.html.twig", {
+				'step' : step,
+				'form' : mainForm,
+				'order' : order,
+				'method' : method,
+			}) }}
+			</td>
+		</tr>
+	{% endfor %} 
+	</table>
+</div> 
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+

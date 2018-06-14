@@ -1,0 +1,41 @@
+<div class="block-base category-product-filter">
+    <div class="block-head">Filter Results</div>
+    <div class="block-content">
+    	{% if productFilterManager.attributes|length %}
+    	<div class="well well-small">
+    	    <p>Currently set attributes:</p>
+        	<ul class="unstyled">
+        	{% for setAttributeOption in productFilterManager.attributes %}
+        		<li>
+        			{{ setAttributeOption.label }} - {{ setAttributeOption.value }}
+        			<a href="{{ path("category_update_attribute_filter", { "attributeOptionId" : setAttributeOption.option_id, "attributeOptionValueId":setAttributeOption.value_id, "action" : "delete" }) }}" rel="nofollow" title="Remove Filter">
+        				<i class="icon-trash"></i>
+        			</a>
+        		</li>
+        	{% endfor %}
+        	</ul>
+    	</div>
+    	{% endif %}
+    	{% if attributeFilter.data|length %}
+    	<ul class="category-attribute-filter unstyled">
+    	{% for _attribute in attributeFilter.data %}
+    		<li>
+    			<i class="icon-list"></i> {{ _attribute.publicLabel }}
+	    		<ul class="unstyled">
+	    		{% for _attributeValue in _attribute.values %}
+	    			<li>
+	    				<a href="{{ path("category_update_attribute_filter", {"attributeOptionId":_attribute.id,"attributeOptionValueId":_attributeValue.id}) }}" rel="nofollow">
+	    				<i class="icon-chevron-right"></i> {{ _attributeValue.publicValue }}
+	    				</a> ({{ _attributeValue.productCount }})
+	    			</li>
+	    		{% endfor %}
+	    		</ul>
+    		</li>
+    	{% endfor %}
+    	</ul>
+    	{% else %}
+    	<div>There are no available filters for your results.</div>
+    	{% endif %}
+	</div>
+</div>
+{% endif %}

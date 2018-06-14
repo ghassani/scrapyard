@@ -1,0 +1,71 @@
+{% form_theme form 'SplicedCommerceBundle:Form:bootstrap_radio.html.twig' %}
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.billingAddress2 "SplicedCommerceBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+
+{{ form_errors(form) }}
+
+{% if form.storedAddresses is defined %}
+	<div class="input-prepend input-append pull-right">
+    	<span class="add-on">Stored Addresses:&nbsp;</span>
+    	{{ form_widget(form.storedAddresses, { 'attr' : { 'class' : '' } } ) }}
+    	<div class="btn-group">
+	    	<button class="btn btn-success">Use Address</button>
+	    </div>
+    </div>
+	<div class="clearfix"></div>
+{% endif %}
+
+<div class="checkout-billing-address">
+	<div class="row">
+		<div class="col-sm-6 col-lg-6">
+			{{ form_row(form.billingFirstName) }}
+		</div>
+		<div class="col-sm-6 col-lg-6">
+			{{ form_row(form.billingLastName) }}
+		</div>
+	</div>
+    
+    {{ form_row(form.billingCompany) }}
+    
+    {{ form_row(form.billingAddress) }}
+    {{ form_row(form.billingAddress2) }}
+    
+    {{ form_row(form.billingCountry) }}     
+    
+
+    
+    <div class="row">
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.billingCity) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.billingState) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.billingZipcode) }}
+    	</div>
+    </div>
+    
+    
+    <div class="row">
+    	<div class="col-sm-4 col-lg-4">
+    		{{ form_row(form.billingPhoneNumber) }}
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    	</div>
+    	<div class="col-sm-4 col-lg-4">
+    	</div>
+    </div>
+    
+	{% if form.saveBillingAddress is defined %}
+	    <div class="controls controls-row span2_5">
+	    	<label class="checkbox">
+	    		Save In Address Book {{ form_widget(form.saveBillingAddress, { 'attr' : { 'class' : '', 'placeholder' : '' } } ) }}
+	    	</label>
+	        {{ form_errors(form.saveBillingAddress) }}
+	    </div>
+	    
+    {% endif %}
+        
+    <div class="clearfix"></div>
+</div>

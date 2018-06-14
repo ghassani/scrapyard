@@ -1,0 +1,32 @@
+<div class="modal fade {{ class is defined ? class : '' }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {% if noCloseButton is not defined %}
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        {% endif %}
+        <h4 class="modal-title">{{ title }}</h4>
+      </div>
+      <div class="modal-body">
+        {{ body|raw }}
+      </div>
+      <div class="modal-footer">
+	    {% if buttons is defined and buttons|length %}
+		    {% for button in buttons %}
+		    	{% if button.href is defined %}
+		    		<a href="{{ button.href }}" class="btn {{  button.class }}" id="{{ button.id }}" {{ button.attributes is defined ? button.attributes|raw : '' }}>
+		    			{{ button.label }}
+		    		</a>
+		    	{% else %}
+		    		<button type="button" {{  button.dismiss ? 'data-dismiss="modal"' : '' }} class="btn {{  button.class }}" id="{{ button.id }}" data-href="{{ button.href is defined ? button.href : '' }}" {{ button.attributes is defined ? button.attributes|raw : '' }}>
+		    			{{ button.label }}
+		    		</button>
+		    	{% endif %}
+		    {% endfor %}
+	    {% else %}
+		    <button type="button" data-dismiss="modal" class="btn">Ok</button>
+	    {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

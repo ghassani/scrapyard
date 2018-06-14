@@ -1,0 +1,83 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+{% block title %}My Address Book | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : customer} %}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+	<h1>Address Book</h1>
+</div>
+
+<table class="table table-striped table-bordered table-condensed table-customer-addressbook">
+	<thead>
+		<tr>
+			<th>Label</th>
+			<th>Address</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tfoot>
+	</tfoot>
+	<tbody>
+		{% if customer.addresses|length %}
+			{% for address in customer.addresses %}
+				<tr>
+					<td>{{ address.addressLabel }}</td>
+					<td>
+						<div>{{ address.firstName }} {{ address.lastName }}</div>
+						{% if address.attn|length %}
+							<div>{{ address.attn }}</div>
+						{% endif %}
+						<div>{{ address.address }}</div>
+						{% if address.address2|length %}
+							<div>{{ address.address2 }}</div>
+						{% endif %}
+						<div>{{ address.city }}, {{ address.state }} {{ address.zipcode }} {{ address.country }}</div>
+						{% if address.phoneNumber|length %}
+							<div>{{ address.phoneNumber }}</div>
+						{% endif %}
+					</td>
+					<td width="200">
+						<ul class="unstyled list-unstyled">
+    						<li><a href="{{ path('commerce_account_addresses_edit', {'id' : address.id}) }}"><i class="icon-pencil"></i> Edit</a></li>
+    						<li>
+    							{% if customer.profile.preferedBillingAddress|length and address.id == customer.profile.preferedBillingAddress.id %}
+    								<i class="icon-check"></i> Prefered Billing</li>
+    							{% else %}
+    								<a href="{{ path('commerce_account_addresses_set_prefered',{ 'type' : 'billing', 'id' : address.id }) }}"><i class="icon-share-alt"></i> Set as Prefered Billing</a>
+    							{% endif %}
+    						</li>
+    						<li>
+    							{% if customer.profile.preferedShippingAddress|length and address.id == customer.profile.preferedShippingAddress.id %}
+    								<i class="icon-check"></i> Prefered Shipping</li>
+    							{% else %}
+    								<a href="{{ path('commerce_account_addresses_set_prefered',{ 'type' : 'shipping', 'id' : address.id }) }}"><i class="icon-share-alt"></i> Set as Prefered Shipping</a>
+    							{% endif %}
+    						</li>
+    						<li><a href="{{ path('commerce_account_addresses_delete', {'id' : address.id}) }}"><i class="icon-trash"></i> Delete</a></li>
+    					</ul>
+					</td>
+				</tr>
+			{% endfor %}
+		{% else %}
+			<tr>
+				<td colspan="3"><div class="text-center"><strong>No Addresses Found. <a href="{{ path('commerce_account_addresses_add') }}">Add One?</a></strong></div></td>
+			</tr>
+		{% endif %}
+	</tbody>
+</table>
+
+<div class="form-actions">
+	<a href="{{ path('commerce_account_addresses_add') }}" class="btn btn-info"><i class="icon-plus"></i> Add New Address</a>
+</div>
+
+{% endblock %}

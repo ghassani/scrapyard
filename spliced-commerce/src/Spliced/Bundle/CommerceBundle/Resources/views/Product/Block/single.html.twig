@@ -1,0 +1,17 @@
+<div>
+			<a href="{{ path(product.urlSlug) }}" title="{{ product.name }}">
+				{% if product.images|length %}
+					<img src="{{ commerce_resize_product_image(product.images.first, commerce_get_config('commerce.product.image_block_width'), commerce_get_config('commerce.product.image_block_height')) }}" alt="{{ product.name }}" class="product_image img-rounded" />
+				{% else %}
+					<img src="" alt="PUT DEFAULT IMAGE HERE" />
+				{% endif %}
+			</a>
+		</div>
+		<div class="title"><a href="{{ path(product.urlSlug) }}">{{ product.name }}</a></div>
+		<div class="price">${{ commerce_product_price(product) }}</div>
+		
+		{% if product.tierData|length %}
+			{{ include("SplicedCommerceBundle:Product:tier_price_table.html.twig") }}
+		{% else %}
+			<div class="add">{{ include("SplicedCommerceBundle:Product/Form:add_to_cart_simple.html.twig") }}</div>
+		{% endif %}

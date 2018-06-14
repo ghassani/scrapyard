@@ -1,0 +1,46 @@
+
+
+<MvCOMMENT>
+ * Render_About
+ *
+ * Renders About Page
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_About" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+			
+			<MvIF EXPR = "{ g.module_sub_action EQ 'version_check' }">
+				<MvASSIGN NAME="l.latest_version" value = "{ Licensing_Server_Get_Current_Version(l.module) }" />
+				<MvIF EXPR = "{ l.latest_version NE l.module:version }">
+					<MvASSIGN NAME = "l.current_version_int" VALUE = "{ glosub(l.module:version, '-DEV', '') }" />
+					<MvASSIGN NAME = "l.current_version_int" VALUE = "{ glosub(l.current_version_int, '-dev', '') }" />
+					<MvASSIGN NAME = "l.latest_version_int" VALUE = "{ glosub(l.latest_version, '-DEV', '') }" />
+					<MvIF EXPR = "{ l.latest_version_int GT l.current_version_int }">
+						<div class="alert alert-info">An update is available.</div>
+					<MvELSEIF EXPR="{ l.latest_version_int LT l.current_version_int }">
+						<div class="alert alert-warning">Your version is seems to be ahead of the current release.</div>
+					<MvELSEIF EXPR="{ l.latest_version_int EQ l.current_version_int }">
+						<div class="alert alert-success">Your version is up to date.</div>
+					</MvIF>				
+				<MvELSE>
+					<div class="alert alert-success">Your version is up to date.</div>
+				</MvIF>
+
+			</MvIF>
+			<ul class="list-unstyled">
+				<li>URI Router <MvEVAL EXPR = "{ l.module:version }" /> - &copy; 2014 Spliced Media L.L.C. <a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=about&Module_Sub_Action=version_check' }" class="btn btn-sm btn-info pull-right">Check For Updates</a></li>
+				<li><a href="http://www.splicedmedia.com">http://www.splicedmedia.com</a></li>
+				<li><strong>Developers:</strong> <a href="http://www.splicedmedia.com/">Gassan Idriss</a></li>
+			</ul>
+
+	        <div class="page-header">
+	        	<h2>Documentation</h2>
+	        </div>
+
+	        <p>Please visit our online documentation at http://www.somedomain.com/docs</p>
+
+	        <h2>License Information</h2>
+	        <p>ONCE A LICENSE TYPE IS SET IT WILL GO HERE</p>
+	        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mi ipsum, sodales non mauris sed, pulvinar euismod dui. Pellentesque neque quam, vestibulum at mi vitae, consequat bibendum eros. Maecenas accumsan bibendum eros, eu adipiscing nulla cursus ac. Duis vestibulum ornare sem, id eleifend nisl iaculis in. Phasellus nisl nunc, malesuada vel ornare non, egestas at quam. Aliquam sit amet velit et arcu commodo mollis vel in tellus. Sed posuere sollicitudin purus, vel hendrerit lorem tempus id.</p>
+	        <p>Duis turpis leo, porttitor sit amet consectetur at, consequat quis nulla. Nulla aliquam sagittis feugiat. Proin at euismod metus, a placerat risus. Nulla nec congue augue. Aliquam scelerisque euismod nisl in ullamcorper. Proin facilisis ante eu ante dictum condimentum. Quisque porttitor, nisi vel pretium tincidunt, risus quam lobortis nisl, a hendrerit metus lorem at mauris. Donec tincidunt luctus feugiat. Morbi est tellus, ultricies at pharetra sed, volutpat convallis purus. Curabitur ultrices turpis vel sem mollis iaculis. In hac habitasse platea dictumst. Phasellus suscipit diam sagittis dolor luctus dictum. Maecenas eu leo eu nulla blandit tincidunt. Donec id nibh faucibus sapien eleifend lacinia. Nullam posuere fringilla turpis non aliquam. Vivamus varius orci dolor, ut suscipit dolor tincidunt eu.</p>
+
+
+</MvFUNCTION>

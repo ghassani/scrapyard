@@ -1,0 +1,68 @@
+<div class="controls-row">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name,{'attr':{'class' : 'form-control'}}) }}
+</div>
+
+<div class="controls-row">
+    {{ form_label(form.parent) }}
+    {{ form_widget(form.parent,{'attr':{'class' : 'form-control'}}) }}
+</div>
+
+<div class="controls-row">
+	{{ form_label(form.urlSlug, "URL Slug") }}
+        {% if category is defined %}
+        	{{ form_widget(form.urlSlug, { 'attr' : { 'class' : 'form-control category-url-slug-auto-format edit-category-url-slug-check', 'data-original' : '', 'data-id' : category.id } }) }}
+        {% else %}
+        	{{ form_widget(form.urlSlug, { 'attr' : { 'class' : 'form-control category-url-slug-auto-format new-category-url-slug-check' } }) }}
+        {% endif %}
+        {{ form_errors(form.urlSlug) }}
+</div>
+
+<div class="controls-row">
+    {{ form_label(form.pageTitle) }}
+    {{ form_widget(form.pageTitle,{'attr':{'class' : 'form-control'}}) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.headTitle) }}
+    {{ form_widget(form.headTitle,{'attr':{'class' : 'form-control'}}) }}
+</div>
+
+<div class="form-group">
+	<div class="col-lg-6">
+		{{ form_label(form.description) }}
+		{{ form_widget(form.description, { 'attr' : { 'class' : 'form-control html-source' } }) }}
+	</div>
+	<div class="col-lg-6">
+		<div class="wysiwyg">
+		    {{ form.vars.data.description|raw }}
+		</div>
+	</div>
+</div>
+<div class="clearfix"></div>
+
+<div class="form-group">
+	<div class="col-lg-6">
+		{{ form_label(form.metaKeywords) }}
+		{{ form_widget(form.metaKeywords, { 'attr' : { 'class' : 'form-control' } }) }}
+	</div>
+	<div class="col-lg-6">
+		{{ form_label(form.metaDescription) }}
+		{{ form_widget(form.metaDescription, { 'attr' : { 'class' : 'form-control' } }) }}
+	</div>
+</div>
+<div class="clearfix"></div>
+
+<div class="form-group">
+	<div class="col-lg-6">
+	    {{ form_label(form.position) }}
+	    {{ form_widget(form.position,{'attr':{'class' : 'form-control'}}) }}
+	</div>
+	<div class="col-lg-6">
+	    {{ form_label(form.isActive) }}
+	    {{ form_widget(form.isActive,{'attr':{'class' : 'form-control'}}) }}
+	</div>
+</div>
+<div class="clearfix"></div>
+
+{{ form_rest(form) }}

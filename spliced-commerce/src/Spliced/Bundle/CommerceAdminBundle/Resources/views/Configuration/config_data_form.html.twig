@@ -1,0 +1,35 @@
+{% if not is_form(form) %}
+    {% if is_array(form) %}
+        {{ print_r(form) }}
+    {% endif %}
+{% else %}
+    {% if form.vars.data.type == 'html' %}
+    <div class="config-item-form-wrapper">
+    	{{ form_label(form.value, '', { 'label_attr' : { 'class' : 'col-lg-2 control-label' } }) }}
+    	<div class="col-lg-5">
+        	{{ form_widget(form.value, { 'attr' : { 'class' : 'form-control config-html-source' } }) }}
+        </div>
+    	<div class="col-lg-5">
+        	<div class="wysiwyg config-wysiwyg">
+        		{{ form.vars.data.value|raw }}
+        	</div>
+        </div>
+    	{{ form_rest(form) }}
+    	<div class="clearfix"></div>
+    </div>
+    {% else %}
+    
+    <div class="config-item-form-wrapper">
+    	<div class="form-group">
+        	{{ form_label(form.value, '', { 'label_attr' : { 'class' : 'col-lg-3 control-label' } }) }}
+            <div class="col-lg-6">
+            	{{ form_widget(form.value, { 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+            <div class="col-lg-1">
+                                     
+            </div>
+        </div>
+    	{{ form_rest(form) }}
+    </div>
+    {% endif %}
+{% endif %}

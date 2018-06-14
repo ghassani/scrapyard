@@ -1,0 +1,34 @@
+{% form_theme profileForm "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme resetPasswordForm "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+<div class="row">
+    <div class="col-lg-6 col-sm-6">
+    
+        <fieldset>
+    	    <form method="post" action="{{ path('commerce_account_profile_update') }}" role="form" class="form">
+        		<legend>Update Profile</legend>
+        		
+        		{{ form_row(profileForm.firstName) }}
+        		{{ form_row(profileForm.lastName) }}
+        		{{ form_row(profileForm.newsletterSubscriber) }}
+        		
+        		
+        		{{ form_rest(profileForm) }}
+        		<div class="form-actions">
+        			<button type="submit" class="btn btn-success">Update Profile</button>
+        		</div>
+    		</form>
+    	</fieldset>
+    </div>
+    <div class="col-lg-6 col-sm-6">
+        <fieldset>
+    	    <form method="post" action="{{ path('commerce_account_change_password') }}">
+        		<legend>Reset Password</legend>
+        		{{ form_rest(resetPasswordForm) }}
+        		<div class="form-actions">
+        			<button type="submit" class="btn btn-success">Reset Password</button>
+        		</div>
+    		</form>
+    	</fieldset>
+    </div>
+</div>

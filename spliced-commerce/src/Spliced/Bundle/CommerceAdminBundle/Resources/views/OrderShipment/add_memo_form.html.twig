@@ -1,0 +1,23 @@
+
+<div>
+	{{ form_label(form.createdBy, 'Created By') }}
+	{{ form_widget(form.createdBy, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div>
+	{{ form_label(form.memo, 'Memo') }}
+	{{ form_widget(form.memo, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div>
+	{{ form_label(form.trackingNumber, 'Tracking Number') }}
+	{{ form_widget(form.trackingNumber, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div>
+	{{ form_label(form.notify, 'Notify Customer') }}
+	{{ form_widget(form.notify, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+{{ form_rest(form) }}	
+ 

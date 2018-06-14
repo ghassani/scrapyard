@@ -1,0 +1,15 @@
+{% for class, flash in {
+	'warning' : 'warning', 
+	'danger' : 'error', 
+	'info' : 'info', 
+	'success' : 'success'
+} %}
+	{% if app.session.flashBag.has(flash) %}
+		{% for message in app.session.flashBag.get(flash) %}
+		<div class="main-alert alert alert-{{ class }}">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+		</div>
+		{% endfor %}
+	{% endif %}
+{% endfor %}

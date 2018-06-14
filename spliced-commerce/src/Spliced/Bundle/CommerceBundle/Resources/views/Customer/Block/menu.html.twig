@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Account Menu</div>
+  {#
+  <div class="panel-body">
+    <p>Use the links below to manage various aspects of your account.</p>
+  </div>
+  #}
+   
+  <ul class="list-group">
+	<li class="list-group-item"><a href="{{ path('commerce_account') }}">Account Overview</a></li>
+	<li class="list-group-item"><a href="{{ path('commerce_account_orders') }}">Order History</a></li>
+	<li class="list-group-item"><a href="{{ path('commerce_account_address_book') }}">Address Book</a></li>
+	<li class="list-group-item"><a href="{{ path('commerce_account_profile') }}">Update Profile</a></li>
+	<li class="list-group-item"><a href="{{ path('commerce_account_profile') }}">Change Password</a></li>
+  </ul>
+</div>

@@ -1,0 +1,155 @@
+{% macro order_item_review_row(item, child) %}
+	{% import _self as helper %}
+		<tr id="order-item-{{ item.id }}">
+			<td width="{{ commerce_get_config('commerce.product.image_cart_width') }}">			
+			    {% if item.cartItem.product.images|length %}
+				    <img class="img-rounded" src="{{  commerce_resize_product_image(item.cartItem.product.images.first, commerce_get_config('commerce.product.image_cart_width'), commerce_get_config('commerce.product.image_cart_height')) }}" alt="{{ item.cartItem.product.name }}" />
+				{% else %}
+				    <img class="img-rounded" src="http://placehold.it/{{ commerce_get_config('commerce.product.image_cart_width') ~ 'x' ~ commerce_get_config('commerce.product.image_cart_height') }}" alt="{{ item.cartItem.product.name }}" />
+				{% endif %}
+			</td>
+			<td>{{ item.cartItem.product.sku }}</td>
+			<td>{{ item.cartItem.product.name }} 
+				{% if item.cartItem.priceAdjustmentType|length and 0 <= item.cartItem.priceAdjustment %}
+					{% if item.cartItem.priceAdjustmentType == 1 %}
+					&nbsp;-&nbsp;<small>Adds ${{ item.cartItem.priceAdjustment|number_format(2) }}</small>
+					{% elseif item.cartItem.priceAdjustmentType == 2 %}
+					&nbsp;-&nbsp;<small>Saves you ${{ item.cartItem.priceAdjustment|number_format(2) }}</small>
+					{% elseif item.cartItem.priceAdjustmentType == 3 %}
+					&nbsp;-&nbsp;<small>{{ item.cartItem.priceAdjustment|number_format(0) }}% Off</small>
+					{% elseif item.cartItem.priceAdjustmentType == 4 %}
+					&nbsp;-&nbsp;<small>Adds {{ item.cartItem.priceAdjustment|number_format(0) }}%</small>
+					{% elseif item.cartItem.priceAdjustmentType == 5 %}
+					&nbsp;-&nbsp;<small>For ${{ item.cartItem.priceAdjustment|number_format(2) }}</small>
+					{% endif %}
+				{% endif %}
+				
+				{% if item.isChild %}
+					<ul class="carti-child-item-requirement-list">
+						<li>Required by {{ item.parent.cartItem.product.name }}
+							{% if item.parent.isChild %}
+								{{ helper.order_item_parent_requirement_parent(item.parent) }}
+							{% endif %}
+						</li>
+					</ul>
+										
+				{% endif %}
+				{% set itemData = item.itemData %}
+				{% if itemData.user_data is defined %}
+					<blockquote>
+					{% for userData in itemData.user_data %}
+						{% if userData|length %}
+							<div><small><strong>{{ userData.option_label }}:</strong> {{ userData.user_value }}</small></div>
+						{% endif %}
+					{%  endfor %}
+					</blockquote>
+				{% endif %}
+			</td>
+			<td>{{ item.quantity }}</td>
+			<td>
+
+				{%  if item.basePrice != item.salePrice %}
+					<div class="price">
+						<small><span class="price-strikeout">${{ item.basePrice|number_format(2) }}</span></small> <span class="price">${{ item.salePrice|number_format(2) }}</span>
+					</div>
+				{% else %}
+					<div class="price">
+						<span class="price">${{ item.salePrice|number_format(2) }}</span>
+					</div>
+				{% endif %}
+			</td>
+			<td>
+				${{ item.totalPrice|number_format(2) }}
+				 {% if item.taxes > 0 %}
+				 	<div class="order-item-tax"><small>+ ${{ item.taxes|number_format(2) }} tax</small></div>
+				 {% endif %}
+			</td>
+		</tr>		
+		{% if item.children|length %}
+			{% for child in item.children %}
+				{{ helper.order_item_review_row(child, true) }}
+			{% endfor %}
+		{% endif %}
+{% endmacro %}
+
+{% macro order_item_parent_requirement_parent(item) %}
+	{% import _self as helper %}
+		<ul>
+			<li>Which is required by {{ item.parent.cartItem.product.name }}
+				{% if item.parent.isChild %}
+					{{ helper.cart_item_parent_requirement_parent(item.parent) }}
+				{% endif %}
+			</li>
+		</ul>
+{% endmacro %}
+
+
+
+
+
+
+
+
+
+{% macro order_item_view_row(item, child) %}
+	{% import _self as helper %}
+		<tr id="order-item-{{ item.id }}">
+			<td>{{ item.sku }}</td>
+			<td>{{ item.name }} 				
+				{% if item.isChild %}
+					<ul class="carti-child-item-requirement-list">
+						<li>Required by {{ item.parent.cartItem.product.name }}
+							{% if item.parent.isChild %}
+								{{ helper.order_item_view_parent_requirement_parent(item.parent) }}
+							{% endif %}
+						</li>
+					</ul>
+										
+				{% endif %}
+				{% set itemData = item.itemData %}
+				{% if itemData.user_data is defined %}
+					<blockquote>
+					{% for userData in itemData.user_data %}
+						{% if userData|length %}
+							<div><small><strong>{{ userData.option_label }}:</strong> {{ userData.user_value }}</small></div>
+						{% endif %}
+					{%  endfor %}
+					</blockquote>
+				{% endif %}
+			</td>
+			<td>{{ item.quantity }}</td>
+			<td>
+				{%  if item.basePrice != item.salePrice %}
+					<div class="price">
+						<small><span class="price-strikeout">${{ item.basePrice|number_format(2) }}</span></small> <span class="price">${{ item.salePrice|number_format(2) }}</span>
+					</div>
+				{% else %}
+					<div class="price">
+						<span class="price">${{ item.salePrice|number_format(2) }}</span>
+					</div>
+				{% endif %}
+			</td>
+			<td>
+				${{ item.totalPrice|number_format(2) }}
+				 {% if item.taxes > 0 %}
+				 	<div class="order-item-tax"><small>+ ${{ item.taxes|number_format(2) }} tax</small></div>
+				 {% endif %}
+			</td>
+		</tr>		
+		{% if item.children|length %}
+			{% for child in item.children %}
+				{{ helper.order_item_view_row(child, true) }}
+			{% endfor %}
+		{% endif %}
+{% endmacro %}
+
+{% macro order_item_view_parent_requirement_parent(item) %}
+	{% import _self as helper %}
+		<ul>
+			<li>Which is required by {{ item.parent.name }}
+				{% if item.parent.isChild %}
+					{{ helper.order_item_view_parent_requirement_parent(item.parent) }}
+				{% endif %}
+			</li>
+		</ul>
+{% endmacro %}

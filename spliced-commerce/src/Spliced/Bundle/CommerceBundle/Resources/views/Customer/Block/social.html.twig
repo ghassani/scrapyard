@@ -1,0 +1,23 @@
+{#
+<div class="block-base">
+	<div class="block-head">Social</div>
+	<div class="block-content">
+	{% if customer.isSocialLogin is defined and customer.isSocialLogin %}
+			<p>We see you logged into our site using one or more of the following social networks.
+			Consider showing some love with a tweet or a wall post. <a href="#">We d0 socialz t00!</a>
+	{% endif %}
+
+		{% if is_granted('ROLE_FACEBOOK') %}
+		<p>Facebook specific</p>
+	{% endif %}
+
+	{% if is_granted('ROLE_TWITTER') %}
+		<p>Twitter specific</p>
+	{% endif %}
+
+	{% if is_granted('ROLE_GOOGLE') %}
+		<p>Google specific</p>
+	{% endif %}
+	</div>
+</div>
+#}

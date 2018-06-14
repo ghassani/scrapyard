@@ -1,0 +1,64 @@
+{% extends 'SplicedCommerceBundle::Layouts/default.html.twig' %}
+
+{% block title %}Complete Your Account Registration | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>Complete Your Account Registration</h1>
+</div>
+<div class="alert alert-success">
+{% if customer.getForceCollectEmail() == true and customer.getForcePasswordReset() == true %}
+Before we can complete your account registration, we need your email address as well as have you set
+a password for your account.
+{% elseif customer.getForceCollectEmail() == true and customer.getForcePasswordReset() == false %}
+Before we can complete your account registration, we need your email address.
+{% elseif customer.getForceCollectEmail() == false and customer.getForcePasswordReset() == true %}
+Before we can complete your account registration, we need to have you set a password for your account.
+{% endif %}
+</div>
+
+<form method="post" action="{{ path('commerce_account_finalize_registration') }}">
+{% if customer.getForceCollectEmail() == true and customer.getForcePasswordReset() == true %}
+    <div class="row">
+        <div class="span6">
+            <div class="controls-row">
+                {{ form_label(form.email, "E-Mail Address") }}
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+        <div class="span5">
+            <div class="controls-row">
+                {{ form_widget(form.plainPassword) }}
+                {{ form_errors(form.plainPassword) }}
+            </div>
+        </div>
+    </div>
+{% elseif customer.getForceCollectEmail() == true and customer.getForcePasswordReset() == false %}
+<div class="controls-row">
+    {{ form_label(form.email, "E-Mail Address") }}
+    {{ form_widget(form.email) }}
+    {{ form_errors(form.email) }}
+</div>
+{% elseif customer.getForceCollectEmail() == false and customer.getForcePasswordReset() == true %}
+<div class="controls-row">
+    {{ form_widget(form.plainPassword) }}
+    {{ form_errors(form.plainPassword) }}
+</div>
+{% endif %}
+
+{{ form_rest(form) }}
+
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-success">Update &amp; Activate Account</button>
+</div>
+</form>
+<div class="alert alert-info">
+    <p>If you logged in with a 3rd party nework such as Twitter or Facebook, 
+    you can log in with one click, with no password required for all your <strong>future</strong> logins.
+</div>
+
+
+{% endblock %}

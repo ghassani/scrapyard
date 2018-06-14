@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="commerce.user.manager" class="Spliced\Component\Commerce\Security\User\AdminUserManager">
+	    	<argument type="service" id="commerce.admin.configuration" />
+	    	<argument type="service" id="security.encoder_factory" /> 
+	        <argument type="service" id="commerce.admin.entity_manager" /> 
+	        <argument type="service" id="event_dispatcher" />
+        </service> 
+
+        <service id="commerce.security.authentication.entry_point.user" 
+        	class="Spliced\Component\Commerce\Security\EntryPoint\AdminAuthenticationEntryPoint" 
+        	public="true" abstract="true">
+            <argument type="service" id="http_kernel" />
+        </service>
+        
+        <service id="commerce.security.authentication.provider.admin" 
+        	class="Spliced\Component\Commerce\Security\Authentication\Provider\AdminAuthenticationProvider" 
+        	public="false">
+            <argument /> <!-- Provider-shared Key -->
+            <argument type="service" id="commerce.user.manager" />
+            <argument type="service" id="security.user_checker" />
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+                
+        <service id="commerce.security.authentication.listener.user"
+                 class="Spliced\Component\Commerce\Security\Firewall\AdminAuthenticationListener"
+                 parent="security.authentication.listener.abstract"
+                 abstract="true">
+        </service>
+        
+	</services>
+
+</container>

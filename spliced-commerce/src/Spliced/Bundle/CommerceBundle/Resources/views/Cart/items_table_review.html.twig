@@ -1,0 +1,59 @@
+{% set cartTotal = commerce_cart_total() %}
+{% set cartSubTotal = commerce_cart_subtotal() %}
+
+<table class="cart-table table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th>SKU</th>
+			<th>Name</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3" rowspan="5"></td>
+		</tr>
+		<tr>
+			<th>Subtotal</th>
+			<td>
+				${{ cartSubTotal }}
+			</td>
+		</tr>
+		<tr>
+
+			<th>Taxes</th>
+			<td>${{ commerce_cart_tax() }}</td>
+		</tr>
+		<tr>
+
+			<th>Shipping</th>
+			<td>${{ order.shipment.shipmentPaid }}</td>
+		</tr>
+		<tr>
+			<th>Total</th>
+			<td>
+				<div class="price">
+					<span class="price">${{ cartTotal + order.shipment.shipmentPaid }}</span>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	{% for item in items %}
+		<tr id="cart-line_{{ item.product.id }}">
+			<td>{{ item.product.sku }}</td>
+			<td>{{ item.product.name }}</td>
+			<td>{{ item.quantity}}</td>
+			<td>
+				${{ commerce_product_price(item.product, item.quantity) }}
+			</td>
+			<td>
+				${{ commerce_product_price_total(item.product, item.quantity) }}
+			</td>
+		</tr>
+	{%  endfor %}
+	</tbody>
+</table>
+<div class="alert alet-info">Your complete order total is <strong>${{ cartTotal + order.shipment.shipmentPaid }}</strong></div>

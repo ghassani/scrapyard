@@ -1,0 +1,22 @@
+{#
+#}
+{% if form.customFieldValues is defined %}
+	{{ form_errors(form.customFieldValues) }}
+	<hr />
+	{% for f in form.customFieldValues %}
+		{% if not f.isRendered %} {# for hidden required field, required for validation #}
+			{% set fieldData = commerce_checkout_manager().getCustomFieldManager().getFieldByName(f.name) %}
+			<div class="block-base block-custom-field block-custom-field-{{ f.name }}">
+				<div class="block-head">{{ form_label(f) }}</div>
+				<div class="block-content">
+					{{ fieldData.checkoutHtml|raw }}
+					<div class="controls controls-row">
+						{{ form_widget(f) }}
+						{{ form_errors(f) }}
+					</div>
+				</div>
+			</div>
+			{{ form_widget(form.customFieldValues[f.name ~ "_params"]) }} {# for hidden required field, required for validation #}
+		{% endif %}
+	{% endfor %}
+{% endif %}

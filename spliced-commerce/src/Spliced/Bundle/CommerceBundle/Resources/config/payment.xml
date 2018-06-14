@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spliced.commerce.payment_manager.class">Spliced\Component\Commerce\Payment\PaymentManager</parameter>
+        <parameter key="spliced.commerce.payment_provider.mail.class">Spliced\Component\Commerce\Payment\Mail\MailPayment</parameter>
+        <parameter key="spliced.commerce.payment_provider.phone.class">Spliced\Component\Commerce\Payment\Phone\PhonePayment</parameter>
+        <parameter key="spliced.commerce.payment_provider.authorize.class">Spliced\Component\Commerce\Payment\Authorize\AuthorizePayment</parameter>
+        <parameter key="spliced.commerce.payment_provider.paypal_express_checkout.class">Spliced\Component\Commerce\Payment\PayPal\ExpressCheckout\PayPalExpressCheckoutPayment</parameter>
+        <parameter key="spliced.commerce.payment_provider.paypal_payflow.class">Spliced\Component\Commerce\Payment\PayPal\PayFlow\PayPalPayFlowPayment</parameter>
+        <parameter key="spliced.commerce.payment_provider.transfirst.class">Spliced\Component\Commerce\Payment\TransFirst\TransFirstPayment</parameter>
+    </parameters> 
+
+    <services>
+       
+        <service id="commerce.payment_manager" class="%spliced.commerce.payment_manager.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.security.encryption_manager" />
+	        <argument type="service" id="commerce.cart" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="service" id="router" />
+        </service>
+
+        <!-- 
+         PAYMENT PROVIDERS
+       	-->
+
+        <service id="commerce.payment_provider.mail" class="%spliced.commerce.payment_provider.mail.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="collection">
+	        	<argument key="label">Pay By Mail</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">pending</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">1</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.payment_provider.phone" class="%spliced.commerce.payment_provider.phone.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="collection">
+	        	<argument key="label">Pay By Phone</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">pending</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">1</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.payment_provider.authorize" class="%spliced.commerce.payment_provider.authorize.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="collection">
+	        	<argument key="label">Pay By Credit Card</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">processing</argument>
+	        	<argument key="success_on_decline">1</argument>
+	        	<argument key="success_on_decline_attempts">1</argument>
+	        	<argument key="success_on_decline_status">declined</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">1</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.payment_provider.transfirst" class="%spliced.commerce.payment_provider.transfirst.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="collection">
+	        	<argument key="label">Pay By Credit Card</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">processing</argument>
+	        	<argument key="success_on_decline">1</argument>
+	        	<argument key="success_on_decline_attempts">1</argument>
+	        	<argument key="success_on_decline_status">declined</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">1</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.payment_provider.paypal_express_checkout" class="%spliced.commerce.payment_provider.paypal_express_checkout.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.cart" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="service" id="router" />
+	        <argument type="collection">
+	        	<argument key="label">Pay With PayPal</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">processing</argument>
+	        	<argument key="success_on_decline">1</argument>
+	        	<argument key="success_on_decline_attempts">1</argument>
+	        	<argument key="success_on_decline_status">declined</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">1</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+
+        <service id="commerce.payment_provider.paypal_payflow" class="%spliced.commerce.payment_provider.paypal_payflow.class%">
+	        <argument type="service" id="commerce.configuration" />
+	        <argument type="service" id="commerce.helper.order" />
+	        <argument type="collection">
+	        	<argument key="label">Pay By Credit Card</argument>
+	        	<argument key="label2"></argument>
+	        	<argument key="description"></argument>
+	        	<argument key="checkout_complete_status">processing</argument>
+	        	<argument key="success_on_decline">1</argument>
+	        	<argument key="success_on_decline_attempts">1</argument>
+	        	<argument key="success_on_decline_status">declined</argument>
+	        	<argument key="position"></argument>
+	        	<argument key="enabled">0</argument>
+	        </argument>
+	        <tag name="commerce.payment_provider" />
+	        <tag name="commerce.configurable" />
+        </service>
+
+    </services>
+
+</container>

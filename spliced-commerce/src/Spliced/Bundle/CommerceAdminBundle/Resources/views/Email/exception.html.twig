@@ -1,0 +1,12 @@
+<body>
+<h4>Exception on Website {{ commerce_get_config('commerce.store.name') }}</h4>
+
+<p>An exception of class {{ class }} was encountered. Below is the stack trace of the error and additional details.</p>
+
+<p>{{ e.getMessage() }}</p>
+
+<pre>
+	
+	{{ exception.traceAsString }}
+</pre>
+</body>

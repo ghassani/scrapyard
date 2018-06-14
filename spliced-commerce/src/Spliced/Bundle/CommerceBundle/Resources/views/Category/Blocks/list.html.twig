@@ -1,0 +1,32 @@
+{#
+	Category/Block/list.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var categories
+#}
+<ul class="category-block-list inline">
+    {% for level0 in categories %}
+        {% if level0.children|length %}
+	    <li class="level0 {{ level0.children|length ? 'has-children' : '' }}"><a href="{{  path(level0.urlSlug) }}">{{ level0.name }}</a>
+		{% if level0.children is defined %}
+			<ul class="category-block-list-level1">
+			{% for level1 in level0.children %}
+				<li class="level1 {{ level1.children|length ? 'has-children' : '' }}"><a href="{{ path(level1.urlSlug) }}">{{ level1.name }}</a>
+
+				{% if level1.children is defined %}
+					<ul class="category-block-list-level3">
+					{% for level2 in level1.children %}
+						<li class="level2 {{ level2.children|length ? 'has-children' : '' }}"><a href="{{  path(level2.urlSlug) }}">{{ level2.name }}</a></li>
+					{% endfor %}
+					</ul>
+				{% endif %}
+
+				</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+		</li>
+		{% endif %}
+	{% endfor %}
+</ul>

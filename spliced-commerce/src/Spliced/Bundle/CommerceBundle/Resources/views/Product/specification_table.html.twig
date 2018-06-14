@@ -1,0 +1,33 @@
+<table class="table table-striped table-bordered table-condensed product-specification-table">
+	<thead>
+		<tr>
+			<th colspan="2">Specifications</th>
+		</tr>
+	</thead>
+	<tbody>		
+		{% set renderedMultipleValueSpecifications = [] %}
+		
+		{% for specification in product.specifications %}
+			{% if specification.option.onView %}
+				<tr>
+					{% if specification.option.optionType == COMMERCE_SPECIFICATION_OPTION_TYPE_SINGLE_VALUE %}
+						<td><strong>{{ specification.option.publicName|length ? specification.option.publicName : specification.option.name }}</strong></td>
+						<td>
+							{{ specification.value.publicValue|length ? specification.value.publicValue : specification.value.value }}
+						</td>
+					{% elseif specification.option.optionType == COMMERCE_SPECIFICATION_OPTION_TYPE_MULTIPLE_VALUE and specification.option.key not in renderedMultipleValueSpecifications %}
+						{%  set renderedMultipleValueSpecifications = renderedMultipleValueSpecifications|merge([specification.option.key]) %}
+						<td><strong>{{ specification.option.publicName|length ? specification.option.publicName : specification.option.name }}</strong></td>
+						<td>
+							<ul class="list-unstyled unstyled">
+							{% for spec in product.getSpecification(specification.option.key) %}
+								<li>{{ spec.value.publicValue|length ? spec.value.publicValue : spec.value.value }}</li>
+							{% endfor %}
+							</ul>
+						</td>
+					{% endif %}
+				</tr>				
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>

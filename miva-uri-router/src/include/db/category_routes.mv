@@ -1,0 +1,140 @@
+
+
+<MvFUNCTION NAME = "Route_Load_By_Category_Code" PARAMETERS = "category_code, route var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Route_Load_By_Category_Code(category_code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_By_Field('category_code', l.category_code, l.route) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Route_Load_Active_By_Category_Code" PARAMETERS = "category_code, route var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Route_Load_Active_By_Category_Code(category_code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_By_Field_And('category_code', l.category_code, 'is_active = 1', l.route) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Route_Load_Canonical_By_Category_Code" PARAMETERS = "category_code, route var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Route_Load_Canonical_By_Category_Code(category_code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_By_Field_And('category_code', l.category_code, 'is_canonical = 1', l.route) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Route_Load_Active_Canonical_By_Category_Code" PARAMETERS = "category_code, route var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Route_Load_Active_Canonical_By_Category_Code(category_code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_By_Field_And('category_code', l.category_code, 'is_active = 1 AND is_canonical = 1', l.route) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Routes_Load_By_Category_Codes" PARAMETERS = "category_codes var, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_By_Category_Codes(category_codes var, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_In('category_code', l.category_codes, l.routes) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Routes_Load_Active_By_Category_Codes" PARAMETERS = "category_codes var, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_Active_By_Category_Codes(category_codes var, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_In_And('category_code', l.category_codes, 'is_active = 1', l.routes) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Routes_Load_Canonical_By_Category_Codes" PARAMETERS = "category_codes var, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_Canonical_By_Category_Codes(category_codes var, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_In_And('category_code', l.category_codes, 'is_canonical = 1', l.routes) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Routes_Load_Active_Canonical_By_Category_Codes" PARAMETERS = "category_codes var, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_Active_Canonical_By_Category_Codes(category_codes var, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_In_And('category_code', l.category_codes, 'is_active = 1 AND is_canonical = 1', l.routes) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Routes_Load_By_Category_Code" PARAMETERS = "category_code, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_By_Category_Code(category_code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field('category_code', l.category_code, l.routes) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Routes_Load_Active_By_Category_Code" PARAMETERS = "category_code, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_Active_By_Category_Code(category_code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_And('category_code', l.category_code, 'is_active = 1', l.routes) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Routes_Load_Active_Canonical_By_Category_Code" PARAMETERS = "category_code, routes var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Load_Active_Canonical_By_Category_Code(category_code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_By_Field_And('category_code', l.category_code, 'is_active = 1 AND is_canonical = 1', l.routes) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Routes_Count_By_Category_Code" PARAMETERS = "category_code" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Count_By_Category_Code(category_code)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Count_By_Field('category_code', l.category_code) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Routes_Delete_By_Category_Code" PARAMETERS = "category_code" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Delete_By_Category_Code(category_code)') }">
+	</MvIFDEF>
+
+	<MvQUERY NAME = "Merchant" QUERY = "{ 'DELETE FROM ' $ g.Store_Table_Prefix $ 'Route WHERE category_code = ?' }" FIELDS = "l.category_code">
+
+	<MvIF EXPR = "{ g.MvQUERY_Error }">
+		<MvIFDEF NAME="DEV">
+			<MvASSIGN NAME = "l.log_result" VALUE = "{ Log_Query_Error('Routes_Delete_By_Category_Code', g.MvQUERY_Error) }" />
+		</MvIFDEF>
+
+		<MvFUNCTIONRETURN VALUE = "{ [ g.Module_Library_Utilities ].Error( 'SM-ROUTER-DB', g.MvQUERY_Error ) }">
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Routes_Update_Category_Code" PARAMETERS = "old_category_code, category_code" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="DB_CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.null, 'Routes_Update_Category_Code(old_category_code, category_code)') }">
+	</MvIFDEF>
+
+	<MvQUERY NAME = "Merchant" QUERY = "{ 'UPDATE ' $ g.Store_Table_Prefix $ 'Route SET category_code = ? WHERE category_code = ?' }" FIELDS = "l.category_code, l.old_category_code">
+
+	<MvIF EXPR = "{ g.MvQUERY_Error }">
+		<MvASSIGN NAME = "g.Error_Message" VALUE = "{ g.MvQUERY_Error }" />
+		
+		<MvIFDEF NAME="DEV">
+			<MvASSIGN NAME = "l.log_result" VALUE = "{ Log_Query_Error_Var('Routes_Update_Category_Code', g.MvQUERY_Error) }" />
+		</MvIFDEF>
+
+		<MvFUNCTIONRETURN VALUE = 0 />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>

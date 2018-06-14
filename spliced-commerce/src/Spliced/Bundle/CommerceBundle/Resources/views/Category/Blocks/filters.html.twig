@@ -1,0 +1,116 @@
+{% if productFilterManager is defined %}
+    {% set availableSpecifications = productFilterManager.availableSpecifications %}
+    {% set availableManufacturers = productFilterManager.availableManufacturers %}
+    {% set selectedSpecifications = productFilterManager.selectedSpecifications(category.id) %}
+    {% set selectedManufacturers = productFilterManager.selectedManufacturers(category.id) %}
+
+    <form method="post" action="{{ path('category_update_filter_specifications', { 'categoryId' : category.id }) }}">
+        <div class="panel panel-default panel-category-tree-block">
+            <div class="panel-heading">Filter Results</div>
+            <div class="panel-body">Use the choices below to narrow down the results of the products available in this category.</div>
+            <ul class="list-group">
+                {% if selectedManufacturers|length or selectedSpecifications|length %}
+                <li class="list-group-item"><strong>Current Filters</strong>
+                    <a href="{{ path('category_reset_filter', { 'categoryId' : category.id }) }}" rel="nofollow"><i class="fa fa-refresh"></i></a>
+                    <ul class="">
+                        {% if selectedManufacturers|length %}
+                            <li class="">
+                                <strong>Manufacturer</strong>
+                                <ul>
+                                    {% for manufacturer in availableManufacturers %}
+                                        {% if manufacturer.id in selectedManufacturers %}
+                                            <li class="">{{ manufacturer.name }} <a href="{{ path('category_update_filter_manufacturer', {
+                                                'categoryId' : category.id,
+                                                'manufacturerId' : manufacturer.id,
+                                                'action' : 'delete',
+                                                }) }}" rel="nofollow"><i class="fa fa-trash-o icon-red"></i></a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {% if selectedSpecifications|length %}
+                            {% for optionId, values in selectedSpecifications %}
+                                {% if values|length %}
+                                    {% for specification in availableSpecifications %}
+                                        {% if specification.id == optionId %}
+                                            <li class="">
+                                                <strong>{{ specification.publicName|length ? specification.publicName : specification.name }}</strong>
+                                                <ul>
+                                                {% for value in specification.values %}
+                                                    {% if value.id in values %}
+                                                        <li class="">
+                                                            {{ value.publicValue|length ? value.publicValue : value.value  }}
+                                                            <a href="{{ path('category_update_filter_specification', {
+                                                            'categoryId' : category.id,
+                                                            'optionId' : specification.id,
+                                                            'valueId' : value.id,
+                                                            'action' : 'delete',
+                                                            }) }}" rel="nofollow"><i class="fa fa-trash-o icon-red"></i>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </ul>
+                                                {#<ul>
+                                                    {% for value in values %}
+
+                                                    {% endfor %}
+                                                </ul>#}
+                                            </li>
+                                         {% endif %}
+                                    {% endfor %}
+                                 {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+
+                {% if availableManufacturers|length %}
+                <li class="list-group-item"><strong>Manufacturer</strong>
+                    <ul class="unstyled list-unstyled category-manufacturer">
+                        {% for availableManufacturer in availableManufacturers %}
+                            <li>
+                                <input type="checkbox" name="manufacturers[{{ availableManufacturer.id }}]" value="{{ availableManufacturer.id }}" /> 
+                                <a href="{{ path('category_update_filter_manufacturer', {
+                                'categoryId' : category.id,
+                                'manufacturerId' : availableManufacturer.id,
+                                'action' : 'add',
+                                }) }}" rel="nofollow">{{ availableManufacturer.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endif %}
+
+                {% if availableSpecifications|length %}
+                    {% for specificationOption in availableSpecifications %}
+                        <li class="list-group-item">
+                            <strong>{{ specificationOption.publicName|length ? specificationOption.publicName : specificationOption.name }}</strong>
+                            <ul class="unstyled list-unstyled category-specifications">
+                                {% for value in specificationOption.values %}
+                                    <li><input type="checkbox" name="specifications[{{ specificationOption.id }}][]" value="{{ value.id }}" />
+                                        <a href="{{ path('category_update_filter_specification', {
+                                        'categoryId' : category.id,
+                                        'optionId' : specificationOption.id,
+                                        'valueId' :  value.id,
+                                        'action' : 'add',
+                                        }) }}" rel="nofollow">{{ value.publicValue|length ? value.publicValue : value.value }} ({{ productFilterManager.getSpecificationValueProductCount(specificationOption.id, value.id) }})</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+
+                {% if not availableSpecifications|length and not availableManufacturers|length %}
+                    <li class="list-group-item text-center"><strong>No Filters Available</strong></li>
+                {% endif %}
+            </ul>
+            <div class="panel-footer text-right">
+                <button type="submit" class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
+                <a role="button" class="btn btn-default" rel="nofollow" href="{{ path('category_reset_filter', { 'categoryId' : category.id }) }}"><i class="fa fa-refresh"></i>  Reset</a>
+            </div>
+        </div>
+    </form>
+{% endif %}

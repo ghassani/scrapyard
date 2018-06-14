@@ -1,0 +1,67 @@
+{% macro product_attribute_prototype(prototype) %}
+	{% form_theme prototype "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+        <tr class="main-body attribute-{{ prototype.vars.data.id is defined and prototype.vars.data.id|length ? prototype.vars.data.id : '__name__' }}">
+    	    <td>{{ form_row(prototype.option,{ 'attr' : { 'data-group' : 'option'} }) }}</td>
+    	    <td>
+    	    	<div class="attribute-description"></div>
+    	    </td>
+    	    <td>
+                <a href="javascript:void(0);" class="delete-product-attribute" title="Delete Attribute">
+    		        <i class="icon icon-trash"></i>
+    		    </a>
+    		    
+    	    </td>
+    	</tr> 
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro product_attribute(form, product) %}
+	{% form_theme form "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+    {% spaceless %}
+        <tr class="main-body product-attribute-{{ form.vars.data.id }}">
+    	    <td>{{ form.vars.data.option.name }} ({{ form.vars.data.option.key }})</td>
+    	    <td>
+    	        {% if form.vars.data.option.description|length %}
+    	            <small>{{ form.vars.data.option.description }}</small>
+    	        {% endif %}
+    	    </td>
+    	    <td>
+                <a href="{{ path('commerce_admin_product_attribute_delete', {'productId' : product.id, 'attributeId' : form.vars.data.id }) }}" class="delete-product-attribute" title="Delete Attribute">
+    		        <i class="icon icon-trash"></i>
+    		    </a>
+    	    </td>
+    	</tr> 
+    {% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<table class="table table-striped table-bordered table-condensed product-attributes-table">
+    <thead>
+	    <tr>
+	        <th width="40%">Attribute</th>
+	        <th>Description</th>
+	        <th></th>
+	    </tr>
+    </thead>
+    <tfoot>
+        <tr>
+			<th colspan="3" class="text-right">
+			    <a class="btn btn-primary btn-sm add-product-attribute" href="javascript:void(0);" data-prototype="{{ renderHelper.product_attribute_prototype(form.attributes.vars.prototype)|e }}" title="Add Attribute"><i class="icon icon-plus"></i> Add Attribute</a>
+			</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {% if form.attributes|length %}
+            {% for existingAttribute in form.attributes %}
+                {{ renderHelper.product_attribute(existingAttribute, form.vars.data) }}
+            {% endfor %}
+        {% endif %}
+	    <tr class="no-results {{ form.attributes|length ? 'hide' : '' }}">
+	        <td class="text-center" colspan="3">
+	            <strong>No Attributes Currently Set</strong>
+	        </td>
+	    </tr>
+    </tbody>
+</table>

@@ -1,0 +1,25 @@
+{% extends 'SplicedCommerceBundle::Layouts/default.html.twig' %}
+
+{% block title %}Shopping Cart | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('commerce_cart') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="cart-index">
+	<div class="page-header">
+	    <h1>Shopping Cart</h1>
+	</div>
+	
+	{{ include('SplicedCommerceBundle:Cart/Blocks:flashes.html.twig') }}
+		
+	{% if cartContents is defined and cartContents|length > 0 %}
+		<form method="post" action="{{ path('commerce_cart_update') }}" id="cart-form" novalidate>
+			{{ include('SplicedCommerceBundle:Cart:items_table.html.twig') }}
+		</form>
+	{% else %}
+		<div class="alert alert-info text-center"><strong>Your Shopping Cart is Empty</strong></div>
+	{% endif %}
+</div>
+{% endblock %}

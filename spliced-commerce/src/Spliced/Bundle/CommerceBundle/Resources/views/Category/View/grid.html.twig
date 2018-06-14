@@ -1,0 +1,21 @@
+{#
+	Category/View/grid.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var products
+#}
+
+<ul>
+	{% for product in products %}
+		<li>
+			<a href="{{ product.urlSlug }}">{{ product.name }}</a>
+			{% for image in product.images %}
+				<a href="{{ product.urlSlug }}">
+					<img src="{{  commerce_resize_product_image(image,140,60) }}" alt="{{ product.name }}" />
+				</a>
+			{% endfor %}
+
+		</li>
+	{% endfor %}
+	</ul>

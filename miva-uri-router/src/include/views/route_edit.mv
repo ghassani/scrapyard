@@ -1,0 +1,32 @@
+<MvCOMMENT>
+ * Render_Edit_Route
+ *
+ * Renders Edit Route Screen
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Route_Edit" PARAMETERS = "original_route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+
+	<MvIF EXPR="{ NOT ISNULL g.route }">
+		<MvASSIGN NAME = "l.route" VALUE = "{ g.route }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.route" VALUE = "{ l.original_route }" />
+	</MvIF>
+
+	<MvEVAL EXPR = "{ Render_Route_Form(l.route, l.original_route) }" />
+
+
+	<div class="form-actions text-right">
+		<button class="btn btn-danger pull-left" id="delete-route" role="button" type="button" data-href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=delete&Route_Id=' $ l.original_route:id }"><i class="fa fa-trash-o"></i> Delete</button>
+		<button class="btn btn-success" role="button" type="submit"><i class="fa  fa-floppy-o"></i> Update</button>
+	</div>
+
+	<script>
+		document.getElementById('delete-route').addEventListener('click', function(e){
+			if (this.getAttribute("data-href").length) {
+				if (confirm('Are you sure?')) {
+					window.location.href = this.getAttribute("data-href");
+				}
+			}
+		});
+	</script>
+</MvFUNCTION>

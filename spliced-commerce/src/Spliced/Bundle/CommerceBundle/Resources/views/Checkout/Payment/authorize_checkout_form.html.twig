@@ -1,0 +1,13 @@
+{% if form.payment.creditCard is defined %}
+	{{ include("SplicedCommerceBundle:Checkout/Form:credit_card_form.html.twig", {
+		'form' : form.payment.creditCard,
+		'method' : method,
+		'multiple' : false,
+	}) }}
+{% elseif form.payment.authorize_creditCard is defined %}
+	{{ include("SplicedCommerceBundle:Checkout/Form:credit_card_form.html.twig", {
+		'form' : form.payment.authorize_creditCard,
+		'method' : method,
+		'multiple' : true,
+	}) }}
+{% endif %}

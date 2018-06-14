@@ -1,0 +1,52 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}New Product | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs">
+  <li class="active"><a href="#Details" data-toggle="tab">Details</a></li>
+  <li class=""><a href="#Pricing" data-toggle="tab">Pricing</a></li>
+  <li class=""><a href="#Inventory" data-toggle="tab">Inventory</a></li>
+</ul>
+{% endblock %}
+
+{% block content -%}
+<div class="page-header">
+	<h1>Product <small>Creation</small></h1>
+</div>
+
+<form action="{{ path('commerce_admin_product_save') }}" class="form product-form" method="post" {{ form_enctype(form) }}>
+	
+	<div id="Details">
+	    <div class="page-header">
+	        <h2><small>Details</small></h2>
+	    </div>
+        {{ include("SplicedCommerceAdminBundle:Product:detail_form.html.twig", {  }) }}
+	</div>
+	
+	<div id="Pricing">
+	    <div class="page-header">
+	        <h2><small>Pricing</small></h2>
+	    </div>
+        {{ include("SplicedCommerceAdminBundle:Product:pricing.html.twig", {  }) }}
+	</div>
+	
+	<div id="Inventory">
+	    <div class="page-header">
+	        <h2><small>Inventory</small></h2>
+	    </div>
+        {{ include("SplicedCommerceAdminBundle:Product:inventory.html.twig", {  }) }}
+	</div>
+
+	<div class="form-actions">
+	    <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Continue</button>
+	</div>
+	
+	{{ form_rest(form) }}
+
+</form>
+{% endblock %}

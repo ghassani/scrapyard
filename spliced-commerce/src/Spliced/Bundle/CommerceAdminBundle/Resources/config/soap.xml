@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    
+    <parameters>
+        <parameter key="commerce.webservice.soap.orders.class">Spliced\Component\Commerce\WebService\OrderSoapService</parameter>
+        <parameter key="commerce.webservice.soap.products.class">Spliced\Component\Commerce\WebService\ProductSoapService</parameter>
+    </parameters>
+    
+    <services>
+    	
+        <service id="commerce.webservice.soap.orders" class="%commerce.webservice.soap.orders.class%">
+        	<argument type="service" id="commerce.admin.configuration" />
+        	<argument type="service" id="commerce.helper.order" />
+        	<argument type="service" id="commerce.security.encryption_manager" />
+        	<argument type="service" id="event_dispatcher" />
+        	<argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        
+        <service id="commerce.webservice.soap.products" class="%commerce.webservice.soap.products.class%">
+        	<argument type="service" id="commerce.admin.configuration" />
+        	<argument type="service" id="commerce.helper.product.price" />
+        	<argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        
+    </services>
+
+</container>

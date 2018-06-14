@@ -1,0 +1,20 @@
+{#
+<div class="">
+    {{ form_label(form.id) }}
+    {{ form_widget(form.id, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div class="">
+    {{ form_label(form.initialReferer) }}
+    {{ form_widget(form.initialReferer, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div class="">
+    {{ form_label(form.createdAtFrom, "Created On") }}
+    {{ form_widget(form.createdAtFrom,{'attr':{ 'placeholder' : 'From', 'class' : 'form-control'}}) }} 
+    {{ form_widget(form.createdAtTo,{'attr':{ 'placeholder' : 'To', 'class' : 'form-control'}}) }}
+</div>
+
+{{form_rest(form)}} 
+
+#}

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="commerce.facebook.api_client" class="Spliced\Component\Commerce\Security\Authentication\Client\FacebookApiClient">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="session" />
+        	
+        	<tag name="commerce.configurable" />
+        </service>
+
+        <service id="commerce.customer.facebook_manager" class="Spliced\Component\Commerce\Security\User\FacebookUserManager" public="false">
+            <argument type="service" id="commerce.facebook.api_client" />
+            <argument type="service" id="commerce.customer.manager" />
+        </service>
+
+        <service id="commerce.security.authentication.provider.facebook" class="Spliced\Component\Commerce\Security\Authentication\Provider\FacebookAuthenticationProvider" public="false">
+            <argument /> <!-- Provider-shared Key -->
+            <argument type="service" id="commerce.facebook.api_client" />
+            <argument type="service" id="commerce.customer.manager" />
+            <argument type="service" id="security.user_checker" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="commerce.security.authentication.entry_point.facebook" class="Spliced\Component\Commerce\Security\EntryPoint\FacebookAuthenticationEntryPoint" public="true" abstract="true">
+            <argument type="service" id="commerce.facebook.api_client" />
+            <argument type="collection" />
+                <argument type="collection">
+			        <argument key="key">email</argument>
+			    </argument>
+        </service>
+
+        <service id="commerce.security.authentication.listener.facebook"
+                 class="Spliced\Component\Commerce\Security\Firewall\FacebookAuthenticationListener"
+                 parent="security.authentication.listener.abstract"
+                 abstract="true">
+        </service>
+
+    </services>
+
+</container>

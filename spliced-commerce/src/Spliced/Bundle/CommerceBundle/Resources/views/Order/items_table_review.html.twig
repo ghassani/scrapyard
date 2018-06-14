@@ -1,0 +1,65 @@
+{% set cartTotal = commerce_order_total(order) %}
+{% set cartSubTotal = commerce_order_total(order) %}
+
+<table class="cart-table table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th></th>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3" rowspan="5"></td>
+		</tr>
+		<tr>
+			<th>Subtotal</th>
+			<td>
+				${{ commerce_order_subtotal(order) }}
+			</td>
+		</tr>
+		{% if commerce_order_tax(order) > 0 %}
+		<tr>
+			<th>Taxes</th>
+			<td>${{ commerce_order_tax(order) }}</td>
+		</tr>
+		{% endif %}
+		<tr>
+
+			<th>Shipping</th>
+			<td>${{ commerce_order_shipping(order) }}</td>
+		</tr>
+		<tr>
+			<th>Total</th>
+			<td>
+				<div class="price">
+					<span class="price">${{ commerce_order_total(order) }}</span>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	{% for item in items %}
+		<tr id="item-line_{{ item.product.id }}">
+			<td width="{{ commerce_get_config('commerce.product.image_cart_width') }}">			
+			    {% if item.product.images|length %}
+				    <img src="{{  commerce_resize_product_image(item.product.images.first, commerce_get_config('commerce.product.image_cart_width'), commerce_get_config('commerce.product.image_cart_height')) }}" alt="{{ item.product.name }}" />
+				{% else %}
+				    
+				{% endif %}
+			</td>
+			<td>{{ item.product.name }}<br /><i>{{ item.product.sku }}</i></td>
+			<td>{{ item.quantity}}</td>
+			<td>
+				${{ commerce_product_price(item.product, item.quantity) }}
+			</td>
+			<td>
+				${{ commerce_product_price_total(item.product, item.quantity) }}
+			</td>
+		</tr>
+	{%  endfor %}
+	</tbody>
+</table>

@@ -1,0 +1,14 @@
+
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+<form method="post" action="{{ path('login') }}" role="form" class="form registration-form" novalidate>
+
+	{{ form_row(form.firstName) }}
+	{{ form_row(form.lastName) }}
+	{{ form_row(form.email) }}
+	
+	{{ form_rest(form) }}
+	<div class="form-actions">
+		<button type="submit" class="btn btn-success">Register</button>
+	</div>
+</form>

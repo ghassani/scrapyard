@@ -1,0 +1,21 @@
+{% if app.session.flashBag.has('checkout_error') %}
+	{% for message in app.session.flashBag.get('checkout_error') %}
+	<div class="main-alert alert alert-danger">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message|raw }}
+	</div>
+	{% endfor %}
+{% endif %}
+
+{% if commerce_checkout_manager().currentStep == 1 or commerce_checkout_manager().currentStep == 5 %}
+    {{ include("SplicedCommerceBundle:Checkout:step_" ~ (step_template is defined ? step_template : step) ~ ".html.twig") }}
+{% else %}
+    <div class="row">
+        <div class="col-lg-3 col-sm-3">
+            {{ include("SplicedCommerceBundle:Checkout/Block:left.html.twig") }}
+        </div>
+        <div class="col-lg-9 col-sm-9">
+            {{ include("SplicedCommerceBundle:Checkout:step_" ~ (step_template is defined ? step_template : step) ~ ".html.twig") }}
+        </div> 
+    </div>
+{% endif %}

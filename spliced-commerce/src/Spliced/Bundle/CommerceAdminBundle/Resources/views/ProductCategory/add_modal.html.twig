@@ -1,0 +1,19 @@
+<div class="modal fade" id="addProductCategory" tabindex="-1" role="dialog" aria-labelledby="addProductCategoryLabel" aria-hidden="true">
+    <form role="form" class="add-product-category-form" id="add-product-category-form" method="post" action="{{ path('commerce_admin_product_category_save', { 'productId' : product.id }) }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add Product Category <small>Product {{ product.sku }}</small></h4>
+        </div>
+        <div class="modal-body">
+        	{{ include('SplicedCommerceAdminBundle:ProductCategory:add_modal_content.html.twig') }}
+        </div>
+        <div class="modal-footer">
+	    	<button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+	    	<button type="submit" class="btn btn-success">Add</button>
+        </div>
+      </div>
+    </div>
+    </form>
+</div> 

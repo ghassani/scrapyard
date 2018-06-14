@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>{{ commerce_get_config('commerce.store.url') }}</loc>
+		<lastmod>{{ date()|date('Y-m-d') }}</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+    {% for product in products %}
+	<url>
+		<loc>{{ commerce_get_config('commerce.store.url') }}{{ path(product.route.requestPath) }}</loc>
+		<lastmod>{{ date()|date('Y-m-d') }}</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+	{% endfor %}
+    {% for category in categories %}
+	<url>
+		<loc>{{ commerce_get_config('commerce.store.url') }}{{ path(category.route.requestPath) }}</loc>
+		<lastmod>{{ date()|date('Y-m-d') }}</lastmod>
+		<changefreq>daily</changefreq>
+		<priority>1.0</priority>
+	</url>
+	{% endfor %}
+</urlset>

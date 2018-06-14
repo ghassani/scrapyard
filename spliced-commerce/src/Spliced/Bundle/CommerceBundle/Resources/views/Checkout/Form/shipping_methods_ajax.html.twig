@@ -1,0 +1,13 @@
+	<table class="table table-striped checkout-shipping-methods">
+	{% for method in methods %}
+		<tr>
+			<td><input type="radio" value="{{ method.fullName }}" /></td>
+			<td>{{ method.label }} <small>{{ method.label2 }}</small></td>
+			{% if method.price == 0 %}
+				<td><strong style="color:green;">${{ method.price }}</strong></td>
+			{% else %}
+				<td><strong>${{ method.price }}</strong></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</table>

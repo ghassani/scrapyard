@@ -1,0 +1,21 @@
+<form method="post" action="{{ path('commerce_checkout') }}" class="checkout_form" novalidate>
+    			
+    			<p class="well well-small">If you do not wish to register for future purchases, you can checkout as a guest. 
+    			You can always register an account later if you wan't.</p>
+    
+    			<div class="controls controls-row">
+    				{{ form_label(form.email, "Enter Your E-Mail Address") }}
+    				{{ form_widget(form.email, { 'attr' : { 'class' : 'input-block-level', 'placeholder' : 'E-Mail Address' } } ) }}
+    				{{ form_errors(form.email) }}
+    			</div>
+    
+    			<div class="form-actions">
+    				<ul class="unstyled">
+    					<li><button type="submit" class="btn btn-block btn-primary">Checkout as Guest</button></li>
+    					<!-- <li><button type="submit" class="btn btn-block">Checkout via PayPal</button></li> -->
+    				</ul>
+    
+    			</div>
+    			    
+    			{{ form_rest(form) }}
+    		</form>

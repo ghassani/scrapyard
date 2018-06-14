@@ -1,0 +1,35 @@
+{% set existingCard = order.payment.creditCard is defined and order.payment.creditCard|length and order.payment.creditCard.lastFour|length %}
+
+{% set form_fields_id = 'credit-card-form'~(multiple is defined and method is defined and multiple == true ? '-'~method.name : '') %}
+
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% if existingCard %}
+	<div id="existing-credit-card-overview" class="well">
+		Using Card: XXXX-XXXX-XXXX-{{ order.payment.creditCard.lastFour }}<br />
+		Expiration Date: {{ order.payment.creditCard.cardExpirationMonth }}-{{ order.payment.creditCard.cardExpirationYear }}<br />
+		CVV: {{ order.payment.creditCard.cardCvv }}<br />
+		<a class="btn btn-small btn-info checkout-edit-credit-card" data-target="#{{ form_fields_id }}" href="#">Change</a>
+	</div>
+{% endif %}
+
+
+<div id="{{ form_fields_id }}" class="row {{ existingCard ? 'hidden' : '' }}">
+
+
+	<div class="col-lg-4 col-sm-4">
+		{{ form_row(form.cardNumber) }}
+	</div>
+	<div class="col-lg-4 col-sm-4">
+		{{ form_row(form.cardExpirationMonth) }}
+		{{ form_row(form.cardExpirationYear) }}
+	</div>
+	<div class="col-lg-4 col-sm-4">
+		{{ form_row(form.cardCvv) }}
+	</div>
+	{{ form_rest(form) }}
+</div>
+
+	{# if existingCard %}
+		<a href="#" class="btn btn-warning checkout-cancel-edit-credit-card">Cancel Edit and Revert Back to Original</a>
+	{% endif #}

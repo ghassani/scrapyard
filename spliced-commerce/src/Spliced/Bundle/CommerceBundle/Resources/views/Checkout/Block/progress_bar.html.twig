@@ -1,0 +1,54 @@
+{% macro bar_label(stepHandlers) %}
+	{% spaceless %}
+	{% if stepHandlers|length > 1 %}
+		{% set c = 1 %}
+		{% for stepHandler in stepHandlers %}
+			{{ stepHandler.progressBarLabel }}
+			{% if c != stepHandlers|length %}, {% endif %}
+			{% set c =  c +1 %}
+		{% endfor %}
+	{% else %}
+		{% for stepHandler in stepHandlers %}
+			{{ stepHandler.progressBarLabel }}
+		{% endfor %}
+	{% endif %}
+	{% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+{% set barWidth = 100/commerce_checkout_manager().lastStep %}
+
+<div class="progress">
+{% for _step in range(1, commerce_checkout_manager().lastStep) %}
+	{% if _step <= commerce_checkout_manager().lastCompletedStep  %}
+		<div class="progress-bar {{ step == _step ? 'progress-bar-info' : step > _step ? 'progress-bar-success' : '' }}" style="width: {{ barWidth }}%;">
+			<a href="{{ path('checkout') }}?step={{ _step }}" data-step="{{ _step }}" class="checkout-move-step">
+				{{ renderHelper.bar_label(commerce_checkout_manager().getStepHandlersByStep(_step)) }}
+			</a>
+		</div>
+    {% else %}
+		<div class="progress-bar {{ step == _step ? 'progress-bar-info' : step > _step ? 'progress-bar-success' : '' }}" style="width: {{ barWidth }}%;">
+			{{ renderHelper.bar_label(commerce_checkout_manager().getStepHandlersByStep(_step)) }}
+    	</div>
+	{% endif %}
+{% endfor %}
+
+</div>
+{#
+<div class="progress">
+	{% for _step,label in steps %}
+		{% if _step <= commerce_checkout_manager().lastCompletedStep and _step < 6 and _step > 1 and step != _step %}
+		<div class="progress-bar {{ step == _step ? 'progress-bar-info' : step > _step ? 'progress-bar-success' : '' }}" style="width: 16.66%;">
+			<a href="{{ path('checkout') }}?step={{ _step }}" data-step="{{ _step }}" class="checkout-move-step">{{ label }}</a>
+		</div>
+        {% elseif _step == 1 and not is_granted('ROLE_USER')  %}
+		<div class="progress-bar {{ step == _step ? 'bar-info' : step > _step ? 'progress-bar-success' : '' }}" style="width: 16.66%;">
+			<a href="{{ path('checkout') }}?step={{ _step }}" data-step="{{ _step }}" class="checkout-move-step">{{ label }}</a>
+		</div>
+        {% else %}
+			<div class="progress-bar {{ step == _step ? 'progress-bar-info' : step > _step ? 'progress-bar-success' : '' }}" style="width: 16.66%;">{{ label }}</div>
+		{% endif %}
+	{% endfor %}
+</div>
+#}

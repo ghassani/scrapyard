@@ -1,0 +1,31 @@
+{#
+	@var modalId - Defaults myModal
+	@var modalLabeledBy - Defaults myModalLabel
+	@var modalHidden - Defaults true
+	@var noClose - If set, hides modal close button
+	@var title
+	@var content
+	@var contentInclude - If defined, include to a file
+#}
+  <div class="modal fade" id="{{ modalId is defined ? modalId : 'myModal' }}" tabindex="-1" role="dialog" aria-labelledby="{{ modalLabeledBy is defined ? modalLabeledBy : 'myModalLabel' }}" aria-hidden="{{ modalHidden is defined ? modalHidden : 'true' }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          {% if noClose is not defined %}
+          	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          {% endif %}
+          <h4 class="modal-title">{{ title|raw }}</h4>
+        </div>
+        <div class="modal-body">
+        	{% if contentInclude is defined %}
+        		{{ include(contentInclude) }}
+        	{% else %}
+        		{{ content|raw }}
+        	{% endif %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

@@ -1,0 +1,85 @@
+{#
+	Category/View/list.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var products
+#}
+
+<ul class="list-unstyled category-product-list">
+    {% if products|length %}
+        {% for product in products %}
+        	{% set content = product.getContentByLanguage(app.request.locale) %}
+    		<li>
+    			
+    			{% if commerce_cart_contains(product) %}
+    				<div class="alert alert-info">You already have {{ commerce_cart_quantity(product) }} of these in your shopping cart.</div>
+    			{% endif %}
+    
+    			<div class="row">
+    				<div class="col-lg-5 col-sm-5">
+    					<div class="text-center">
+    					<a href="{{ path('commerce_product_view_by_slug',{ 'slug' : product.urlSlug}) }}" title="{{ product.name }}">
+    						{% if product.images|length %}
+    							<img src="{{ commerce_resize_product_image(product.images.first, commerce_get_config('commerce.product.image_category_view_list_width'), commerce_get_config('commerce.product.image_category_view_list_height')) }}" alt="{{ product.name }}" class="product_image img-rounded" />
+    						{% else %}
+    							<!-- DEFAULT IMAGE! -->
+    							<img src="http://placehold.it/{{ commerce_get_config('commerce.product.image_category_view_list_width') ~ 'x' ~ commerce_get_config('commerce.product.image_category_view_list_height') }}" alt="{{ product.name }}" class="img-rounded" />
+    						{% endif %}
+    					</a> 
+    					</div>  
+    					{% if product.tierPrices|length %}
+    						{%  if content|length and content.shortDescription|length  %}
+    						    <hr/>
+    						    <p class="product-list-description">{{ content.shortDescription|raw }}</p>
+    					{%  endif  %}
+                        {% endif %}
+    				</div>
+    				<div class="col-lg-7 col-sm-7">
+    				    <h4><a href="{{ path('commerce_product_view_by_slug',{ 'slug' : product.urlSlug }) }}">{{ product.name }}</a></h4>
+                	    <blockquote>
+                	        <p>Only ${{ commerce_product_price(product,1) }}</p>
+                	        <p><strong>Availability:</strong> <span class="product-availability{{ product.availability }}">{{ product.availabilityName }}</span></p>
+                	    </blockquote>
+    					
+    					{% if product.tierPrices|length %}
+    						{{  include("SplicedCommerceBundle:Product:tier_price_table.html.twig", {'includeNoTier' : true }) }}
+                        {% else %}
+                            {%  if content|length and content.shortDescription|length  %}
+        						<p class="product-list-description">{{ content.shortDescription|raw }}</p>
+        					{%  endif  %}
+    					{% endif %}
+                        
+    					{% if product.availability > 2 %}
+						    {% if product.availability == 3 %}
+						        <div class="alert alert-info">This product is currently unavailable for purchase.</div>
+						    {% elseif product.availability == 4 %}
+						        <div class="alert alert-info">This product is currently unavailable for purchase because it is currently backordered.</div>
+			                {% elseif product.availability == 5 %}
+			                    <div class="alert alert-info">Please call to order this item. You can reach us at {{ commerce_get_config('commerce.store.phone.service') }}.</div>
+			                {% elseif product.availability == 6 %}
+			                    <div class="alert alert-info">This product is built to order. Please call to order this item. You can reach us at {{ commerce_get_config('commerce.store.phone.service') }}.</div>
+			                {% else %}
+						        <div class="alert alert-info">{{ product.availabilityName }}</div>
+						    {% endif %}
+						{% else %}
+							<div class="col-sm-3 col-lg-3">
+								<label>Quantity:</label>
+							</div>
+							<div class="col-sm-5 col-lg-5">
+								{{ include('SplicedCommerceBundle:Product:Form/add_to_cart.html.twig') }}
+							</div>
+		                	<div class="col-sm-5 col-lg-4">
+		                	</div>
+		    			{% endif %}		    			
+    		    	</div>
+    	    	</div>
+    
+    		</li>
+    	{% endfor %}
+    {% else %} 
+        <li>
+            <div class="alert alert-warning text-center">No Products Found</div>
+        </li>
+	{% endif %}
+</ul>

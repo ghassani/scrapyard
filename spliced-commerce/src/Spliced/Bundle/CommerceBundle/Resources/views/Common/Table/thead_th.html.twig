@@ -1,0 +1,22 @@
+{#
+	file: Common/Table/thead_th.html.twig
+	vars: fieldName, headerName, filters, linkRoute
+#}
+<th scope="col">
+	<!-- Table sorting arrows -->
+	<span class="column-sort">
+    	{% if filters.order in fieldName and filters.sort in 'ASC' %}
+        	<a href="{{ path(linkRoute, { 'filters[order]': fieldName, 'filters[sort]': 'ASC' }) }}" title="Sort up" class="sort-up active"></a>
+         {%  else %}
+         	<a href="{{ path(linkRoute, { 'filters[order]': fieldName, 'filters[sort]': 'ASC' }) }}" title="Sort up" class="sort-up"></a>
+         {% endif %}
+
+         {% if filters.order in fieldName and filters.sort in 'DESC' %}
+         	<a href="{{ path(linkRoute, { 'filters[order]': fieldName, 'filters[sort]': 'DESC' }) }}" title="Sort down" class="sort-down active"></a>
+          {%  else %}
+         	<a href="{{ path(linkRoute, { 'filters[order]': fieldName, 'filters[sort]': 'DESC' }) }}" title="Sort down" class="sort-down"></a>
+         {% endif %}
+	</span>
+
+	{{  headerName }}
+</th>

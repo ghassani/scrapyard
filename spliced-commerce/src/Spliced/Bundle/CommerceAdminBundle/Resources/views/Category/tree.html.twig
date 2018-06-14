@@ -1,0 +1,48 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% import "SplicedCommerceAdminBundle:Category:macros.html.twig" as treeHelper %}
+
+{% block title %}Category Tree | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Category:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+	<ul class="list-unstyled">
+		<li>
+			<a href="{{ path('commerce_admin_category_new') }}" class="btn btn-primary"><i class=" icon-plus-sign icon-white"></i>  Add Category</a>
+		</li>
+	</ul>
+	
+	{{ treeHelper.category_list_html(categories, true) }}
+{% endblock -%}
+    
+{% block content -%}
+	<div class="page-header">
+		<h1>Category Managment <small>Tree View</small></h1>
+	</div>   
+	
+	
+	{% if categories|length %}
+	<div class="alert alert-info">
+		<div>
+			<i class="icon-arrow-left icon-white"></i> 
+			Select a category from the category tree.
+			<a href="{{ path('commerce_admin_category_new') }}" title="Create a new Category">Need to create a new one?</a>
+		</div> 
+	</div>
+	{% else %}
+	<div class="alert alert-warning">
+		<div>
+			There are currently no categories available! Products will not be visible in the catalog if there are no categories available to relate to the products.
+			<a href="{{ path('commerce_admin_category_new') }}" title="Create a new Category">You will need to create some.</a>
+		</div>
+	</div>
+	{% endif %}
+	
+	<div id="category-edit-ajax-content">
+	
+	</div> 
+	
+{% endblock %}

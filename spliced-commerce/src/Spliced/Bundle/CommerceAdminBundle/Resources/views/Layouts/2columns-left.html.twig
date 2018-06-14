@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Administration | {{ commerce_get_config('commerce.store.name') }}{% endblock %}</title>
+    {{ include('SplicedCommerceAdminBundle:Layouts/Block:head.html.twig') }}  
+</head>
+<body>
+
+<header>
+    {{ include('SplicedCommerceAdminBundle:Layouts/Block:header.html.twig') }}
+</header>
+
+<div class="row">
+    <div class="col-lg-1 side-nav">
+        {{ include('SplicedCommerceAdminBundle:Layouts/Block:menu.html.twig') }}
+    </div>
+    <div class="col-lg-11 main-content">
+        <div class="content-section-header">
+            {% block content_section_header %}{% endblock %}
+        </div>
+        {{ include("SplicedCommerceAdminBundle:Layouts/Block:messages.html.twig") }}
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="left-wrapper">
+                {% block left %}{% endblock %}
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="content-wrapper">
+                {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ include('SplicedCommerceAdminBundle:Layouts/Block:footer.html.twig') }}
+{% block javascripts %}
+	{{ include('SplicedCommerceAdminBundle:Layouts/Block:javascripts.html.twig') }}
+{% endblock javascripts %}
+</body>
+</html>

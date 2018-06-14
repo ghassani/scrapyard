@@ -1,0 +1,55 @@
+<table class="order-items-table table table-striped table-bordered" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th>SKU</th>
+			<th>Name</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3" rowspan="5"></td>
+		</tr>
+		<tr>
+			<th>Subtotal</th>
+			<td>
+				${{ commerce_order_subtotal(order) }}
+			</td>
+		</tr>
+		<tr>
+
+			<th>Taxes</th>
+			<td>${{ commerce_order_tax(order) }}</td>
+		</tr>
+		<tr>
+
+			<th>Shipping</th>
+			<td>${{ commerce_order_shipping(order) }}</td>
+		</tr>
+		<tr>
+			<th>Total</th>
+			<td>
+				<div class="price">
+					<span class="price">${{ commerce_order_total(order) }}</span>
+				</div>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	{% for item in order.items %}
+		<tr>
+			<td>{{ item.sku }}</td>
+			<td>{{ item.name }}</td>
+			<td>{{ item.quantity}}</td>
+			<td>
+				${{ item.salePrice }}
+			</td>
+			<td>
+				${{ item.finalPrice }}
+			</td>
+		</tr>
+	{%  endfor %}
+	</tbody>
+</table>

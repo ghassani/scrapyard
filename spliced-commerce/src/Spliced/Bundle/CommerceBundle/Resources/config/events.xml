@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+
+		<!--
+			Checkout Listener
+		-->
+		<service id="commerce.listener.checkout" class="Spliced\Component\Commerce\EventListener\CheckoutEventListener" scope="request">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="commerce.checkout_manager" />
+		    <argument type="service" id="commerce.order_manager" />
+		    <argument type="service" id="commerce.cart" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="commerce.helper.product.price" />
+		    <argument type="service" id="session" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="templating" />
+		    <argument type="service" id="router" />
+		    <argument type="service" id="commerce.security.encryption_manager" />
+		    <argument type="service" id="commerce.visitor_manager" />
+		    <argument type="service" id="commerce.logger" />
+		    
+		    <tag name="kernel.event_listener" event="commerce.checkout.start" method="onCheckoutStart" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.process_step" method="onCheckoutProcessStep" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.move_step" method="onCheckoutMoveStep" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.finalize" method="onCheckoutFinalize" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.complete" method="onCheckoutComplete" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.success" method="onCheckoutSuccess" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.complete_declined" method="checkoutCompleteOnDeclineEvent" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.payment.change" method="onPaymentMethodChange" />
+		    <tag name="kernel.event_listener" event="commerce.remotely_processed.checkout.start" method="onRemotelyProcessedCheckoutStart" />
+		    <tag name="kernel.event_listener" event="commerce.checkout.payment.error" method="onPaymentError" />
+		</service>
+
+		<!--
+			Security Listener
+		-->
+		<service id="commerce.listener.security" class="Spliced\Component\Commerce\EventListener\SecurityEventListener">
+		    <argument type="service" id="commerce.customer.manager" />
+		    <argument type="service" id="commerce.security.login_manager" />
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="doctrine.orm.entity_manager" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="templating" />
+		    <argument type="service" id="commerce.logger" />
+		    
+
+		    <tag name="kernel.event_listener" event="commerce.security.login.facebook" method="onFacebookLogin" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.facebook.create_user" method="onFacebookLoginCreateUser" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.twitter" method="onTwitterLogin" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.twitter.create_user" method="onTwitterLoginCreateUser" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.google" method="onGoogleLogin" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.google.create_user" method="onGoogleLoginCreateUser" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.paypal" method="onPayPalLogin" />
+		    <tag name="kernel.event_listener" event="commerce.security.login.paypal.create_user" method="onPayPalLoginCreateUser" />
+		</service>
+
+		<!--
+			Product Listener
+		-->
+		<service id="commerce.listener.product" class="Spliced\Component\Commerce\EventListener\ProductEventListener">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="session" />
+		    <tag name="kernel.event_listener" event="commerce.product.view" method="onProductView" />
+		</service>
+
+		<!--
+			User Listener
+		-->
+		<service id="commerce.listener.customer" class="Spliced\Component\Commerce\EventListener\CustomerEventListener">
+		    <argument type="service" id="commerce.customer.manager" />
+			<argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="router" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="session" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="templating" />
+		    
+		    <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+			<tag name="kernel.event_listener" event="commerce.security.registration_complete" method="onRegistrationComplete" />
+		    <tag name="kernel.event_listener" event="commerce.security.registration_start" method="onRegistrationStart" />
+		    <tag name="kernel.event_listener" event="commerce.security.login_failure" method="onLoginFailure" />
+			<tag name="kernel.event_listener" event="commerce.security.login.force_password_reset_request" method="onForcePasswordResetRequest" />
+			<tag name="kernel.event_listener" event="commerce.security.login.force_password_reset" method="onForcePasswordReset" />
+			<tag name="kernel.event_listener" event="commerce.security.login.password_reset" method="onPasswordReset" />
+			<tag name="kernel.event_listener" event="commerce.security.login.password_reset_request" method="onPasswordResetRequest" />
+			<tag name="kernel.event_listener" event="commerce.security.new_account_created" method="onNewAccountCreated" />
+		</service>
+		
+		<!--
+			Visitor Listener
+		-->
+		<service id="commerce.listener.visitor" class="Spliced\Component\Commerce\EventListener\VisitorEventListener">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="session" />
+		    <argument type="service" id="commerce.affiliate_manager" />
+		    <argument type="service" id="commerce.visitor_manager" />
+		    <argument type="service" id="commerce.logger" />
+		    <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+		    <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" />
+		</service>
+		
+	
+		<!--
+			Cart Listener
+		-->
+		<service id="commerce.listener.cart" class="Spliced\Component\Commerce\EventListener\CartEventListener">
+		    <argument type="service" id="commerce.cart" />
+		    <argument type="service" id="commerce.order_manager" />
+		    <tag name="kernel.event_listener" event="commerce.cart.add_item" method="onCartItemAdd" />
+		    <tag name="kernel.event_listener" event="commerce.cart.remove_item" method="onCartItemRemove" />
+		    <tag name="kernel.event_listener" event="commerce.cart.update" method="onCartUpdate" />
+		</service>
+
+		<!--
+			Search Listener
+		-->
+		<service id="commerce.listener.search" class="Spliced\Component\Commerce\EventListener\SearchEventListener">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="session" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="doctrine.orm.entity_manager" />
+		    <tag name="kernel.event_listener" event="commerce.search" method="onSearch" />
+		</service>
+		
+		<!--
+			Contact Form Listener
+		-->
+		<service id="commerce.listener.contact" class="Spliced\Component\Commerce\EventListener\ContactEventListener">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="doctrine.orm.entity_manager" />
+		    <argument type="service" id="security.context" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="templating" />
+		    <tag name="kernel.event_listener" event="commerce.contact.submission" method="onContactFormSubmission" />
+		</service>
+
+		<!--
+			Exception Listener
+		-->
+		<service id="commerce.listener.exception" class="Spliced\Component\Commerce\EventListener\ExceptionEventListener">
+		    <argument type="service" id="commerce.configuration" />
+		    <argument type="service" id="templating" />
+		    <argument type="service" id="mailer" />
+		    <argument type="service" id="kernel" />
+		    <argument type="service" id="commerce.logger" />
+		    <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+		</service>
+		
+	</services>
+
+</container>

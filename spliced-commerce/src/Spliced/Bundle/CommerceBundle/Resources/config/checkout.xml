@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+    	<parameter key="commerce.checkout_manager.class">Spliced\Component\Commerce\Checkout\CheckoutManager</parameter>
+    	<parameter key="commerce.checkout_custom_field_manager.class">Spliced\Component\Commerce\Checkout\CheckoutCustomFieldManager</parameter>
+        <parameter key="commerce.checkout_notifier_manager.class">Spliced\Component\Commerce\Checkout\CheckoutNotifierManager</parameter>
+
+
+     	<parameter key="commerce.checkout_step.login_register.class">Spliced\Component\Commerce\Checkout\CheckoutStep\LoginRegisterCheckoutStepHandler</parameter>
+     	<parameter key="commerce.checkout_step.one_page.class">Spliced\Component\Commerce\Checkout\CheckoutStep\OnePageCheckoutStepHandler</parameter>
+        <parameter key="commerce.checkout_step.address.class">Spliced\Component\Commerce\Checkout\CheckoutStep\AddressCheckoutStepHandler</parameter>
+        <parameter key="commerce.checkout_step.shipping.class">Spliced\Component\Commerce\Checkout\CheckoutStep\ShippingCheckoutStepHandler</parameter>
+        <parameter key="commerce.checkout_step.payment.class">Spliced\Component\Commerce\Checkout\CheckoutStep\PaymentCheckoutStepHandler</parameter>
+        <parameter key="commerce.checkout_step.review.class">Spliced\Component\Commerce\Checkout\CheckoutStep\ReviewCheckoutStepHandler</parameter>
+        
+		<parameter key="commerce.checkout_notifier.google_trusted_stores.class">Spliced\Component\Commerce\Checkout\CheckoutNotifier\GoogleTrustedStoresCheckoutNotifierSubscriber</parameter>
+		<parameter key="commerce.checkout_notifier.shopzilla.class">Spliced\Component\Commerce\Checkout\CheckoutNotifier\ShopzillaCheckoutNotifierSubscriber</parameter>
+		<parameter key="commerce.checkout_notifier.nextag.class">Spliced\Component\Commerce\Checkout\CheckoutNotifier\NextagCheckoutNotifierSubscriber</parameter>
+    </parameters> 
+
+    <services>
+        <service id="commerce.checkout_manager" class="%commerce.checkout_manager.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.order_manager" />
+        	<argument type="service" id="commerce.cart" />
+        	<argument type="service" id="commerce.payment_manager" />
+        	<argument type="service" id="commerce.shipping_manager" />
+        	<argument type="service" id="session" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="commerce.checkout_custom_field_manager" />
+        	<argument type="service" id="commerce.affiliate_manager" />
+        	<argument type="service" id="form.factory" />
+        </service>
+        
+        <service id="commerce.checkout_custom_field_manager" class="%commerce.checkout_custom_field_manager.class%">
+	    	<argument type="service" id="commerce.configuration" />
+	    	<argument type="service" id="commerce.entity_manager" />
+        </service>
+        
+        <service id="commerce.checkout_notifier_manager" class="%commerce.checkout_notifier_manager.class%">
+        </service>
+        
+    	<!-- 
+    	Checkout Steps
+    	-->
+        <service id="commerce.checkout_step.login_register" class="%commerce.checkout_step.login_register.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="event_dispatcher" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="1" priority="10" />
+        </service>
+        
+        <service id="commerce.checkout_step.address" class="%commerce.checkout_step.address.class%">
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="2" priority="10" />
+        </service>
+        
+        <service id="commerce.checkout_step.shipping" class="%commerce.checkout_step.shipping.class%">
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="3" priority="10" />
+        </service>
+        
+        <service id="commerce.checkout_step.payment" class="%commerce.checkout_step.payment.class%">
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="commerce.security.encryption_manager" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="4" priority="10" />
+        </service>
+        
+        <service id="commerce.checkout_step.review" class="%commerce.checkout_step.review.class%">
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="5" priority="10" />
+        </service>
+      <!-- 
+          ONE PAGE
+        <service id="commerce.checkout_step.one_page" class="%commerce.checkout_step.one_page.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="security.context" />
+        	<argument type="service" id="event_dispatcher" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="1" priority="10" />
+        </service>
+       
+        
+        <service id="commerce.checkout_step.review" class="%commerce.checkout_step.review.class%">
+        	<argument type="service" id="commerce.checkout_manager" />
+        	<argument type="service" id="templating" />
+        	
+        	<tag name="commerce.checkout_step" step="2" priority="10" />
+        </service>
+           -->
+    	<!-- 
+    	Checkout Notifiers
+    	-->
+        
+        <service id="commerce.checkout_notifier.google_trusted_stores" class="%commerce.checkout_notifier.google_trusted_stores.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.helper.order" />
+        	<tag name="commerce.checkout_notifier" />
+        	<tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.checkout_notifier.shopzilla" class="%commerce.checkout_notifier.shopzilla.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<argument type="service" id="commerce.helper.order" />
+        	<tag name="commerce.checkout_notifier" />
+        	<tag name="commerce.configurable" />
+        </service>
+        
+        <service id="commerce.checkout_notifier.nextag" class="%commerce.checkout_notifier.nextag.class%">
+        	<argument type="service" id="commerce.configuration" />
+        	<tag name="commerce.checkout_notifier" />
+        	<tag name="commerce.configurable" />
+        </service>
+    </services>
+
+</container>

@@ -1,0 +1,25 @@
+
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+	<h1>Product Category <small>Product {{ product.sku }}</small></h1>
+</div>
+<form role="form" class="add-product-categories-form" method="post" action="{{ path('commerce_admin_product_category_save', { 'productId' : product.id }) }}">
+	
+	{{ include('SplicedCommerceAdminBundle:ProductCategory:form.html.twig') }}
+	
+	<div class="form-actions">
+		<a class="btn btn-warning" href="{{ path('commerce_admin_product_edit', { 'id' : product.id }) }}"><i class="icon-remove-sign"></i> Cancel</a>
+		<button type="submit" class="btn btn-success"><i class="icon-plus"></i> Add</button>
+	</div>
+</form>
+{% endblock %} 

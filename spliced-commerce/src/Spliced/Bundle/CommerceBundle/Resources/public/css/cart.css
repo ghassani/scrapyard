@@ -1,0 +1,30 @@
+table.cart-item-table{
+    
+}
+
+ul.cart-action-buttons{
+    
+}
+
+ul.cart-action-buttons li{
+    margin-bottom: 3px;
+}
+
+ul.cart-action-buttons li .btn {
+    font-size: 16px;
+    text-align: left;
+}
+
+ul.cart-action-buttons li .fa{
+    padding-left: 10px;
+    font-size: 150%;
+}
+
+
+ul.shipping-quote-form{
+    
+}
+
+ul.shipping-quote-form .btn .fa{
+    font-size: 150%;
+}

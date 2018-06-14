@@ -1,0 +1,97 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Content Pages | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ContentPage:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_content_page_filter') }}" class="form form-horizontal cms-page-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ form_widget(filterForm) }}         
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Content Page <small>List</small></h1>
+	</div>
+	
+    
+	{{ knp_pagination_render(pages) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	                	            	
+	            	<th{% if pages.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Id', 'e.id') }}</th>	                	            	
+	            	<th{% if pages.isSorted('e.title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Title', 'e.title') }}</th>	                	            	
+	            	<th{% if pages.isSorted('e.pageLayout') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Layout', 'e.pageLayout') }}</th>	                	            	
+	            	<th{% if pages.isSorted('e.urlSlug') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Url Slug', 'e.urlSlug') }}</th>	                	            	               	            	
+	            	<th{% if pages.isSorted('e.isActive') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Active', 'e.isActive') }}</th>	                	            	
+	            	<th{% if pages.isSorted('e.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Create', 'e.createdAt') }}</th>	                	            	
+	            	<th{% if pages.isSorted('e.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pages, 'Updated', 'e.updatedAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for page in pages %}
+	            <tr>
+					<td><input type="checkbox" value="{{ page.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_content_page_edit', { 'id': page.id }) }}">{{ page.id }}</a></td>	
+	                <td>{{ page.title }}</td>	
+	                <td>{{ page.pageTitle }}</td>		
+	                <td>{{ page.urlSlug }}</td>		
+	                <td><i class="icon {{ page.isActive ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+	                <td>{% if page.createdAt %}{{ page.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>{% if page.updatedAt %}{{ page.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="{{ path('commerce_admin_content_page_edit', { 'id': page.id }) }}">
+                                    <i class="icon-edit"></i>
+                                </a>
+                            </li>
+                        </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+	    
+        {{ knp_pagination_render(pages) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_content_page_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

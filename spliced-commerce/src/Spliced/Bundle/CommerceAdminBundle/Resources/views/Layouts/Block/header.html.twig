@@ -1,0 +1,32 @@
+<div class="header-container">
+    
+	<div class="pull-right">
+		<ul class="list-inline">
+			<li>
+				<div class="todays-date">
+					<strong>Today's Date:</strong> {{ "now"|date("m/d/Y") }}
+				</div>
+	    	</li>
+	    {% if app.user and is_granted('ROLE_USER') %}
+	    	<li>
+			<div class="btn-group">
+			  
+			  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+			    {{ app.user.username }} <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#">Manage Account</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#">View Messages</a></li>
+			  </ul>
+			</div>
+			</li>
+		{% endif %}
+			<li>
+				<a class="btn btn-success" role="button" href="{{ commerce_get_config('commerce.store.url') }}" target="_blank">View Store Front</a>
+			</li>
+		</ul>
+	</div>
+	<h1>{{ commerce_get_config('commerce.store.name') }} <small>Administration</small></h1>
+	<div class="clearfix"></div>
+</div>

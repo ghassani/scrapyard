@@ -1,0 +1,25 @@
+{% block dimensions_widget %}
+<div class="form-group">
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">L</span>
+		  {{ form_widget(form.length, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">W</span>
+		  {{ form_widget(form.width, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+	<div class="col-sm-3 col-lg-3">
+		<div class="input-group">
+		  <span class="input-group-addon">H</span>
+		  {{ form_widget(form.height, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		</div>
+	</div>
+	<div class="col-sm-3 col-lg-3">
+		{{ form_widget(form.unit, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+	</div>
+</div>
+{% endblock dimensions_widget %}

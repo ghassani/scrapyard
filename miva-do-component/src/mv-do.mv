@@ -1,0 +1,285 @@
+<MIVA STANDARDOUTPUTLEVEL="" IDENT="$Id: mv-do.mv 20 2014-12-04 4:20:00Z gidriss $">
+
+<MvCOMMENT>
+    This file is part of Spliced MvDO Component.
+
+    MvDO Component is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    MvDO Component is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with MvDO Component.  If not, see <http://www.gnu.org/licenses/>.
+</MvCOMMENT>
+
+<MvFUNCTION NAME="Module_Description" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+    <MvASSIGN NAME="l.module:code"       VALUE="spliced-mvdo">
+    <MvASSIGN NAME="l.module:name"       VALUE="MvDO Component">
+    <MvASSIGN NAME="l.module:provider"   VALUE="Gassan Idriss">
+    <MvASSIGN NAME="l.module:author"     VALUE="Gassan Idriss">
+    <MvASSIGN NAME="l.module:version"    VALUE="0.5">
+    <MvASSIGN NAME="l.module:api_ver"    VALUE="5.60">
+    <MvASSIGN NAME="l.module:features"   VALUE="util, vis_util, component, data_store, vis_store">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Install_Store" PARAMETERS="module var" STANDARDOUTPUTLEVEL="" ERROROUTPUTLEVEL="">
+    <MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_Item( 'mvdo',  l.module:code ) }">
+        <MvFUNCTIONRETURN VALUE = 0>
+    </MvIF>
+
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Upgrade_Store" PARAMETERS="module var, version" STANDARDOUTPUTLEVEL="" ERROROUTPUTLEVEL="">
+    <MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_DB ].Item_Load_Code( 'mvdo', l.null ) }">
+        <MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_Item( 'mvdo',  l.module:code ) }">
+            <MvFUNCTIONRETURN VALUE = 0>
+        </MvIF>
+    </MvIF>
+
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Uninstall_Store" PARAMETERS="module var" STANDARDOUTPUTLEVEL="" ERROROUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Store_Validate" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Store_Update" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="ComponentModule_Initialize" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Render_Start" PARAMETERS="module var, item, all_settings var, settings var, param" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+
+    <MvIF EXPR="'l.settings' CIN l.param">
+        <MvASSIGN NAME="l.param" VALUE="{ glosub(l.param, 'l.settings', 'l.all_settings') }" />
+    </MvIF>
+
+    <MvASSIGN name="l.token_count" value = "{ (len(l.param) - len(glosub(l.param, '|',''))) + 1 }" />
+
+    <MvIF EXPR = "{ l.token_count NE 3 }">
+        <MvFUNCTIONRETURN VALUE = "1" />
+    </MvIF>
+
+    <MvASSIGN      NAME="l.file"      VALUE= "{ miva_variable_value(gettoken( l.param, '|', 1 )) }" />    
+    <MvREFERENCE   NAME="l.return"    VARIABLE= "{ gettoken( l.param, '|', 2 ) }">
+    <MvASSIGN      NAME="l.function"  VALUE= "{ gettoken( l.param, '|', 3 ) }" />
+    
+    <MvASSEMBLY>
+        .string       l_file       "l.file"    
+        .string       l_function   "l.function"
+        .string       l_error      "l.error"    
+        .local        l_return     "result"    
+
+        pushc         l_file
+        pushn
+        pushc         l_function
+        pushn        
+        tagerror      22, 0
+        do_function
+        popl          l_return
+        tagerror      22, 3
+        pushc         l_error
+        pushn
+    </MvASSEMBLY>
+
+    <MvIF EXPR = "{ NOT ISNULL g.MvDO_Error }">
+        <MvEVAL EXPR = "{ g.MvDO_Error }" />
+    </MvIF>
+
+    <MvASSIGN NAME = "l.return" VALUE = "{ miva_variable_value('l.result') }" />
+
+    <MvFUNCTIONRETURN VALUE = "0" />    
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Tabs" PARAMETERS="module var, item, settings var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE = "SMMVDO:MvDO">
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Content" PARAMETERS="module var, item, tab, load_fields, field_prefix, fields var, settings var" STANDARDOUTPUTLEVEL="">
+    <MvIF EXPR="{ l.tab EQ 'SMMVDO' }">
+        <MvEVAL EXPR = "{ Render_About(l.module, l.tab, l.load_fields) }" />
+    </MvIF>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Tabs" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE = "SMMVDO:MvDO">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Content" PARAMETERS="module var, tab, load_fields" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+    <MvIF EXPR="{ l.tab EQ 'SMMVDO' }">
+        <MvEVAL EXPR = "{ Render_About(l.module, l.tab, l.load_fields) }" />
+    </MvIF>
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Render_About" PARAMETERS="module var, tab, load_fields" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+    <style>
+        .spliced-mvdo-about-wrapper{
+            width: 80%;
+            margin: 0 auto;
+            font-size: 12pt;
+        }
+        .spliced-mvdo-about-wrapper h1{
+            margin:0;
+            padding:0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .spliced-mvdo-about-wrapper h2{
+            margin:0;
+            padding:0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .spliced-mvdo-about-wrapper code{
+            border-left: 3px solid #c1c1c1; 
+            padding-left: 5px;
+        }
+        .spliced-mvdo-about-wrapper em{
+            background: #F3F3F3;
+            padding: 1px;
+        }
+        .spliced-mvdo-about-wrapper .depreciated{
+            color:red;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="spliced-mvdo-about-wrapper">
+        <h1>MvDO Component v<MvEVAL EXPR = "{ l.module:version }" /></h1>
+
+        <p>This module allows you to call any function from any compiled miva script binary in your template code.</p>
+
+        <p class="depreciated">With the release of Miva Empress v5.21, this module would no longer be needed as it is available natively.</p>
+        
+        <p>You can download source code, as well as get updated versions from the 
+            <a href="https://github.com/ghassani/miva-do-component" target="_blank">offical GitHub repository</a>.</p>
+
+        <div class="license-source-code">
+            <h2>Usage</h2>
+
+            <p>To use the module, make sure the mvdo item is assigned to the page in which you wish to use it on.</p>
+
+            <p>Then in your template code call the item with param set with the following pipe delimited arguments:</p>
+            
+            <code>
+                &#x3C;mvt:item name=&#x22;mvdo&#x22; param=&#x22;argument1|argument2|argument3&#x22; /&#x3E;
+            </code>
+
+            <p><strong>Argument 1)</strong> The name of the variable containing the path to the compiled miva script binary (.mvc). 
+                You can use globally defined variables to core files such as <em>g.Module_Library_DB</em>.</p>
+
+
+            <p><strong>Argument 2)</strong> A name of the variable to store the functions return value.</p>
+                
+
+            <p><strong>Argument 3)</strong> The function and function arguments to be called from the file specified in argument 1.</p>
+                
+            <p>For example if we wanted to execute the database library function of Miva Merchant to load a product by code, we use the following markup:</p>
+
+            <code>
+                &#x3C;mvt:item name=&#x22;mvdo&#x22; param=&#x22;g.Module_Library_DB|g.function_return_value|Product_Load_Code( &#x27;FOO&#x27;, g.product )&#x22; /&#x3E;
+
+            </code>
+
+            <p>The above example function returns 1 on success, so <em>g.function_return_value</em> would be 1 if the product exists. 
+            In addition to that, the function also populates <em>g.product</em> with the product data and you would then have access to  
+            that through that variable. Obviously depending on the function you call the return data may be different, this was just an 
+            example to illustrate how to use this component.
+             </p>
+        </div>
+
+        <div class="license-source-code">
+            <h2>License &amp; Source Code</h2>
+
+            <p>&copy; 2014 <a href="http://www.gassanidriss.com" target="_blank">Gassan Idriss</a> &amp; <a href="http://www.splicedmedia.com" target="_blank">Spliced Media L.L.C</a></p>
+
+            <p>MvDO Component is free software: you can redistribute it and/or modify
+            it under the terms of the GNU General Public License as published by
+            the Free Software Foundation, either version 3 of the License, or
+            (at your option) any later version.</p>
+
+            <p> You should have received a copy of the GNU General Public License
+            along with MvDO Component.  If not, see <<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>>.
+
+            <p>You can download source code, as well as get updated versions from the 
+            <a href="https://github.com/ghassani/miva-do-component" target="_blank">offical GitHub repository</a>.</p>
+
+        </div>
+
+
+    </div>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Render_End" PARAMETERS="module var, item, all_settings var, settings var, param" STANDARDOUTPUTLEVEL="">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Validate" PARAMETERS="module var, item, field_prefix, fields var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Update" PARAMETERS="module var, item, field_prefix, fields var, settings var" STANDARDOUTPUTLEVEL="">
+
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="ComponentModule_Defaults" PARAMETERS="module var, settings var" STANDARDOUTPUTLEVEL="">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Page_Assign" PARAMETERS="module var, page var, item, settings var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="ComponentModule_Page_Unassign" PARAMETERS="module var, page var, item, settings var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE=1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Store_Tabs" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+    <MvFUNCTIONRETURN VALUE="">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Store_Content" PARAMETERS="module var, tab, load_fields" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Validate" PARAMETERS="module var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Update" PARAMETERS="module var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_LeftNavigation"  PARAMETERS = "module var, indent" STANDARDOUTPUTLEVEL = "">    
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Validate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Action" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Screen" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+    <MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+

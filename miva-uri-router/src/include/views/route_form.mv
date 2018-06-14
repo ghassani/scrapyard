@@ -1,0 +1,150 @@
+<MvCOMMENT>
+ * Render_Route_Form
+ *
+ * Renders Route Form for Edit/New
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Route_Form" PARAMETERS = "route var, original_route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+	<div id="route-form-wrapper">
+
+		<MvIF EXPR = "{ ISNULL l.route:id AND ISNULL g.route_id }">
+			<input type="hidden" name="Route_Id" value="{ l.route:id }" />
+		</MvIF>
+
+		<input type="hidden" name="route:id" value="{ l.route:id }" />
+		<input type="hidden" name="route:type" value="{ l.route:type }" />
+
+		<MvIF EXPR = "{ ISNULL l.route:id }">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="form-group">
+						<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The type of route this should be"></i> Route Type</label>
+						<ul class="list-inline checkbox">
+							<li><label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:type',  'product',  l.route:type, 'Product' ) }"></label></li>
+							<li><label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:type',  'category', l.route:type, 'Category' ) }"></label></li>
+							<li><label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:type',  'page', 	  l.route:type, 'Page' ) }"></label></li>
+							<li><label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:type',  'redirect', l.route:type, 'Redirect' ) }"></label></li>
+							<li><label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:type',  'custom',   l.route:type, 'Custom' ) }"></label></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</MvIF>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The URL, starting from after the root level of the domain. Starting with a /. For Example /some-link or /some-link.html ."></i> Request Path</label>
+					<input type="text" class="form-control" name="route:request_path" value="{ l.route:request_path }" data-original="{ l.route:request_path }" />
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="If yes, will be a published route, if not it will not be accessable from the store front."></i> Active</label>
+				<div class="checkbox">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawCheckbox( l.route:is_active, 'route:is_active',	1, 'Yes' ) }"></label>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The canonical link serves as the primary link to a page, product, or category. It is also the first link that is looked for when extended to other modules. Does not apply to redirect."></i> Canonical Link</label>
+				<div class="checkbox">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawCheckbox( l.route:is_canonical,	'route:is_canonical',	1, 'Yes' ) }"></label>
+				</div>
+			</div>
+		</div>
+
+		<MvIF EXPR="{ ISNULL l.route:id OR l.route:type EQ 'product' }">
+			<div class="row row-route-variant row-product row-custom">
+				<div class="col-lg-6 col-md-6">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The product code this product route should map to."></i> Product Code</label>
+					<div class="input-group">
+				    	<input type="text" class="form-control" id="Route_Product_Code" name="route:product_code" value="{ l.route:product_code }" />
+				      	<span class="input-group-btn">
+				        	<a href="JavaScript:ProductLookupDialog( 'Route_Product_Code' );" class="btn btn-info" role="button"><i class="fa fa-search"></i>  Lookup</a>
+				    	</span>
+				    </div>
+				    <label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The category code this product route should map to. If left blank, canonical category code (if set) is used."></i> Product Category Code</label>
+					<div class="input-group">
+				    	<input type="text" class="form-control" id="Route_Product_Category_Code" name="route:product_category_code" value="{ l.route:product_category_code }" />
+				      	<span class="input-group-btn">
+				        	<a href="JavaScript:CategoryLookupDialog( 'Route_Product_Category_Code' );" class="btn btn-info" role="button"><i class="fa fa-search"></i> Lookup</a>
+				    	</span>
+				    </div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					
+				</div>
+			</div>
+		</MvIF>
+
+		<MvIF EXPR="{ ISNULL l.route:id OR l.route:type EQ 'category' }">
+
+			<div class="row row-route-variant row-category row-custom">
+				<div class="col-lg-6 col-md-6">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The category code this category route should map to."></i> Category Code</label>
+					<div class="input-group">
+				    	<input type="text" class="form-control" id="Route_Category_Code" name="route:category_code" value="{ l.route:category_code }" />
+				      	<span class="input-group-btn">
+				        	<a href="JavaScript:PopupCategoryLookup( 'Route_Category_Code' );" class="btn btn-info" role="button"><i class="fa fa-search"></i>  Lookup</a>
+				    	</span>
+				    </div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					
+				</div>
+			</div>
+
+		</MvIF>
+
+		<MvIF EXPR="{ ISNULL l.route:id OR l.route:type EQ 'page' }">
+
+			<div class="row row-route-variant row-page">
+				<div class="col-lg-6 col-md-6">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The page code this page route should map to."></i> Page Code</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="Route_Page_Code" name="route:page_code" value="{ l.route:page_code }" />
+				      	<span class="input-group-btn">
+				        	<a href="JavaScript:PopupPageLookup( 'Route_Page_Code' );" class="btn btn-info" role="button"><i class="fa fa-search"></i> Lookup</a>
+				    	</span>
+				    </div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					
+				</div>
+			</div>
+		</MvIF>
+
+
+		<div class="row row-route-variant row-redirect row-custom">
+			<div class="col-lg-8 col-md-8">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The local path, or fully qualified url this redirect route should map to."></i> Redrect Path</label>
+					<input type="text" class="form-control" name="route:redirect_path" value="{ l.route:redirect_path }" />
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-4">
+				<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Optional HTTP Status Code to use for redirect. Defaults to 200 OK."></i> Status Code</label>
+		
+				<ul class="list-inline">
+					<li class="radio">
+						<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  200, l.route:options:header_status, '200 OK' ) }"></label>
+					</li>
+					<li class="radio">
+						<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  301, l.route:options:header_status, '301 Redirect' ) }"></label>
+					</li>
+					<li class="radio">
+						<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  404, l.route:options:header_status, '404 Not Found' ) }"></label>
+					</li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+
+	<script>
+		var form = new RouteForm('route-form');
+	</script>
+
+</MvFUNCTION>

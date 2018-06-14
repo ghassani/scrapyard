@@ -1,0 +1,22 @@
+{% form_theme form "SplicedCommerceAdminBundle:Form:bootstrap_form_row.html.twig" %}
+
+{{ form_row(form.name) }}
+
+{{ form_row(form.website) }}
+
+{{ form_row(form.orderPrefix) }}
+
+{{ form_row(form.referrerUrls) }}
+
+<div class="form-group">
+	<div class="col-lg-6">
+        {{ form_row(form.isComissioned) }}
+	</div>
+	<div class="col-lg-6">
+        {{ form_row(form.isActive) }}
+	</div>
+</div>
+
+
+
+{{ form_rest(form) }}

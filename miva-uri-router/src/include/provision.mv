@@ -1,0 +1,46 @@
+
+<MvFUNCTION NAME = "Module_Provision_Store" PARAMETERS = "module var, provide_xml var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.child_pos"		VALUE = 1>
+	<MvASSIGN NAME = "l.child_count"	VALUE = "{ miva_array_elements( l.provide_xml:children ) }">
+
+	<MvWHILE EXPR = "{ l.child_pos LE l.child_count }">
+		<MvASSIGN NAME = "l.name"		VALUE = "{ tolower( l.provide_xml:children[ l.child_pos ]:name ) }">
+
+		<MvIF EXPR = "{ l.name EQ 'route_add' }">					
+			<MvEVAL EXPR = "{ Module_Provision_Store_Route_Add( l.module, l.provide_xml:children[ l.child_pos ] ) }">
+		<MvELSEIF EXPR = "{ l.name EQ 'route_update' }">					
+			<MvEVAL EXPR = "{ Module_Provision_Store_Route_Update( l.module, l.provide_xml:children[ l.child_pos ] ) }">
+		<MvELSEIF EXPR = "{ l.name EQ 'route_delete' }">					
+			<MvEVAL EXPR = "{ Module_Provision_Store_Route_Delete( l.module, l.provide_xml:children[ l.child_pos ] ) }">
+		<MvELSEIF EXPR = "{ l.name EQ 'route_regenerate' }">					
+			<MvEVAL EXPR = "{ Module_Provision_Store_Route_Regenerate( l.module, l.provide_xml:children[ l.child_pos ] ) }">
+		</MvIF>
+
+		<MvASSIGN NAME = "l.child_pos"	VALUE = "{ l.child_pos + 1 }">
+	</MvWHILE>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Provision_Store_Route_Add" PARAMETERS = "module var, provide_xml var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.field:fieldtype" 	VALUE = "textfield">
+	<MvASSIGN NAME = "l.field:group_id" 	VALUE = 0>
+
+	<MvIF EXPR = "{ NOT [ g.Module_Feature_PRV_AD ].PRV_Tag_Code( 'R', l.provide_xml, 'Code',		l.field:code ) OR
+					NOT [ g.Module_Feature_PRV_AD ].PRV_Tag_Text( 'R', l.provide_xml, 'Name',		l.field:name ) OR
+					NOT [ g.Module_Feature_PRV_AD ].PRV_Tag_List( 'O', l.provide_xml, 'FieldType', 	l.field:fieldtype, 'textfield,textarea,dropdown,radio,checkbox,imageupload', 'textfield,textarea,dropdown,radio,checkbox,imageupload' ) OR
+					NOT [ g.Module_Feature_PRV_AD ].PRV_Tag_Text( 'o', l.provide_xml, 'Info',		l.field:info ) OR
+					NOT [ g.Module_Feature_PRV_AD ].PRV_Tag_Text( 'O', l.provide_xml, 'Group', 		l.group_code ) }">
+		<MvFUNCTIONRETURN>
+	</MvIF>
+
+
+	<MvEVAL EXPR = "{ [ g.Module_Admin ].Admin_Log_Action( 'SM-ROUTER-PRV-001', 'Module_Provision_Store_Route_Add' ) }">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Provision_Store_Route_Update" PARAMETERS = "module var, provide_xml var" STANDARDOUTPUTLEVEL = "">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Provision_Store_Route_Delete" PARAMETERS = "module var, provide_xml var" STANDARDOUTPUTLEVEL = "">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Provision_Store_Route_Regenerate" PARAMETERS = "module var, provide_xml var" STANDARDOUTPUTLEVEL = "">
+</MvFUNCTION>

@@ -1,0 +1,24 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}New Category | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block content -%}
+<div class="page-header">
+	<h1>New Category</h1>
+</div>
+
+<form method="post" role="form" action="{{ path('commerce_admin_category_save') }}">
+    {{ include('SplicedCommerceAdminBundle:Category:form.html.twig') }}
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"><i class="icon-plus"></i> Add Category</button>
+        <button type="submit" name="add_another" class="btn btn-success"><i class="icon-plus"></i> Add Category &amp; Add Another</button>
+        <a href="{{ path('commerce_admin_category') }}" class="btn btn-warning"><i class=" icon-remove"></i> Cancel</a>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+<MvINCLUDE FILE = "include/db/sql.mv"> 
+<MvINCLUDE FILE = "include/db/schema.mv"> 
+<MvINCLUDE FILE = "include/db/routes.mv"> 
+<MvINCLUDE FILE = "include/db/settings.mv"> 
+<MvINCLUDE FILE = "include/db/product_routes.mv"> 
+<MvINCLUDE FILE = "include/db/category_routes.mv"> 
+<MvINCLUDE FILE = "include/db/page_routes.mv"> 

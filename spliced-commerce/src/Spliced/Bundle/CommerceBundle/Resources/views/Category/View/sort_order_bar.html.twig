@@ -1,0 +1,54 @@
+{#
+	Category/View/index.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+#}
+
+<div class="form-actions">
+
+	<div class="btn-group">
+	    <button class="btn btn-mini">Sorting By {{ productFilterManager.orderByLabel }}</button>
+	    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+	    <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"price_asc"}) }}">Price: Low to High</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"price_desc"}) }}">Price: High to Low</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"name_asc"}) }}">Product Name: Ascending</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"name_desc"}) }}">Product Name: Descending</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"sku_asc"}) }}">Product Sku: Ascending</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"orderBy","orderFilterValue":"sku_desc"}) }}">Product Sku: Descending</a></li>
+	    </ul>
+	</div>
+
+
+	<div class="btn-group">
+	    <button class="btn btn-mini">Showing {{ productFilterManager.perPage }} Products Per Page</button>
+	    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+	    <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"perPage","orderFilterValue":"10"}) }}">10 Products Per Page</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"perPage","orderFilterValue":"20"}) }}">20 Products Per Page</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"perPage","orderFilterValue":"30"}) }}">30 Products Per Page</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"perPage","orderFilterValue":"40"}) }}">40 Products Per Page</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"perPage","orderFilterValue":"50"}) }}">50 Products Per Page</a></li>
+	    </ul>
+	</div>
+
+
+	<div class="btn-group">
+	    <button class="btn btn-mini">Displaying as {{ productFilterManager.displayMode }}</button>
+	    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+	    <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"displayMode","orderFilterValue":"list"}) }}">Products as List</a></li>
+	    	<li><a href="{{ path('category_update_order_filter', {"orderFilterName":"displayMode","orderFilterValue":"grid"}) }}">Products as Grid</a></li>
+	    </ul>
+	</div>
+
+</div>
+
+<hr />

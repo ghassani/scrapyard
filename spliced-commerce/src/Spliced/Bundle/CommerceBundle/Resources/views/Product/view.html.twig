@@ -1,0 +1,124 @@
+{#
+	Product/view.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-left.html.twig' %}
+
+{% block title %}{{ product.name }} | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('commerce_product_by_slug', { 'slug' : product.urlSlug }) }}" />
+{% endblock %}
+
+
+{% block content %}
+
+{% set content = product.getContentByLanguage(app.request.locale) %}
+	
+<div class="product-view" itemscope itemtype="http://data-vocabulary.org/Product">
+
+    <div class="page-header">
+	    <h1 itemprop="name">{{ product.name }}</h1>
+    </div>
+
+    {% if product.images|length %}
+    	{% if product.images|length == 1 %}
+    		<div class="product-image text-center">
+    			<img src="{{  commerce_resize_product_image(product.mainImage, commerce_get_config('commerce.product.image_view_width'), commerce_get_config('commerce.product.image_view_height')) }}" alt="{{ product.name }}" class="img-rounded" />
+    		</div>
+    	{% else %}
+    		{# handle multiple images #}
+    		<div class="row">
+    			<div class="col-lg-9 col-sm-9">
+		    		<div class="product-image">
+		    			<img itemprop="image" src="{{  commerce_resize_product_image(product.mainImage, commerce_get_config('commerce.product.image_view_width'), commerce_get_config('commerce.product.image_view_height')) }}" alt="{{ product.name }}" class="img-rounded" />
+		    		</div>
+    			</div>
+    			<div class="col-lg-3 col-sm-3">
+					<ul class="list-unstyled product-images">
+		    		{% for image in product.images %}
+						<li>
+							<img itemprop="image" src="{{  commerce_resize_product_image(image, commerce_get_config('commerce.product.image_view_thumbnail_width', 100), commerce_get_config('commerce.product.image_view_thumbnail_height', 50)) }}" alt="{{ product.name }}" class="img-rounded" />
+						</li>
+		    		{% endfor %}
+					</ul>
+    			</div>
+    		</div>
+    	{% endif %}
+    {% else %}
+    	{# display default store image #}
+    	<div class="text-center">
+    		<img src="http://placehold.it/{{ commerce_get_config('commerce.product.image_view_width') ~ 'x' ~ commerce_get_config('commerce.product.image_view_height') }}" alt="{{ product.name }}" class="img-rounded" />
+    	</div>
+    {% endif %}
+	
+	<hr />
+	
+    <div class="row product-details-row">
+
+    	<div class="col-sm-8 col-lg-8">
+			{# include("SplicedCommerceBundle:Product:attribute_table.html.twig", { 'product' : product }) #}
+    	</div>
+
+    	<div class="col-sm-8 col-lg-8">
+			{% include("SplicedCommerceBundle:Product:specification_table.html.twig") %}
+    	</div>
+    	
+    	<div class="col-sm-4 col-lg-4">
+			<blockquote>
+				<span itemprop="offerDetails" itemscope itemtype="http://data-vocabulary.org/Offer">
+					<meta itemprop="currency" content="USD" />
+					{% if product.hasSpecialPrice and product.price != commerce_product_price(product, 1) %}
+						<p>Was $<span itemprop="price price-strikethrough">{{ product.price|number_format(commerce_get_config('commerce.sales.calculation_precision', 2)) }}</span></p>
+						<p>Now Only $<span itemprop="price price-special">{{ commerce_product_price(product, 1) }}</span></p>
+					{% else %}
+				    	<p>Only $<span itemprop="price">{{ commerce_product_price(product, 1) }}</span></p>
+				    {% endif %}	    
+			    	<div><span itemprop="availability" content="{{ product.availabilityName }}"><strong>Availability:</strong> {{ product.availabilityName }}</span></div>	
+			    </span>
+			    <div itemprop="identifier" content="mpn:{{ product.sku }}"><strong>Part #:</strong> {{ product.sku }}</div>	
+			    {% if product.manufacturer %}
+			    	<div itemprop="brand"><strong>Manufacturer:</strong> {{ product.manufacturer.name }}</div>
+			    {% endif %}	    
+			</blockquote> 
+			
+			{% if product.availability > 1 %}
+			    {{ product.availabilityName }}
+			{% else %}
+    			{% include "SplicedCommerceBundle:Product:Form/add_to_cart.html.twig" with { 'product' : product, 'quantity' : quantity } %}
+        		
+    			{% if product.tierPrices|length %}
+        		    <a href="#TieredPricing">Bulk Pricing Available</a>
+        	    {% endif %}
+        	{% endif %}
+    	</div>
+    </div>
+	
+	{% if content|length and content.longDescription|length %}
+		<div class="product-description well" itemprop="description">{{ content.longDescription|raw }}</div>
+	{% elseif content|length and content.shortDescription|length %}
+		<div class="product-description well" itemprop="description">{{ content.shortDescription|raw }}</div>
+	{% endif %}
+	
+	{% if product.tierPrices|length %}
+    	<h3><a id="TieredPricing"></a>Bulk Ordering</h3>
+		{% include 'SplicedCommerceBundle:Product:tier_price_table_detailed.html.twig' with { 'product' : product } %}
+	{% endif %}
+
+	{% if product.relatedProducts|length %}
+		<h3>Recommended Products for {{ product.name }}</h3>
+		
+		<ul class="list-inline product-upsales">
+			{% for related in product.relatedProducts %}
+				<li>
+					{{ include('SplicedCommerceBundle:Product/Block:single.html.twig', {'product' : related.product}) }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+</div>
+{% endblock %}

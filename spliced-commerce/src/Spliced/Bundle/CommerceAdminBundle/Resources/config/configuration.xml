@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="commerce.admin.configuration.class">Spliced\Component\Commerce\Configuration\ConfigurationManager</parameter>
+
+		<!-- Define our Entity Classes -->
+        <parameter key="commerce.admin.entity.affiliate.class">Spliced\Bundle\CommerceAdminBundle\Entity\Affiliate</parameter>
+        <parameter key="commerce.admin.entity.category.class">Spliced\Bundle\CommerceAdminBundle\Entity\Category</parameter>
+        <parameter key="commerce.admin.entity.configuration.class">Spliced\Bundle\CommerceAdminBundle\Entity\Configuration</parameter>
+        <parameter key="commerce.admin.entity.content_page.class">Spliced\Bundle\CommerceAdminBundle\Entity\ContentPage</parameter>
+        <parameter key="commerce.admin.entity.checkout_custom_field.class">Spliced\Bundle\CommerceAdminBundle\Entity\CheckoutCustomField</parameter>
+        <parameter key="commerce.admin.entity.product.class">Spliced\Bundle\CommerceAdminBundle\Entity\Product</parameter>
+        <parameter key="commerce.admin.entity.product_attribute.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductAttribute</parameter>
+        <parameter key="commerce.admin.entity.product_attribute_option.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductAttributeOption</parameter>
+        <parameter key="commerce.admin.entity.product_attribute_option_value.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductAttributeOptionValue</parameter>
+        <parameter key="commerce.admin.entity.product_attribute_option_value_product.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductAttributeOptionValueProduct</parameter>
+		<parameter key="commerce.admin.entity.product_specification.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductSpecification</parameter>
+        <parameter key="commerce.admin.entity.product_specification_option.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductSpecificationOption</parameter>
+        <parameter key="commerce.admin.entity.product_specification_option_value.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductSpecificationOptionValue</parameter>
+        <parameter key="commerce.admin.entity.product_upsale.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductUpsale</parameter>
+        <parameter key="commerce.admin.entity.product_related_product.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductRelatedProduct</parameter>
+        <parameter key="commerce.admin.entity.product_bundled_item.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductBundledItem</parameter>
+        <parameter key="commerce.admin.entity.product_content.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductContent</parameter>
+        <parameter key="commerce.admin.entity.product_tier_price.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductTierPrice</parameter>
+        <parameter key="commerce.admin.entity.product_image.class">Spliced\Bundle\CommerceAdminBundle\Entity\ProductImage</parameter>
+        <parameter key="commerce.admin.entity.manufacturer.class">Spliced\Bundle\CommerceAdminBundle\Entity\Manufacturer</parameter>
+        <parameter key="commerce.admin.entity.route.class">Spliced\Bundle\CommerceAdminBundle\Entity\Route</parameter>
+        <parameter key="commerce.admin.entity.cart.class">Spliced\Bundle\CommerceAdminBundle\Entity\Cart</parameter>
+        <parameter key="commerce.admin.entity.cart_item.class">Spliced\Bundle\CommerceAdminBundle\Entity\CartItem</parameter>
+        <parameter key="commerce.admin.entity.contact_message.class">Spliced\Bundle\CommerceAdminBundle\Entity\ContactMessage</parameter>
+        <parameter key="commerce.admin.entity.customer.class">Spliced\Bundle\CommerceAdminBundle\Entity\Customer</parameter>
+        <parameter key="commerce.admin.entity.customer_address.class">Spliced\Bundle\CommerceAdminBundle\Entity\CustomerAddress</parameter>
+        <parameter key="commerce.admin.entity.customer_credit_card.class">Spliced\Bundle\CommerceAdminBundle\Entity\CustomerCreditCard</parameter>
+        <parameter key="commerce.admin.entity.customer_profile.class">Spliced\Bundle\CommerceAdminBundle\Entity\CustomerProfile</parameter>
+        <parameter key="commerce.admin.entity.newsletter_subscriber.class">Spliced\Bundle\CommerceAdminBundle\Entity\NewsletterSubscriber</parameter>
+        <parameter key="commerce.admin.entity.order.class">Spliced\Bundle\CommerceAdminBundle\Entity\Order</parameter>
+        <parameter key="commerce.admin.entity.order_item.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderItem</parameter>
+        <parameter key="commerce.admin.entity.order_memo.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderMemo</parameter>
+        <parameter key="commerce.admin.entity.order_payment.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderPayment</parameter>
+        <parameter key="commerce.admin.entity.order_payment_memo.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderPaymentMemo</parameter>
+        <parameter key="commerce.admin.entity.order_shipment.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderShipment</parameter>
+        <parameter key="commerce.admin.entity.order_shipment_memo.class">Spliced\Bundle\CommerceAdminBundle\Entity\OrderShipmentMemo</parameter>
+        <parameter key="commerce.admin.entity.search_term.class">Spliced\Bundle\CommerceAdminBundle\Entity\SearchTerm</parameter>
+        <parameter key="commerce.admin.entity.user.class">Spliced\Bundle\CommerceAdminBundle\Entity\User</parameter>
+        <parameter key="commerce.admin.entity.visitor.class">Spliced\Bundle\CommerceAdminBundle\Entity\Visitor</parameter>
+        <parameter key="commerce.admin.entity.visitor_request.class">Spliced\Bundle\CommerceAdminBundle\Entity\VisitorRequest</parameter>
+		
+		<!-- Define our Entity Classes in an Array -->
+	    <parameter key="commerce.admin.entity_classes" type="collection">
+	        <parameter key="affiliate">%commerce.admin.entity.affiliate.class%</parameter>
+	        <parameter key="category">%commerce.admin.entity.category.class%</parameter>
+	        <parameter key="configuration">%commerce.admin.entity.configuration.class%</parameter>
+	        <parameter key="content_page">%commerce.admin.entity.content_page.class%</parameter>
+	        <parameter key="checkout_custom_field">%commerce.admin.entity.checkout_custom_field.class%</parameter>
+	        <parameter key="product">%commerce.admin.entity.product.class%</parameter>
+	        <parameter key="product_attribute">%commerce.admin.entity.product_attribute.class%</parameter>
+	        <parameter key="product_attribute_option">%commerce.admin.entity.product_attribute_option.class%</parameter>
+	        <parameter key="product_attribute_option_value">%commerce.admin.entity.product_attribute_option_value.class%</parameter>
+	        <parameter key="product_attribute_option_value_product">%commerce.admin.entity.product_attribute_option_value_product.class%</parameter>
+	        <parameter key="product_specification">%commerce.admin.entity.product_specification.class%</parameter>
+	        <parameter key="product_specification_option">%commerce.admin.entity.product_specification_option.class%</parameter>
+	        <parameter key="product_specification_option_value">%commerce.admin.entity.product_specification_option_value.class%</parameter>
+	        <parameter key="product_bundled_item">%commerce.admin.entity.product_bundled_item.class%</parameter>
+            <parameter key="product_upsale">%commerce.admin.entity.product_upsale.class%</parameter>
+            <parameter key="product_related_product">%commerce.admin.entity.product_related_product.class%</parameter>
+	        <parameter key="product_content">%commerce.admin.entity.product_content.class%</parameter>
+	        <parameter key="product_image">%commerce.admin.entity.product_image.class%</parameter>
+	        <parameter key="product_tier_price">%commerce.admin.entity.product_tier_price.class%</parameter>
+	        <parameter key="manufacturer">%commerce.admin.entity.manufacturer.class%</parameter>
+	        <parameter key="route">%commerce.admin.entity.route.class%</parameter>
+	        <parameter key="cart">%commerce.admin.entity.cart.class%</parameter>
+	        <parameter key="cart_item">%commerce.admin.entity.cart_item.class%</parameter>
+	        <parameter key="contact_message">%commerce.admin.entity.contact_message.class%</parameter>
+	        <parameter key="customer">%commerce.admin.entity.customer.class%</parameter>
+	        <parameter key="customer_address">%commerce.admin.entity.customer_address.class%</parameter>
+	        <parameter key="customer_credit_card">%commerce.admin.entity.customer_credit_card.class%</parameter>
+	        <parameter key="customer_profile">%commerce.admin.entity.customer_profile.class%</parameter>
+	        <parameter key="newsletter_subscriber">%commerce.admin.entity.newsletter_subscriber.class%</parameter>
+	        <parameter key="order">%commerce.admin.entity.order.class%</parameter>
+	        <parameter key="order_item">%commerce.admin.entity.order_item.class%</parameter>
+	        <parameter key="order_memo">%commerce.admin.entity.order_memo.class%</parameter>
+	        <parameter key="order_payment">%commerce.admin.entity.order_payment.class%</parameter>
+	        <parameter key="order_payment_memo">%commerce.admin.entity.order_payment_memo.class%</parameter>
+	        <parameter key="order_shipment">%commerce.admin.entity.order_shipment.class%</parameter>
+	        <parameter key="order_shipment_memo">%commerce.admin.entity.order_shipment_memo.class%</parameter>
+	        <parameter key="search_term">%commerce.admin.entity.search_term.class%</parameter>
+	        <parameter key="user">%commerce.admin.entity.user.class%</parameter>
+	        <parameter key="visitor">%commerce.admin.entity.visitor.class%</parameter>
+	        <parameter key="visitor_request">%commerce.admin.entity.visitor_request.class%</parameter>
+	    </parameter>
+    </parameters> 
+
+    <services>
+        <service id="commerce.admin.configuration" class="%commerce.admin.configuration.class%">
+        	<argument>%commerce.admin.entity_classes%</argument>
+        	<argument type="service" id="commerce.admin.entity_manager" />
+        	<argument type="service" id="kernel" />
+        </service>
+    </services>
+</container>

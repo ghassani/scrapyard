@@ -1,0 +1,38 @@
+
+<div class="">
+    {{ form_label(form.id) }}
+    {{ form_widget(form.id, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div class=" input-append">
+    {{ form_label(form.orderNumber) }}
+    {{ form_widget(form.orderNumber, { 'attr' : { 'class' : 'form-control' } }) }}
+    <div class="btn-group">
+        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li class="text-center"><strong>Search Options</strong></li>
+            <li>{{ form_widget(form.orderNumberOptions) }}</li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="">
+    {{ form_label(form.completedAtFrom, "Completed At") }}
+    {{ form_widget(form.completedAtFrom,{'attr':{ 'placeholder' : 'From', 'class' : 'form-control'}}) }} 
+    {{ form_widget(form.completedAtTo,{'attr':{ 'placeholder' : 'To', 'class' : 'form-control'}}) }}
+</div>
+
+<div class="">
+    {{ form_label(form.updatedAtFrom, "Last Updated") }}
+    {{ form_widget(form.updatedAtFrom,{'attr':{ 'placeholder' : 'From', 'class' : 'form-control col-lg-1'}}) }} 
+    {{ form_widget(form.updatedAtTo,{  'attr':{ 'placeholder' : 'To', 'class' : 'form-control col-lg-2'}}) }}
+</div>
+
+
+<div class="">
+    {{ form_label(form.orderStatus) }}
+    {{ form_widget(form.orderStatus, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+{{form_rest(form)}} 

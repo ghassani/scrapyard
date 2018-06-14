@@ -1,0 +1,29 @@
+
+
+<MvCOMMENT>
+ * Render_Routes_List
+ *
+ * Renders Table of Routes
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Generate_Routes" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+</MvFUNCTION>
+
+
+
+<MvINCLUDE FILE = "include/views/about.mv"> 
+<MvINCLUDE FILE = "include/views/css.mv"> 
+<MvINCLUDE FILE = "include/views/head.mv"> 
+<MvINCLUDE FILE = "include/views/js.mv"> 
+<MvINCLUDE FILE = "include/views/messages.mv"> 
+<MvINCLUDE FILE = "include/views/navigation.mv"> 
+<MvINCLUDE FILE = "include/views/page_header.mv"> 
+<MvINCLUDE FILE = "include/views/route_edit.mv"> 
+<MvINCLUDE FILE = "include/views/route_form.mv"> 
+<MvINCLUDE FILE = "include/views/route_product_form.mv"> 
+<MvINCLUDE FILE = "include/views/route_category_form.mv"> 
+<MvINCLUDE FILE = "include/views/route_component_form.mv"> 
+<MvINCLUDE FILE = "include/views/route_list.mv"> 
+<MvINCLUDE FILE = "include/views/route_new.mv"> 
+<MvINCLUDE FILE = "include/views/route_settings.mv"> 
+<MvINCLUDE FILE = "include/views/route_convert_redirect.mv"> 
+<MvINCLUDE FILE = "include/views/utilities.mv">  

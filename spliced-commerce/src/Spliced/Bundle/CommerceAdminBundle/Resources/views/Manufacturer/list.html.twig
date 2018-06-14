@@ -1,0 +1,87 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Manufacturers | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Manufacturer:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_manufacturer_filter') }}" class="form form-horizontal manufacturer-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:Manufacturer:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Manufacturer <small>List</small></h1>
+	</div>
+	
+    
+	{{ knp_pagination_render(manufacturers) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if manufacturers.isSorted('manufacturer.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(manufacturers, 'Name', 'manufacturer.name') }}</th>	            	
+	            	<th{% if manufacturers.isSorted('manufacturer.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(manufacturers, 'Created On', 'manufacturer.createdAt') }}</th>	
+	            	<th{% if manufacturers.isSorted('manufacturer.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(manufacturers, 'Last Updated', 'manufacturer.updatedAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for manufacturer in manufacturers %}
+	            <tr>
+					<td><input type="checkbox" value="{{ manufacturer.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_manufacturer_edit', { 'id': manufacturer.id }) }}">{{ manufacturer.name }}</a></td>	
+	                <td>{% if manufacturer.createdAt %}{{ manufacturer.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>{% if manufacturer.createdAt %}{{ manufacturer.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>
+		                <ul class="list-inline">
+		                    <li>
+		                        <a href="{{ path('commerce_admin_manufacturer_edit', { 'id': manufacturer.id }) }}"><i class="icon-edit"></i></a>
+		                    </li>
+		                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction" class="form-control list-batch-action">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary list-batch-action-button">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(manufacturers) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_manufacturer_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

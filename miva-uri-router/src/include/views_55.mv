@@ -1,0 +1,440 @@
+<MvCOMMENT>
+ * Render_Routes_List
+ *
+ * Renders Table of Routes
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_List_Routes_55" PARAMETERS = "routes var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.base_link" VALUE = "{ g.secure_adminurl $ 'Screen=SMOD&Tab=SMROUTER&Module_Type=system&Store_Code=' $ g.Store_Code }" />
+	
+	<table width="100%" cellspacing="0" cellpadding="2" class="tabledetails">
+		<thead>
+			<tr>
+				<th class="be_header" width="15"></th>
+				<th class="be_header" width="100">ID</th>
+				<th class="be_header" width="100">Route Type</th>
+				<th class="be_header">Request Path</th>
+				<th class="be_header">Redirect Path</th>
+				<th class="be_header">Request Parameters</th>
+				<th class="be_header">Canonical</th>
+				<th class="be_header">Options</th>
+				<th class="be_header"></th>
+			</tr>
+		</thead>
+		<tfoot>
+		</tfoot>
+		<tbody>
+			<MvIF EXPR = "{ miva_array_elements(l.routes) EQ 0 }">
+				<tr>
+					<td colspan="9" class="text-center">
+						<MvIF EXPR="{ g.Screen EQ 'PROD' }">
+							<strong>No Routes Found For Product <MvEVAL EXPR = "{ g.Edit_Product }" /></strong>
+						<MvELSEIF EXPR = "{ g.Screen EQ 'CTGY' }">
+							<strong>No Routes Found For Category <MvEVAL EXPR = "{ g.Edit_Category }" /></strong>
+						<MvELSEIF EXPR = "{ g.Screen EQ 'PAGE' }">
+							<strong>No Routes Found For Page <MvEVAL EXPR = "{ g.Edit_Page }" /></strong>
+						<MvELSE>
+							<strong>No Routes Found</strong>
+						</MvIF>
+					</td>
+				</tr>
+			</MvIF>
+			<MvFOREACH ITERATOR = "l.route" ARRAY = "l.routes" INDEX = "l.index">
+				
+				<tr class="be_hov">
+					<td class="be_row text-center"><input type="checkbox" value="{ l.route:id }" name="{ 'ids[' $ l.index $ ']' }" /></td>
+					<td class="be_row text-center"><MvEVAL EXPR = "{ l.route:id }" /></td>
+					<td>
+						<MvIF EXPR = "{ l.route:request_path EQ '/' }">
+							Page (Homepage)
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:product_code }">
+							Product
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:category_code }">
+							Category
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:page_code }">
+							Page	
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:redirect_path }">
+							Redirect
+							<MvIF EXPR = "{ l.route:options:is_301 EQ 1 }">
+								(301)
+							</MvIF>	
+						<MvELSE>
+							Other
+						</MvIF>
+					</td>
+					<td class="be_row"><MvEVAL EXPR = "{ l.route:request_path }" /></td>
+					<td class="be_row"><MvEVAL EXPR = "{ l.route:redirect_path }" /></td>
+					<td class="be_row">
+						<MvIF EXPR = "{ NOT ISNULL l.route:product_code }">
+							<div>Product: <MvEVAL EXPR = "{ l.route:product_code }" /></div>
+						</MvIF>
+
+						<MvIF EXPR = "{ NOT ISNULL l.route:category_code }">
+							<div>Category: <MvEVAL EXPR = "{ l.route:category_code }" /></div>
+						</MvIF>
+
+						<MvIF EXPR = "{ NOT ISNULL l.route:page_code }">
+							<div>Page: <MvEVAL EXPR = "{ l.route:page_code }" /></div>
+						</MvIF>
+					</td>
+					<td class="be_row">
+						<MvIF EXPR = "{ l.route:is_canonical EQ 1 }">
+							Yes
+						<MvELSE>
+							No
+						</MvIF>
+					</td>
+					<td class="be_row">
+
+					</td>
+					<td class="be_row">
+
+						<a href="{ l.base_link $ '&Module_Action=edit&ID=' $ l.route:id }">
+							<img border="0" src="graphics/en-US/admin/edit.gif" alt="Edit">
+						</a>
+					</td>
+				</tr>
+			</MvFOREACH>
+		</tbody>
+	</table>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * Render_Route_Form
+ *
+ * Renders Route Form for Edit/New
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Route_Form_55" PARAMETERS = "route var, original_route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<input type="hidden" name="Route_ID" value="{ g.ID }" />
+	<input type="hidden" name="route:id" value="{ l.original_route:id }" />
+	
+	<table width="100%" cellspacing="0" cellpadding="2" class="tabledetails tabledetails-form">
+		<tbody>
+			<tr>
+				<th class="be_header">Route Type</th>
+				<td id="type-selection">
+					<label><input name="route:type" type="radio" id="type-product" value="product" /> Product</label>
+					<label><input name="route:type" type="radio" id="type-category" value="category" /> Category</label>
+					<label><input name="route:type" type="radio" id="type-page" value="page" /> Page</label>
+					<label><input name="route:type" type="radio" id="type-redirect" value="redirect" /> Redirect</label>
+					<label><input name="route:type" type="radio" id="type-custom" value="custom" /> Custom</label>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<th class="be_header">Request Path</th>
+				<td><input type="text" name="route:request_path" value="{ l.route:request_path }" /></td>
+				<td></td>
+			</tr>					
+
+			<tr class="type-field product-type type-custom">
+				<th class="be_header">Product Code</th>
+				<td>
+					<input type="text" id="Route_Product_Code" name="route:product_code" value="{ l.route:product_code }" />
+					<a href="JavaScript:PopupProductLookup( 'Route_Product_Code' );"><img src="{ g.AdminGraphics_Path $ 'lookup.gif' }" /></a>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr class="type-field product-type">
+				<th class="be_header">Product Category Code</th>
+				<td>
+					<input type="text" id="Route_Product_Category_Code" name="route:product_category_code" value="{ l.route:product_category_code }" />
+					<a href="JavaScript:PopupCategoryLookup( 'Route_Product_Category_Code' );"><img src="{ g.AdminGraphics_Path $ 'lookup.gif' }" /></a>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr class="type-field category-type type-custom">
+				<th class="be_header">Category Code</th>
+				<td>
+					<input type="text" id="Route_Category_Code" name="route:category_code" value="{ l.route:category_code }" />
+					<a href="JavaScript:PopupCategoryLookup( 'Route_Category_Code' );"><img src="{ g.AdminGraphics_Path $ 'lookup.gif' }" /></a>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr class="type-field page-type type-custom">
+				<th class="be_header">Page Code</th>
+				<td>
+					<input type="text" id="Route_Page_Code" name="route:page_code" value="{ l.route:page_code }" />
+					<a href="JavaScript:PopupPageLookup( 'Route_Page_Code' );"><img src="{ g.AdminGraphics_Path $ 'lookup.gif' }" /></a>
+				</td>
+				<td></td>
+			</tr>
+
+
+			<tr class="type-field redirect-type">
+				<th class="be_header">Redirect Path/URL</th>
+				<td><input type="text" name="route:redirect_path" value="{ l.route:redirect_path }" /></td>
+				<td></td>
+			</tr>
+
+			<tr class="type-field redirect-type type-custom">
+				<th class="be_header">HTTP Status Code</th>
+				<td>
+					<label>
+						<MvIF EXPR="{ ISNULL l.route:options:header_status }">
+							<input type="radio" name="route:options:header_status" value="" checked />
+						<MvELSE>
+							<input type="radio" name="route:options:header_status" value="" />
+						</MvIF>
+						200 OK	
+					</label>
+					<label>
+						<MvIF EXPR="{ l.route:options:header_status EQ 301 }">
+							<input type="radio" name="route:options:header_status" value="301" checked />
+						<MvELSE>
+							<input type="radio" name="route:options:header_status" value="301" />
+						</MvIF>
+						301 Redirect		
+					</label>
+					<label>
+						<MvIF EXPR="{ l.route:options:header_status EQ 404 }">
+							<input type="radio" name="route:options:header_status" value="404" checked />
+						<MvELSE>
+							<input type="radio" name="route:options:header_status" value="404" />
+						</MvIF>
+						404 Not Found		
+					</label>
+				</td>			
+				<td></td>
+			</tr>
+
+			<tr class="type-field product-type page-type category-type">
+				<th class="be_header">Canonical</th>
+				<td>
+					
+					<MvIF EXPR="{ l.route:is_canonical EQ 1 }">
+						<input type="checkbox" name="route:is_canonical" value="1" checked />
+					<MvELSE>
+						<input type="checkbox" name="route:is_canonical" value="1" />
+					</MvIF>						
+					<td></td>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * Render_Edit_Route
+ *
+ * Renders Edit Route Screen
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Edit_Route_55" PARAMETERS = "original_route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	
+	<input type="hidden" name="ID" value="{ g.ID }" />
+	<input type="hidden" name="route:id" value="{ l.original_route:id }" />
+
+	<MvIF EXPR="{ NOT ISNULL g.route }">
+		<MvASSIGN NAME = "l.route" VALUE = "{ g.route }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.route" VALUE = "{ l.original_route }" />
+	</MvIF>
+
+	<h1>Editing Route ID <MvEVAL EXPR = "{ l.route:id }" /></h1>
+
+	<MvEVAL EXPR = "{ Render_Route_Form(l.route, l.original_route) }" />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * Render_New_Route
+ *
+ * Renders New Route Screen
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_New_Route_55" PARAMETERS = "route var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<h1>Create New Route</h1>
+
+	<MvEVAL EXPR = "{ Render_Route_Form(l.route, l.null) }" />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * Render_Routes_List
+ *
+ * Renders Table of Routes
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Generate_Routes_55" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<h1>Generate Routes</h1>
+</MvFUNCTION>
+
+
+
+<MvCOMMENT>
+ * Render_Settings
+ *
+ * Renders Settings
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Settings_55" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<table width="100%" cellspacing="0" cellpadding="2" class="tabledetails tabledetails-form tabledetails-settings-form">
+		<tbody>
+			<tr>
+				<th class="be_header">License Key</th>
+				<td>
+					<input type="text" name="router_settings:license_key" value="{ l.router_settings:license_key }" />
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<th class="be_header">Always Generate &amp; Update Miva Merchant Style Shortlinks When Active</th>
+				<td>
+					<MvIF EXPR = "{ l.router_settings:auto_generate_miva_shortlinks EQ 1 }">
+						<input type="checkbox" name="router_settings:auto_generate_miva_shortlinks" value="1" checked />
+					<MvELSE>
+						<input type="checkbox" name="router_settings:auto_generate_miva_shortlinks" value="1" />
+					</MvIF>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<th class="be_header">Enable Not Found Functionality</th>
+				<td>
+					<MvIF EXPR = "{ l.router_settings:not_found_enabled EQ 1 }">
+						<input type="checkbox" name="router_settings:not_found_enabled" value="1" checked />
+					<MvELSE>
+						<input type="checkbox" name="router_settings:not_found_enabled" value="1" />
+					</MvIF>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<th class="be_header">Page Not Found Page Code</th>
+				<td>
+					<input type="text" name="router_settings:not_found_page" value="{ l.router_settings:not_found_page }" />
+				</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Render_Messages
+ *
+ * Renders Any Error Messages
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Messages_55" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Error_Messages" INDEX = "l.index">
+		<div class="alert alert-error alert-danger"><MvEVAL EXPR = "{ l.message }" /></div>
+	</MvFOREACH>
+
+	<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Success_Messages" INDEX = "l.index">
+		<div class="alert alert-success"><MvEVAL EXPR = "{ l.message }" /></div>
+	</MvFOREACH>
+
+	<MvIFDEF NAME = "DEV">
+		<MvFOREACH ITERATOR = "l.message" ARRAY = "g.Module_Debug_Messages" INDEX = "l.index">
+			<div class="alert alert-info"><MvEVAL EXPR = "{ l.message }" /></div>
+		</MvFOREACH>
+	</MvIFDEF>
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Render_Navigation
+ *
+ * Renders Navigation
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Header_55" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<table width="100%">
+		<tr>
+			<td>
+				<h1>Miva Router</h1>
+				<p>&copy; 2014 Spliced Media L.L.C.</p>
+				<p>Developed By Gassan Idriss</p>
+				<p>Version  <MvEVAL EXPR = "{ l.module:version }" /></p>
+				<MvIFDEF NAME = "DEV">
+					<p style="color:red;">This is a DEVELOPMENT/BETA Version. Only Authorized Stores May Run This Version.</p>
+				</MvIFDEF>
+			</td>
+			<td><MvEVAL EXPR = "{ Render_Navigation() }" /></td>
+		</tr>
+	</table>
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Render_Navigation
+ *
+ * Renders Navigation
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Navigation_55" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.base_system_link" VALUE = "{ g.secure_adminurl $ 'Screen=SMOD&Tab=SMROUTER&Module_Type=system&Store_Code=' $ g.Store_Code }" />
+	<MvASSIGN NAME = "l.base_product_link" VALUE = "{ g.secure_adminurl $ 'Screen=PROD&Tab=SMROUTER&&Store_Code=' $ g.Store_Code $ '&Edit_Product=' $ g.Edit_Product }" />
+	<MvASSIGN NAME = "l.base_category_link" VALUE = "{ g.secure_adminurl $ 'Screen=CTGY&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Category=' $ g.Edit_Category }" />
+	<MvASSIGN NAME = "l.base_page_link" VALUE = "{ g.secure_adminurl $ 'Screen=PAGE&Tab=SMROUTER&Store_Code=' $ g.Store_Code $ '&Edit_Page=' $ g.Edit_Page }" />
+
+	<div class="form-actions text-right">
+		<MvIF EXPR="{ g.Screen EQ 'PROD' }">
+			<MvASSIGN NAME = "l.base_link" VALUE = "{ l.base_product_link }" />
+			<a href="{ l.base_link $ '&Module_Action=list' }" class="button">List Product Routes</a>
+			<a href="{ l.base_system_link $ '&Module_Action=list' }" class="button">List All Routes</a>
+		<MvELSEIF EXPR = "{ g.Screen EQ 'CTGY' }">
+			<MvASSIGN NAME = "l.base_link" VALUE = "{ l.base_category_link }" />
+			<a href="{ l.base_link $ '&Module_Action=list' }" class="button">List Category Routes</a>
+			<a href="{ l.base_system_link $ '&Module_Action=list' }" class="button">List All Routes</a>
+		<MvELSEIF EXPR = "{ g.Screen EQ 'PAGE' }">
+			<MvASSIGN NAME = "l.base_link" VALUE = "{ l.base_page_link }" />
+			<a href="{ l.base_link $ '&Module_Action=list' }" class="button">List Page Routes</a>
+			<a href="{ l.base_system_link $ '&Module_Action=list' }" class="button">List All Routes</a>
+		<MvELSE>
+			<MvASSIGN NAME = "l.base_link" VALUE = "{ l.base_system_link }" />
+			<a href="{ l.base_link $ '&Module_Action=list' }" class="button">List All Routes</a>
+		</MvIF>
+		
+		<a href="{ l.base_link $ '&Module_Action=search' }" class="button">Search Routes</a>
+		<a href="{ l.base_link $ '&Module_Action=generate' }" class="button">Generate Routes</a>
+		<a href="{ l.base_link $ '&Module_Action=add' }"  class="button">Add Route</a>
+		<a href="{ l.base_link $ '&Module_Action=settings' }"  class="button">Settings</a>
+	</div>
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * Render_Css
+ *
+ * Renders CSS
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Css_55" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<style>
+		.tabledetails-form th{ 
+			text-align: left;
+			width: 150px;
+		}
+		.tabledetails-settings-form th{
+			width: 250px;
+		}
+		.alert{
+			padding: 10px;
+		}
+		.alert.alert-error,
+		.alert.alert-danger{
+			background: red;
+			color: #fff;
+			font-weight:bold;
+		}
+		.alert.alert-success{
+			background: green;
+			color: #fff;
+			font-weight:bold;
+		}
+		.button{
+			background: #cecece;
+			padding: 3px;
+			border: 1px soliod #c1c1c1;
+		}
+		.form-actions{
+			padding: 10px;
+		}
+		.text-right{
+			text-align: right;
+		}
+		.text-left{
+			text-align: left;
+		}
+		.text-center{
+			text-align: center;
+		}
+	</style>
+</MvFUNCTION>

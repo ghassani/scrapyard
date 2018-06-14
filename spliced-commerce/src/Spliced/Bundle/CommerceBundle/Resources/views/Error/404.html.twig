@@ -1,0 +1,35 @@
+{% extends "SplicedCommerceBundle:Layouts:default.html.twig" %}
+
+{% block title %}
+Whoops! Page Not Found | {{ commerce_get_config('commerce.store.name') }}
+{% endblock title %}
+
+{% block content %}
+<div class="page-header">
+ <h1>Whoops! Our bad... we couldn't find the page you requested</h1>
+</div>
+
+
+<p>The page you requested was not found, and we have a fine guess why.</p>
+<ul>
+    <li>If you typed the URL directly, please make sure the spelling is correct.</li>
+    <li>If you clicked on a link to get here, the link is outdated.</li>
+</ul>
+
+<h4>What can you do?</h4>
+
+<p>Have no fear, help is near! There are many ways you can get back on track with our website</p>
+    
+<ul>
+    <li>Go back to the previous page.</li>
+    <li>Use the search bar at the top of the page to search for your products.</li>
+    <li>Follow these links to get you back on track!</li>
+        <ul>
+            <li><a href="{{ path('homepage') }}">Store Home</a></li>
+            <li><a href="{{ path('account') }}">My Account</a></li>
+        </ul>
+    </li>
+</ul>
+
+<div>If you feel this may be an error, please <a href="{{ path('commerce_contact') }}">contact us</a> to let us know about your concerns.</div>
+{% endblock content %}

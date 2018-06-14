@@ -1,0 +1,44 @@
+<MvCOMMENT>
+| Module_Store_Head
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Store_Head" PARAMETERS = "module var, tab" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Store_Head(module var, tab)') }">
+	</MvIFDEF>
+	
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Store_Tabs" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Store_Tabs(module var,)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Store_Content" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Store_Content(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "1">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Store_Validate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Store_Validate(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Store_Update" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Store_Update(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>

@@ -1,0 +1,19 @@
+{% if categories is defined %}
+	{% for category in categories %}
+		<tr class="main-body product-category{{ category.id }}">
+			<td>{{ category.id }}</td>
+			<td>{{ category.name }}</td>
+			<td>
+				<a href="{{ path('commerce_admin_product_category_delete', { 'productId' : product.id, 'productCategoryId' : category.id }) }}" title="Remove Category Relation" class="delete-product-category"><i class="icon icon-trash"></i></a>
+			</td>
+		</tr>
+	{% endfor %}
+{% else %}
+		<tr class="main-body product-category{{ category.id }}">
+			<td>{{ category.id }}</td>
+			<td>{{ category.name }}</td>
+			<td>
+				<a href="{{ path('commerce_admin_product_category_delete', { 'productId' : product.id, 'productCategoryId' : category.id }) }}" title="Remove Category Relation" class="delete-product-category"><i class="icon icon-trash"></i></a>
+			</td>
+		</tr>
+{% endif %}

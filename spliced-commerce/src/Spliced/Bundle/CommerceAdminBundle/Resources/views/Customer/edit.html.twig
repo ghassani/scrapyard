@@ -1,0 +1,30 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% block content -%}
+    <div class="page-header">
+    	<h1>Customer <small>Editing</small></h1>
+	</div>
+	<fieldset>
+    <form action="{{ path('commerce_admin_customer_update', { 'id': entity.id }) }}" class="form customer-form" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Update</button>
+        </p>
+    </form>
+	</fieldset>
+        <ul class="record-actions inline">
+    <li>
+        <a href="{{ path('commerce_admin_customer') }}" class="btn btn-warning">
+            <i class="icon-circle-arrow-left icon-white"></i> Back to the list
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('commerce_admin_customer_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit"><i class="icon-trash icon-white"></i> Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

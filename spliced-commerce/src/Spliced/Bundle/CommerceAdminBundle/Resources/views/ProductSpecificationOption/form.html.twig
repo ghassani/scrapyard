@@ -1,0 +1,43 @@
+{% form_theme form "SplicedCommerceAdminBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% if form.optionType is defined %}
+<div class="form-group">
+	<div class="col-lg-6 col-sm-6">
+        {{ form_row(form.optionType, { 'help_text' : 'The type of specification'}) }}
+	</div> 
+	<div class="col-lg-6 col-sm-6">
+		{{ form_row(form.key, { 'help_text' : 'A unique key with no spaces or special characters other than _' }) }}
+	</div>
+</div>
+{% endif %}
+
+<div class="form-group">
+	<div class="col-lg-6 col-sm-6">
+		{{ form_row(form.name, { 'help_text' : 'The internal name of this specification' }) }}
+	</div> 
+	<div class="col-lg-6 col-sm-6">
+		{{ form_row(form.publicName, { 'help_text' : 'The name of this specification that is displayed to the user' }) }}
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-lg-12 col-sm-12">
+		{{ form_row(form.description, {  }) }}
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-lg-3 col-sm-3">
+		{{ form_row(form.onView, { 'help_text' : 'Displays specifications set value(s) when viewing an individual product' }) }}
+	</div>
+	<div class="col-lg-3 col-sm-3">
+		{{ form_row(form.onList, { 'help_text' : 'Displays specifications set value(s) when viewing a list of products' }) }}
+	</div>
+	<div class="col-lg-3 col-sm-3">
+		{{ form_row(form.filterable, { 'help_text' : 'Checking this allows the specification to be used to filter products' }) }}
+	</div>
+	<div class="col-lg-3 col-sm-3">
+		{{ form_row(form.position, { 'help_text' : 'The sort position of the specification when being listed with other specifications' }) }}
+	</div>
+</div>
+

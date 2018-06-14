@@ -1,0 +1,25 @@
+{% block choice_widget %}
+    {% spaceless %}
+    <div class="btn-group">
+		<div class="btn-group btn-radio" data-toggle="buttons-radio">
+            {% for choice in choices %}
+                	<button type="button" class="btn {{ value == choice.value ? "active" : "" }}" data-target="{{ id }}" data-value="{{ choice.value }}">{{  choice.label }}</button>
+            {% endfor %}
+		</div>
+		<input type="hidden" {{ block('widget_attributes') }}>
+    </div>
+    {% endspaceless %}
+{% endblock %}
+
+
+	    <button class="btn btn-mini">Show {{ filters.perPage }} per page</button>
+	    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+	    <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	    	<li><a href="">10 Products Per Page</a></li>
+	    	<li><a href="">20 Products Per Page</a></li>
+	    	<li><a href="">30 Products Per Page</a></li>
+	    	<li><a href="">40 Products Per Page</a></li>
+	    	<li><a href="">50 Products Per Page</a></li>
+	    </ul>

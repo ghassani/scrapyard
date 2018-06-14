@@ -1,0 +1,40 @@
+  <div class="modal fade" id="addProductUpsale" tabindex="-1" role="dialog" aria-labelledby="addProductUpsaleLabel" aria-hidden="true">
+    <form role="form" class="" method="post" action="{{ path('commerce_admin_product_image_save', { 'productId' : product.id }) }}" {{ form_enctype(form) }}>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add Product Upsale <small>Product {{ product.sku }}</small></h4>
+        </div>
+        <div class="modal-body">
+        	
+        	<table class="table table-striped table-bordered table-condensed" id="add-product-upsale-search-product-query-result">
+        		<thead>
+        			<tr>
+        				<th>Product Lookup</th>
+        				<th colspan="3"><input type="text" id="add-product-upsale-search-product-query" class="form-control" /></th>
+        			</tr>
+        			<tr>
+        				<th>ID</th>
+        				<th>SKU</th>
+        				<th>Name</th>
+        				<th></th>
+        			</tr>
+        		</thead> 
+        		<tbody>
+        			<tr class="no-results">
+        				<td colspan="4" class="text-center"><small><strong>Use the search form above to search for product(s) by ID, SKU, or Name.</strong></small></td>
+        			</tr>
+        		</tbody>
+        	</table>
+        	
+        	{{ include('SplicedCommerceAdminBundle:ProductUpsale:form.html.twig') }}
+        </div> 
+        <div class="modal-footer">
+	    	<button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+	    	<button type="submit" class="btn btn-success">Add Upsale</button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>

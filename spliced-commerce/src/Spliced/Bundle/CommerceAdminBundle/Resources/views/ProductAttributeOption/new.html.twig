@@ -1,0 +1,40 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}New Product Attribute Option | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ProductAttributeOption:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<ul class="nav nav-pills nav-stacked nav-tabs">
+  <li class="active"><a href="#Details" data-toggle="tab">Details</a></li>
+</ul>
+{% endblock %}
+
+{% block content -%}
+<div class="page-header">
+	<h1>Product Attribute Option <small>Creation</small></h1>
+</div>
+
+<form action="{{ path('commerce_admin_product_attribute_option_save') }}" class="form product-attribute-option-form" method="post" {{ form_enctype(form) }}>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="Details" data-toggle="tab">
+	    <div class="page-header">
+	        <h2><small>Details</small></h2>
+	    </div>
+        {{ include("SplicedCommerceAdminBundle:ProductAttributeOption:form.html.twig", { "form" : form }) }}
+	</div>
+</div>
+
+<div class="form-actions">
+    <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Continue</button>
+</div>
+
+{{ form_rest(form) }}
+
+</form>
+
+
+{% endblock %}

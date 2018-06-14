@@ -1,0 +1,242 @@
+<MvFUNCTION NAME = "ComponentModule_Tabs" PARAMETERS = "module var, item, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Tabs(module var, item, settings var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "SMROUTER:Routes">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Validate" PARAMETERS = "module var, item, field_prefix, fields var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Validate(module var, item, field_prefix, fields var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT g.router_settings  }">
+		<MvIF EXPR = "{ NOT Router_Settings_Load_Admin(g.router_settings) }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Loading Module Settings') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{ (g.module_action EQ 'save' AND NOT ISNULL g.route) OR (g.module_action EQ 'update' AND NOT ISNULL g.route) }">		
+		<MvIF EXPR = "{ NOT Validate_Route(g.route) }">
+			<MvIF EXPR = "{ miva_array_elements(g.module_error_messages) EQ 0  }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Validating Your Input') }" />
+			</MvIF>			
+			<MvFUNCTIONRETURN VALUE = 0>
+		</MvIF>		
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Update" PARAMETERS = "module var, item, field_prefix, fields var, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Update(module var, item, field_prefix, fields var, settings var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Process_Route_Action(l.null, 'page') }">
+
+	</MvIF>
+
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Content" PARAMETERS = "module var, item, tab, load_fields, field_prefix, fields var, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Content(module var, item, tab, load_fields, field_prefix, fields var, settings var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.tab NE 'SMROUTER' }">
+		<MvFUNCTIONRETURN VALUE = 1>
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL g.router_settings }">
+		<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load_Admin(g.router_settings) }" />
+	</MvIF>
+	
+		
+	<MvEVAL EXPR = "{ Render_Css()  }" />	
+	<MvEVAL EXPR = "{ Render_Js()  }" />			
+	<MvEVAL EXPR = "{ Render_Messages()  }" />		
+
+	<MvIF EXPR = "{ ISNULL g.module_action }">
+		<MvASSIGN NAME = "g.module_action" VALUE = "list" />
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'edit' OR g.module_action EQ 'update' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_Edit(l.module, l.tab, l.load_fields) }">	
+	<MvELSEIF EXPR = "{ g.module_action EQ 'new' OR g.module_action EQ 'save' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_New(l.module, l.tab, l.load_fields) }">
+	<MvELSEIF EXPR = "{ g.module_action EQ 'redirect' }">
+		<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_Redirect(l.module, l.tab, l.load_fields) }">
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_List(l.module, l.tab, l.load_fields) }">
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Module_Component_Content_Route_Redirect" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Component_Content_Route_Redirect(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Route_Load_By_Id(g.route_id, l.route) }">
+		<div class="alert alert-danger">Route Not Found</div>
+		<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_List(l.module, l.tab, l.load_fields) }">
+	</MvIF>
+
+	<div class="page-header">
+		<h1>Turn Route <MvEVAL EXPR = "{ l.route:id }" /> Into A Redirect</h1>
+	</div>
+
+
+	<MvEVAL EXPR = "{ Render_Route_Convert_Redirect(l.route, l.product) }" />
+	
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Component_Content_Route_List
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Component_Content_Route_List" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Component_Content_Route_List(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<div class="page-header">
+		<h1>Page Routes <small><MvEVAL EXPR = "{ g.edit_page }" /></small></h1>
+	</div>
+
+	<MvASSIGN NAME="l.route_count" VALUE = "{ Routes_Load_By_Page_Code(g.edit_page, l.routes) }" />	
+
+	<MvEVAL EXPR = "{ Render_Route_List(l.routes, 'page') }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_Component_Content_Route_New
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Component_Content_Route_New" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Component_Content_Route_New(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<div class="page-header">
+		<a class="btn btn-sm btn-primary pull-right" href="{ g.router_settings:admin_page_url }"><i class="fa fa-list"></i>  Back To List</a>
+		<h1>New Route For <MvEVAL EXPR = "{ l.product:code }" /></h1>		
+	</div>
+
+	<input type="hidden" name="Module_Action" value="save" />
+
+	<MvEVAL EXPR = "{ Render_Component_Route_Form(l.null, l.null) }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_Component_Content_Route_Edit
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Component_Content_Route_Edit" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Component_Content_Route_Edit(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+
+
+	<MvIF EXPR = "{ NOT Route_Load_By_Id(g.route_id, l.route) AND ISNULL g.route }">
+		<div class="alert alert-danger">Route Not Found</div>
+		<MvFUNCTIONRETURN VALUE = "{ Module_Component_Content_Route_List(l.module, l.tab, l.load_fields) }">
+	</MvIF>
+
+	<div class="page-header">
+		<a class="btn btn-sm btn-primary pull-right" href="{ g.router_settings:admin_page_url }"><i class="fa fa-list"></i> Back To List</a>
+		<h1>Editing Route For #<MvEVAL EXPR = "{ l.route:id $ ' For ' $ g.edit_page }" /></h1>
+	</div>
+
+	<input type="hidden" name="Module_Action" value="update" />
+	<input type="hidden" name="Route_Id" value="{ g.Route_Id }" />
+
+	<MvEVAL EXPR = "{ Render_Component_Route_Form(l.route, l.null) }" />
+
+	<MvFUNCTIONRETURN VALUE = 1 />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "ComponentModule_Defaults" PARAMETERS = "module var, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Defaults(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Page_Assign" PARAMETERS = "module var, page var, item, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Page_Assign(module var, page var, item, settings var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Page_Unassign" PARAMETERS = "module var, page var, item, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Page_Unassign(module var, page var, item, settings var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Initialize" PARAMETERS = "module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Initialize(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.item NE 'router' }">
+		<MvFUNCTIONRETURN VALUE = "{ SubComponentModule_Initialize(l.module, l.item, l.all_settings, l.settings) }">
+	</MvIF>
+
+	<MvIF EXPR="{ ISNULL g.router_settings }">
+		<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load(g.router_settings) }" />
+	</MvIF>
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Render_Start" PARAMETERS = "module var, item, all_settings var, settings var, param" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Render_Start(module var, item, all_settings var, settings var, param)') }">
+	</MvIFDEF>
+
+    <MvIF EXPR="'l.settings' CIN l.param">
+        <MvASSIGN NAME="l.param" VALUE="{ glosub(l.param, 'l.settings', 'l.all_settings') }" />
+    </MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "{ ComponentModule_Function_Call(l.module, l.item, l.all_settings, l.settings, l.param) }">
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Render_End" PARAMETERS = "module var, item, all_settings var, settings var, param" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Render_End(module var, item, all_settings var, settings var, param)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "ComponentModule_Prerender" PARAMETERS = "module var, item, all_settings var, settings var, param" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'ComponentModule_Prerender(module var, item, all_settings var, settings var, param)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>

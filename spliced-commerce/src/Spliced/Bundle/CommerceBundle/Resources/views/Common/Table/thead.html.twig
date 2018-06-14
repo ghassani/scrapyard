@@ -1,0 +1,20 @@
+{#
+	file: Common/Table/thead.html.twig
+	vars: headerItems (array fieldName => headerName), filters, linkRoute
+#}
+
+<thead>
+        <tr>
+            <!-- This is a special cell for loading statuses - see below for more -->
+            <th class="black-cell" colspan="2">
+
+            </th>
+             {% for fieldName,headerName in headerItems %}
+
+            	    	{% include 'SplicedCommerceAdminBundle:Common:Table/thead_th.html.twig'
+            	    	      with { "fieldName" : fieldName, "headerName" : headerName, "filters" : filters, "linkRoute" : linkRoute } %}
+
+            {% endfor %}
+            <th scope="col" class="table-actions">Actions</th>
+        </tr>
+    </thead>

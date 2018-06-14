@@ -1,0 +1,25 @@
+{% extends "SplicedCommerceBundle:Layouts:2columns-left.html.twig" %}
+
+{% block title %}Search Results | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ path('commerce_search') }}" />
+{% endblock %}
+
+
+{% block left %}
+    {{ include('SplicedCommerceBundle:Category/Blocks:attribute_filter.html.twig') }}
+{% endblock left %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Search Results <small>{{ queryString }}</small></h1>
+    </div>
+
+    {% if products|length %}
+        {{ include('SplicedCommerceBundle:Product:view_list.html.twig') }}
+    {% else %}
+        <div class="alert alert-error">No Products Found For <strong>{{ queryString }}</strong></div>
+    {% endif %}
+    
+{% endblock content %}

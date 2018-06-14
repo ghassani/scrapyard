@@ -1,0 +1,51 @@
+{#
+	Category/index.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var categories
+#}
+
+{% extends "SplicedCommerceBundle:Layouts:default.html.twig" %}
+
+{% block title %}Shop By Category | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('catalog_index') }}" />
+{% endblock %}
+
+{% macro category_row(category, level) %}
+    {% import _self as renderHelper %}
+    {% set level = level is defined and level|length ? level : 0 %}
+    {% spaceless %}
+	<li class="level-{{ level }}">
+	    <a href="{{ path('commerce_category_view_by_slug', { 'slug' : category.urlSlug }) }}">
+	        {{ category.name }}
+	    </a>
+	    {% if category.description|length and level == 0 %}
+	    <div class="well well-sm well-small">{{ category.description|raw }}</div>
+	    {% endif %}
+		{% if category.children|length %}
+			<ul>
+			{% for child in category.children %}
+				{{ renderHelper.category_row(child, level+1) }}
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</li>
+	{% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Category <small>List</small></h1>
+</div>
+<div class="well well-small">Select a category from the list below.</div>
+<ul class="nav nav-list category-list">
+{% for category in categories %}
+	{{ renderHelper.category_row(category, 0) }}
+{% endfor %}
+</ul>
+{% endblock content %}

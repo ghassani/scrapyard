@@ -1,0 +1,94 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Order:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_order_filter', { 'tag' : 'incomplete' }) }}" class="form form-horizontal order-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:Order:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Orders <small>Incomplete &amp; Abandoned</small></h1>
+	</div>
+
+    
+	{{ knp_pagination_render(entities) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+	        <thead>
+	            <tr>
+	            	<th></th>	                	            	
+	            	    <th{% if entities.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'ID', 'e.id') }}</th>
+	            	    <th{% if entities.isSorted('e.orderNumber') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Order Number', 'e.orderNumber') }}</th>	
+	            	    <th{% if entities.isSorted('e.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Email', 'e.email') }}</th>	                	            	
+	            	    <th{% if entities.isSorted('e.orderStatus') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Order Status', 'e.orderStatus') }}</th>
+	            	    <th>Order Total</th>	                	            	
+	            	    <th{% if entities.isSorted('e.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Created At', 'e.createdAt') }}</th>	                	            	
+	            	    <th{% if entities.isSorted('e.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'Updated At', 'e.updatedAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for entity in entities %}
+	            <tr>
+					<td><input type="checkbox" value="{{ entity.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_order_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>	
+	                <td>{{ entity.orderNumber }}</td>	
+	                <td>{{ entity.email }}</td>	
+	                <td>{{ commerce_order_status(entity) }}</td>
+	                <td>${{ commerce_order_total(entity) }}</td>	
+	                <td>{% if entity.createdAt %}{{ entity.createdAt|date('m/d/y h:i a') }}{% endif %}</td>	
+	                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('m/d/y h:i a') }}{% endif %}</td>	
+	                <td>
+		                <ul class="list-inline">
+		                    <li>
+		                        <a href="{{ path('commerce_admin_order_edit', { 'id': entity.id }) }}"><i class="icon-edit"></i></a>
+		                    </li>
+		                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+	    
+    	{{ knp_pagination_render(entities) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_order_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

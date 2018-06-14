@@ -1,0 +1,10 @@
+<MvCOMMENT>
+ * Render_Css
+ *
+ * Renders CSS
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Css" PARAMETERS = "" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/yeti/bootstrap.min.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	<MvINCLUDE FILE = "assets/css/styles.css"> 
+</MvFUNCTION>

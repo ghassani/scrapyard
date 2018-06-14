@@ -1,0 +1,24 @@
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded visitor-orders-table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Status</th>
+			<th>Order Number</th>
+			<th>Time</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order in visitor.orders %}
+			<tr>
+				<td><a href="{{ path('commerce_admin_order_edit', { 'id' : order.id }) }}">{{ order.id }}</a></td>
+				<td>{{ order.orderStatus }}</td>
+				<td>{{ order.orderNumber }}</td>
+				<td>{{ order.createdAt|date('m/d - h:i a') }}</td>
+				<td>
+					<a href="{{ path('commerce_admin_order_edit', { 'id' : order.id }) }}"><i class="icon-edit"></i></a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

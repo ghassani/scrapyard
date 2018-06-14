@@ -1,0 +1,43 @@
+
+	<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+		<thead>
+			<tr>
+				<th>Created On</th>
+				<th>Created By</th>
+				<th>Memo</th>
+				<th>E-Mail Sent</th>
+				<th></th>
+			</tr>
+
+		</thead>
+		<tfoot>
+			<tr>
+				<th colspan="5" class="text-right">
+					<div class="btn-group text-right">
+						<a class="btn btn-xs btn-info add-order-shipment-memo" href="#">Add Memo</a>
+					</div>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+		{% if order.memos|length %}
+			{% for memo in order.memos %}
+				<tr>
+					<td>{{ memo.createdAt|date('m/d/Y h:i a') }}</td>
+					<td>{{ memo.createdBy }}</td>
+					<td>{{ memo.memo }}</td>
+					<td><i class="{{ memo.notificationType|length ? 'icon-check' : 'icon-delete' }}"></i></td>
+					<td>
+						{% if memo.createdBy != 'system' %}
+						<a href="#"><i class="icon-trash"></i></a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		{% else %}
+			<tr>
+				<td colspan="5"><div class="text-center"><strong>No Memos</strong></div></td>
+			</tr>
+		{% endif %}
+		</tbody>
+	</table>

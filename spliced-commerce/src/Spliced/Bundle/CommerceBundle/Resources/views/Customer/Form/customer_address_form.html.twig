@@ -1,0 +1,52 @@
+{% form_theme form 'SplicedCommerceBundle:Form:bootstrap_radio.html.twig' %}
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.address2 "SplicedCommerceBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+
+{{ form_errors(form) }}
+	
+{{ form_row(form.addressLabel) }}
+
+<div class="row">
+	<div class="col-sm-6 col-lg-6">
+    	{{ form_row(form.firstName) }}
+	</div>
+	<div class="col-sm-6 col-lg-6">
+		{{ form_row(form.lastName) }}
+	</div>
+</div>
+
+{{ form_row(form.attn) }}
+
+{{ form_row(form.address) }}
+{{ form_row(form.address2) }}
+    
+{{ form_row(form.country) }}     
+    
+
+    
+<div class="row">
+   	<div class="col-sm-4 col-lg-4">
+   		{{ form_row(form.city) }}
+   	</div>
+   	<div class="col-sm-4 col-lg-4">
+   		{{ form_row(form.state) }}
+   	</div>
+   	<div class="col-sm-4 col-lg-4">
+   		{{ form_row(form.zipcode) }}
+   	</div>
+</div>
+    
+    
+<div class="row">
+   	<div class="col-sm-4 col-lg-4">
+   		{{ form_row(form.phoneNumber) }}
+   	</div>
+   	<div class="col-sm-4 col-lg-4">
+   	</div>
+   	<div class="col-sm-4 col-lg-4">
+   	</div>
+</div>
+            
+<div class="clearfix"></div>
+
+{{ form_rest(form) }}

@@ -1,0 +1,94 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Category List | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Category:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+	<form action="{{ path('commerce_admin_category_filter') }}" class="form category-filter-form" method="post" {{ form_enctype(filterForm) }}>
+        {{ form_widget(filterForm) }}
+        <p>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </p>
+    </form>
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+	<h1>Category Managment <small>List View</small></h1>
+</div>   
+	
+    
+	{{ knp_pagination_render(categories) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	<th{% if categories.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Id', 'e.id') }}</th>	            	<th{% if categories.isSorted('e.rootId') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Rootid', 'e.rootId') }}</th>	            	<th{% if categories.isSorted('e.treeLeft') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Treeleft', 'e.treeLeft') }}</th>	            	<th{% if categories.isSorted('e.treeRight') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Treeright', 'e.treeRight') }}</th>	            	<th{% if categories.isSorted('e.treeLevel') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Treelevel', 'e.treeLevel') }}</th>	            	<th{% if categories.isSorted('e.treePath') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Treepath', 'e.treePath') }}</th>	            	<th{% if categories.isSorted('e.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Name', 'e.name') }}</th>	            	<th{% if categories.isSorted('e.pageTitle') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Pagetitle', 'e.pageTitle') }}</th>	            	<th{% if categories.isSorted('e.description') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Description', 'e.description') }}</th>	            	<th{% if categories.isSorted('e.headTitle') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Headtitle', 'e.headTitle') }}</th>	            	<th{% if categories.isSorted('e.metaDescription') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Metadescription', 'e.metaDescription') }}</th>	            	<th{% if categories.isSorted('e.metaKeywords') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Metakeywords', 'e.metaKeywords') }}</th>	            	<th{% if categories.isSorted('e.urlSlug') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Urlslug', 'e.urlSlug') }}</th>	            	<th{% if categories.isSorted('e.position') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Position', 'e.position') }}</th>	            	<th{% if categories.isSorted('e.isActive') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Isactive', 'e.isActive') }}</th>	            	<th{% if categories.isSorted('e.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Createdat', 'e.createdAt') }}</th>	            	<th{% if categories.isSorted('e.updatedAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(categories, 'Updatedat', 'e.updatedAt') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for entity in categories %}
+	            <tr>
+					<td><input type="checkbox" value="{{ entity.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_category_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>	
+	                <td></td>	
+	                <td>{{ entity.left }}</td>	
+	                <td>{{ entity.right }}</td>	
+	                <td>{{ entity.level }}</td>	
+	                <td>{{ entity.path }}</td>	
+	                <td>{{ entity.name }}</td>	
+	                <td>{{ entity.pageTitle }}</td>	
+	                <td>{{ entity.description }}</td>	
+	                <td>{{ entity.headTitle }}</td>	
+	                <td>{{ entity.metaDescription }}</td>	
+	                <td>{{ entity.metaKeywords }}</td>	
+	                <td>{{ entity.urlSlug }}</td>	
+	                <td>{{ entity.position }}</td>	
+	                <td>{{ entity.isActive }}</td>	
+	                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>	
+	                <td>
+                <ul class="inline">
+                    <li>
+                        <a href="{{ path('commerce_admin_category_edit', { 'id': entity.id }) }}">
+                        	                        		<i class="icon-edit"></i>
+                        	                        </a>
+                    </li>
+                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    <ul class="inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(categories) }}
+    
+	    	    <div class="form-actions">
+		    <ul class="inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_category_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% set percentages = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,120,130,140,150] %}
+{% set statuses = {
+    1 : 'Available', 
+    2 : 'Unavailable', 
+    3 : 'Backorderd', 
+    4 : 'Call To Order', 
+    5 : 'Build To Order',
+} %}
+
+{% block left -%}
+	<form action="{{ path('commerce_admin_product_utility_filter', { 'tag' : 'price_batch_update' }) }}" class="form product-filter-form" method="post" {{ form_enctype(filterForm) }}>
+        {{ include("SplicedCommerceAdminBundle:Product:filter_form.html.twig", {'form' : filterForm }) }}
+        <p>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{{ path('commerce_admin_product_utility_filter_reset', { 'tag' : 'price_batch_update' }) }}">Reset</a>
+        </p>
+    </form>
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+	<h1>Product Batch Price Updater</h1>
+</div>
+<div class="alert alert-info">Total Products Matched: {{ products|length }}</div>
+<fieldset>
+	<legend>Calculation Options</legend>
+	<div>
+		<strong>Round Calculations to Next 0.99</strong> <input type="checkbox" value="1" id="calc-option-round" checked="checked" />
+		<div class="btn-group">
+			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				-Batch Auto Cost Price Calc-
+				<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				{% for percentage in percentages %}
+					<li><a href="#" class="product-price-batch-update-calc-batch" data-calc="{{ percentage }}">Set all prices to cost + {{ percentage }}%</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div>
+		<select name="">
+		    <option value="">-Set Sale Price From Cost On Update</option>
+		{% for percentage in percentages %}
+		    <option value="{{ percentage }}">Set all prices to cost + {{ percentage }}%</option>
+		{% endfor %}
+		</select>
+		</div>
+	</div>
+</fieldset>
+ 
+<form method="post" action="{{ path('commerce_admin_product_utility_price_batch_update_save') }}">
+	<div class="form-actions text-right">
+		<button class="btn btn-success" type="submit">Update</button>
+	</div>
+	
+	<table class="table table-bordered table-condensed">
+		<thead>
+			<tr>
+		    	<th>ID</th>
+		    	<th>Sku</th>
+		    	<th>Name</th>
+		    	<th>Cost</th>
+		    	<th>Status</th>
+		    	<th>Active</th>
+		    	<th></th>
+		    	<th>Sale Price</th>
+		    </tr>
+		</thead>
+		<tbody>
+		{% if products|length %}
+			{% for product in products %}
+			<tr>
+				<td>{{ product.id }}</td>
+				<td>{{ product.sku }}</td>
+				<td>{{ product.name }}</td>
+				<td><input type="number" id="product-{{ product.id }}-cost" value="{{ number_format(product.cost, 2, '.', '') }}" name="products[{{ product.id }}][cost]" class="span6" /></td>
+				<td>
+				    <select name="products[{{ product.id }}][status]">
+				        <option value="">-Status-</option>
+				        {% for status,name in statuses %}
+				            {% if status == product.status %}
+				               
+				                <option value="{{ status }}" selected="selected">{{ name }}</option>
+				                
+				            {% else %}
+				                <option value="{{ status }}">{{ name }}</option>
+				            {% endif %}
+				        {% endfor %}
+				    </select>
+				</td>
+				<td><input type="checkbox" value="1" name="products[{{ product.id }}][isActive]" {{  product.isActive ? 'checked="checked"' : '' }} /></td>
+				<td>
+				    <div class="btn-group">
+				    	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				    		-Calc-
+				    		<span class="caret"></span>
+				    	</a>
+				    	<ul class="dropdown-menu">
+				    		{% for percentage in percentages %}
+				    			<li><a href="#" class="product-price-batch-update-calc" data-source="product-{{ product.id }}-cost" data-target="product-{{ product.id }}-price" data-calc="{{ percentage }}">Set price to cost + {{ percentage }}%</a></li>
+				    		{% endfor %}
+				    	</ul>
+				    </div>
+				</td>
+				<td><input type="number" id="product-{{ product.id }}-price" value="{{ number_format(product.price, 2, '.', '') }}" name="products[{{ product.id }}][price]" class="span6" /></td>
+			</tr>
+			{% endfor %}
+		{% else %}
+		
+		{% endif %}
+		</tbody>
+	</table>	
+	
+	<div class="form-actions text-right">
+		<button class="btn btn-success" type="submit">Update</button>
+	</div>
+</form>{% endblock -%}

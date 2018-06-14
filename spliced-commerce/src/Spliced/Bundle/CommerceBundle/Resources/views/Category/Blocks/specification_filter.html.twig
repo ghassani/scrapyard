@@ -1,0 +1,23 @@
+{% if specificationFilters is defined %}
+<div class="panel panel-default panel-category-tree-block">
+	<div class="panel-heading">Filter Results</div>
+	<div class="panel-body">Use the choices below to narrow down the results of the products available in this category.</div>
+	<ul class="list-group">
+	    {% if specificationFilters|length %}
+		{% for specificationFilter in specificationFilters %}
+		 	<li class="list-group-item">
+		 	    {{ specificationFilter.option.publicName }}
+		 	    <ul>
+		 	    {% for value in specificationFilter.values %}
+		 	        <li><a href="#">{{ value }}</a></li>
+		 	    {% endfor %}
+		 	    </ul>
+		 	</li>
+		{% endfor %}
+			
+	{% else %}
+		<li class="list-group-item text-center"><strong>No Filters Available</strong></li>
+	{% endif %}
+	</ul>
+</div>
+{% endif %}

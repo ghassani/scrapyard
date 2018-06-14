@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="commerce.controller.cateogry.class">Spliced\Bundle\CommerceBundle\Controller\CategoryServiceController</parameter>
+        <parameter key="commerce.controller.cart.class">Spliced\Bundle\CommerceBundle\Controller\CartServiceController</parameter>
+        <parameter key="commerce.controller.breadcrumb.class">Spliced\Bundle\CommerceBundle\Controller\BreadcrumbServiceController</parameter>
+        <parameter key="commerce.controller.product.class">Spliced\Bundle\CommerceBundle\Controller\ProductServiceController</parameter>
+        <parameter key="commerce.controller.search.class">Spliced\Bundle\CommerceBundle\Controller\SearchServiceController</parameter>
+        <parameter key="commerce.controller.newsletter.class">Spliced\Bundle\CommerceBundle\Controller\NewsletterServiceController</parameter>
+	</parameters>
+
+    
+    <services>
+
+        <service id="commerce.controller.category" class="%commerce.controller.cateogry.class%">
+            <argument type="service" id="doctrine" />
+        </service>
+
+        <service id="commerce.controller.cart" class="%commerce.controller.cart.class%">
+            <argument type="service" id="commerce.cart" />
+        </service>
+
+        <service id="commerce.controller.breadcrumb" class="%commerce.controller.breadcrumb.class%">
+            <argument type="service" id="commerce.breadcrumb" />
+        </service>
+
+        <service id="commerce.controller.product" class="%commerce.controller.product.class%">
+            <argument type="service" id="commerce.configuration" />
+        </service> 
+        
+        <service id="commerce.controller.search" class="%commerce.controller.search.class%">
+            <argument type="service" id="commerce.product.filter.form_type" />
+            <argument type="service" id="form.factory" />
+        </service>
+
+        <service id="commerce.controller.newsletter" class="%commerce.controller.newsletter.class%">
+            <argument type="service" id="form.factory" />
+        </service>
+    </services>
+</container>

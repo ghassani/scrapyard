@@ -1,0 +1,26 @@
+{#
+	Product/ext_price.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var product
+#}
+
+
+{% set baseTotalPrice = commerce_product_price_total(product, null, false, cartItem is defined ? cartItem : null) %}
+{% set tierTotalPrice = baseTotalPrice %} {# TODO #}
+
+{% if product.affiliatePrice is defined and product.affiliatePrice|length %}
+	<div class="price-original">Original Price <span class="price">${{ product.priceHelper.getPrice(product) }}</span></div>
+	<div class="price-affiliate">AFFILIATE Special Price <span class="price">$</span></div>
+{% else %}
+	{% if baseTotalPrice != tierTotalPrice %}
+		<div class="price-tiered">
+			<span class="price-original">${{ baseTotalPrice }}</span> ${{ tierTotalPrice }}
+		</div>
+	{% else %}
+		<div class="price">
+			<span class="price">${{ baseTotalPrice }}</span>
+		</div>
+	{% endif %}
+{% endif %}

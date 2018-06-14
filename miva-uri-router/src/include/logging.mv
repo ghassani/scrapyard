@@ -1,0 +1,64 @@
+<MvCOMMENT>
+|
+| Log_Call_Trace
+| 
+| When compiled with CALL_TRACE, will print out methods which were called on each module operation.
+| 
+</MvCOMMENT>
+<MvFUNCTION NAME = "Log_Call_Trace" PARAMETERS = "tag, message" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message('spliced-router-calltrace.log', tag, message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Call_Trace_Var" PARAMETERS = "tag, message var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message_Var('spliced-router-calltrace.log', tag, message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Query_Error" PARAMETERS = "tag, message" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message('spliced-router-query.log', tag, message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Query_Error_Var" PARAMETERS = "tag, message var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message_Var('spliced-router-query.log', tag, message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Debug_Message" PARAMETERS = "message" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message('spliced-router-debug.log', 'DEBUG', l.message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Debug_Message_Var" PARAMETERS = "message var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "l.void" VALUE = "{ Log_Message_Var('spliced-router-debug.log', 'DEBUG', l.message) }" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Log_Message" PARAMETERS = "file, tag, message" STANDARDOUTPUTLEVEL = "">
+	<MvIF EXPR = "{ NOT fexists(l.file) }">
+		<MvIF EXPR = "{ NOT file_create( l.file, 'data', l.null ) }">
+			<MvFUNCTIONRETURN VALUE = 0 />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL l.tag }">
+		<MvASSIGN NAME = "l.complete_message" VALUE = "{ l.message $ asciichar(10) }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.complete_message" VALUE = "{ l.tag $ ':' $ asciichar(9) $ l.message $ asciichar(10) }" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "{ file_append( l.file, 'data', l.complete_message ) }" />
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME = "Log_Message_Var" PARAMETERS = "file, tag, message var" STANDARDOUTPUTLEVEL = "">
+	<MvIF EXPR = "{ NOT fexists(l.file) }">
+		<MvIF EXPR = "{ NOT file_create( l.file, 'data', l.null ) }">
+			<MvFUNCTIONRETURN VALUE = 0 />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{ ISNULL l.tag }"> 
+		<MvASSIGN NAME = "l.complete_message" VALUE = "{ l.message $ asciichar(10) }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.complete_message" VALUE = "{ l.tag $ ':' $ asciichar(9) $ l.message $ asciichar(10) }" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = "{ file_append( l.file, 'data', l.complete_message ) }" />
+</MvFUNCTION>
+

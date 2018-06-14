@@ -1,0 +1,88 @@
+{% extends "SplicedCommerceBundle:Layouts:default.html.twig" %}
+
+{% block title %}Thank You For Your Order | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+	{{ commerce_checkout_notifier_render_head(order)|raw }}
+{% endblock %}
+
+{% block left %}
+
+	{% if is_granted('ROLE_FACEBOOK') %}
+		
+	{% endif %}
+	{% if is_granted('ROLE_TWITTER') %}
+		
+	{% endif %}
+
+	{% if is_granted('ROLE_GOOGLE') %}
+		
+	{% endif %}
+
+{% endblock %}
+
+{% block content %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/javascript">
+(function() {
+var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
+s.type = 'text/javascript';
+s.async = true;
+s.src = 'http://widgets.digg.com/buttons.js';
+s1.parentNode.insertBefore(s, s1);
+})();
+</script>
+<script type="text/javascript">
+(function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/plusone.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+</script>
+<div class="page-header">
+	<h1>Thank You <small>for your purchase!</small></h1>
+</div>
+	    
+	<blockquote>
+		Your order number is <strong>{{ order.orderNumber }}</strong>
+	</blockquote>
+
+	<ul>
+		<li>You will receive an email with your order confirmation shortly.</li>
+	    <li>You will receive another email once your order has shipeed with your tracking information.</li>
+	    <li>All confirmed orders ship within 24 hours. For more information you can read:
+	        <ul>
+	            <li><a href="/shipping-policy">Shipping Policy</a></li>
+	            <li><a href="/shipping-guarantee">Shipping Guarantee</a></li>
+	        </ul>
+	    </li>
+    {% if is_granted('ROLE_USER') %}
+		<li>You may review your previous orders as well as update account information on your accout page <a href="{{ path('account') }}">here</a>.</li>
+		<p><a href="{{ path('account_order_view_printer_friendly',{ 'orderNumber':order.orderNumber}) }}">View a printer friendly order summary</a>.</p>
+		<p><a href="{{ path('account_order_view_printer_friendly',{ 'orderNumber':order.orderNumber,'format':'pdf'}) }}">Download order summary PDF</a>.</p>
+	{% else %}
+		<li><a href="{{ path('order_view_printer_friendly_last_order') }}"><i class="icon-print"></i> View a printer friendly order summary</a></li>
+		<li><a href="{{ path('order_view_printer_friendly_last_order',{'format':'pdf'}) }}"><i class="icon-download-alt"></i> Download order summary PDF</a></li>
+	{% endif %}
+	</ul>
+	
+	<div class="form-actions">
+    	{% if is_granted('ROLE_USER') %}
+    	    <a href="{{ path('account') }}" class="btn btn-info">Go To My Account</a>
+    	{% endif %}
+	    <a href="{{ path('homepage') }}" class="btn btn-info">Back to Homepage</a>
+	</div>	
+
+	{{ commerce_checkout_notifier_render_notifiers(order)|raw }}
+{% endblock %}
+
+{% block page_end %}
+	{{ commerce_checkout_notifier_render_body_end(order)|raw }}
+{% endblock page_end %}

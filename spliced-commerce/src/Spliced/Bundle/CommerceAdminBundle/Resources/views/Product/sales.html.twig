@@ -1,0 +1,32 @@
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+	    <tr>
+	        <th>ID</th>
+	        <th>Order Number</th>
+	        <th>Completed On</th>
+	        <th>Started On</th>
+	        <th></th>
+	    </tr>
+    </thead>
+    <tbody>
+        {% if orders is defined and orders|length %}
+	        {% for order in orders %}
+	        <tr>
+	            <td>{{ order.id }}</td>
+	            <td>{{ order.orderNumber }}</td>
+	            <td>{{ order.completedAt|length ? order.completedAt|date('m/d/Y h:i a') : '-' }}</td>
+	            <td>{{ order.createdAt|length ? order.createdAt|date('m/d/Y h:i a') : '-' }}</td>
+	            <td>
+	                <a href="{{ path('commerce_admin_order_edit', { 'id' : order.id }) }}" title="View/Manage Order"><i class="icon icon-edit"></i></a>            
+	            </td>
+	        </tr>
+	        {% endfor %}
+	    {% else %}
+	    <tr>
+	        <td colspan="5" class="text-center"><strong>No Orders Found</strong></td>
+	    </tr>
+	    {% endif %}
+    </tbody>
+</table>
+	    
+	    

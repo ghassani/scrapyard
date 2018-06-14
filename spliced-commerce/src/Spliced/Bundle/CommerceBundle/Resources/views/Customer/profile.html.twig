@@ -1,0 +1,22 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+
+{% block title %}Account Profile | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : customer} %}
+{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+	    <h1>Account Profile</h1>
+    </div>
+	
+    {{ include("SplicedCommerceBundle:Customer/Form:customer_profile_form.html.twig") }}
+	
+{% endblock %}

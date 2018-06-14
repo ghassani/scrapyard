@@ -1,0 +1,177 @@
+<MvCOMMENT>
+ * Render_Routes_List
+ *
+ * Renders Table of Routes
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Route_List" PARAMETERS = "routes var, context" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+	<table width="100%" cellspacing="0" cellpadding="2" class="{ 'table table-striped table-hover route-list-' $ l.context }" id="route-list">
+		<thead>
+			<tr>
+				<th class="" width="15"><input type="checkbox" id="select-all-routes" value="1" /></th>
+				<th class="" width="100">ID</th>
+				<th class="" width="100">Route Type</th>
+				<th class="">Request Path</th>
+				<th class="">Redirect Path</th>
+				<th class="">Request Parameters</th>
+				<th class="">Canonical</th>
+				<th class="">Active</th>
+				<th class=""></th>
+			</tr>
+			<tr>
+				<td colspan="9" class="text-right">
+					<MvIF EXPR="{ l.context EQ 'store-utility' }">
+						<a class="btn btn-primary btn-sm" href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=new' }"><i class="fa fa-plus"></i> New Route</a>
+					<MvELSEIF EXPR="{ l.context EQ 'product' }">
+						<a class="btn btn-primary btn-sm" href="{ g.router_settings:admin_product_url $ '&Module_Action=new' }"><i class="fa fa-plus"></i> New Route</a>
+					<MvELSEIF EXPR="{ l.context EQ 'category' }">
+						<a class="btn btn-primary btn-sm" href="{ g.router_settings:admin_category_url $ '&Module_Action=new' }"><i class="fa fa-plus"></i> New Route</a>
+					<MvELSEIF EXPR="{ l.context EQ 'page' }">
+						<a class="btn btn-primary btn-sm" href="{ g.router_settings:admin_page_url $ '&Module_Action=new' }"><i class="fa fa-plus"></i> New Route</a>
+					</MvIF>
+				</td>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th colspan="6" class="text-left">
+    				<div class="input-group">
+	      				<span class="input-group-addon">With Selected: </span>
+	      				<select name="Batch_Form_Action" class="form-control">
+	      					<option value="">-Batch Action-</option>
+	      					<option value="delete">Delete</option>
+	      					<option value="activate">Activate</option>
+	      					<option value="deactivate">Deactivate</option>
+	      				</select>
+	      				<MvIF EXPR="{ l.context EQ 'store-utility' }">
+		      				<div class="input-group-btn">
+		        				<button type="submit" class="btn btn-primary" role="button">Submit</button>	        
+		      				</div>
+	      				</MvIF>
+   					 </div>
+				</th>
+				<th colspan="4" class="text-left">
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<MvIF EXPR = "{ miva_array_elements(l.routes) EQ 0 }">
+				<tr>
+					<td colspan="9" class="text-center">
+						<MvIF EXPR="{ g.Screen EQ 'PROD' }">
+							<strong>No Routes Found For Product <MvEVAL EXPR = "{ l.product:code }" /></strong>
+						<MvELSEIF EXPR = "{ g.Screen EQ 'CTGY' }">
+							<strong>No Routes Found For Category <MvEVAL EXPR = "{ l.category:code }" /></strong>
+						<MvELSEIF EXPR = "{ g.Screen EQ 'PAGE' }">
+							<strong>No Routes Found For Page <MvEVAL EXPR = "{ l.page:code }" /></strong>
+						<MvELSE>
+							<strong>No Routes Found</strong>
+						</MvIF>
+					</td>
+				</tr>
+			</MvIF>
+			<MvFOREACH ITERATOR = "l.route" ARRAY = "l.routes" INDEX = "l.index">				
+				<tr class="be_hov">
+					<td class="be_row text-center"><input type="checkbox" value="{ l.route:id }" name="{ 'route_ids[' $ l.index $ ']' }" /></td>
+					<td class="be_row text-center"><MvEVAL EXPR = "{ l.route:id }" /></td>
+					<td>
+						<MvIF EXPR = "{ l.route:request_path EQ '/' }">
+							Page (Homepage)
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:product_code }">
+							Product							
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:category_code }">
+							Category
+						<MvELSEIF EXPR = "{ NOT ISNULL l.route:page_code }">
+							Page	
+						<MvELSE>
+							Other
+						</MvIF>
+						<MvIF EXPR = "{ NOT ISNULL l.route:redirect_path }">
+							Redirect
+							<MvIF EXPR = "{ l.route:options:header_status GT 0 }">
+								(<MvEVAL EXPR = "{ l.route:options:header_status }" />)
+							</MvIF>
+						</MvIF>
+					</td>
+					<td class="be_row"><MvEVAL EXPR = "{ l.route:request_path }" /></td>
+					<td class="be_row"><MvEVAL EXPR = "{ l.route:redirect_path }" /></td>
+					<td class="be_row">
+						<MvIF EXPR = "{ NOT ISNULL l.route:product_code }">
+							<div>Product: <MvEVAL EXPR = "{ l.route:product_code }" /></div>
+						</MvIF>
+
+						<MvIF EXPR = "{ NOT ISNULL l.route:category_code }">
+							<div>Category: <MvEVAL EXPR = "{ l.route:category_code }" /></div>
+						</MvIF>
+
+						<MvIF EXPR = "{ NOT ISNULL l.route:page_code }">
+							<div>Page: <MvEVAL EXPR = "{ l.route:page_code }" /></div>
+						</MvIF>
+					</td>
+					<td class="be_row">
+						<MvIF EXPR = "{ l.route:is_canonical EQ 1 }">
+							Yes
+						<MvELSE>
+							No
+						</MvIF>
+					</td>
+					<td class="be_row">
+						<MvIF EXPR = "{ l.route:is_active EQ 1 }">
+							Yes
+						<MvELSE>
+							No
+						</MvIF>
+					</td>
+					<td class="be_row">
+					<MvIF EXPR="{ l.context EQ 'store-utility' }">
+						<a href="{ 'http://' $ g.domain:name $ l.route:request_path }" target="_blank">
+							<i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Live Link"></i>
+						</a>
+						<a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=redirect&Route_Id=' $ l.route:id }">
+							<i class="fa fa-reply" data-toggle="tooltip" data-placement="top" title="Turn Into Redirect"></i>
+						</a>
+						<a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=edit&Route_Id=' $ l.route:id }">
+							<i class="fa fa-pencil-square" data-toggle="tooltip" data-placement="top" title="Edit Route"></i>
+						</a>
+					<MvELSEIF EXPR="{ l.context EQ 'product' }">
+						<a href="{ 'http://' $ g.domain:name $ l.route:request_path }" target="_blank">
+							<i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Live Link"></i>
+						</a>
+						<a href="{ g.router_settings:admin_product_url $ '&Module_Action=redirect&Route_Id=' $ l.route:id }">
+							<i class="fa fa-reply" data-toggle="tooltip" data-placement="top" title="Turn Into Redirect"></i>
+						</a>
+						<a href="{ g.router_settings:admin_product_url $ '&Module_Action=edit&Route_Id=' $ l.route:id }">
+							<i class="fa fa-pencil-square" data-toggle="tooltip" data-placement="top" title="Edit Route"></i>
+						</a>
+					<MvELSEIF EXPR="{ l.context EQ 'category' }">
+						<a href="{ 'http://' $ g.domain:name $ l.route:request_path }" target="_blank">
+							<i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Live Link"></i>
+						</a>
+						<a href="{ g.router_settings:admin_category_url $ '&Module_Action=redirect&Route_Id=' $ l.route:id }">
+							<i class="fa fa-reply" data-toggle="tooltip" data-placement="top" title="Turn Into Redirect"></i>
+						</a>
+						<a href="{ g.router_settings:admin_category_url $ '&Module_Action=edit&Route_Id=' $ l.route:id }">
+							<i class="fa fa-pencil-square" data-toggle="tooltip" data-placement="top" title="Edit Route"></i>
+						</a>
+					<MvELSEIF EXPR="{ l.context EQ 'page' }">
+						<a href="{ 'http://' $ g.domain:name $ l.route:request_path }" target="_blank">
+							<i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Live Link"></i>
+						</a>
+						<a href="{ g.router_settings:admin_page_url $ '&Module_Action=redirect&Route_Id=' $ l.route:id }">
+							<i class="fa fa-reply" data-toggle="tooltip" data-placement="top" title="Turn Into Redirect"></i>
+						</a>
+						<a href="{ g.router_settings:admin_page_url $ '&Module_Action=edit&Route_Id=' $ l.route:id }">
+							<i class="fa fa-pencil-square" data-toggle="tooltip" data-placement="top" title="Edit Route"></i>
+						</a>
+					</MvIF>
+						
+					</td>
+				</tr>
+			</MvFOREACH>
+		</tbody>
+	</table>
+
+	<script>
+		var list = new RouteList('route-list', {});
+	</script>
+</MvFUNCTION>

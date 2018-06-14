@@ -1,0 +1,15 @@
+<div class="block-base category-product-filter">
+    <div class="block-head">Filter Results</div>
+    <div class="block-content">
+        {% for field in form %}
+            <div class="row-fluid">
+                {{ form_widget(field) }}
+            </div>
+        {% endfor %}
+    {{ form_rest(form) }}
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn">Filter</button>
+        <a class="btn">Reset</a>
+    </div>
+</div>

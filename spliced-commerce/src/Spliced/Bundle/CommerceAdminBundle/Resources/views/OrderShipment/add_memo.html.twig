@@ -1,0 +1,22 @@
+
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Order:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+	<h1>Shipment Memo <small>Order {{ order.orderNumber }}</small></h1>
+</div>
+<form role="form" class="" method="post" action="">
+{{ include('SplicedCommerceAdminBundle:OrderShipment:add_memo_form.html.twig') }}
+<div class="form-actions">
+	<button type="submit" class="btn btn-success"><i class="icon-plus"></i> Add Memo</button>
+</div>
+</form>
+{% endblock %} 

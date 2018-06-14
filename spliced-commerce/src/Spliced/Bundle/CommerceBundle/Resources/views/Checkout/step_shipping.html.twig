@@ -1,0 +1,29 @@
+{{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+{{ include("SplicedCommerceBundle:Checkout/Block:flashes.html.twig") }}
+
+{% form_theme form 'SplicedCommerceBundle:Checkout/Form:shipping_method.html.twig' %}
+{{ form_errors(form.shipment) }}
+<form method="post" action="{{ path('commerce_checkout') }}" class="checkout-form" novalidate>
+	<fieldset class="">
+		<div class="page-header">
+			<h1>Shipping Method</h1>
+		</div>
+
+		<div class="alert alert-info">
+		    Select your orders shipping method from the choices below.
+		</div>
+		
+		{{ form_widget(form.shipment.userSelection) }}
+		{{ form_errors(form.shipment.userSelection) }}
+		
+	</fieldset>
+	
+	
+	{{ include("SplicedCommerceBundle:Checkout/Form:custom_fields.html.twig") }}
+	
+	{{ form_rest(form) }}
+	<div class="form-actions">
+		<a href="{{ path('commerce_checkout', {'step' : 2}) }}" data-step="2" class="btn btn-info checkout-move-step checkout-disable-on-submit" id="checkout-back-button">Back</a>
+		<input type="submit" class="btn btn-success checkout-disable-on-submit" value="Continue" id="checkout-continue-button" />
+	</div>
+</form>

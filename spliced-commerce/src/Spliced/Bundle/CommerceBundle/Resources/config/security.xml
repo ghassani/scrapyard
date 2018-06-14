@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="commerce.customer.manager.class">Spliced\Component\Commerce\Security\User\CustomerUserManager</parameter>
+		<parameter key="commerce.security.login_manager.class">Spliced\Component\Commerce\Security\LoginManager</parameter>
+		<parameter key="commerce.security.login_handler.class">Spliced\Component\Commerce\Security\Authentication\Handler\LoginSuccessHandler</parameter>
+		<parameter key="commerce.security.authentication.entry_point.customer.class">Spliced\Component\Commerce\Security\EntryPoint\CustomerAuthenticationEntryPoint</parameter>
+		<parameter key="commerce.security.authentication.provider.customer.class">Spliced\Component\Commerce\Security\Authentication\Provider\CustomerAuthenticationProvider</parameter>
+		<parameter key="commerce.security.authentication.listener.customer.class">Spliced\Component\Commerce\Security\Firewall\CustomerAuthenticationListener</parameter>
+	</parameters>
+	
+    <services>
+
+        <service id="commerce.customer.manager" class="%commerce.customer.manager.class%">
+	    	<argument type="service" id="commerce.configuration" />
+	    	<argument type="service" id="security.encoder_factory" />
+	        <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="commerce.security.login_manager" class="%commerce.security.login_manager.class%">
+        	<argument type="service" id="security.context" />
+	        <argument type="service" id="security.user_checker" />
+	        <argument type="service" id="security.authentication.session_strategy" />
+	        <argument type="service" id="service_container" />
+        </service>
+
+        <service id="commerce.security.login_handler" class="%commerce.security.login_handler.class%">
+        	<argument type="service" id="router" />
+	        <argument type="service" id="security.context" />
+	        <tag name="monolog.logger" channel="security" />
+        </service>
+
+        <service id="commerce.security.authentication.entry_point.customer" class="%commerce.security.authentication.entry_point.customer.class%" public="true" abstract="true">
+            <argument type="service" id="http_kernel" />
+        </service>
+        
+        <service id="commerce.security.authentication.provider.customer" 
+          class="%commerce.security.authentication.provider.customer.class%" 
+          public="false">
+            <argument /> <!-- Provider-shared Key -->
+            <argument type="service" id="commerce.customer.manager" />
+            <argument type="service" id="security.user_checker" />
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+                
+        <service id="commerce.security.authentication.listener.customer"
+          class="%commerce.security.authentication.listener.customer.class%"
+          parent="security.authentication.listener.abstract"
+          abstract="true">
+        </service>
+    </services>
+
+</container>

@@ -1,0 +1,28 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% block title %}{{ form.vars.data.name }} | Manufacturers | {{ parent() }}{% endblock %}
+
+{% block content -%}
+    <div class="page-header">
+    	<h1>Manufacturer <small>{{ form.vars.data.name }}</small></h1>
+	</div>
+	<fieldset>
+        <form action="{{ path('commerce_admin_manufacturer_update', { 'id' : form.vars.data.id }) }}" class="form" method="post" {{ form_enctype(form) }}>
+        	{{ include('SplicedCommerceAdminBundle:Manufacturer:form.html.twig') }}
+        	
+        	<ul class="record-actions list-inline">
+            	<li>
+                	<button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Update</button>
+        		</li>
+        	</ul>
+        	{{ form_rest(form) }}
+        </form>
+	</fieldset>
+    <ul class="record-actions inline">
+        <li>
+            <a href="{{ path('commerce_admin_manufacturer') }}" class="btn btn-warning">
+                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,125 @@
+
+<MvFUNCTION NAME = "ComponentModule_Function_Call" PARAMETERS = "module var, item, all_settings var, settings var, function" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Call(module var, item, all_settings var, settings var, function)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME="l.file"      	   VALUE= "{ 'spliced-uri-router.mvc' }" />    
+    <MvASSIGN NAME="l.function"  	   VALUE= "{ 'ComponentModule_Function_' $ trim(l.function) }" />
+    <MvASSIGN NAME="l.function_error"  VALUE= "{ '' }" />
+    <MvASSIGN NAME="g.route_component_result" VALUE="{ '' }" />
+    <MvASSIGN NAME="g.route_component_error"  VALUE="{ '' }" />
+
+    <MvASSEMBLY>
+        .string       l_file       "l.file"    
+        .string       l_function   "l.function"
+        .string       l_error      "l.function_error"    
+        .local        l_return     "result"    
+
+        pushc         l_file
+        pushn
+        pushc         l_function
+        pushn        
+        tagerror      22, 0
+        do_function
+        popl          l_return
+        tagerror      22, 3
+        pushc         l_error
+        pushn
+    </MvASSEMBLY>
+    
+    <MvIF EXPR = "{ NOT ISNULL g.MvDO_Error }">
+        <MvASSIGN NAME = "g.route_component_error" VALUE = "{ g.MvDO_Error }" />
+    </MvIF>
+
+    <MvASSIGN NAME = "g.route_component_result" VALUE = "{ miva_variable_value('l.result') }" />
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Function_Product_Route_By_Code" PARAMETERS = "code, route var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Product_Route_By_Code(code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_Active_Canonical_By_Product_Code(l.code, l.route) }" />
+
+</MvFUNCTION>
+
+
+
+<MvFUNCTION NAME = "ComponentModule_Function_Product_Routes_By_Code" PARAMETERS = "code, routes var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Product_Routes_By_Code(code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN  VALUE = "{ Routes_Load_Active_By_Product_Code(l.code, l.routes) }" />
+</MvFUNCTION>
+
+
+
+<MvFUNCTION NAME = "ComponentModule_Function_Category_Route_By_Code" PARAMETERS = "code, route var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Category_Route_By_Code(code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN  VALUE = "{ Route_Load_Active_Canonical_By_Category_Code(l.code, l.route) }" />
+
+</MvFUNCTION>
+
+
+
+<MvFUNCTION NAME = "ComponentModule_Function_Category_Routes_By_Code" PARAMETERS = "code, routes var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Category_Routes_By_Code(code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN  VALUE = "{ Routes_Load_Active_Canonical_By_Category_Code(l.code, l.routes) }" />
+
+</MvFUNCTION>
+
+
+
+<MvFUNCTION NAME = "ComponentModule_Function_Page_Route_By_Code" PARAMETERS = "code, route var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Page_Route_By_Code(code, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_Active_Canonical_By_Page_Code(l.code, l.route) }" />
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Function_Page_Routes_By_Code" PARAMETERS = "code, routes var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Page_Routes_By_Code(code, routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN  VALUE = "{ Routes_Load_Active_Canonical_By_Page_Code(l.code, l.routes) }" />
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Function_Route_By_Id" PARAMETERS = "id, route var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Route_By_Id(id, route var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Route_Load_By_Id(l.id, l.route) }" />
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Function_Routes" PARAMETERS = "routes var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Route_By_Id(routes var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Routes_Load_All(l.routes, 'id', 'ASC') }" />
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ComponentModule_Function_Sluggify" PARAMETERS = "return var, string, space_replacement" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace('', 'ComponentModule_Function_Sluggify(return, string, space_replacement)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "{ Sluggify(l.string, l.space_replacement) }" />
+
+</MvFUNCTION>

@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spliced.commerce.product_type_manager.class">Spliced\Component\Commerce\Product\ProductTypeManager</parameter>
+        <parameter key="spliced.commerce.product_type.physical.class">Spliced\Component\Commerce\Product\Type\PhysicalType</parameter>
+        <parameter key="spliced.commerce.product_type.digital.class">Spliced\Component\Commerce\Product\Type\DigitalType</parameter>
+    </parameters> 
+
+    <services>
+       
+        <service id="commerce.product_type_manager" class="%spliced.commerce.product_type_manager.class%">
+        </service>
+
+        <!-- 
+         PRODUCT TYPE HANDLERS
+       	-->
+        <service id="commerce.product_type.physical" class="%spliced.commerce.product_type.physical.class%">
+	        <tag name="commerce.product_type" />
+        </service>
+        
+        <service id="commerce.product_type.digitial" class="%spliced.commerce.product_type.digital.class%">
+	        <tag name="commerce.product_type" />
+        </service>
+    </services>
+
+</container>

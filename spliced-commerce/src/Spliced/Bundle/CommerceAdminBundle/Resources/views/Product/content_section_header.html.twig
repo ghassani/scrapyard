@@ -1,0 +1,94 @@
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Catalog</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_product') }}">Manage Products</a></li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="{{ path('commerce_admin_product_new') }}"> New Product</a></li>
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product Specifications<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_product_specification_option') }}">Manage Specifications</a></li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="{{ path('commerce_admin_product_specification_option_new') }}">New Specification</a></li>
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product Attributes<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_product_attribute_option') }}">Manage Attributes</a></li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="{{ path('commerce_admin_product_attribute_option_new') }}">New Attribute</a></li>
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_category') }}">Manage Categories Tree View</a></li>
+          <li><a href="{{ path('commerce_admin_category_list') }}">Manage Categories List View</a></li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="{{ path('commerce_admin_category_new') }}">New Category</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manufacturers <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_product') }}">Manage Manufacturers</a></li>
+          <li role="presentation" class="divider"></li>
+          <li><a href="{{ path('commerce_admin_product_new') }}"> New Manufacturer</a></li>
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilities <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path('commerce_admin_product_utility_price_batch_update') }}">Batch Price Updater</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+    {% if product is defined %}
+    <ul class="nav navbar-nav navbar-right">
+         <li class="dropdown">
+             
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product {{ product.sku }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+			  <li class=""><a href="#Details">Details</a></li>
+			  <li class=""><a href="#Pricing">Pricing</a></li>
+			  <li class=""><a href="#Media">Media</a></li>
+			  <li class=""><a href="#Content">Content</a></li>
+			  <li class=""><a href="#Categories">Categories</a></li>
+			  <li class=""><a href="#Inventory">Inventory</a></li>
+			  <li class=""><a href="#Specifications">Specifications</a></li>
+			  <li class=""><a href="#Attributes">Attributes</a></li>
+			  <li class=""><a href="#BundledItems">Bundled Items</a></li>
+			  <li class=""><a href="#Upsales">Upsales</a></li>
+			  <li class=""><a href="#Sales">Sales</a></li>
+            </ul>
+          </li> 
+      </ul>
+    {% else %}
+        <form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Enter Product ID or SKU">
+          </div>
+          <button type="submit" class="btn btn-default">Go</button>
+        </form>
+    {% endif %}
+    
+  </div><!-- /.navbar-collapse -->
+</nav>

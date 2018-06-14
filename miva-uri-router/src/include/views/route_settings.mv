@@ -1,0 +1,527 @@
+
+<MvCOMMENT>
+ * Render_Router_Settings
+ *
+ * Renders Settings Form
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Router_Settings" PARAMETERS = "router_settings var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+
+	<MvIFNDEF NAME = "DEV">
+		<fieldset>
+			<legend>License</legend>
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="form-group">
+						<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Assuming you bought this.. ;) .. or did you not? :("></i> License Key</label>
+						<input type="text" class="form-control" name="new_router_settings:license_key" value="{ l.router_settings:license_key }" />
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</MvIFNDEF>
+
+	<fieldset>
+		<legend>Settings</legend>
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="checkbox">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawCheckbox( l.router_settings:enabled, 'new_router_settings:enabled', 1, 'Enable Module Functionality' ) }"></label>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<div class="checkbox">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawCheckbox( l.router_settings:not_found_enabled,	'new_router_settings:not_found_enabled',	1, 'Enable Not Found Functionality' ) }"></label>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4">
+				<label for="">Page Not Found Page Code</label>
+				<div class="input-group">
+			    	<input type="text" class="form-control" id="Route_Not_Found_Page_Code" name="new_router_settings:not_found_page" value="{ l.router_settings:not_found_page }" />
+			      	<span class="input-group-btn">
+			        	<a href="JavaScript:PageLookupDialog( 'Route_Not_Found_Page_Code' );" class="btn btn-info" role="button"><i class="fa fa-search"></i>  Lookup</a>
+			    	</span>
+			    </div>
+			</div>
+		</div>
+	</fieldset>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<fieldset>
+				<legend>Product Event Handling</legend>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a product is created:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_save_action', 0, l.router_settings:product_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p><p>No actions taken, I will manage new product routes myself.</p></p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_save_action', 1, l.router_settings:product_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a new product is created, generate a canonical route based on the specified product generation pattern.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a product is updated:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_update_action', 0, l.router_settings:product_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage updated product routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_update_action', 1, l.router_settings:product_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a product is updated and the generated request path based on the set product generation pattern is different than the current canonical route, 
+								replace the existing canonical route with the new one. The old route will become a 404.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_update_action', 2, l.router_settings:product_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a product is updated and the generated request path based on the set product generation pattern is different than the current canonical route, 
+								create a new route with the updated request path and set it as the canonical route and turn the existing canonical route into a 301 redirect to the new one.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_update_action', 3, l.router_settings:product_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a product is updated and the generated request path based on the set product generation pattern is different than the current canonical route, 
+								create a new route with the updated request path as an additional route.
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a product is deleted:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_delete_action', 0, l.router_settings:product_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage deleted product routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_delete_action', 1, l.router_settings:product_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a product is deleted, delete all routes associated with it effectivey turning those routes into 404 erors.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:product_delete_action', 2, l.router_settings:product_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a product is deleted, turn all routes associated with it into 301 redirects to the homepage.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<fieldset>
+				<legend>Category Event Handling</legend>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a category is created:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_save_action', 0, l.router_settings:category_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p><p>No actions taken, I will manage new category routes myself.</p></p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_save_action', 1, l.router_settings:category_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a new category is created, generate a canonical route based on the specified category generation pattern.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a category is updated:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_update_action', 0, l.router_settings:category_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage updated category routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_update_action', 1, l.router_settings:category_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a category is updated and the generated request path based on the set category generation pattern is different than the current canonical route, 
+								replace the existing canonical route with the new one. The old route will become a 404.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_update_action', 2, l.router_settings:category_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a category is updated and the generated request path based on the set category generation pattern is different than the current canonical route, 
+								create a new route with the updated request path and set it as the canonical route and turn the existing canonical route into a 301 redirect to the new one.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_update_action', 3, l.router_settings:category_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a category is updated and the generated request path based on the set category generation pattern is different than the current canonical route, 
+								create a new route with the updated request path as an additional route.
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a category is deleted:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_delete_action', 0, l.router_settings:category_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage deleted category routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_delete_action', 1, l.router_settings:category_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a category is deleted, delete all routes associated with it effectivey turning those routes into 404 erors.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:category_delete_action', 2, l.router_settings:category_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a category is deleted, turn all routes associated with it into 301 redirects to the homepage.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<fieldset>
+				<legend>Page Event Handling</legend>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a page is created:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_save_action', 0, l.router_settings:page_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p><p>No actions taken, I will manage new page routes myself.</p></p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_save_action', 1, l.router_settings:page_save_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a new page is created, generate a canonical route based on the specified page generation pattern.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a page is updated:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_update_action', 0, l.router_settings:page_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage updated page routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_update_action', 1, l.router_settings:page_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a page is updated and the generated request path based on the set page generation pattern is different than the current canonical route, 
+								replace the existing canonical route with the new one. The old route will become a 404.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_update_action', 2, l.router_settings:page_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a page is updated and the generated request path based on the set page generation pattern is different than the current canonical route, 
+								create a new route with the updated request path and set it as the canonical route and turn the existing canonical route into a 301 redirect to the new one.
+								</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_update_action', 3, l.router_settings:page_update_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a page is updated and the generated request path based on the set page generation pattern is different than the current canonical route, 
+								create a new route with the updated request path as an additional route.
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th colspan="2">When a page is deleted:</th>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_delete_action', 0, l.router_settings:page_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>No actions taken, I will manage deleted page routes myself.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_delete_action', 1, l.router_settings:page_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a page is deleted, delete all routes associated with it effectivey turning those routes into 404 erors.</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									<MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'new_router_settings:page_delete_action', 2, l.router_settings:page_delete_action, '' ) }">
+								</label>
+							</td>
+							<td>
+								<p>When a page is deleted, turn all routes associated with it into 301 redirects to the homepage.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+
+	<fieldset>
+		<legend>Generation Settings</legend>
+
+		<div class="row">
+			<div class="col-lg-10 col-md-10">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every product on save or updated for every product on update. You can use the tokens to include dynamic parameters."></i> Product</label>
+					<input type="text" class="form-control" name="new_router_settings:product_route_pattern" value="{ l.router_settings:product_route_pattern }" />
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-2">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+					<input type="text" class="form-control" name="new_router_settings:product_route_pattern_space" maxlength="1" value="{ l.router_settings:product_route_pattern_space }" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<span class="help-block">
+					<div><strong>Available Tokens:</strong></div>
+					<ul class="list-unstyled">
+						<li><strong>%id%</strong> - The Product ID</li>
+						<li><strong>%name%</strong> - The Product Name</li>
+						<li><strong>%code%</strong> - The Product Code</li>
+						<li><strong>%sku%</strong> - The Product Sku</li>
+						<li><strong>%category_code%</strong> - The Canonical Category Code</li>
+						<li><strong>%category_code_path%</strong> - This gets replaced with the category codes of the canonical category back to its parent.</li>
+						<li><strong>%category_name%</strong> - The Canonical Category Name</li>
+						<li><strong>%category_name_path%</strong> - This gets replaced with the category names of the canonical category back to its parent.</li>
+						<li><strong>%store_code%</strong> - The Store Code</li>
+					</ul>
+				</span>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-10 col-md-10">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every category on save or updated for every category on update. You can use the tokens to include dynamic parameters."></i> Category</label>
+					<input type="text" class="form-control" name="new_router_settings:category_route_pattern" value="{ l.router_settings:category_route_pattern }" />
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-2">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+					<input type="text" class="form-control" name="new_router_settings:category_route_pattern_space" maxlength="1" value="{ l.router_settings:category_route_pattern_space }" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<span class="help-block">
+					<div><strong>Available Tokens:</strong></div>
+					<ul class="list-unstyled">
+						<li><strong>%id%</strong> - The Category ID</li>
+						<li><strong>%name%</strong> - The Category Name</li>
+						<li><strong>%name_path%</strong> - This gets replaced with the category names of the category back to its parent.</li>
+						<li><strong>%code%</strong> - The Category Code</li>
+						<li><strong>%code_path%</strong> - This gets replaced with the category codes of the category back to its parent.</li>
+						<li><strong>%store_code%</strong> - The Store Code</li>
+					</ul>
+				</span>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-10 col-md-10">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every page on save or updated for every page on update. You can use the tokens to include dynamic parameters."></i> Page</label>
+					<input type="text" class="form-control" name="new_router_settings:page_route_pattern" value="{ l.router_settings:page_route_pattern }" />
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-2">
+				<div class="form-group">
+					<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+					<input type="text" class="form-control" name="new_router_settings:page_route_pattern_space" maxlength="1" value="{ l.router_settings:page_route_pattern_space }" />
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<span class="help-block">
+					<div><strong>Available Tokens:</strong></div>
+					<ul class="list-unstyled">
+						<li><strong>%id%</strong> - The Page ID</li>
+						<li><strong>%name%</strong> - The Page Name</li>
+						<li><strong>%code%</strong> - The Page Code</li>
+						<li><strong>%store_code%</strong> - The Store Code</li>
+					</ul>
+				</span>
+			</div>
+		</div>
+	</fieldset>
+
+
+</MvFUNCTION>

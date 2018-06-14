@@ -1,0 +1,93 @@
+{% macro product_bundled_item_prototype(prototype, product) %}
+	{% spaceless %}
+        <tr class="main-body product-bundled-item-__name__">
+    	    <td>{{ form_widget(prototype.product, { 'attr' : { 'class' : 'form-control product-bundled-item-typeahead' }}) }}
+    	    	<div class="bundled-item-product-info-__name__">
+		
+    	    	</div>
+    	    </td>
+    	    <td>{{ form_widget(prototype.quantity, { 'attr' : { 'class' : 'form-control'}}) }}</td>
+    	    <td>
+    	        <div>
+    	            <label>Allow Tiered Pricing: {{  form_widget(prototype.allowTierPricing, { 'attr' : { 'class' : ''}}) }}</label>
+    	        </div>
+    	    </td>
+	        <td>
+	            {{ form_widget(prototype.priceAdjustmentType, { 'attr' : { 'class' : 'form-control'}}) }}
+	            {{ form_widget(prototype.priceAdjustment, { 'attr' : { 'class' : 'form-control'}}) }}
+	        </td>
+    		<td>
+    		    <a href="javascript:void(0);" class="delete-product-bundled-item" title="Delete Bundled Item">
+    		        <i class="icon icon-trash"></i>
+    		    </a>
+    		</td>
+    	</tr>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro product_bundled_item(bundledItem, product) %}
+    {% spaceless %}
+        <tr class="main-body product-bundled-item-{{ bundledItem.vars.data.id }}"> 
+    	    <td>{{ form_widget(bundledItem.product, { 'attr' : { 'type' : 'hidden' }}) }}
+    	    	<div class="bundled-item-product-info-{{ bundledItem.vars.data.product.id }}">
+	            	<div class="pull-left">
+	            		{% if bundledItem.vars.data.product.images|length %}
+	            			<img src="{{ commerce_resize_product_image(bundledItem.vars.data.product.mainImage, 60, 60) }}" />
+	            		{% else %}
+	            			<img src="http://placehold.it/60x60" alt="{{ bundledItem.vars.data.product.name }}" class="img-rounded" />
+	            		{% endif %} 
+	            	</div>
+	            	<div><i>{{ bundledItem.vars.data.product.name }}</i> - SKU: {{ bundledItem.vars.data.product.sku }} </div>
+	            	<div><strong>Price:</strong> ${{ bundledItem.vars.data.product.price|number_format(2) }}</div>
+    	    	</div>
+    	    </td>
+    	    <td>{{  form_widget(bundledItem.quantity, { 'attr' : { 'class' : 'form-control'}}) }}</td>
+    	    <td>
+    	        <div>
+    	            <label>Allow Tiered Pricing: {{  form_widget(bundledItem.allowTierPricing, { 'attr' : { 'class' : ''}}) }}</label>
+    	        </div>
+    	    </td>
+	        <td>
+	            {{  form_widget(bundledItem.priceAdjustmentType, { 'attr' : { 'class' : 'form-control'}}) }}
+	            {{  form_widget(bundledItem.priceAdjustment, { 'attr' : { 'class' : 'form-control'}}) }}
+	        </td>
+    		<td>
+    		    <a href="{{ path('commerce_admin_product_bundled_item_delete',{ 'productId' : product.id, 'bundledItemId' : bundledItem.vars.data.id }) }}" class="delete-product-bundled-item" title="Delete Bundled Item">
+    		        <i class="icon icon-trash"></i>
+    		    </a>
+    		</td>
+    	</tr> 
+    {% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<table class="table table-striped table-bordered table-condensed product-bundled-items">
+    <thead>
+	    <tr>
+	        <th width="40%">Product</th>
+	        <th>Quantity</th>
+	        <th>Options</th>
+	        <th>Price Adjustment</th>
+	        <th></th>
+	    </tr>
+    </thead>
+    <tfoot>
+        <tr>
+             <th colspan="5" class="text-right">
+                 <a href="javascript:void(0);" data-prototype="{{ renderHelper.product_bundled_item_prototype(form.bundledItems.vars.prototype)|e }}" title="Add Bundled Item" class="btn btn-primary btn-sm add-product-bundled-item"><i class="icon-plus"></i> Add Bundled Item</a>
+             </th>
+        </tr>
+    </tfoot>
+    <tbody>
+        {% if form.bundledItems|length %}
+
+	        {% for bundledItem in form.bundledItems %}
+	        	{{ renderHelper.product_bundled_item(bundledItem, form.vars.data) }}
+	        {% endfor %}
+	    {% endif %}
+	    <tr class="no-results {{ form.bundledItems|length ? 'hide' : '' }}">
+	        <td colspan="5" class="text-center"><strong>No Bundled Items Currently Related</strong></td>
+	    </tr>
+    </tbody>
+</table> 

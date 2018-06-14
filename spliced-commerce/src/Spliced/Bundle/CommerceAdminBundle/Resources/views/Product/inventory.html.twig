@@ -1,0 +1,29 @@
+{% form_theme form.dimensionsUnits "SplicedCommerceAdminBundle:Form:bootstrap_form_row_labeless.html.twig" %}
+
+<div class="form-group">
+	<div class="col-lg-6">
+		{{ form_row(form.availability) }}
+	</div>
+	<div class="col-lg-6">
+		{{ form_row(form.type) }}
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-lg-6">
+		{{ form_row(form.manageStock) }}
+	</div>
+	<div class="col-lg-6">
+		<div class="form-group form-group-weight">
+			<div class="col-lg-9 col-md-9">{{ form_row(form.weight) }}</div>
+			<div class="col-lg-3 col-md-3">{{ form_row(form.weightUnits) }}</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		{{ form_label(form.dimensions) }}
+		<div class="form-group form-group-dimensions">
+			{{ form_widget(form.dimensions) }}
+			<div class="col-lg-3 col-md-3">{{ form_row(form.dimensionsUnits) }}</div>
+		</div>
+	</div>
+</div>

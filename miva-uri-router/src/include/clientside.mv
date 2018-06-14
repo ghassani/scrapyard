@@ -1,0 +1,11 @@
+<MvFUNCTION NAME = "Module_Clientside" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvCOMMENT>
+	<MvIF EXPR = "{ g.Filename EQ 'functions.js' }">							<MvEVAL EXPR = "{ [ g.Module_Clientside ].Module_Content_Type( l.module, 'text/javascript' ) }">	<MIVA STANDARDOUTPUTLEVEL = "text, html"><MvINCLUDE FILE = "modules/util/customfld/functions.js"><MIVA STANDARDOUTPUTLEVEL = "">
+	<MvELSEIF EXPR = "{ g.Filename EQ 'customfieldlist.js' }">					<MvEVAL EXPR = "{ [ g.Module_Clientside ].Module_Content_Type( l.module, 'text/javascript' ) }">	<MIVA STANDARDOUTPUTLEVEL = "text, html"><MvINCLUDE FILE = "modules/util/customfld/customfieldlist.js"><MIVA STANDARDOUTPUTLEVEL = "">
+	<MvELSEIF EXPR = "{ g.Filename EQ 'customfieldaddeditdialog.js' }">			<MvEVAL EXPR = "{ [ g.Module_Clientside ].Module_Content_Type( l.module, 'text/javascript' ) }">	<MIVA STANDARDOUTPUTLEVEL = "text, html"><MvINCLUDE FILE = "modules/util/customfld/customfieldaddeditdialog.js"><MIVA STANDARDOUTPUTLEVEL = "">
+	<MvELSEIF EXPR = "{ g.Filename EQ 'customfieldgrouplist.js' }">				<MvEVAL EXPR = "{ [ g.Module_Clientside ].Module_Content_Type( l.module, 'text/javascript' ) }">	<MIVA STANDARDOUTPUTLEVEL = "text, html"><MvINCLUDE FILE = "modules/util/customfld/customfieldgrouplist.js"><MIVA STANDARDOUTPUTLEVEL = "">
+	<MvELSE>
+		<MvASSIGN NAME = "l.null" VALUE = "{ miva_output_header( 'Status', '404 Not Found' ) }">
+	</MvIF>
+	</MvCOMMENT>
+</MvFUNCTION>

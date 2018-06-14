@@ -1,0 +1,300 @@
+body, html{
+	margin:0;
+	padding:0;
+	color: #000;
+	background: #464646;
+	overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4{
+	margin:0;
+	padding:0;
+}
+h1 small,
+h2 small,
+h3 small,
+h4 small{
+	color: #b32017;
+}
+
+a{
+	color: #000;
+	text-decoration: underline;
+}
+a:hover{
+	color: #000;
+	text-decoration: underline;
+}
+
+a.btn{
+	text-decoration: none;
+}
+
+a i{
+	text-decoration: none;
+}
+
+.uppercase{ text-transform: uppercase; }
+.lowercase{ text-transform: lowercase; }
+.nocase{ text-transform:none; }
+
+
+.alert-edit-info{
+    font-size: 12px; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+header{
+	background: -moz-linear-gradient(center top , #303030 0%, #101010 100%) repeat scroll 0 0 transparent;
+	border-bottom-color: #000000;
+	border-top-color: #505050;
+	color: #ffffff;
+	text-shadow: 0 1px 0 #1C1C1C;
+	width: 100% !important; 
+	z-index: 100000;
+}
+header .header-container{
+	padding: 6px;
+}
+header h1{
+	margin: 0; padding: 0;
+	padding: 3px;
+	font-size: 18pt;
+	font-family: 'open_sansextrabold';
+	text-transform: uppercase;
+}
+
+.main-content{
+	background: #fff;
+	min-height: 800px;
+	padding-left: 0px;
+}
+
+.side-nav{
+	padding-right: 0;
+	color: #fff;
+}
+.side-nav a,
+.side-nav a:hover{
+	color: #fff;
+	text-decoration: none;
+}
+
+.side-nav .dropdown-menu{
+	margin-top: -40px;
+	margin-left: 120px;
+}
+.side-nav .dropdown-menu{
+	text-align: left;
+}
+.side-nav .main-side-nav{
+
+} 
+
+.side-nav .main-side-nav{
+	display: block;
+	width: 100%;
+	margin-top: 5px;
+}
+.side-nav .main-side-nav i:hover{
+	color: red;
+}
+.side-nav .main-side-nav a:hover{
+	color: #fff;
+}
+.side-nav .main-side-nav li{
+	width: 100%;
+	border-bottom: 1px solid #727070;
+	color: #fff;
+	padding: 3px;
+	padding-left: 6px;
+}
+
+.side-nav .main-side-nav li:last-child{
+	border-bottom:none;
+}
+.side-nav .main-side-nav i{
+	padding-right: 3px;
+}
+.white, .white a {
+  color: #fff;
+}
+
+div.content-section-header{
+	/*background: #e1e1e1;
+	height: 60px;
+	border-bottom: 3px solid #d6d6d6;*/
+	
+}
+
+.content-section-header a{
+	text-decoration: none;
+}
+div.content-section-header .navbar{
+	border-radius: 0;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+div.content-section-header  .navbar-header {
+	font-family: 'open_sansextrabold';
+	text-transform: uppercase;
+}
+div.content-section-header  .navbar-header  .navbar-brand{
+	font-size: 35px !important;
+}
+.left-wrapper{
+	padding: 6px;
+}
+.right-wrapper{
+	padding: 6px;
+}
+.content-wrapper{
+	padding: 6px;
+}
+
+.content-wrapper .page-header{
+	margin: 5px;
+}
+.content-wrapper .page-header h1,
+.content-wrapper .page-header h2{
+	font-family: 'open_sansextrabold';
+	text-transform: uppercase;
+}
+
+.table-rounded{
+	-moz-border-radius:  10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.panel-filter-form .panel-heading{
+	padding: 6px;
+}
+.panel-filter-form .panel-heading h3{
+	font-size: 14pt;
+	text-transform: uppercase;
+}
+/**
+ * 	Order Edit/Show Page
+ */
+.order-dates{
+	
+}
+.order-dates span{
+	display: block;
+	text-align: left;
+	margin: 5px;
+}
+
+.order-visitor-information-table{
+	font-size: 8pt;
+}
+
+/**
+ * 	WYSIWYG
+ */
+textarea.html-source{
+	height: 300px;
+	
+}
+textarea.config-html-source{
+	height: 200px;
+}
+
+.dropdown-menu a {
+  cursor: pointer;
+}
+
+.form-actions{
+	margin: 8px;
+	/*background: #c1c1c1;
+	border-top: 1px solid #cccccc;*/
+}
+
+/**
+ * Product Edit    
+ */
+.product-edit .content-pane{
+
+}
+.product-edit .content-pane:after{
+    content: "";
+    clear:both;
+    display:block;
+    height:1px;
+}
+
+/**
+ * 	Icon Colors
+ */
+.icon-white{
+	color: #ffffff !important;
+}
+.icon-red{
+	color: red !important;
+}
+
+.icon-green{
+	color: green !important;
+}
+
+.icon-blue{
+	color: blue !important;
+}
+
+.icon-black{
+	color: #000000;
+}
+
+pre.code{
+	height: 200px;
+	overflow: scroll;
+}
+
+#addProductUpsale .modal-dialog{
+    left: 50%;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    right: auto;
+    width: 960px;
+}
+
+.control-label-left{
+	text-align: left !important;
+}
+
+
+
+
+/**
+ * Typeahead Classes
+ */
+
+span.twitter-typeahead{
+	width: 100% !important;
+}
+
+.tt-dataset-products{
+	width: 300px;
+	background: #c1c1c1;
+}
+.tt-dataset-products .tt-suggestions{
+	
+}
+.tt-dataset-products .tt-suggestions .tt-suggestion{
+	
+}
+.tt-dataset-products .tt-suggestions .tt-suggestion p{
+	margin:0;
+	padding:0;
+}
+
+
+textarea.wysiwyg{
+	height: 300px;
+}

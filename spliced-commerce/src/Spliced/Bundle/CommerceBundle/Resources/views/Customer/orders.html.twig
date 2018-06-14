@@ -1,0 +1,33 @@
+{#
+
+#}
+
+{% extends 'SplicedCommerceBundle::Layouts/2columns-right.html.twig' %}
+
+{% block title %}Order History | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+
+{% block right %}
+	{% include "SplicedCommerceBundle:Customer:Block/menu.html.twig" with {} %}
+	{% include "SplicedCommerceBundle:Customer:Block/social.html.twig" with {'customer' : customer} %}
+{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+	    <h1>Order History</h1>
+    </div>
+    
+    <div class="alert alert-info">
+        <p>Below is a list of all orders placed with us. To get more information about an order, press the arrow to the right.</p>
+    </div>
+    
+    {{ knp_pagination_render(orders, "SplicedCommerceBundle:Common/Pagination:twitter_bootstrap_pagination.html.twig") }}
+    
+    {{ include("SplicedCommerceBundle:Order:order_table_brief.html.twig") }}
+    
+    {{ knp_pagination_render(orders, "SplicedCommerceBundle:Common/Pagination:twitter_bootstrap_pagination.html.twig") }}
+    <div>
+        <a href="{{ path('account') }}" class="btn btn-primary">Back to Account Overview</a>
+    </div>
+    
+{% endblock %}

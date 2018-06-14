@@ -1,0 +1,59 @@
+<table class="table table-striped table-bordered table-condensed product-attribute-table">
+	<tbody>
+		<tr>
+			<th>Part Number</th>
+			<td>{{ product.sku }}</td>
+		</tr>
+		{%  if product.manufacturer|length %}
+		<tr>
+			<th>Manufacturer</th>
+			<td>{{ product.manufacturer.name }}</td>
+		</tr>
+			{%  if product.manufacturerPart|length %}
+			<tr>
+				<th>Manufacturer Part Number</th>
+				<td>{{ product.manufacturerPart }}</td>
+			</tr>
+			{% endif %}
+		{% endif %}
+		
+		{% set completeMultiValue = [] %}
+	
+		{% for attribute in product.getInformationalAttributes %}
+			{% if attribute.option.onList %}
+				{% if attribute.option.optionType == 2 %}
+					{% if attribute.option.name not in completeMultiValue %}
+						{% set attributeValues = [] %}
+						
+						{% for attributeValueLookup in product.getInformationalAttributes %}
+							{% if attributeValueLookup.option.onView and attributeValueLookup.option.id == attribute.option.id and attributeValueLookup.value|length %}
+								{% set attributeValues = attributeValues|merge({ (attributeValueLookup.value.id) : attributeValueLookup.value }) %}
+							{% endif %}
+						{% endfor %}
+						{% set first = true %}
+						{% for value in attributeValues %}
+							<tr>
+					    		<th width="{{ width is defined ? width : '40%' }}">
+					    			{% if first == true %}
+					    				{{ attribute.option.publicLabel }}
+					    			{% endif %}
+					    		</th>
+					    		<td>
+									{{ value }}
+								</td>
+					    	</tr>
+				    		{% set first = false %}
+				    	{% endfor %}
+				    	{% set completeMultiValue = completeMultiValue|merge({ (attribute.option.id) : attribute.option.name }) %}
+			    	{% endif %}
+				{% else %}
+					<tr>
+			    		<th width="{{ width is defined ? width : '40%' }}">{{ attribute.option.publicLabel }}</th>
+			    		<td>{{ dump(attribute.values) }}</td>
+			    	</tr>
+				{% endif %}
+				
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>

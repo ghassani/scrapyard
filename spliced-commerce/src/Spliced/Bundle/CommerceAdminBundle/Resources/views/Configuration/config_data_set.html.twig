@@ -1,0 +1,49 @@
+<div class="tab-content">
+
+{% set first = true %}
+{%  for groupName, groupValue in forms %}
+<div class="tab-pane {{ active is defined and first == true ? 'active' : '' }}" id="{{ previousGroup is defined ? previousGroup|replace({" " : "-", "/" : "-"}) ~ '-' : '' }}{{ groupName|replace({" " : "-", "/" : "-"}) }}">
+    
+    <div class="page-header">
+    	<h2>{{ groupName }}</h2>
+    </div>
+    
+    {%  if groupValue.value is not defined and groupValue[0].value is not defined %}
+    	<ul class="nav nav-pills nav-tabs">
+        	{% set first = true %}
+        	{% for childGroupName, childGroupValues in groupValue %}
+            {% if first == true %}
+	      		{% set first = false %}
+	      		<li class="active">
+			{% else %}
+	      		<li class="">
+			{% endif %}
+            	<a href="#{{ previousGroup is defined ? previousGroup|replace({" " : "-", "/" : "-"}) ~ '-' : '' }}{{ groupName|replace({" " : "-"}) }}-{{ childGroupName|replace({" " : "-"}) }}" data-toggle="tab">
+            		{{  childGroupName }}
+            	</a>
+			</li>
+			{% endfor %}
+		</ul> 
+		
+		{{ include("SplicedCommerceAdminBundle:Configuration:configuration_set.html.twig", { 
+    		"forms" : groupValue, 
+    		"previousGroup" : (previousGroup is defined ? previousGroup~'-' : '')~groupName 
+    	}) }}
+    {% else %}
+    	<div class="tab-content">
+    	{% for childGroupName, childGroupValue in groupValue %}
+	    	<div class="content-pane" id="{{ previousGroup is defined ? previousGroup|replace({" " : "-", "/" : "-"}) ~ '-' : '' }}{{ groupName|replace({" " : "-"}) }}-{{ childGroupName|replace({" " : "-"}) }}" data-toggle="tab">
+	    	{{ include("SplicedCommerceAdminBundle:Configuration:configuration_form.html.twig", { 
+	        	"form" : childGroupValue 
+	        }) }}
+        </div>
+    	{% endfor %}
+    	</div>
+	{% endif %}
+	
+    
+</div>
+{% set first = false %}
+{% endfor %}
+
+</div>

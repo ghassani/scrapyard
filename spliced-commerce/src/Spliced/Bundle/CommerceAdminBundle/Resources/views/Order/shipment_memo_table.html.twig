@@ -1,0 +1,64 @@
+
+	<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+		<thead>
+			<tr>
+				<th>Created On</th>
+				<th>Created By</th>
+				<th>Memo</th>
+				<th>Tracking Number</th>
+				<th>Customer Notified</th>
+				<th>Status Change</th>
+				<th></th>
+			</tr>
+
+		</thead>
+		<tfoot>
+			<tr>
+				<th colspan="7" class="text-right">
+					<div class="btn-group text-right">
+						<a class="btn btn-xs btn-success {{ order.shipment.shipmentStatus == 'complete' or order.shipment.shipmentStatus == 'shipped' ? 'disabled' : '' }}">Add Shipment</a>
+						<a class="btn btn-xs btn-info add-order-shipment-memo" href="{{ path('commerce_admin_order_shipment_add_memo', { 'shipmentId' : order.shipment.id }) }}">Add Memo</a>
+					</div>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% if order.shipment.memos|length %}
+				{% for memo in order.shipment.memos %}
+				<tr>
+					<td>{{ memo.createdAt|date('m/d/Y h:i a') }}</td>
+					<td>{{ memo.createdBy }}</td>
+					<td>{{ memo.memo }}</td>
+					<td>{{ memo.trackingNumber }}</td>
+					<td>
+					    {%  if memo.customerNotified %}
+					    <i class="icon-ok"></i>
+					    {% endif %}
+					</td>
+					<td>
+					    {%  if memo.previousStatus != memo.changedStatus %}
+					        {{  memo.previousStatus }} to {{ memo.changedStatus }}
+					    {%  endif %}
+					</td>
+					<th>
+					    {% if memo.memoData|length %}
+						<a data-toggle="modal" href="#payment-memo-{{ memo.id }}-response" title="">Raw Response</a>
+						{{ include('SplicedCommerceAdminBundle:Common/Modal:default.html.twig', {
+							'modalId' : 'shipment-memo-'~memo.id~'-response',
+							'modalLabeledBy' : 'shipment-memo-'~memo.id~'-response-label',
+							'title' : 'Memo '~memo.id~' for shipment '~order.shipment.id~' Raw Response',
+							'contentInclude' : 'SplicedCommerceAdminBundle:Order:shipment_response.html.twig',
+							
+						}) }}
+						{% endif %}
+					</th>
+	
+				</tr>
+				{% endfor %}
+			{% else %}
+				<tr>
+					<td colspan="6"><div class="text-center">No Memos</div></td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>

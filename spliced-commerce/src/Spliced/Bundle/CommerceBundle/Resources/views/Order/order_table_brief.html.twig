@@ -1,0 +1,36 @@
+{#
+
+#}
+
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Order Number</th>
+			<th>Items</th>
+			<th>Order Total</th>
+			<th>Order Status</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if orders|length %}
+		{% for order in orders %}
+		<tr>
+			<td>{{ order.completedAt|date('m/d/y h:i a') }}</td>
+			<td>{{ order.orderNumber }}</td>
+			<td>{{ order.totalOrderedItems }}</td>
+			<td>${{ commerce_order_total(order) }}</td>
+			<td>{{ commerce_order_status(order) }}</td>
+			<td>
+				<a href="{{ path('account_order_view', { 'orderNumber' : order.orderNumber }) }}"><i class="icon-share-alt"></i></a>
+			</td>
+		</tr>
+		{% endfor %}
+	{% else %}
+		<tr>
+			<td colspan="6"><div class="text-center">You have no recent orders.</div></td>
+		</tr>
+	{% endif %}
+	</tbody>
+</table>

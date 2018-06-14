@@ -1,0 +1,49 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:default.html.twig' %}
+
+{% set userAgentData = parse_user_agent(visitor.userAgent) %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Visitor:content_section_header.html.twig') }}
+{% endblock %}
+
+
+{% block content -%}
+
+<div class="page-header">
+    <h1>Visitor <small>{{ visitor.id }}</small></h1>
+</div>
+
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded visitor-information-table">
+	<thead>
+	    <tr>
+			<th>Initial Referer</th>
+			<td colspan="2">{{ visitor.initialReferer }}</td>
+			<th>Total Requests</th>
+			<td colspan="2">{{ visitor.requests|length }}</td>
+		</tr>
+		<tr>
+			<th>Initial Referer URL</th>
+			<td colspan="2">{{ visitor.initialRefererUrl }}</td>
+			<th>Session ID</th>
+			<td colspan="2">{{ visitor.sessionId }}</td>
+		</tr>
+		<tr>
+			<th>Browser &amp; Platform</th>
+			<td colspan="4">
+				{{ userAgentData.platform }} {{ userAgentData.browser }} {{ userAgentData.version }}
+			</td>
+		</tr>
+    </thead>
+</table>	
+
+<div class="page-header">
+    <h2>Page <small>Requests</small></h2>
+</div>
+{{ include('SplicedCommerceAdminBundle:Visitor:request_table.html.twig') }}
+
+<div class="page-header">
+    <h2>Orders</h2>
+</div>
+{{ include('SplicedCommerceAdminBundle:Visitor:orders_table.html.twig') }}
+
+{% endblock %}

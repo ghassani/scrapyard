@@ -1,0 +1,142 @@
+{% form_theme form "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.payment 'SplicedCommerceBundle:Checkout/Form:payment_method.html.twig' %}
+{% form_theme form.shipment 'SplicedCommerceBundle:Checkout/Form:shipping_method.html.twig' %}
+{% if form.customer is defined %}
+	{% form_theme form.customer 'SplicedCommerceBundle:Form:repeated_password_field_labeless.html.twig' %}
+	{% form_theme form.customer "SplicedCommerceBundle:Form:bootstrap_form_row.html.twig" %}
+{% endif %}
+
+<div class="checkout-login">
+    
+    <div class="page-header">
+        <h1>Checkout</h1>
+    </div>
+    
+    {{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+    {{ include("SplicedCommerceBundle:Checkout/Block:flashes.html.twig") }}
+    {{ include("SplicedCommerceBundle:Security/Block:social_login_inline.html.twig") }}
+    
+    {{ form_errors(form) }} 
+    
+    <form method="post" action="{{ path('commerce_checkout') }}" id="form-checkout" class="form-checkout-onepage" novalidate>
+    	{% if not is_granted('ROLE_USER') %}
+    		<div class="row">
+    			<div class="col-lg-6 col-sm-6">
+    				<h3>Checkout as Guest</h3>                
+        			{{ form_row(form.email) }}
+					{% if form.customer is defined %}
+		            	<div class="alert alert-info">You can optionally provide a password to register an account. 
+		                This will allow you to keep track of your order easier, as well as make future purchases a breeze</div>
+						{{ form_row(form.customer.plainPassword) }}
+	                    {{ form_rest(form.customer) }}
+    				{% endif %}
+    			</div>
+    			<div class="col-lg-6 col-sm-6">
+					&nbsp;
+				</div>
+    		</div>      	
+    	{% endif %}
+
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="page-header">
+					<h1>Billing Address</h1>
+				</div>
+		
+				{% if app.user and is_granted('ROLE_USER') and app.user.addresses|length  %}
+				<div class="btn-group">		  
+				  	 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					    Use Saved Address <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu">
+						{% for address in app.user.addresses %} 
+				  			<li>
+				  				<a href="javascript:void" class="saved-shipping-address" data-id="{{ address.id }}" data-type="billing">
+				  					{% if address.addressLabel|length %}
+				  						{{ address.addressLabel }} - {{  address.address }} {{ address.city }} {{  address.state }}
+				  					{% else %}
+				  						{{  address.address }} {{ address.city }} {{  address.state }}
+				  					{% endif %}
+				  				</a>
+				  			</li>
+						{% endfor %}
+						</ul>
+				</div>
+				{% endif %}
+		
+				{{ include("SplicedCommerceBundle:Checkout:Form/billing_address.html.twig", { 'form' : form }) }}
+    		</div>
+    		<div class="col-lg-6">
+				<div class="page-header">
+					<h1>Shipping Address <a href="javascript:void(0);" class="btn btn-info set-shipping-to-billing">Use My Billing Address</a></h1>
+				</div>
+				
+				  
+				  {% if app.user and is_granted('ROLE_USER') and app.user.addresses|length  %}
+				  	 <div class="btn-group"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					    Use Saved Address <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu">
+						{% for address in app.user.addresses %} 
+				  			<li>
+				  				<a href="javascript:void" class="saved-shipping-address" data-id="{{ address.id }}" data-type="shipping">
+				  					{% if address.addressLabel|length %}
+				  						{{ address.addressLabel }} - {{  address.address }} {{ address.city }} {{  address.state }}
+				  					{% else %}
+				  						{{  address.address }} {{ address.city }} {{  address.state }}
+				  					{% endif %}
+				  				</a>
+				  			</li>
+						{% endfor %}
+						</ul>
+						</div>
+				  {% endif %}
+				
+
+				{{ include("SplicedCommerceBundle:Checkout:Form/shipping_address.html.twig", { 'form' : form }) }}
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="page-header">
+					<h1>Shipping Method</h1>
+				</div>
+				
+				<div id="shipping-methods">
+					{% if form.vars.data.destinationCountry|length > 0 %}
+						<div class="alert alert-info">
+					    	Select your orders shipping method from the choices below.
+						</div>	
+									
+					{% else %}
+						<div class="alert alert-danger">
+						Please set your shipping address so we can give you some options here
+						</div>		
+					{% endif %}
+					
+					{{ form_widget(form.shipment.userSelection) }}
+					{{ form_errors(form.shipment.userSelection) }}
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6">
+				<div class="page-header">
+					<h1>Payment Method</h1>
+				</div>
+		
+				{{ form_widget(form.payment.paymentMethod,{
+					'mainForm' : form,
+					'step' : step,
+					'order' : form.vars.data,
+				}) }}
+	
+			</div>
+		</div>
+		
+		{{ form_rest(form) }}
+		
+		<div class="form-actions">
+			<input type="submit" class="btn btn-success checkout-disable-on-submit" value="Continue" id="checkout-continue-button" />
+		</div>
+   </form>
+</div>

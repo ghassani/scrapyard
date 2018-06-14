@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spliced.commerce.router.class">Spliced\Component\Commerce\Routing\Router</parameter>
+    </parameters>
+
+    <services>
+        <service id="commerce.router" class="%spliced.commerce.router.class%">
+            <argument type="service" id="commerce.router.parent" />
+            <argument type="service" id="commerce.configuration" />
+            <argument type="service" id="commerce.entity_manager" />
+            <argument type="service" id="session" />
+            <argument type="service" id="commerce.affiliate_manager" />
+            <argument type="service" id="kernel" />
+        </service> 
+    </services>
+</container>

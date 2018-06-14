@@ -1,0 +1,51 @@
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded">
+		<thead>
+			<tr>
+				<th>SKU</th>
+				<th>Product Name</th>
+				<th>Quantity</th>
+				<th>Sale Price</th>
+				<th>Total Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in order.items %}
+			<tr>
+				<td>{{ item.sku }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.quantity }}</td>
+				<td class="text-right">${{ number_format(item.salePrice) }}</td>
+				<td class="text-right">${{ number_format(item.finalPrice) }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3" rowspan="5" class="text-right"></td>
+			</tr>
+			<tr>
+				<th class="text-right">Subtotal</th>
+				<td class="text-right">
+					${{ commerce_order_subtotal(order, false) }}
+				</td>
+			</tr>
+			<tr>
+	
+				<th class="text-right">Taxes</th>
+				<td class="text-right">${{ commerce_order_tax(order) }}</td>
+			</tr>
+			<tr>
+	
+				<th class="text-right">Shipping</th>
+				<td class="text-right">${{ commerce_order_shipping(order) }}</td>
+			</tr>
+			<tr>
+				<th class="text-right">Total</th>
+				<td class="text-right">
+					<div class="price">
+						<span class="price">${{ commerce_order_total(order, true) }}</span>
+					</div>
+				</td>
+			</tr> 
+		</tfoot>
+	</table>

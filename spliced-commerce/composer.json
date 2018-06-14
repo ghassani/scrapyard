@@ -1,0 +1,24 @@
+{
+	"name" : "spliced/commerce",
+	"description" : "Spliced Media Commerce Platform for Symfony 2.3.x",
+	"type" : "library",
+	"authors" : [{
+		"email" : "ghassani@splicedmedia.com",
+		"name" : "Gassan Idriss"
+	}
+	],
+	"homepage" : "http://www.splicedmedia.com",
+	"license" : [
+		"Apache-2.0"
+	],
+	"require" : {
+		"php" : ">=5.5"
+		
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Spliced\\" : "src/"
+		}
+	},
+	"minimum-stability" : "dev"
+}

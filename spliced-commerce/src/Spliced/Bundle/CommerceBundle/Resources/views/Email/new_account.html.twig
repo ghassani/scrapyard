@@ -1,0 +1,17 @@
+<body style="font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0; margin: 0 auto; ">
+
+<a href="{{ commerce_get_config('commerce.store.url') }}">
+    <img src="{{ commerce_get_config('commerce.store.url') }}/bundles/splicedcommerce/images/logo_email_small_old.png" alt="{{ commerce_get_config('commerce.store.name') }}"  style="margin-bottom:10px;" border="0"/>
+</a>
+
+<h1 style="font-size:14px; font-weight:normal; line-height:22px; margin:0 0 11px 0;">Your Account Has Been Created</h1>
+
+<p>You can now log in for all future purchases. Being logged in while making your future purchases will allow you to track your orders more easily</p>
+
+<p>You can log in with your email address, {{ user.email }}</p>
+
+<p>Your password is not displayed for security purposes. If you forget your password, you can reset it on our website</p>
+
+{{ commerce_get_config('commerce.store.name') }}
+
+</body> 

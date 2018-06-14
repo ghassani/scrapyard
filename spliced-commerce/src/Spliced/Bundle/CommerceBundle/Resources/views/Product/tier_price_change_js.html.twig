@@ -1,0 +1,9 @@
+
+<script>
+$(function () {
+    $("#add-to-cart-qty-{{ product.id }}").live('change', function(e){
+    	var tierData = $.parseJSON({%spaceless%}{{ product.tierDataAsJson|raw }}{%endspaceless%});
+    	alert(tierData);
+    });
+});
+</script>

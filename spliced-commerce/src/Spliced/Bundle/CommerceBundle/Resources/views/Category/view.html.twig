@@ -1,0 +1,54 @@
+{#
+	Category/view.html.twig
+	@package SplicedCommerceBundle
+	@author Gassan Idriss - ghassani@splicedmedia.com
+
+	@var category
+	@var viewMode
+	@var prododucs
+	@var productSortOrderForm
+#}
+{% extends 'SplicedCommerceBundle::Layouts/2columns-left.html.twig' %}
+
+{% block title %}{{ category.name }} | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path( category.urlSlug ) }}" />
+{% endblock %}
+
+{% block left %}
+	{{ include("SplicedCommerceBundle:Category:Blocks/sub_categories.html.twig", {}) }}
+
+	{{ include('SplicedCommerceBundle:Category/Blocks:filters.html.twig') }}
+{% endblock %}
+
+
+{% block content %}
+	<div class="page-header">
+	    <h1>{{ category.name }}</h1>
+    </div>
+    
+	{% if category.description|length %}
+		<div class="well">{{ category.description|raw }}</div>
+	{% endif %}
+
+	{{ include('SplicedCommerceBundle:Category/View:sort_order_bar.html.twig', {}) }}
+	
+    {% if products is defined %}
+	    {{ knp_pagination_render(products, 'SplicedCommerceBundle:Common:Pagination/twitter_bootstrap_pagination.html.twig') }}
+	{% endif %}
+
+    <div class="total-products text-right">
+       <strong> Total Products Found:</strong> {{ products.getTotalItemCount() }}
+    </div>
+	{%  if productFilterManager.displayMode == 'grid' %}
+		{{ include('SplicedCommerceBundle:Product:view_grid.html.twig') }}
+	{%  else %}
+		{{ include('SplicedCommerceBundle:Product:view_list.html.twig') }}
+	{% endif %} 
+
+    {% if products is defined %}
+		{{ knp_pagination_render(products, 'SplicedCommerceBundle:Common:Pagination/twitter_bootstrap_pagination.html.twig') }}
+	{% endif %}
+
+{% endblock %} 

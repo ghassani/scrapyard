@@ -1,0 +1,203 @@
+<MvCOMMENT>
+ * Render_Utilities
+ *
+ * Renders Utilities Page
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Utilities" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	
+	<div class="panel-group" id="utility-options" role="tablist" aria-multiselectable="true">
+
+	    <div class="panel panel-default">
+	        <div class="panel-heading" role="tab" id="productRouteGeneratorHeading">
+	            <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#utility-options" href="#productRouteGenerator" aria-expanded="true" aria-controls="productRouteGenerator">
+		          Product Route Generator
+		        </a>
+		      </h4>
+	        </div>
+
+	        <div id="productRouteGenerator" class="panel-collapse collapse" role="tabpanel" aria-labelledby="productRouteGeneratorHeading">
+	            <div class="panel-body">
+	                <form method="post" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=utilities&Module_Sub_Action=generate&context=products' }">
+	                    <fieldset>
+	                        <div class="well well-sm">
+	                            Generate routes in bulk for products, categories, or pages with custom pattern and settings.
+	                        </div>
+
+	                        <div class="row">
+	                            <div class="col-lg-10 col-md-10">
+	                                <div class="form-group">
+	                                    <label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every product on save or updated for every product on update. You can use the tokens to include dynamic parameters."></i> Product</label>
+	                                    <input type="text" class="form-control" name="generate_settings:product_route_pattern" value="{ g.router_settings:product_route_pattern }" />
+	                                </div>
+	                            </div>
+	                            <div class="col-lg-2 col-md-2">
+	                                <div class="form-group">
+	                                    <label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+	                                    <input type="text" class="form-control" name="generate_settings:product_route_pattern_space" maxlength="1" value="{ g.router_settings:product_route_pattern_space }" />
+	                                </div>
+	                            </div>
+	                        </div>
+
+	                        <div class="row">
+	                            <div class="col-lg-6 col-md-6">
+	                                <div>
+	                                    <strong>Current Product Pattern:</strong>
+	                                    <MvEVAL EXPR="{ g.router_settings:product_route_pattern }" />
+	                                    <strong>Space Replacement:</strong>
+	                                    <MvEVAL EXPR="{ g.router_settings:product_route_pattern_space }" />
+	                                </div>
+	                            </div>
+	                            <div class="col-lg-6 col-md-6">
+	                                &nbsp;
+	                            </div>
+	                        </div>
+
+	                       <div class="form-actions text-right"><button type="submit" class="btn btn-primary btn-sm">Generate Product Routes</button></div>
+	                    </fieldset>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+
+
+
+
+
+		<div class="panel panel-default">
+	        <div class="panel-heading" role="tab" id="categoryRouteGeneratorHeading">
+	            <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#utility-options" href="#categoryRouteGenerator" aria-expanded="true" aria-controls="categoryRouteGenerator">
+		          Category Route Generator
+		        </a>
+		      </h4>
+	        </div>
+
+	        <div id="categoryRouteGenerator" class="panel-collapse collapse" role="tabpanel" aria-labelledby="categoryRouteGeneratorHeading">
+	            <div class="panel-body">
+					<form method="post" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=utilities&Module_Sub_Action=generate&context=categories' }">		
+						<fieldset>
+							<div class="well well-sm">
+								Generate routes in bulk for categories.
+							</div>
+
+							<div class="row">
+								<div class="col-lg-10 col-md-10">
+									<div class="form-group">
+										<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every category."></i> Product</label>
+										<input type="text" class="form-control" name="generate_settings:category_route_pattern" value="{ g.router_settings:category_route_pattern }" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="form-group">
+										<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+										<input type="text" class="form-control" name="generate_settings:category_route_pattern_space" maxlength="1" value="{ g.router_settings:category_route_pattern_space }" />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-6 col-md-6">
+									<div>
+										<strong>Current Category Pattern:</strong> <MvEVAL EXPR = "{ g.router_settings:category_route_pattern }" />
+										<strong>Space Replacement:</strong> <MvEVAL EXPR = "{ g.router_settings:category_route_pattern_space }" />
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6">
+									&nbsp;
+								</div>
+							</div>
+
+							<div class="form-actions text-right"><button type="submit" class="btn btn-primary btn-sm">Generate Category Routes</button></div>
+						</fieldset>
+					</form>
+	            </div>
+	        </div>
+	    </div>
+
+
+		<div class="panel panel-default">
+	        <div class="panel-heading" role="tab" id="pageRouteGeneratorHeading">
+	            <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#utility-options" href="#pageRouteGenerator" aria-expanded="true" aria-controls="pageRouteGenerator">
+		          Page Route Generator
+		        </a>
+		      </h4>
+	        </div>
+
+	        <div id="pageRouteGenerator" class="panel-collapse collapse" role="tabpanel" aria-labelledby="pageRouteGeneratorHeading">
+	            <div class="panel-body">
+					<form method="post" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=utilities&Module_Sub_Action=generate&context=pages' }">		
+						<fieldset>
+							<div class="well well-sm">
+								Generate routes in bulk for pages.
+							</div>
+
+							<div class="row">
+								<div class="col-lg-10 col-md-10">
+									<div class="form-group">
+										<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The request pattern defined here will be generated for every page."></i> Product</label>
+										<input type="text" class="form-control" name="generate_settings:page_route_pattern" value="{ g.router_settings:page_route_pattern }" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="form-group">
+										<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="All spaces will be replaced with this character"></i> Spaces</label>
+										<input type="text" class="form-control" name="generate_settings:page_route_pattern_space" maxlength="1" value="{ g.router_settings:page_route_pattern_space }" />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-6 col-md-6">
+									<div>
+										<strong>Current Page Pattern:</strong> <MvEVAL EXPR = "{ g.router_settings:page_route_pattern }" />
+										<strong>Space Replacement:</strong> <MvEVAL EXPR = "{ g.router_settings:page_route_pattern_space }" />
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6">
+									&nbsp;
+								</div>
+							</div>
+
+							<div class="form-actions text-right"><button type="submit" class="btn btn-primary btn-sm">Generate Page Routes</button></div>
+						</fieldset>
+					</form>
+	            </div>
+	        </div>
+	    </div>
+
+
+		<div class="panel panel-default">
+	        <div class="panel-heading" role="tab" id="dangerZoneHeading">
+	            <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#utility-options" href="#dangerZone" aria-expanded="true" aria-controls="dangerZone">
+		          Danger Zone
+		        </a>
+		      </h4>
+	        </div>
+
+	        <div id="dangerZone" class="panel-collapse collapse" role="tabpanel" aria-labelledby="dangerZoneHeading">
+	            <div class="panel-body">
+					<a href="javascript:;" id="delete_all_routes" confirm-href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=utilities&Module_Sub_Action=delete-all' }" class="btn btn-danger">
+						<i class="fa fa-trash"></i> Delete All Routes
+					</a>
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+
+	<script>
+		$(document).ready(function($){
+			$('#delete_all_routes').bind('click', function(e){
+				if(confirm('All Routes Will Be Deleted! Are You Sure?')) {
+					window.location.href = $(this).attr('confirm-href');
+				}
+			});
+		});
+	</script>
+	
+
+
+</MvFUNCTION>

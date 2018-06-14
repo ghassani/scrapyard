@@ -1,0 +1,57 @@
+{% macro validator_prototype(prototype) %}
+    {% spaceless %}
+    <tr>
+	    <td>{{ form_widget(prototype.type, { 'attr' : {'class' : 'form-control attribute-data-validation-type' } }) }}</td>
+	    <td>{{ form_widget(prototype.error_message, { 'attr' : {'class' : 'form-control' } }) }}</td>
+	    <td>
+	    	<div class="type-regexp-settings hide">
+	    		<label>Expression</label> {{ form_widget(prototype.regular_expression, { 'attr' : {'class' : 'form-control' } }) }}
+	    	</div>
+	    </td>
+	    <td>
+	        <a href="#" class="delete-product-attribute-option-user-data-validator" title="Delete Validator"><i class="icon icon-trash"></i></a>
+	    </td>
+    </tr>
+    {% endspaceless %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+{% if form.optionData is defined %}
+<table class="table table-bordered table-condensed product-attribute-option-user-data-validators">
+	<thead>
+		<tr>
+	    	<th width="30%">Type</th>
+	    	<th width="40%">Error Message</th>
+	    	<th></th>
+	    	<th width="20"></th>
+	    </tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="4" class="text-right">
+				<a href="#" class="btn btn-primary btn-sm add-product-attribute-option-user-data-validator" data-prototype="{{ renderHelper.validator_prototype(form.optionData.validators.vars.prototype)|e }}"><i class="icon icon-plus"></i> Add Validation Rule</a>			
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		{% for validator in form.optionData.validators %}
+		    <tr>
+			    <td>{{ form_widget(validator.type, { 'attr' : {'class' : 'form-control attribute-data-validation-type' } }) }}</td>
+			    <td>{{ form_widget(validator.error_message, { 'attr' : {'class' : 'form-control' } }) }}</td>
+			    <td>
+			    	<div class="type-regexp-settings {{ validator.type.vars.value == 8 ? '' : 'hide' }}">
+			    		<label>Expression</label> {{ form_widget(validator.regular_expression, { 'attr' : {'class' : 'form-control' } }) }}
+			    	</div>
+			    </td>
+			    <td>
+			        <a href="#" class="delete-product-attribute-option-user-data-validator" title="Delete Validator"><i class="icon icon-trash"></i></a>
+			    </td>
+		    </tr>
+		{% endfor %}
+		<tr class="no-results {{ form.optionData.validators|length ? 'hide' : '' }}">
+			<td colspan="4" class="text-center"><strong>No Validation Rules Set</strong></td>
+		</tr>
+	</tbody>
+</table>
+{% endif %}

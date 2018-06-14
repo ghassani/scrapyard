@@ -1,0 +1,16 @@
+{% extends layout %}
+
+{% block title %}{{ page.pageTitle }} | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('page.urlSlug') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="cms-page cms-page-wrapper">
+	<div class="page-header">
+	    <h1>{{ page.pageTitle }}</h1>
+	</div>
+	{{ page.content|raw }}
+</div>
+{% endblock content %}

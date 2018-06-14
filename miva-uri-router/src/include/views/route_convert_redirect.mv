@@ -1,0 +1,27 @@
+
+<MvFUNCTION NAME = "Render_Route_Convert_Redirect" PARAMETERS = "route var, product var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+<div class="row row-route-variant row-redirect row-custom">
+		<div class="col-lg-8 col-md-8">
+			<div class="form-group">
+				<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="The local path, or fully qualified url this redirect route should map to."></i> Redrect Path</label>
+				<input type="text" class="form-control" name="route:redirect_path" value="{ l.route:redirect_path }" />
+			</div>
+		</div>
+
+		<div class="col-lg-4 col-md-4">
+			<label for=""><i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Optional HTTP Status Code to use for redirect. Defaults to 200 OK."></i> Status Code</label>
+	
+			<ul class="list-inline">
+				<li class="radio">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  200, l.route:options:header_status, '200 OK' ) }"></label>
+				</li>
+				<li class="radio">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  301, l.route:options:header_status, '301 Redirect' ) }"></label>
+				</li>
+				<li class="radio">
+					<label><MvEVAL EXPR = "{ [ g.Module_Library_Utilities ].DrawRadio( 'route:options:header_status',  404, l.route:options:header_status, '404 Not Found' ) }"></label>
+				</li>
+			</ul>
+		</div>
+	</div>	
+</MvFUNCTION>

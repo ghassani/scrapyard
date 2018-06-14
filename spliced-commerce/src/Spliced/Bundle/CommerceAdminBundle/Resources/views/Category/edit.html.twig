@@ -1,0 +1,18 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}{{ form.vars.data.name }} | Categories | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left %}
+<ul class="nav nav-pills nav-stacked {# nav-tabs #}">
+  <li class="active"><a href="#Details" data-toggle="tab">Details</a></li>
+  <li class=""><a href="#Products" data-toggle="tab">Products</a></li>
+</ul>
+{% endblock %}
+
+{% block content -%}
+	{{ include("SplicedCommerceAdminBundle:Category:edit_content.html.twig") }}
+{% endblock %}

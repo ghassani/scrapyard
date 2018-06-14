@@ -1,0 +1,201 @@
+<MvCOMMENT>
+
+
+
+
+</MVCOMMENT>
+<MvFUNCTION NAME="SubComponentModule_Initialize" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvFOREACH ITERATOR="l.check_item" ARRAY="l.all_settings:_mgr:items" INDEX="l.index">
+		<MvCOMMENT>cmp-mv-stdprodfields - Standard Product Fields</MvCOMMENT>
+		<MvIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-mv-stdprodfields' }">
+			<MvASSIGN NAME="l.void" VALUE="{ Routes_Load_By_Product_Code(l.all_settings:product:code, l.all_settings:product:routes )}" />
+			<MvASSIGN NAME="l.has_extension" VALUE="1" />
+			<MvFOREACHSTOP />
+
+		<MvELSEIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-cssui-prodlist' }">
+			<MvFUNCTIONRETURN VALUE="{ SubComponentModule_Initialize_ProductList(l.module, l.item, l.all_settings, l.settings) }" />
+		
+		<MvELSEIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-cssui-cattree' }">
+			<MvFUNCTIONRETURN VALUE="{ SubComponentModule_Initialize_CategoryTree(l.module, l.item, l.all_settings, l.settings) }" />
+
+		<MvELSEIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-mv-stdcatfields' }">
+			<MvFUNCTIONRETURN VALUE="{ SubComponentModule_Initialize_StandardCategoryFields(l.module, l.item, l.all_settings, l.settings) }" />
+
+		<MvELSEIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-cssui-basket' }">
+			<MvFUNCTIONRETURN VALUE="{ SubComponentModule_Initialize_Basket(l.module, l.item, l.all_settings, l.settings) }" />
+		<MvELSEIF EXPR="{ l.item EQ l.check_item:item_code AND l.check_item:module:code EQ 'cmp-cssui-breadcrumbs' }">
+
+			<MvFUNCTIONRETURN VALUE="{ SubComponentModule_Initialize_Breadcrumbs(l.module, l.item, l.all_settings, l.settings) }" />		
+		</MvIF>
+
+	</MvFOREACH>
+
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_ProductList" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_ProductList(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvFOREACH ITERATOR="l.product" ARRAY="l.settings:products" INDEX="l.index">
+		<MvASSIGN NAME="l.product_codes" INDEX="{ l.index }" VALUE="{ l.product:code }" >
+	</MvFOREACH>	
+
+	<MvASSIGN NAME="l.routes_count"  VALUE="{ Routes_Load_Active_By_Product_Codes(l.product_codes, l.routes) }" />
+	<MvASSIGN NAME="l.product_count" VALUE="{ miva_array_elements(l.settings:products) }" />
+	<MvASSIGN NAME="l.product_index" VALUE="1">
+
+	<MvWHILE EXPR="{ l.product_index LE l.product_count }">
+	    <MvASSIGN NAME="l.route_index" VALUE="1">
+	    <MvASSIGN NAME="l.product_route_index" VALUE="1">
+	    <MvREFERENCEARRAY NAME="l.product" VARIABLE="l.settings:products">
+	        <MvDIMENSION INDEX="{ l.product_index }">
+	    </MvREFERENCEARRAY>
+
+	    <MvWHILE EXPR="{ l.route_index LE l.routes_count }">
+			<MvIF EXPR="{ l.routes[ l.route_index ]:product_code EQ l.product:code }">
+				<MvASSIGN NAME="l.product:routes" VALUE="{ l.routes[ l.route_index ] }" INDEX="{ l.product_route_index }" />
+				<MvIF EXPR="{ l.routes[ l.route_index ]:is_canonical EQ 1 }">
+					<MvASSIGN NAME="l.product:route" VALUE="{ l.routes[ l.route_index ]:request_path }" />
+				</MvIF>
+
+				<MvASSIGN NAME="l.product_route_index " VALUE="{ l.product_route_index + 1 }">
+			</MvIF>
+
+			<MvASSIGN NAME="l.route_index " VALUE="{ l.route_index + 1 }">
+	    </MvWHILE>
+
+	    <MvASSIGN NAME="l.product_index " VALUE="{ l.product_index + 1 }">
+	</MvWHILE>
+
+	<MvCOMMENT>
+		<MvEVAL EXPR="{ glosub(miva_array_serialize(l.settings:products), ',', '<br />') }" />
+	</MvCOMMENT>
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_CategoryTree" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_CategoryTree(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvFOREACH ITERATOR="l.category" ARRAY="l.all_settings:cattree_categories" INDEX="l.index">
+		<MvASSIGN NAME="l.category_codes" INDEX="{ l.index }" VALUE="{ l.category:code }" >
+	</MvFOREACH>
+	
+
+	<MvASSIGN NAME="l.routes_count"   VALUE="{ Routes_Load_Active_By_Category_Codes(l.category_codes, l.routes) }" />
+	<MvASSIGN NAME="l.category_count" VALUE="{ miva_array_elements(l.all_settings:cattree_categories) }" />
+	<MvASSIGN NAME="l.category_index" VALUE="1">
+
+	<MvWHILE EXPR="{ l.category_index LE l.category_count }">
+	    <MvASSIGN NAME="l.route_index" VALUE="1">
+	    <MvASSIGN NAME="l.category_route_index" VALUE="1">
+	    <MvREFERENCEARRAY NAME="l.category" VARIABLE="l.all_settings:cattree_categories">
+	        <MvDIMENSION INDEX="{ l.category_index }">
+	    </MvREFERENCEARRAY>
+
+	    <MvWHILE EXPR="{ l.route_index LE l.routes_count }">
+			<MvIF EXPR="{ l.routes[ l.route_index ]:category_code EQ l.category:code }">
+				<MvASSIGN NAME="l.category:routes" VALUE="{ l.routes[ l.route_index ] }" INDEX="{ l.category_route_index }" />
+				<MvIF EXPR="{ l.routes[ l.route_index ]:is_canonical EQ 1 }">
+					<MvASSIGN NAME="l.category:route" VALUE="{ l.routes[ l.route_index ]:request_path }" />
+				</MvIF>
+
+				<MvASSIGN NAME="l.category_route_index " VALUE="{ l.category_route_index + 1 }">
+			</MvIF>
+
+			<MvASSIGN NAME="l.route_index " VALUE="{ l.route_index + 1 }">
+	    </MvWHILE>
+
+	    <MvASSIGN NAME="l.category_index " VALUE="{ l.category_index + 1 }">
+	</MvWHILE>
+
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_StandardCategoryFields" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_StandardCategoryFields(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ Routes_Load_Active_By_Category_Code(l.all_settings:category:code, l.all_settings:category:routes ) }">
+		<MvFOREACH ITERATOR = "l.route" ARRAY = "l.all_settings:category:routes" INDEX = "l.index">
+			<MvIF EXPR = "{ l.route:is_canonical EQ 1 }">
+				<MvASSIGN NAME="l.all_settings:category:route" VALUE="{ l.route:request_path }" />
+			</MvIF>
+		</MvFOREACH>
+	</MvIF>
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_Basket" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_Basket(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvCOMMENT>
+
+	<MvFOREACH ITERATOR="l.item" ARRAY="l.all_settings:basket:items" INDEX="l.index">
+		<MvASSIGN NAME="l.product_codes" INDEX="{ l.index }" VALUE="{ l.item:product:code }" >
+	</MvFOREACH>	
+
+	<MvASSIGN NAME="l.routes_count"  VALUE="{ Routes_Load_Active_By_Product_Codes(l.product_codes, l.routes) }" />
+	<MvASSIGN NAME="l.item_count" VALUE="{ miva_array_elements(l.all_settings:basket:items) }" />
+	<MvASSIGN NAME="l.item_index" 	 VALUE="1">
+
+
+	<MvWHILE EXPR="{ l.item_index LE l.item_count }">
+	    <MvASSIGN NAME="l.route_index" VALUE="1">
+	    <MvASSIGN NAME="l.item_route_index" VALUE="1">
+	    <MvREFERENCEARRAY NAME="l.item" VARIABLE="l.all_settings:basket:items[ l.item_index ]">
+	        <MvDIMENSION INDEX="{ l.item_index }">
+	    </MvREFERENCEARRAY>
+
+	    <MvWHILE EXPR="{ l.route_index LE l.routes_count }">
+			<MvIF EXPR="{ l.routes[ l.route_index ]:product_code EQ l.item:product:code }">
+				<MvASSIGN NAME="l.item:product:routes" VALUE="{ l.routes[ l.route_index ] }" INDEX="{ l.item_route_index }" />
+				<MvIF EXPR="{ l.routes[ l.route_index ]:is_canonical EQ 1 }">
+					<MvASSIGN NAME="l.item:link" VALUE="{ l.routes[ l.route_index ]:request_path }" />
+				</MvIF>
+
+				<MvASSIGN NAME="l.item_route_index " VALUE="{ l.item_route_index + 1 }">
+			</MvIF>
+
+			<MvASSIGN NAME="l.route_index " VALUE="{ l.route_index + 1 }">
+	    </MvWHILE>
+
+	    <MvASSIGN NAME="l.item_index " VALUE="{ l.category_index + 1 }">
+	</MvWHILE>
+	</MvCOMMENT>
+
+</MvFUNCTION>
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_Breadcrumbs" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_Breadcrumbs(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+</MvFUNCTION>
+
+
+<MvFUNCTION NAME="SubComponentModule_Initialize_StandardProductFields" PARAMETERS="module var, item, all_settings var, settings var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SubComponentModule_Initialize_StandardProductFields(module var, item, all_settings var, settings var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ Routes_Load_Active_By_Product_Code(l.all_settings:product:code, l.all_settings:product:routes ) }">
+		<MvFOREACH ITERATOR = "l.route" ARRAY = "l.all_settings:product:routes" INDEX = "l.index">
+			<MvIF EXPR = "{ l.route:is_canonical EQ 1 }">
+				<MvASSIGN NAME="l.all_settings:product:route" VALUE="{ l.route:request_path }" />
+			</MvIF>
+		</MvFOREACH>
+	</MvIF>
+	
+
+</MvFUNCTION>

@@ -1,0 +1,25 @@
+  <div class="modal fade" id="addPaymentMemo" tabindex="-1" role="dialog" aria-labelledby="addPaymentMemoLabel" aria-hidden="true">
+    <form role="form" class="" method="post" action="{{ path('commerce_admin_order_payment_add_memo', { 'paymentId' : order.payment.id }) }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add Payment Memo <small>Order {{ order.orderNumber }}</small></h4>
+        </div>
+        <div class="modal-body">
+        	{% if order.payment.paymentStatus == 'complete' %}
+        	<div class="alert alert-info">
+        		<h4>Payment Already Complete</h4>
+        		The payment associated with this memo has already been complete.
+        	</div>
+        	{% endif %}
+        	{{ include('SplicedCommerceAdminBundle:OrderPayment:add_memo_form.html.twig') }}
+        </div> 
+        <div class="modal-footer">
+	    	<button type="button" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+	    	<button type="submit" class="btn btn-success">Add Memo</button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>

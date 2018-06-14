@@ -1,0 +1,99 @@
+<MIVA STANDARDOUTPUTLEVEL = "" IDENT = "">
+
+<MvFUNCTION NAME = "Module_Description" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Description(module var)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.module:code"		VALUE = "spliced-mm-uri-router">
+	<MvASSIGN NAME = "l.module:name"		VALUE = "URI Router">
+	<MvASSIGN NAME = "l.module:provider"	VALUE = "Spliced Media">
+	<MvASSIGN NAME = "l.module:author"		VALUE = "l.module:author">
+	<MvASSIGN NAME = "l.module:version"		VALUE = "0.5016">
+	<MvASSIGN NAME = "l.module:api_ver"		VALUE = "9.0000">
+	<MvASSIGN NAME = "l.module:features"	VALUE = "system, vis_system, component, data_store, vis_store, vis_product, vis_category, util, vis_util, provision_store, not_prod, not_cat, json, clientside">
+
+	<MvIFDEF NAME = "DEV">
+		<MvASSIGN NAME = "l.module:name"		VALUE = "{ l.module:name $ ' DEV' }">
+		<MvASSIGN NAME = "l.module:version"		VALUE = "{ l.module:version $ '-DEV' }">
+	</MvIFDEF>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Install_Store" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Install_Store(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT Route_Create_Schema() }">
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT Router_Settings_Insert() }">
+		<MvFUNCTIONRETURN VALUE = 0>
+	</MvIF>
+
+    <MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_Item( 'router',  l.module:code ) }">
+        <MvFUNCTIONRETURN VALUE = 0>
+    </MvIF>
+
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'all_products',  	l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'category',  		l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'category_listing', l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'product',  		l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'related_products', l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'search_results',   l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'breadcrumbs',  	l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'basket',  			l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'upsale',  			l.module:code ) }" />
+    <MvASSIGN NAME = "l.void" VALUE = "{ [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_ItemExtension( 'category_tree',  	l.module:code ) }" />
+    
+    <MvASSIGN NAME = "l.response" VALUE = "{ Licensing_Server_Push_Action(l.module, 'install', '') }" />
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Upgrade_Store" PARAMETERS = "module var, version" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Upgrade_Store(module var, version)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_DB ].Item_Load_Code( 'router', l.null ) }">
+        <MvIF EXPR = "{ NOT [ g.Module_Feature_TUI_MGR ].TemplateManager_Create_Item( 'router',  l.module:code ) }">
+            <MvFUNCTIONRETURN VALUE = 0>
+        </MvIF>
+    </MvIF>
+
+    <MvASSIGN NAME = "l.response" VALUE = "{ Licensing_Server_Push_Action(l.module, 'upgrade', '') }" />
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "Module_Uninstall_Store" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "" ERROROUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Uninstall_Store(module var)') }">
+	</MvIFDEF>
+
+	<MvQUERY NAME	= "Merchant" QUERY	= "{ 'DROP TABLE ' $ g.Store_Table_Prefix $ 'Route' }">
+	<MvQUERY NAME	= "Merchant" QUERY	= "{ 'DROP TABLE ' $ g.Store_Table_Prefix $ 'Router_Settings' }">
+
+    <MvASSIGN NAME = "l.response" VALUE = "{ Licensing_Server_Push_Action(l.module, 'uninstall', '') }" />
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvINCLUDE FILE = "include/functions.mv">
+<MvINCLUDE FILE = "include/db.mv">
+<MvINCLUDE FILE = "include/system.mv"> 
+<MvINCLUDE FILE = "include/product.mv"> 
+<MvINCLUDE FILE = "include/category.mv"> 
+<MvINCLUDE FILE = "include/store.mv"> 
+<MvINCLUDE FILE = "include/component.mv"> 
+<MvINCLUDE FILE = "include/component_functions.mv"> 
+<MvINCLUDE FILE = "include/utility.mv"> 
+<MvINCLUDE FILE = "include/views.mv"> 
+<MvINCLUDE FILE = "include/extensions.mv"> 
+<MvINCLUDE FILE = "include/provision.mv"> 
+<MvINCLUDE FILE = "include/licensing.mv"> 
+<MvINCLUDE FILE = "include/logging.mv">
+<MvINCLUDE FILE = "include/clientside.mv">
+<MvINCLUDE FILE = "include/json.mv">

@@ -1,0 +1,36 @@
+<MvCOMMENT>
+ * Render_Page_Header
+ *
+ * Renders Page Header
+</MvCOMMENT>
+<MvFUNCTION NAME = "Render_Page_Header" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace" ERROROUTPUTLEVEL = "">
+	<div class="hidden hide">
+		<MvIF EXPR = "{ g.module_action EQ 'settings' }">
+			<h1>Route Manager: Settings</h1>
+		<MvELSEIF EXPR = "{ g.module_action EQ 'edit' }">
+			<h1>Route Manager: Editing Route ID <MvEVAL EXPR = "{ l.route:id }" /></h1>
+		<MvELSEIF EXPR = "{ g.module_action EQ 'add' }">
+			<h1>Route Manager: New Route</h1>
+		<MvELSEIF EXPR = "{ g.module_action EQ 'about' }">
+			<h1>Route Manager: About</h1>
+		<MvELSE>
+			<h1>Route Manager</h1>
+		</MvIF>			  
+	</div>
+</div>
+	<div class="row">
+		<div class="col-lg-12 col-md-12">
+			<ul class="list-inline pull-right">
+				<li><a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=list' }" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Manage Your Routes"><i class="fa fa-home"></i> Manage Routes</a></li>
+				<li><a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=settings' }" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Configure this module"><i class="fa fa-cogs"></i> Settings</a></li>
+				<li><a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=utilities' }" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Useful Utilities to make life easier"><i class="fa fa-wrench"></i> Utilities</a></li>
+				<li><a href="{ g.router_settings:admin_storeutility_url $ '&Module_Action=about' }" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="About, License, and Documentation"><i class="fa fa-question-circle"></i> About</a></li>
+			</ul>
+
+			<MvIFDEF NAME = "DEV">
+				<div class="alert alert-danger pull-left"><i class="fa fa-exclamation-triangle"></i> This is a DEVELOPMENT/BETA Version. Only Authorized Stores May Run This Version.</div>
+			</MvIFDEF>
+
+		</div>
+	</div>
+</MvFUNCTION>

@@ -1,0 +1,31 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% stylesheets
+	'@SplicedCommerceAdminBundle/Resources/public/css/fonts.css'
+    '@SplicedCommerceAdminBundle/Resources/public/bootstrap/css/bootstrap.css'
+    '@SplicedCommerceAdminBundle/Resources/public/bootstrap/css/bootstrap-theme.css'
+    '@SplicedCommerceAdminBundle/Resources/public/summernote/summernote.css'
+    '@SplicedCommerceAdminBundle/Resources/public/bootstrap-datepicker/css/datepicker.css'
+    '@SplicedCommerceAdminBundle/Resources/public/font-awesome/css/font-awesome.css'
+    '@SplicedCommerceAdminBundle/Resources/public/xcharts/xcharts.css'
+	'@SplicedCommerceAdminBundle/Resources/public/jstree/themes/default/style.css'
+	'@SplicedCommerceAdminBundle/Resources/public/css/layout.css' 
+    filter='?yui_css'
+    output='/css/commerce_admin_styles.css'
+%}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+{% endstylesheets %}  
+
+<!--[if lt IE 9]>
+{% javascripts
+    '@SplicedCommerceAdminBundle/Resources/public/js/html5shiv.min.js'
+    '@SplicedCommerceAdminBundle/Resources/public/js/respond.min.js'
+    filter='?yui_js'
+    output='/js/commerce_admin_ie.js'
+%}  
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<![endif]-->
+
+
+    

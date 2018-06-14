@@ -1,0 +1,146 @@
+{% macro value_products_to_add_prototype(prototype) %}
+    {% spaceless %}
+    <tr class="sub-section-start section-__name__-__product_name__">
+	    <td>
+	    	{{ form_widget(prototype.product, { 'attr' : { 'class' : 'form-control product-attribute-option-value-product-typeahead'} }) }}
+	    </td>
+	    <td>
+			{{ form_row(prototype.priceAdjustmentType, { 'attr' : { 'class' : 'form-control'} }) }}
+		    {{ form_row(prototype.priceAdjustment, { 'attr' : { 'class' : 'form-control'} }) }}
+	    </td>
+	    <td>
+	        <a href="javascript:void(0);" class="delete-product-attribute-option-value-product" title="Delete Value"><i class="icon icon-trash"></i></a>
+	    </td>
+    </tr>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro value_prototype(prototype) %}
+    {% spaceless %}
+    <tr class="section-start section__name__">
+	    <td>{{ form_widget(prototype.value, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	    <td>{{ form_widget(prototype.publicValue, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	    <td>{{ form_widget(prototype.priceAdjustmentType, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	    <td>{{ form_widget(prototype.priceAdjustment, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	    <td>{{ form_widget(prototype.position, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	    <td>
+	        <a href="javascript:void(0);" class="delete-product-attribute-option" title="Delete Value"><i class="icon icon-trash"></i></a>
+	    </td>
+    </tr>
+    <tr class="section__name__">
+    	<td colspan="6">
+    		<div class="help-block">When this value is selected, add the following product(s) to the shopping cart</div>
+    		
+    		<table class="table table-striped table-bordered table-condensed">
+    			<thead>
+    				<tr>
+    					<th width="50%">Product</th>
+    					<th>Price Adjustment</th>
+    					<th></th>
+    				</tr>
+    			</thead>
+    			<tfoot>
+    				<tr>
+	    				<td colspan="3" class="text-right">
+	    					<a href="javascript:void(0);" title="Add Product" data-prototype="{{ _self.value_products_to_add_prototype(prototype.products.vars.prototype)|e }}" class="btn btn-primary btn-xs add-product-attribute-option-value-product-add"><i class="icon-plus"></i> Add Product</a>
+	    				</td>
+    				</tr>
+    			</tfoot>
+    			<tbody>
+    				<tr class="no-results">
+    					<td colspan="3" class="text-center"><strong>No Products To Add When Selected</strong></td>
+    				</tr>
+    			</tbody>
+    		</table>
+    		
+    	</td>
+    </tr>
+    {% endspaceless %}
+{% endmacro %}
+
+
+{% import _self as renderHelper %}
+
+<table class="table table-striped table-bordered table-condensed product-attribute-option-value-table">
+    <thead>
+	    <tr>
+	        <th>Value</th>
+	        <th>Public Value</th>
+	        <th>Price Adjustment Type</th>
+	        <th>Price Adjustment</th>
+	        <th>Position</th>
+	        <th></th>
+	    </tr>
+    </thead>
+    <tfoot>
+        <tr>
+             <th colspan="7" class="text-right">
+                 <a href="#" title="Add Value" data-prototype="{{ _self.value_prototype(form.values.vars.prototype)|e }}" class="btn btn-primary btn-sm add-product-attribute-option-value"><i class="icon-plus"></i> Add Value</a>
+             </th> 
+        </tr>
+    </tfoot>
+    <tbody class="main-body">
+    	{% set i = 1 %}
+		{% for value in form.values %}
+	        <tr class="section-start section{{ i }}">
+	            <td>{{ form_widget(value.value, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	            <td>{{ form_widget(value.publicValue, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	            <td>{{ form_widget(value.priceAdjustmentType, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	            <td>{{ form_widget(value.priceAdjustment, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	            <td>{{ form_widget(value.position, { 'attr' : { 'class' : 'form-control' } }) }}</td>
+	            <td>
+	                {#
+	                <a href="{{ path('commerce_admin_product_attribute_option_delete_value', { 'id' : attributeOption.id, 'valueId' : value.vars.data.id }) }}" class="delete-product-attribute-option" title="Delete Value" data-target="section{{ i }}"><i class="icon icon-trash"></i></a>
+	                #}
+	            </td>
+	        </tr>
+		    <tr class="section{{ i }}">
+		    	<td colspan="6">
+				    <table class="table table-striped table-bordered table-condensed">
+		    			<thead>
+		    				<tr>
+		    					<th width="50%">Product</th>
+		    					<th width="40%">Settings</th>
+		    					<th></th>
+		    				</tr>
+		    			</thead>
+		    			<tfoot>
+		    				<tr>
+			    				<td colspan="3" class="text-right">
+			    					<a href="javascript:void(0);" title="Add Product" data-prototype="{{ _self.value_products_to_add_prototype(value.products.vars.prototype)|e }}" class="btn btn-primary btn-xs add-product-attribute-option-value-product-add"><i class="icon-plus"></i> Add Product</a>
+			    				</td>
+		    				</tr>
+		    			</tfoot>
+		    			<tbody>
+		    				{% set i2 = 1 %}
+		    				{% for p in value.products %}
+						    <tr class="sub-section-start section-{{ i }}-{{ i2 }}">
+							    <td>
+							    	{{ form_widget(p.product, { 'attr' : { 'class' : 'form-control product-attribute-option-value-product-typeahead'} }) }}
+							    </td>
+							    <td>
+							        {{ form_row(p.priceAdjustmentType, { 'attr' : { 'class' : 'form-control'} }) }}
+                                    {{ form_row(p.priceAdjustment, { 'attr' : { 'class' : 'form-control'} }) }}
+							    </td>
+							    <td>
+							        <a href="javascript:void(0);" class="delete-product-attribute-option-value-product" data-target=".section-{{ i }}-{{ i2 }}" title="Delete Value"><i class="icon icon-trash"></i></a>
+							    </td>
+						    </tr>
+						    {% set i2 = i2+1 %}
+		    				{% endfor %}
+		    				<tr class="no-results {{ value.products|length ? 'hide' : '' }}">
+		    					<td colspan="3" class="text-center"><strong>No Products To Add When Selected</strong></td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    		
+                    
+		    	</td>
+		    </tr>
+		    {% set i = i+1 %}
+	    {% endfor %}
+	    <tr class="no-results {{ form.values|length ? 'hide' : '' }}">
+	        <td colspan="6" class="no-results text-center"><strong>No values were found, you need to add some.</strong></td>
+	    </tr>
+    </tbody>
+</table>	 

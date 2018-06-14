@@ -1,0 +1,188 @@
+<MvCOMMENT>
+| Module_System_Head
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_System_Head" PARAMETERS = "module var, tab" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_System_Head(module var, tab)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.tab NE 'SMROUTER' }">
+		<MvFUNCTIONRETURN VALUE = "1"> 
+	</MvIF>
+	
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+| Module_System_Tabs
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_System_Tabs" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_System_Tabs(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "SMROUTER:URI Router">
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_System_Content
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_System_Content" PARAMETERS = "module var, tab, load_fields" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_System_Content(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ l.tab NE 'SMROUTER' }">
+		<MvFUNCTIONRETURN VALUE = "1"> 
+	</MvIF>
+	
+	<MvEVAL EXPR = "{ Render_Css()  }" />	
+	<MvEVAL EXPR = "{ Render_Js()  }" />			
+	<MvEVAL EXPR = "{ Render_Messages()  }" />		
+
+	<MvIF EXPR = "{ NOT ISNULL g.new_router_settings }">
+		<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load_Admin(g.new_router_settings) }" />
+		<MvEVAL EXPR = "{ Render_Router_Settings(g.new_router_settings) }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load_Admin(g.router_settings) }" />
+		<MvEVAL EXPR = "{ Render_Router_Settings(g.router_settings) }" />
+	</MvIF>
+	
+
+	
+
+	<MvFUNCTIONRETURN VALUE = "1">
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_System_Validate
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_System_Validate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_System_Validate(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_System_Update
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_System_Update" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_System_Update(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR="{  NOT ISNULL g.new_router_settings }">
+		<MvIF EXPR = "{ Router_Settings_Update(g.new_router_settings) EQ 1 }">
+			<MvASSIGN NAME = "g.router_settings" VALUE = "g.new_router_settings" />
+		</MvIF>
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| SystemModule_Screen
+|
+| This is the front end handler for route matching
+</MvCOMMENT>
+<MvFUNCTION NAME = "SystemModule_Screen" PARAMETERS = "module var, screen" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SystemModule_Screen(module var, screen)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load(g.router_settings) }" />
+
+	<MvIF EXPR = "{ g.router_settings:enabled NE 1 }">
+		<MvFUNCTIONRETURN VALUE = 1>
+	</MvIF>
+
+	<MvASSIGN NAME = "l.request_uri_qs_delimiter" VALUE = "?" />
+	<MvIF EXPR = "{ indexof(l.request_uri_qs_delimiter, s.request_uri, 1) GT 0 }">
+		<MvASSIGN NAME = "l.request_uri" VALUE = "{ gettoken(s.request_uri, l.request_uri_qs_delimiter, 1) }" />
+	<MvELSE>
+		<MvASSIGN NAME = "l.request_uri" VALUE = "{ s.request_uri }" />
+	</MvIF>
+
+	<MvASSIGN NAME = "l.route_matched" VALUE = "{ Route_Load_Active_By_Request_Path(l.request_uri, g.route) }">
+	
+
+	<MvIF EXPR = "{ l.route_matched EQ 1 }">
+
+		<MvIF EXPR="{ NOT ISNULL g.route:page_code AND ISNULL g.route:redirect_path }">
+			<MvASSIGN NAME = "g.screen" VALUE = "{ g.route:page_code }" />
+
+		<MvELSEIF EXPR="{ NOT ISNULL g.route:product_code AND ISNULL g.route:redirect_path }">
+			<MvASSIGN NAME = "g.screen" VALUE = "PROD" />
+			<MvASSIGN NAME = "g.product_code" VALUE = "{ g.route:product_code }" />
+			<MvIF EXPR = "{ len(g.route:product_category_code) GT 0 }">
+				<MvASSIGN NAME = "g.category_code" VALUE = "{ g.route:product_category_code }" />
+			</MvIF>
+
+		<MvELSEIF EXPR="{ len(g.route:category_code) GT 0 }">
+			<MvASSIGN NAME = "g.screen" VALUE = "CTGY" />
+			<MvASSIGN NAME = "g.category_code" VALUE = "{ g.route:category_code }" />
+
+		<MvELSEIF EXPR="{ len(g.route:redirect_path) GT 0 AND g.route:redirect_path NE g.route:request_path }">
+			<MvASSIGN NAME = "l.void" VALUE = "{ miva_output_header('Location', 'http://' $ g.domain:name $ g.route:redirect_path ) }" />
+			<MvIF EXPR = "{ g.route:options:header_status EQ 301 }">
+				<MvASSIGN NAME = "l.void" VALUE = "{ miva_output_header('Status', '301 Moved Permanently' ) }" />
+			<MvELSEIF EXPR = "{ g.route:options:header_status EQ 404 }">
+				<MvASSIGN NAME = "l.void" VALUE = "{ miva_output_header('Status', '404 Not Found' ) }" />
+			</MvIF>			
+			<MvASSIGN NAME = "l.void" VALUE = "{ miva_output_flush() }" />			
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{ NOT ISNULL l.request_uri AND l.request_uri NE '/' AND indexofi('merchant.mvc', l.request_uri, 1) EQ 0 AND ISNULL g.Screen AND g.router_settings:not_found_enabled EQ 1 }">
+		<MvASSIGN NAME = "l.null" VALUE = "{ miva_output_header('Status', '404 Not Found' ) }" />
+		<MvIF EXPR = "{ ISNULL g.router_settings:not_found_page }">
+			<MvASSIGN NAME = "g.screen" VALUE = "NTFD" />
+		<MvELSE>					
+			<MvASSIGN NAME = "g.screen" VALUE = "{ g.router_settings:not_found_page }" />
+		</MvIF>
+	</MvIF>
+
+	
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvCOMMENT>
+| SystemModule_Action
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "SystemModule_Action" PARAMETERS = "module var, action" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SystemModule_Action(module var, action)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = "1">
+</MvFUNCTION>
+
+<MvCOMMENT>
+| SystemModule_UIException
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "SystemModule_UIException" PARAMETERS = "module var, exception" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'SystemModule_UIException(module var, exception)') }">
+	</MvIFDEF>
+	
+	<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, l.exception) }">
+
+	<MvFUNCTIONRETURN VALUE = "1">
+</MvFUNCTION>

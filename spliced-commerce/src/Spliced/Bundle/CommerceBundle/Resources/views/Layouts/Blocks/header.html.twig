@@ -1,0 +1,40 @@
+<div class="largest-banner">
+    <img src="{{ asset('/bundles/splicedcommerce/images/largest.jpg') }}" alt="Worlds Largest Upgrade Resource" />
+</div>
+<!-- BODY HEADER SEPARATER START -->
+<div class="header-separator-container">
+	<div class="header-separator">
+		<ul class="inline top-middle-bar">
+			<li>
+		    	<a href="{{ path('homepage') }}" title="Premier Memory Manufacturer and Distributor" class="logo">
+		        	<img src="{{ asset('bundles/splicedcommerce/images/head_logo.png') }}" alt="Premier Memory Manufacturer and Distributor" />
+		        </a>
+		     </li>
+			 <li>
+				<ul class="inline info-bar">
+	        		<li class="phone-number text-center">
+	        			<div class="tollfree">800-240-8577</div>
+	        			<div class="intl">Intl 404-935-4048</div>
+	        		    <div>
+	        		    <a href="{{ path('our-shipping-guarantee') }}" title="Super Fast Shipping!">
+		        				<img src="{{ asset('bundles/splicedcommerce/images/free_ship_header.jpg') }}" width="159" height="68" alt="Free Shipping within the USA!" />
+		        			</a>
+	        		    </div>
+	        		</li>
+	        	</ul>
+			</li>
+			<li class="warranty">
+		        <a href="{{ path('/limited-lifetime-warranty') }}" title="Lifetime Warranty Details">
+		        	<img src="{{ asset('bundles/splicedcommerce/images/lifetime-gurantee.png') }}" alt="Lifetime Warranty" />
+		    	</a>
+		    </li>
+		    <li class="guarantee">
+		    	<a href="{{ path('/30-day-money-back-gurantee') }}" title="30 Day Money Back Guarantee">
+		        	<img src="{{ asset('bundles/splicedcommerce/images/30day-guarantee.png') }}" alt="Super Fast Shipping!" />
+		       </a>
+		   </li>
+		</ul>
+		{% include 'SplicedCommerceBundle:Search:Blocks/default.html.twig' with {} %}
+	</div>
+</div>
+<!-- BODY HEADER SEPARATER END -->

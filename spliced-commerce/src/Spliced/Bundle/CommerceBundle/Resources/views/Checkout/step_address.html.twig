@@ -1,0 +1,59 @@
+
+{{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+{{ include("SplicedCommerceBundle:Checkout/Block:flashes.html.twig") }}
+
+{{ form_errors(form) }}
+
+<form method="post" action="{{ path('checkout') }}" class="checkout-form" novalidate>
+
+<fieldset id="billing_address_input">
+	<div class="page-header">
+		<h1>Billing Address</h1>
+	</div>
+
+	{% if savedBillingAddressForm is defined and savedBillingAddressForm|length and customer.addresses|length %}
+		<div class="input-append input-prepend">
+			<span class="add-on">Saved Addresses</span>
+	    	{{ form_widget(savedBillingAddressForm.addresses, { 'attr' : { 'class' : 'span7 saved-billing-address' }}) }}
+		</div>
+	{% endif %}
+
+	{{ include("SplicedCommerceBundle:Checkout:Form/billing_address.html.twig", { 'form' : form }) }}
+	<div class="text-center">
+		<div class="btn-group" data-toggle="buttons">
+		  <label id="checkout-billing-to-shipping" class="btn btn-info {{ form.vars.data.hasAlternateShippingAddress ? '' : 'active' }}">
+		    <input type="radio" name="options" id="option1"> Ship to this address
+		  </label>
+		  <label id="checkout-alernate-shipping" class="btn btn-info {{ form.vars.data.hasAlternateShippingAddress ? 'active' : '' }}">
+		    <input type="radio" name="options" id="option2"> Ship to another address
+		  </label>
+		</div>
+			
+    </div>
+</fieldset>
+
+<fieldset id="shipping_address_form" class="{{ form.vars.data.hasAlternateShippingAddress ? '' : 'hide' }}">
+	<div class="page-header">
+		<h1>Shipping Address</h1>
+	</div>
+	{% if savedShippingAddressForm is defined and savedShippingAddressForm|length and customer.addresses|length %}
+		<div class="input-append input-prepend">
+			<span class="add-on">Saved Addresses</span>
+	    	{{ form_widget(savedShippingAddressForm.addresses, { 'attr' : { 'class' : 'span6 saved-shipping-address' }}) }}
+		</div>
+	{% endif %}
+	{{ include("SplicedCommerceBundle:Checkout:Form/shipping_address.html.twig", { 'form' : form }) }}
+</fieldset>
+
+{{ include("SplicedCommerceBundle:Checkout/Form:custom_fields.html.twig") }}
+
+{{ form_rest(form) }}
+
+<div class="form-actions">
+    {% if not is_granted('ROLE_USER')  %}
+    	<a href="{{ path('commerce_checkout', {'step' : 1}) }}" data-step="1" class="btn btn-info checkout-move-step checkout-disable-on-submit" id="checkout-back-button">Back</a>
+    {% endif %}
+    <input type="submit" class="btn btn-success checkout-disable-on-submit" value="Continue" id="checkout-continue-button" />
+</div>
+
+</form>

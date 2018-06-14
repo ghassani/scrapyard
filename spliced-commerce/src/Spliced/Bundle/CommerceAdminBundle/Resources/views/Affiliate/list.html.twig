@@ -1,0 +1,88 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block title %}Affiliates | {{ parent() }}{% endblock %}
+
+{% block left -%}
+<form role="form" action="{{ path('commerce_admin_affiliate_filter') }}" class="form form-horizontal affiliate-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:Affiliate:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Affiliate <small>List</small></h1>
+	</div>	
+    
+	{{ knp_pagination_render(affiliates) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if affiliates.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(affiliates, 'Id', 'e.id') }}</th>
+	            	<th{% if affiliates.isSorted('e.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(affiliates, 'Name', 'e.name') }}</th>	            	
+	            	<th{% if affiliates.isSorted('e.website') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(affiliates, 'Website', 'e.website') }}</th>	            	
+	            	<th{% if affiliates.isSorted('e.isComissioned') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(affiliates, 'Iscomissioned', 'e.isComissioned') }}</th>	            	
+	            	<th{% if affiliates.isSorted('e.isActive') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(affiliates, 'Isactive', 'e.isActive') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for affiliate in affiliates %}
+	            <tr>
+					<td><input type="checkbox" value="{{ affiliate.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_affiliate_edit', { 'id': affiliate.id }) }}">{{ affiliate.id }}</a></td>	
+	                <td>{{ affiliate.name }}</td>	
+	                <td>{{ affiliate.website }}</td>	
+	                <td>{{ affiliate.isComissioned }}</td>	
+	                <td>{{ affiliate.isActive }}</td>	
+	                <td>
+                        <a href="{{ path('commerce_admin_affiliate_delete', { 'id': affiliate.id }) }}" class="confirm">
+                            <i class="icon-trash icon-red"></i>
+                        </a>
+                        <a href="{{ path('commerce_admin_affiliate_edit', { 'id': affiliate.id }) }}">
+                            <i class="icon-edit"></i>
+                        </a>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+	    	    
+        {{ knp_pagination_render(affiliates) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_affiliate_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    	    
+    </form>
+{% endblock %}

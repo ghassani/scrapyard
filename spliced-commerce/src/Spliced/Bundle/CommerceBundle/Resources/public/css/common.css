@@ -1,0 +1,5 @@
+input.has-error,
+select.has-error,
+textarea.has-error{
+   border: 1px solid red;
+}

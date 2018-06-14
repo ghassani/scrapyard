@@ -1,0 +1,172 @@
+{{ include("SplicedCommerceBundle:Checkout/Block:progress_bar.html.twig") }}
+
+{% set paymentMethod = commerce_checkout_manager().getPaymentProvider(form.vars.data.payment.paymentMethod) %}
+{% set currentStep = commerce_checkout_manager().currentStep %}
+{% set previousStep = currentStep - 1 %}
+
+<div class="page-header">
+	<h1>Review Order</h1>
+</div>
+
+<div class="alert alert-info alert-checkout-review text-center">
+    <strong>Please review your order and make sure it is correct</strong>
+</div>
+
+
+<div class="row">
+	<div class="col-sm-6 col-lg-6">
+    	<div class="panel panel-default panel-order-review-billing">
+    		<div class="panel-heading">
+	    		<div class="pull-right">
+	        		<a href="{{ path('checkout') }}?step=2" class="checkout-move-step" data-step="2">
+	        	    	<i class="icon-edit"></i> Edit Addresses
+	        	    </a>
+	    		 </div>
+	    		 <h3 class="panel-title">Bill To</h3>
+    		</div>
+    		<div class="panel-body">
+    			<ul class="unstyled list-unstyled">
+	    	        <li><strong>{{ form.vars.data.billingFirstName }} {{ form.vars.data.billingLastName }}</strong></li>
+	    		    <li>{{ form.vars.data.billingAddress }}</li>
+	        		{% if form.vars.data.billingAddress2|length %}
+	        		    <li>{{ form.vars.data.billingAddress2 }}</li>
+	        		{% endif %}
+	    		    <li>{{ form.vars.data.billingCity }}, {{ form.vars.data.billingState }} {{ form.vars.data.billingZipcode }} {{ form.vars.data.billingCountry }}</li>
+	    			<li>{{ form.vars.data.billingPhoneNumber }}</li>
+	    		</ul>
+	    	</div>
+	    </div>
+   </div>
+   
+	<div class="col-sm-6 col-lg-6">
+    	<div class="panel panel-default panel-order-review-shipping">
+    		<div class="panel-heading">
+	    		<div class="pull-right">
+	        		<a href="{{ path('checkout') }}?step=2" class="checkout-move-step" data-step="2">
+	        	    	<i class="icon-edit"></i> Edit Addresses
+	        	    </a>
+	    		 </div>
+	    		 <h3 class="panel-title">Shipping To</h3>
+    		</div>
+    		<div class="panel-body">
+    		    	{% if form.vars.data.shippingAddress|length %}
+    		    	<strong>{{ form.vars.data.shippingFirstName }} {{ form.vars.data.shippingLastName }}</strong><br>
+    				{{ form.vars.data.shippingAddress }}<br>
+    				{% if form.vars.data.shippingAddress2|length %}
+    			        {{ form.vars.data.shippingAddress2 }}<br>
+    			    {% endif %}
+    				{{ form.vars.data.shippingCity }}, {{ form.vars.data.shippingState }} {{ form.vars.data.shippingZipcode }} {{ form.vars.data.shippingCountry }}<br>
+    				{{ form.vars.data.shippingPhoneNumber }}<br />
+    			{% else %}
+    		    	<strong>{{ form.vars.data.billingFirstName }} {{ form.vars.data.billingLastName }}</strong><br>
+    				{{ form.vars.data.billingAddress }} {{ form.vars.data.billingAddress2 }}<br>
+    				{{ form.vars.data.billingCity }}, {{ form.vars.data.billingState }} {{ form.vars.data.billingZipcode }}  {{ form.vars.data.billingCountry }}<br>
+    				{{ form.vars.data.billingPhoneNumber }}<br />
+    			{% endif %}	
+	    	</div>
+	    </div>
+   </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-6 col-lg-6">
+    	<div class="panel panel-default panel-order-review-shipping">
+    		<div class="panel-heading">
+	    		<div class="pull-right">
+	        		<a href="{{ path('checkout') }}?step=3" class="checkout-move-step" data-step="3">
+	        	    	<i class="icon-edit"></i> Edit Shipping
+	        	    </a>
+	    		 </div>
+	    		 <h3 class="panel-title">Shipping Method</h3>
+    		</div>
+    		<div class="panel-body">
+    	    	{% set shippingProvider = commerce_checkout_manager().getShippingProvider(form.vars.data.shipment.shipmentProvider) %}
+    	    	{% set shippingMethod = shippingProvider.getMethod(form.vars.data.shipment.shipmentMethod) %}
+    	    	<ul class="unstyled list-unstyled">
+    	    	    <li><strong>Method:</strong> {{ shippingMethod.label }} {{ shippingMethod.label2 }}</li>
+    	    	    <li><strong>Price:</strong> ${{ shippingMethod.price }}</li>
+    	    	</ul>
+	    	</div>
+	    </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+    
+    	<div class="panel panel-default panel-order-review-payment">
+    		<div class="panel-heading">
+	    		<div class="pull-right">
+	        		<a href="{{ path('checkout') }}?step=4" class="checkout-move-step" data-step="4">
+	        	    	<i class="icon-edit"></i> Edit Payment
+	        	    </a>
+	    		 </div>
+	    		 <h3 class="panel-title">Payment Method</h3>
+    		</div>
+    		<div class="panel-body">
+				{% set paymentMethod = commerce_checkout_manager().getPaymentProvider(form.vars.data.payment.paymentMethod) %}
+    			<ul class="unstyled list-unstyled">
+    			    <li><strong>Selected Payment Method:</strong> {{ paymentMethod.getOption('label') }}</li>
+                    <!-- <li>{{ paymentMethod.getOption('description')|raw }}</li> -->
+                    {% if paymentMethod.acceptsCreditCards and form.vars.data.payment.creditCard is defined and form.vars.data.payment.creditCard|length %}
+        			    {% if form.vars.data.payment.creditCard.lastFour|length %}
+        			    <li><strong>Credit Card:</strong> XXXX-XXXX-XXXX-{{ form.vars.data.payment.creditCard.lastFour }}</li>
+        			    <li><strong>Expires:</strong> {{ form.vars.data.payment.creditCard.cardExpirationMonth }}-{{ form.vars.data.payment.creditCard.cardExpirationYear }}</li>
+        			    {% endif %}
+                        <li>
+                        	*Your credit card will be authorized upon submitting your form.vars.data. 
+                        </li>
+        			{% endif %}
+    			</ul>
+	    	</div>
+	    </div> 
+    </div>
+</div>
+
+{{ include('SplicedCommerceBundle:Checkout:items_table_review.html.twig',{ 'items' : form.vars.data.items }) }} 
+
+<form method="post" action="{{ path('checkout') }}" class="checkout-form" novalidate>
+	
+	{{ include("SplicedCommerceBundle:Checkout/Form:custom_fields.html.twig") }}
+
+	<div class="form-actions">
+        <ul class="inline list-inline">
+            <li  class="text-center"><a class="btn btn-info" id="checkout-edit-button" href="{{ path('commerce_checkout', { 'step' : 2 }) }}" data-step="2"><i class="icon-pencil icon-white"></i> Edit Order Details</a></li>
+            <li  class="text-center"><a class="btn btn-info" id="checkout-edit-button" href="{{ path('cart') }}"><i class="icon-pencil icon-white"></i> Edit Cart</a></li>
+            <li class="text-center"><a class="btn btn-danger" href="#cancelOrderConfirmation" role="button" data-toggle="modal" id="checkout-cancel-button"><i class="icon-remove-sign icon-white"></i> Cancel Order</a></li>
+            
+            {% if paymentMethod.isRemotelyProcessed %}
+		        {# if paymentMethod.getOption('continue_to_button_image')|length %}
+				    <li>
+				        <button id="checkout-process-button" class="btn btn-medium btn-success checkout-{{ paymentMethod.getName }}"><img src="{{ asset(paymentMethod.getOption('continue_to_button_image')) }}" /></button>
+				    </li>
+				{% else #}
+				    <li>
+				        <button id="checkout-process-button checkout-disable-on-submit" class="btn btn-medium btn-success btn-checkout-{{ paymentMethod.getName }}">{{ paymentMethod.getOption('continue_to_button_text') }}</button></li>
+				    </li>
+				{# endif #}
+            {% else %}
+                <li  class="text-center">
+                	<button class="btn btn-success checkout-disable-on-submit" id="checkout-process-button"><i class="icon-ok-sign icon-white"></i> Process Order</button></li>
+            {% endif %}
+        </ul>
+    </div>
+	{{ form_rest(form) }}
+</form>
+
+<!-- Cancel Order Modal Confirmation -->
+<div class="modal fade" id="cancelOrderConfirmation" tabindex="-1" role="dialog" aria-labelledby="cancelOrderConfirmationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="cancelOrderConfirmationLabel">Really Cancel Order?</h4>
+      </div>
+      <div class="modal-body">
+         <p>Are you sure you wish to cancel this order? All progress made up to this point will be deleted. Your shopping cart will remain in tact if you end up changing your mind.</p>
+     </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">No, don't cancel</button>
+        <a href="{{ path('checkout_cancel') }}" class="btn btn-danger">Yes, cancel my order</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

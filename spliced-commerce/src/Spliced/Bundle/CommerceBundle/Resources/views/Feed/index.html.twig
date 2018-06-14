@@ -1,0 +1,43 @@
+{% extends "SplicedCommerceBundle:Layouts:2columns-left.html.twig" %}
+
+{% block title %}ATOM RSS Feeds | {{ commerce_get_config('commerce.store.name') }}{% endblock %}
+
+{% block head %}
+<link rel="canonical" href="{{ commerce_get_config('commerce.store.url') }}{{ path('commerce_catalog_feeds') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Feeds <small>ATOM RSS</small></h1>
+</div>
+
+<div class="alert alert-info">
+    <p>You can get access to our complete product catalog with ATOM RSS Feeds. 
+    Our feeds use a paginated structure to allow you to syndicate 
+    our complete catalog.</p>
+</div>
+
+<h2>Product Feeds</h2>
+<div class="well well-small">
+<p>We currently offer a total of {{ totalProducts }} products. There are {{ productFeedPages }} pages for our product RSS feed with {{ commerce_get_config('commerce.product.feed.per_page') }} products per page.</p>
+</div>
+
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Feed</th>
+            <th>Page</th>
+            <th>Formats</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in range(1,productFeedPages) %}
+    <tr>
+        <td>Product Feed</td>
+        <td>Page {{ page }}</td>
+        <td><a href="{{ path('commerce_product_feed', {'page':page}) }}" title="ATOM Feed">ATOM</a></small></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

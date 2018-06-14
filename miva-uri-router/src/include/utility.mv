@@ -1,0 +1,477 @@
+<MvFUNCTION NAME = "StoreUtilityModule_LeftNavigation"  PARAMETERS = "module var, indent" STANDARDOUTPUTLEVEL = "">	
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_LeftNavigation(module var, indent)') }">
+	</MvIFDEF>
+
+	<MvEVAL EXPR = "{ [ g.Module_Admin ].LeftNavigation_Dot( l.indent - 1, 'Screen=SUTL&Store_Code=' $ encodeattribute( g.store:code ) $ '&Module_Code=' $ encodeattribute( l.module:code ), 'Main', 'Route Manager' ) }">
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Validate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Validate(module var)') }">
+	</MvIFDEF>
+
+
+<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Validate_Action" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Validate_Action(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ NOT g.router_settings  }">
+		<MvIF EXPR = "{ NOT Router_Settings_Load_Admin(g.router_settings) }">
+			<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Loading Module Settings') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{ (g.module_action EQ 'save' AND NOT ISNULL g.route) OR (g.module_action EQ 'update' AND NOT ISNULL g.route) }">		
+		<MvIF EXPR = "{ NOT Validate_Route(g.route) }">
+			<MvIF EXPR = "{ miva_array_elements(g.module_error_messages) EQ 0  }">
+				<MvEVAL EXPR = "{ Queue_Error_Message('An Error Occoured Validating Your Input') }" />
+			</MvIF>			
+			<MvFUNCTIONRETURN VALUE = 0>
+		</MvIF>		
+		<MvFUNCTIONRETURN VALUE="1" />
+	</MvIF>
+
+	<MvIF EXPR="{ g.module_action EQ 'settings' AND NOT ISNULL g.new_router_settings }">
+		<MvFUNCTIONRETURN VALUE = "{ Validate_Router_Settings(g.new_router_settings) }" />
+	</MvIF>
+
+	<MvIF EXPR = "{ miva_array_elements(g.route_ids) GT 0 AND NOT ISNULL g.batch_form_action }">
+		<MvFUNCTIONRETURN VALUE="1" />
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'delete' AND NOT ISNULL g.route_id }">
+		<MvFUNCTIONRETURN VALUE="1" />
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'utilities' AND g.module_sub_action EQ 'generate' AND NOT ISNULL g.context }">
+		<MvFUNCTIONRETURN VALUE="1" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE="0" />
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Update" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Update(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ miva_array_elements(g.route_ids) GT 0 AND NOT ISNULL g.batch_form_action }">
+		<MvIF EXPR = "{ NOT Process_Batch_List_Action(g.route_ids, g.batch_form_action) }">
+			
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{  g.module_action EQ 'settings' AND NOT ISNULL g.new_router_settings }">
+		<MvIF EXPR = "{ Router_Settings_Update(g.new_router_settings) EQ 1 }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Router Settings Updated') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{  NOT ISNULL g.route AND g.module_action EQ 'update' }">
+		<MvIF EXPR = "{ Route_Update(g.route) EQ 1 }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Route Updated') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR="{  NOT ISNULL g.route AND g.module_action EQ 'save' }">
+		<MvIF EXPR = "{ Route_Save(g.route) EQ 1 }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Route Saved') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'delete' AND NOT ISNULL g.route_id }">
+		<MvIF EXPR = "{ Route_Load_By_Id(g.route_id, l.route) }">
+			<MvIF EXPR = "{ Route_Delete_By_Id(l.route:id) }">
+			<MvEVAL EXPR = "{ Queue_Success_Message('Route Deleted') }" />
+			<MvELSE>
+				<MvEVAL EXPR = "{ Queue_Error_Message('Error Deleting Route') }" />
+			</MvIF>
+		<MvELSE>
+			<MvEVAL EXPR = "{ Queue_Error_Message('Route Not Found') }" />
+		</MvIF>
+	</MvIF>
+
+	<MvIF EXPR = "{ g.module_action EQ 'utilities' AND g.module_sub_action EQ 'generate' AND NOT ISNULL g.context }">
+		<MvFUNCTIONRETURN VALUE="{ StoreUtilityModule_Update_Generate(l.module) }" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Update_Generate" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN NAME = "g.generated_routes" VALUE = "{ l.null }" />
+
+	<MvIF EXPR="{ g.context EQ 'products' }">
+		<MvASSIGN NAME = "l.product_count" VALUE = "{ [ g.Module_Library_DB ].ProductList_Load_All(l.products) }" />
+
+		<MvFOREACH ITERATOR = "l.product" ARRAY = "l.products" INDEX="l.index">						
+			<MvIF EXPR = "{ l.product:active NE 1 }">
+				<MvFOREACHCONTINUE />
+			</MvIF>
+
+			<MvIF EXPR = "{ ISNULL g.generate_settings:product_route_pattern }">
+				<MvASSIGN NAME = "g.generate_settings:product_route_pattern" VALUE = "{ g.router_settings:product_route_pattern }" />
+			</MvIF>
+
+			<MvIF EXPR = "{ ISNULL g.generate_settings:product_route_pattern_space }">
+				<MvASSIGN NAME = "g.generate_settings:product_route_pattern_space" VALUE = "{ g.router_settings:product_route_pattern_space }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.generated_route" VALUE= "{ Generate_Product_Route(l.product, g.generate_settings:product_route_pattern, g.generate_settings:product_route_pattern_space) }" />
+
+			<MvASSIGN NAME = "l.matched_route_result" VALUE= "{ Route_Load_By_Request_Path(l.generated_route, l.matched_route) }" />
+			<MvASSIGN NAME = "l.product_canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Product_Code(l.product:code, l.product_canonical_route) }" />
+
+			<MvIF EXPR = "{ NOT l.matched_route:id }">
+				<MvASSIGN NAME = "l.product_route:request_path" VALUE = "{ l.generated_route }" />
+				<MvASSIGN NAME = "l.product_route:product_code" VALUE = "{ l.product:code }" />
+				<MvASSIGN NAME = "l.product_route:product_category_code" VALUE = "{ l.product:category:code }" />
+				<MvIF EXPR = "{ l.product_canonical_route_result }">
+					<MvASSIGN NAME = "l.product_route:is_canonical" VALUE = "0" />	
+				<MvELSE>
+					<MvASSIGN NAME = "l.product_route:is_canonical" VALUE = "1" />
+				</MvIF>
+								
+				<MvASSIGN NAME = "l.product_route:is_active" VALUE = "1" />
+
+				<MvIF EXPR = "{ Route_Save(l.product_route) }">
+					<MvASSIGN NAME = "l.generated_route_count" VALUE = "{ miva_array_insert(g.generated_routes, l.product_route, -1) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+	<MvELSEIF EXPR="{ g.context EQ 'categories' }">
+		<MvASSIGN NAME = "l.category_count" VALUE = "{ [ g.Module_Library_DB ].CategoryList_Load_All(l.categories) }" />
+		
+		<MvFOREACH ITERATOR = "l.category" ARRAY = "l.categories" INDEX="l.index">						
+			<MvIF EXPR = "{ ISNULL g.generate_settings:category_route_pattern }">
+				<MvASSIGN NAME = "g.generate_settings:category_route_pattern" VALUE = "{ g.router_settings:category_route_pattern }" />
+			</MvIF>
+			
+			<MvIF EXPR = "{ ISNULL g.generate_settings:category_route_pattern_space }">
+				<MvASSIGN NAME = "g.generate_settings:category_route_pattern_space" VALUE = "{ g.router_settings:category_route_pattern_space }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.generated_route" VALUE= "{ Generate_Category_Route(l.category, g.generate_settings:category_route_pattern, g.generate_settings:category_route_pattern_space) }" />
+
+			<MvASSIGN NAME = "l.matched_route_result" VALUE= "{ Route_Load_By_Request_Path(l.generated_route, l.matched_route) }" />
+			<MvASSIGN NAME = "l.category_canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Category_Code(l.category:code, l.category_canonical_route) }" />
+
+			<MvIF EXPR = "{ NOT l.matched_route:id }">
+				<MvASSIGN NAME = "l.category_route:request_path" VALUE = "{ l.generated_route }" />
+				<MvASSIGN NAME = "l.category_route:category_code" VALUE = "{ l.category:code }" />
+				<MvIF EXPR = "{ l.category_canonical_route_result }">
+					<MvASSIGN NAME = "l.category_route:is_canonical" VALUE = "0" />	
+				<MvELSE>
+					<MvASSIGN NAME = "l.category_route:is_canonical" VALUE = "1" />
+				</MvIF>
+				<MvASSIGN NAME = "l.category_route:is_active" VALUE = "1" />
+
+				<MvIF EXPR = "{ Route_Save(l.category_route) }">
+					<MvASSIGN NAME = "l.generated_route_count" VALUE = "{ miva_array_insert(g.generated_routes, l.category_route, -1) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+	<MvELSEIF EXPR="{ g.context EQ 'pages' }">
+
+		<MvASSIGN NAME = "l.page_count" VALUE = "{ [ g.Module_Feature_TUI_DB ].PageList_Load_All(l.pages) }" />
+
+		<MvFOREACH ITERATOR = "l.page" ARRAY = "l.pages" INDEX="l.index">						
+			
+			<MvIF EXPR = "{ ISNULL g.generate_settings:page_route_pattern }">
+				<MvASSIGN NAME = "g.generate_settings:page_route_pattern" VALUE = "{ g.router_settings:page_route_pattern }" />
+			</MvIF>
+			
+			<MvIF EXPR = "{ ISNULL g.generate_settings:page_route_pattern_space }">
+				<MvASSIGN NAME = "g.generate_settings:page_route_pattern_space" VALUE = "{ g.router_settings:page_route_pattern_space }" />
+			</MvIF>
+
+			<MvASSIGN NAME = "l.generated_route" VALUE= "{ Generate_Page_Route(l.page, g.generate_settings:page_route_pattern, g.generate_settings:page_route_pattern_space) }" />
+
+			<MvASSIGN NAME = "l.matched_route_result" VALUE= "{ Route_Load_By_Request_Path(l.generated_route, l.matched_route) }" />
+			<MvASSIGN NAME = "l.page_canonical_route_result" VALUE= "{ Route_Load_Active_Canonical_By_Page_Code(l.page:code, l.page_canonical_route) }" />
+
+			<MvIF EXPR = "{ NOT l.matched_route:id }">
+				<MvASSIGN NAME = "l.page_route:request_path" VALUE = "{ l.generated_route }" />
+				<MvASSIGN NAME = "l.page_route:page_code" VALUE = "{ l.page:code }" />
+				<MvIF EXPR = "{ l.page_canonical_route_result }">
+					<MvASSIGN NAME = "l.page_route:is_canonical" VALUE = "0" />	
+				<MvELSE>
+					<MvASSIGN NAME = "l.page_route:is_canonical" VALUE = "1" />
+				</MvIF>
+
+				<MvASSIGN NAME = "l.page_route:is_active" VALUE = "1" />
+
+				<MvIF EXPR = "{ Route_Save(l.page_route) }">
+					<MvASSIGN NAME = "l.generated_route_count" VALUE = "{ miva_array_insert(g.generated_routes, l.page_route, -1) }" />
+				</MvIF>
+			</MvIF>
+		</MvFOREACH>
+	</MvIF>
+
+	<MvIF EXPR="{ l.generated_route_count GT 0 }">
+		<MvEVAL EXPR = "{ Queue_Success_Message('Generated ' $ l.generated_route_count $ ' Routes') }" />
+	<MvELSE>
+		<MvEVAL EXPR = "{ Queue_Warning_Message('No Routes Were Generated') }" />
+	</MvIF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Action" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Action(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "StoreUtilityModule_Screen" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ StoreUtilityModule_Validate_Action(l.module) EQ 1 }">
+  		<MvASSIGN NAME = "l.result" VALUE = "{ StoreUtilityModule_Update(module) }" />
+  	</MvIF>
+	
+	<MvIF EXPR = "{ ISNULL g.module_action }">
+		<MvASSIGN NAME = "g.module_action" VALUE = "list" />
+	</MvIF>
+
+	<MvASSIGN NAME = "l.result" VALUE = "{ Router_Settings_Load_Admin(g.router_settings) }" />
+
+	<head>
+		<MvEVAL EXPR = "{ Render_Head() }" />
+	</head>
+	
+	<body>
+
+		<div class="container" style="width:100%; padding-left: 10px; padding-right: 10px;">
+
+			<MvEVAL EXPR = "{ Render_Page_Header(l.module) }" />
+			<MvEVAL EXPR = "{ Render_Messages() }" />
+
+			<MvIF EXPR = "{ g.module_action EQ 'edit' OR g.module_action EQ 'update' }">
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Route_Edit(l.module) }" />	
+
+			<MvELSEIF EXPR = "{ g.module_action EQ 'new' OR g.module_action EQ 'save' }">
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Route_New(l.module) }" />	
+			
+			<MvELSEIF EXPR = "{ g.module_action EQ 'settings' }">
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Router_Settings(l.module) }" />	
+			
+			<MvELSEIF EXPR = "{ g.module_action EQ 'utilities' }">
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Route_Utilities(l.module) }" />				
+			
+			<MvELSEIF EXPR = "{ g.module_action EQ 'about' }">					
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_About(l.module) }" />		
+			
+			<MvELSE>
+				<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Route_List(l.module) }" />
+			</MvIF>
+		</div>
+	</body>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_Route_List
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_Route_List" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_Route_List(module var)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.load_result" VALUE = "{ Routes_Load_All(l.routes, 'id', 'ASC') }" />
+
+	<form method="post" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=list' }">
+		<MvEVAL EXPR = "{ Render_Route_List(l.routes, 'store-utility') }" />
+	</form>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_Route_Edit
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_Route_Edit" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_Route_Edit(module var)') }">
+	</MvIFDEF>
+
+	<MvASSIGN NAME = "l.result" VALUE = "" />
+	
+	<MvIF EXPR = "{ NOT Route_Load_By_Id(g.Route_Id, l.route) }">
+		<div class="alert alert-danger">Route Not Found</div>
+		<MvEVAL EXPR = "{ StoreUtilityModule_Screen_Route_List(l.module) }" />
+	</MvIF>
+
+	<form method="post" class="route-form" id="route-form" role="form" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=update&Route_Id=' $ l.route:id }">
+		<MvEVAL EXPR = "{ Render_Route_Edit(l.route) }" />
+	</form>
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_Route_New
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_Route_New" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_Route_New(module var)') }">
+	</MvIFDEF>
+
+	<form method="post" class="route-form" id="route-form" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=save' }">
+		<MvEVAL EXPR = "{ Render_Route_New(g.route) }" />
+	</form>
+
+</MvFUNCTION>
+
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_Router_Settings
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_Router_Settings" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_Router_Settings(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR="{ ISNULL g.new_router_settings }">
+		<MvASSIGN NAME = "g.new_router_settings" VALUE = "{ g.router_settings }" />
+	</MvIF>
+
+	<form method="post" action="{ g.router_settings:admin_storeutility_url $ '&Module_Action=settings' }">
+		<MvEVAL EXPR = "{ Render_Router_Settings(g.new_router_settings) }" />
+
+		<div class="form-actions text-right">
+			<button class="btn btn-success" role="button" type="submit"><i class="fa fa-floppy-o"></i> Update</button>
+		</div>
+
+	</form>
+	
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_Route_Utilities
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_Route_Utilities" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_Route_Utilities(module var)') }">
+	</MvIFDEF>
+
+	<MvIF EXPR = "{ g.module_sub_action EQ 'generate' }">
+		
+		
+
+		<MvIF EXPR = "{ miva_array_elements(g.generated_routes) GT 0 }">
+			<div class="page-header">
+				<h1>Generated Routes</h1>
+			</div>
+			<table class="table table-striped table-condensed table-bordered">
+				<thead>
+					<tr>
+						<th>
+							<MvIF EXPR = "{ g.context EQ 'products' }">
+								Product
+							<MvELSEIF EXPR="{ g.context EQ 'categories' }">
+								Category
+							<MvELSEIF EXPR="{ g.context EQ 'pages' }">
+								Page
+							</MvIF>
+						</th>
+						<th>Request Path</th>
+					</tr>
+				</thead>
+				<tbody>
+					<MvFOREACH ITERATOR = "l.generated_route" ARRAY = "g.generated_routes" INDEX = "l.index">
+						<tr>
+							<td>
+								<MvIF EXPR = "{ g.context EQ 'products' }">
+									<MvEVAL EXPR = "{ l.generated_route:product_code }" />
+								<MvELSEIF EXPR="{ g.context EQ 'categories' }">
+									<MvEVAL EXPR = "{ l.generated_route:category_code }" />
+								<MvELSEIF EXPR="{ g.context EQ 'pages' }">
+									<MvEVAL EXPR = "{ l.generated_route:page_code }" />
+								</MvIF>
+							</td>
+							<td><MvEVAL EXPR = "{ l.generated_route:request_path }" /></td>
+						</tr>
+					</MvFOREACH>
+				</tbody>
+			</table>
+		</MvIF>
+	</MvIF>
+
+	<MvEVAL EXPR = "{ Render_Utilities(l.module) }" />
+</MvFUNCTION>
+
+<MvCOMMENT>
+ * StoreUtilityModule_Screen_About
+ *
+</MvCOMMENT>
+<MvFUNCTION NAME = "StoreUtilityModule_Screen_About" PARAMETERS = "module var" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'StoreUtilityModule_Screen_About(module var)') }">
+	</MvIFDEF>
+
+	<MvEVAL EXPR = "{ Render_About(l.module) }" />
+</MvFUNCTION>
+
+<MvCOMMENT>
+| Module_Utility_Head
+|
+|
+</MvCOMMENT>
+<MvFUNCTION NAME = "Module_Utility_Head" PARAMETERS = "module var, tab" STANDARDOUTPUTLEVEL = "text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Utility_Head(module var, tab)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Tabs" PARAMETERS="module var" STANDARDOUTPUTLEVEL="">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Utility_Tabs(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE="">
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Validate" PARAMETERS="module var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Utility_Validate(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Update" PARAMETERS="module var" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Utility_Update(module var)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+<MvFUNCTION NAME="Module_Utility_Content" PARAMETERS="module var, tab, load_fields" STANDARDOUTPUTLEVEL="text, html, compresswhitespace">
+	<MvIFDEF NAME="CALL_TRACE">
+		<MvEVAL EXPR="{ Log_Call_Trace(l.module:code, 'Module_Utility_Content(module var, tab, load_fields)') }">
+	</MvIFDEF>
+
+	<MvFUNCTIONRETURN VALUE = 1>
+</MvFUNCTION>
+
+
+

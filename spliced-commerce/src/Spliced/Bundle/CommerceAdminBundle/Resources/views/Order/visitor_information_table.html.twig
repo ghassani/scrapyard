@@ -1,0 +1,52 @@
+{% set userAgentData = parse_user_agent(order.visitor.userAgent) %}
+
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded order-visitor-information-table">
+	<thead>
+		<tr>
+			<th>Initial Referer</th>
+			<td colspan="2">{{ order.visitor.initialReferer }}</td>
+			<th>Total Requests</th>
+			<td colspan="2">{{ order.visitor.requests|length }}</td>
+		</tr>
+		<tr>
+			<th>Initial Referer URL</th>
+			<td colspan="2">{{ order.visitor.initialRefererUrl }}</td>
+			<th>Session ID</th>
+			<td colspan="2">{{ order.visitor.sessionId }}</td>
+		</tr>
+		<tr>
+			<th>User Agent</th>
+			<td colspan="2">{{ order.visitor.userAgent }}</td>
+			<th>Visitor IP</th>
+			<td colspan="2">{{ order.visitor.ip }}</td>
+		</tr>
+		<tr>
+			<th>Browser &amp; Platform</th>
+			<td colspan="4">
+				{{ userAgentData.platform }} {{ userAgentData.browser }} {{ userAgentData.version }}
+			</td>
+		</tr>
+	</thead>
+</table>
+
+<hr />
+
+<table class="table table-bordered table-condensed table-hover table-striped table-rounded order-visitor-information-table">
+	<thead>
+		<tr>
+			<th>Time</th>
+			<th>Request Path</th>
+			<th>Referer</th>
+		</tr>
+	</thead>
+	<tbody>
+	
+		{% for request in order.visitor.requests %}
+			<tr>
+				<td>{{ request.createdAt|date('m/d - h:i a') }}</td>
+				<td>{{ request.requestedPath }}</td>
+				<td>{{ request.referer }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

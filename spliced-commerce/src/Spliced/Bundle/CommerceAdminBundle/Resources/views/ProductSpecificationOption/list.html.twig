@@ -1,0 +1,106 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+{% block title %} Product Specification Options | {{ parent() }}{% endblock %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:ProductSpecificationOption:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+
+<form role="form" action="{{ path('commerce_admin_product_specification_option_filter') }}" class="form form-horizontal product-filter-form" method="post" {{ form_enctype(filterForm) }}>
+    <div class="panel panel-primary panel-filter-form">
+        <div class="panel-heading"><h3>Filter</h3></div>
+    	<div class="panel-body">
+            {{ include("SplicedCommerceAdminBundle:ProductSpecificationOption:filter_form.html.twig", { "form" : filterForm }) }}            
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Product Specification Option <small>Managment</small></h1>
+	</div>
+
+	{{ knp_pagination_render(specificationOptions) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed table-striped">
+	        <thead>
+	            <tr>
+	            	<th></th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'Name', 'specificationOption.name') }}</th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.publicName') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'Public Name', 'specificationOption.publicName') }}</th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.onView') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'On Front', 'specificationOption.onView') }}</th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.onList') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'On Front', 'specificationOption.onList') }}</th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.filterable') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'Filterable', 'specificationOption.filterable') }}</th>	            	
+	            	<th{% if specificationOptions.isSorted('specificationOption.optionType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(specificationOptions, 'Option Type', 'specificationOption.optionType') }}</th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% if specificationOptions|length %}
+    	        {% for specificationOption in specificationOptions %}
+    	            <tr>
+    					<td><input type="checkbox" value="{{ specificationOption.id }}" name="ids[]" /></td>	
+    	                <td><a href="{{ path('commerce_admin_product_specification_option_edit', { 'id': specificationOption.id }) }}">{{ specificationOption.name }}</a></td>
+    	                <td>{{ specificationOption.publicName }}</td> 
+    	                <td><i class="icon {{ specificationOption.onView ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+    	                <td><i class="icon {{ specificationOption.onList ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+    	                <td><i class="icon {{ specificationOption.filterable ? 'icon-ok icon-green' : 'icon-remove icon-red' }}"></i></td>
+    	                <td>
+    	                    {% if specificationOption.optionType ==  2 %}
+    	                        Multi-Value
+    	                    {% elseif specificationOption.optionType ==  1 %}
+    	                        Single Value
+    	                    {% endif %}
+    	                </td>
+    	                <td>
+    	                	<a class="confirm-action" href="{{ path('commerce_admin_product_specification_option_delete', { 'id': specificationOption.id }) }}"><i class="icon-trash icon-red"></i></a>
+    	                	<a href="{{ path('commerce_admin_product_specification_option_edit', { 'id': specificationOption.id }) }}"><i class="icon-edit"></i></a>
+    	                </td>
+    	            </tr>
+    	            {% if specificationOption.description|length %}
+    	            <tr>
+    	                <td></td>
+    	                <td colspan="8">
+    	                    {{ specificationOption.description }}
+    	                </td>
+    	            </tr>
+    	            {% endif %}
+    	        {% endfor %}
+    	    {% else %}
+    	        <tr><td colspan="8" class="text-center"><strong>No Records Found</strong></td></tr>
+    	    {% endif %}
+	        </tbody>
+	    </table>
+	    <ul class="list-inline">
+	        <li>
+	            <select name="batchAction" class="form-control list-batch-action">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(specificationOptions) }}
+    
+	    <div class="form-actions">
+		    <ul class="list-inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_product_specification_option_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+
+{% block left -%}
+	<form action="{{ path('commerce_admin_customer_filter') }}" class="form customer-filter-form" method="post" {{ form_enctype(filterForm) }}>
+        {{ form_widget(filterForm) }}
+        <p>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </p>
+    </form>
+{% endblock -%}
+    
+{% block content -%}
+    <div class="page-header">
+    	<h1>Customer <small>List</small></h1>
+	</div>
+	
+    
+	{{ knp_pagination_render(entities) }}
+	<form method="post" action="">
+	    <table class="table table-bordered table-condensed">
+	        <thead>
+	            <tr>
+	            	<th></th>	                	            	<th{% if entities.isSorted('e.id') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'ID', 'e.id') }}</th>	                	            	<th{% if entities.isSorted('e.email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(entities, 'E-Mail', 'e.email') }}</th>	
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for entity in entities %}
+	            <tr>
+					<td><input type="checkbox" value="{{ entity.id }}" name="ids[]" /></td>	
+	                <td><a href="{{ path('commerce_admin_customer_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>	
+	                <td>{{ entity.email }}</td>	
+	                <td>
+                <ul class="inline">
+                    <li>
+                        <a href="{{ path('commerce_admin_customer_edit', { 'id': entity.id }) }}">
+                        	                        		<i class="icon-edit"></i>
+                        	                        </a>
+                    </li>
+                </ul>
+	                </td>	
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+	    <ul class="inline">
+	        <li>
+	            <select name="batchAction">
+	                <option value="">Select an action</option>
+	                <option value="delete">Delete</option>
+	            </select>
+	        </li>
+	        <li>
+	            <button type="submit" class="btn btn-primary">Go</button>
+	        </li>
+	    </ul>
+    {{ knp_pagination_render(entities) }}
+    
+	    	    <div class="form-actions">
+		    <ul class="inline">
+		        <li>
+		            <a href="{{ path('commerce_admin_customer_new') }}" class="btn btn-primary">
+		                <i class=" icon-plus-sign icon-white"></i> Create New
+		            </a>
+		            <a href="{{ path('commerce_admin_dashboard') }}" class="btn btn-warning">
+		                <i class="icon-circle-arrow-left icon-white"></i> Cancel
+		            </a>
+		        </li>
+		    </ul>
+	    </div>
+	    
+    </form>
+{% endblock %}

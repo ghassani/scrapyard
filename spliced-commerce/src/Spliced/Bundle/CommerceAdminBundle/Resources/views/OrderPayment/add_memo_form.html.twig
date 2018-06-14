@@ -1,0 +1,20 @@
+
+<div>
+	{{ form_label(form.createdBy, 'Created By') }}
+	{{ form_widget(form.createdBy, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div>
+	{{ form_label(form.memo, 'Memo') }}
+	{{ form_widget(form.memo, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+<div>
+	{{ form_label(form.amountPaid, 'Amount Paid') }}
+	${{ form_widget(form.amountPaid, { 'attr' : { 'class' : 'form-control' } }) }}
+</div>
+
+
+
+{{ form_rest(form) }}	
+ 

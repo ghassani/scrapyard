@@ -1,0 +1,166 @@
+{% set paymentMethod = get_payment_provider(order.payment.paymentMethod) %}
+{% set shippingProvider = get_shipping_provider(order.shipment.shipmentProvider) %}
+{% set shippingMethod = shippingProvider.getMethod(order.shipment.shipmentMethod) %}
+ 
+{% set block_base_style = "background-clip: padding-box;
+background-color: #FFFFFF;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 6px 6px 6px 6px;
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+padding: 1px;
+text-align: left;
+white-space: normal;
+width: 98%;
+min-height: 100px;" %}
+
+{% set block_head_style = "background-color: #F7F7F7;
+border-bottom: 1px solid #EBEBEB;
+border-radius: 5px 5px 0 0;
+font-size: 14px;
+font-weight: bold;
+line-height: 18px;
+margin: 0;
+padding: 8px 14px;" %}
+
+{% set block_content_style = "padding: 6px;" %}
+
+{% set item_table_style = "-moz-border-bottom-colors: none;
+-moz-border-left-colors: none;
+-moz-border-right-colors: none;
+-moz-border-top-colors: none;
+border-collapse: separate;
+border-color: #DDDDDD #DDDDDD #DDDDDD -moz-use-text-color;
+border-image: none;
+border-radius: 4px 4px 4px 4px;
+border-style: solid solid solid none;
+border-width: 1px 1px 1px 0;
+" %}
+
+{% set item_table_head_style = "border-top-left-radius: 4px; border-left: 1px solid #DDDDDD; text-align:left;" %}
+
+{% set item_table_item_first_style = "" %}
+{% set item_table_item_style = "border-top: 1px solid #DDDDDD;
+border-left: 1px solid #DDDDDD;
+line-height: 20px;
+padding: 8px;
+text-align: left;
+vertical-align: top;" %}
+
+{% spaceless %}
+<body style="font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0; margin: 0 auto;">
+
+<a href="{{ commerce_get_config('commerce.store.url') }}">
+    <img src="{{ commerce_get_config('commerce.store.url') }}/bundles/splicedcommerce/images/logo_email_small_old.png" alt="{{ commerce_get_config('commerce.store.name') }}"  style="margin-bottom:10px;" border="0"/>
+</a>
+
+<h1 style="font-size:14px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello {{ order.billingFirstName }} {{ order.billingLastName }}</h1>
+<p>
+    Thank you for your order from {{ commerce_get_config('commerce.store.name') }}.
+    Once your package ships we will send an email with a link to track your order.
+    You can check the status of your order by <a href="{{ commerce_get_config('commerce.store.url') }}{{ path('account') }}" style="color:#1E7EC8;">logging into your account</a>.
+</p>
+<p>
+    If you have any questions about your order please contact us at <a href="mailto:{{ commerce_get_config('commerce.store.email.sales') }}" style="color:#1E7EC8;">{{ commerce_get_config('commerce.store.email.sales') }}</a> or call us at <span class="nobr">{{ commerce_get_config('commerce.store.phone.service') }}</span> Monday - Friday, 9am - 6pm EST.
+</p>
+
+<p>Your order number is {{ order.orderNumber }} and the details of your order are below. Thank you again for your business.</p>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td style="width:50%" valign="top">
+            <div style="{{ block_base_style }}">
+                <div style="{{ block_head_style }}">Billing Address</div>
+                <div style="{{ block_content_style }}">
+                    <div>{{ order.billingAddress }} {{ order.billingAddress2 }}</div>
+                    <div>{{ order.billingCity }}, {{ order.billingState }} {{ order.billingZipcode }}</div>
+                    <div>{{ order.billingCountry }}</div>
+                </div>
+            </div>
+        </td>
+        <td  valign="top">
+             <div style="{{ block_base_style }}">
+                <div style="{{ block_head_style }}">Shipping Address</div>
+                <div style="{{ block_content_style }}">
+                    <div>{{ order.shippingAddress }} {{ order.shippingAddress2 }}</div>
+                    <div>{{ order.shippingCity }}, {{ order.shippingState }} {{ order.shippingZipcode }}</div>
+                    <div>{{ order.shippingCountry }}</div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /></td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <div style="{{ block_base_style }}">
+                <div style="{{ block_head_style }}">Shipping Method</div>
+                <div style="{{ block_content_style }}">
+                    <div> {{ shippingMethod.getOption('label') }} {{ shippingMethod.getOption('label2') }}</div>
+                </div>
+            </div>
+        </td>
+        <td valign="top">
+             <div style="{{ block_base_style }}">
+                <div style="{{ block_head_style }}">Payment Method</div>
+                <div style="{{ block_content_style }}">
+                   <div>{{ paymentMethod.getOption('label') }} {{ paymentMethod.getOption('label2') }}</div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table style="{{ item_table_style }}" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <th style="{{ item_table_head_style }}">Part</th>
+                        <th style="{{ item_table_head_style }}">Description</th>
+                        <th style="{{ item_table_head_style }}">Quantity</th>
+                        <th style="{{ item_table_head_style }}">Price</th>
+                        <th style="{{ item_table_head_style }}">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in order.items %}
+                <tr>
+                    <td style="{{ item_table_item_style }}">{{ item.sku }}</td>
+                    <td style="{{ item_table_item_style }}">{{ item.name }}</td>
+                    <td style="{{ item_table_item_style }}">{{ item.quantity }}</td>
+                    <td style="{{ item_table_item_style }}">${{ item.salePrice|number_format(2) }}</td>
+                    <td style="{{ item_table_item_style }}">${{ item.finalPrice|number_format(2) }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+            		<tr>
+            			<td style="{{ item_table_item_style }}" rowspan="5" colspan="3"></td>
+            		</tr>
+            		<tr>
+            			<th style="{{ item_table_item_style }} text-align:left; font-weight:bold;">Subtotal</th>
+            			<td style="{{ item_table_item_style }}">${{ commerce_order_subtotal(order, false) }}</td>
+            		</tr>
+            		<tr> 
+            			<th style="{{ item_table_item_style }} text-align:left; font-weight:bold;">Taxes</th>
+            			<td style="{{ item_table_item_style }}">${{ commerce_order_tax(order) }}</td>
+            		</tr>
+            		<tr>
+            
+            			<th style="{{ item_table_item_style }} text-align:left; font-weight:bold;">Shipping</th>
+            			<td style="{{ item_table_item_style }}">${{ commerce_order_shipping(order) }}</td>
+            		</tr>
+            		<tr>
+            			<th style="{{ item_table_item_style }} text-align:left; font-weight:bold;">Total</th>
+            			<td style="{{ item_table_item_style }}">$ {{ commerce_order_total(order, true) }}</td>
+            		</tr>
+	            </tfoot>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+{% endspaceless %}

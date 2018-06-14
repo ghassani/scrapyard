@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login | {{ commerce_get_config('commerce.store.name') }}</title>
+    {{ include('SplicedCommerceAdminBundle:Layouts/Block:head.html.twig') }}
+</head>
+<body>
+
+<header>
+    {{ include('SplicedCommerceAdminBundle:Layouts/Block:header.html.twig') }}
+</header>
+
+<div class="row">
+    <div class="col-lg-12 main-content">
+        {{ include("SplicedCommerceAdminBundle:Layouts/Block:messages.html.twig") }}
+        <div class="content-wrapper container">
+        {% block content %}
+        
+        {% endblock %}
+        </div> 
+    </div>
+</div>
+
+{{ include('SplicedCommerceAdminBundle:Layouts/Block:footer.html.twig') }}
+</body>
+</html>

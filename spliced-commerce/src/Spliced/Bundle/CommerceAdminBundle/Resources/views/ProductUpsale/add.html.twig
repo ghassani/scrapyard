@@ -1,0 +1,22 @@
+
+{% extends 'SplicedCommerceAdminBundle:Layouts:2columns-left.html.twig' %}
+
+{% block content_section_header -%}
+    {{ include('SplicedCommerceAdminBundle:Product:content_section_header.html.twig') }}
+{% endblock %}
+
+{% block left -%}
+
+{% endblock -%}
+    
+{% block content -%}
+<div class="page-header">
+	<h1>Add Product Upsale <small>Product {{ product.sku }}</small></h1>
+</div>
+<form role="form" class="" method="post" action="">
+{{ include('SplicedCommerceAdminBundle:ProductUpsale:form.html.twig') }}
+<div class="form-actions">
+	<button type="submit" class="btn btn-success"><i class="icon-plus"></i> Add Upsale</button>
+</div>
+</form>
+{% endblock %} 
