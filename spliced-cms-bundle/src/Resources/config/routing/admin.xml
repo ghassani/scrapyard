@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+    
+    <!--
+        Dashboard
+    -->
+    <route id="spliced_cms_admin_dashboard" path="/%spliced_cms.admin_route_prefix%" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Dashboard:index</default>
+    </route>
+
+    <!--
+        Configuration
+    -->
+    <route id="spliced_cms_admin_configuration_item_list" path="/%spliced_cms.admin_route_prefix%/configuration" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_new" path="/%spliced_cms.admin_route_prefix%/configuration/item/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_save" path="/%spliced_cms.admin_route_prefix%/configuration/item/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_edit" path="/%spliced_cms.admin_route_prefix%/configuration/item/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_update" path="/%spliced_cms.admin_route_prefix%/configuration/item/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_filter" path="/%spliced_cms.admin_route_prefix%/configuration/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_filter_reset" path="/%spliced_cms.admin_route_prefix%/configuration/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_configuration_item_batch" path="/%spliced_cms.admin_route_prefix%/configuration/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ConfigurationItem:batch</default>
+    </route>
+
+    <!--
+        Content Block
+    -->
+    <route id="spliced_cms_admin_configuration_item_list" path="/%spliced_cms.admin_route_prefix%/content_block" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_new" path="/%spliced_cms.admin_route_prefix%/content_block/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_save" path="/%spliced_cms.admin_route_prefix%/content_block/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_edit" path="/%spliced_cms.admin_route_prefix%/content_block/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_update" path="/%spliced_cms.admin_route_prefix%/content_block/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_filter" path="/%spliced_cms.admin_route_prefix%/content_block/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_filter_reset" path="/%spliced_cms.admin_route_prefix%/content_block/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_block_batch" path="/%spliced_cms.admin_route_prefix%/content_block/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentBlock:batch</default>
+    </route>
+
+
+    <!--
+        Content Page
+    -->
+    <route id="spliced_cms_admin_content_page_list" path="/%spliced_cms.admin_route_prefix%/content_page" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_new" path="/%spliced_cms.admin_route_prefix%/content_page/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_save" path="/%spliced_cms.admin_route_prefix%/content_page/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_edit" path="/%spliced_cms.admin_route_prefix%/content_page/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_update" path="/%spliced_cms.admin_route_prefix%/content_page/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_filter" path="/%spliced_cms.admin_route_prefix%/content_page/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_filter_reset" path="/%spliced_cms.admin_route_prefix%/content_page/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_batch" path="/%spliced_cms.admin_route_prefix%/content_page/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:batch</default>
+    </route>
+
+    <route id="spliced_cms_admin_content_page_publish_revisions" path="/%spliced_cms.admin_route_prefix%/content_page/edit/{id}/publish-revisions" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/ContentPage:publishRevisions</default>
+    </route>
+
+    <!--
+        Editor 
+    -->
+    <route id="spliced_cms_admin_editor_insert_link" path="/%spliced_cms.admin_route_prefix%/editor/insert-link" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Editor:insertLink</default>
+    </route>
+
+    <route id="spliced_cms_admin_editor_insert_image" path="/%spliced_cms.admin_route_prefix%/editor/insert-image" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Editor:insertImage</default>
+    </route>
+
+    <route id="spliced_cms_admin_editor_insert_video" path="/%spliced_cms.admin_route_prefix%/editor/insert-video" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Editor:insertVideoEmbed</default>
+    </route>
+
+    <!--
+        File Management
+    -->
+    <route id="spliced_cms_admin_file_manager" path="/%spliced_cms.admin_route_prefix%/file_manager" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:index</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_download" path="/%spliced_cms.admin_route_prefix%/file_manager/download" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:download</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_edit_file" path="/%spliced_cms.admin_route_prefix%/file_manager/edit-file" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:editFile</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_update_file" path="/%spliced_cms.admin_route_prefix%/file_manager/edit-file/update" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:updateFile</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_delete_file" path="/%spliced_cms.admin_route_prefix%/file_manager/delete-file" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:deleteFile</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_delete_folder" path="/%spliced_cms.admin_route_prefix%/file_manager/delete-folder" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:deleteFolder</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_new_file" path="/%spliced_cms.admin_route_prefix%/file_manager/new-file" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:newFile</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_save_file" path="/%spliced_cms.admin_route_prefix%/file_manager/new-file/save" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:saveFile</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_new_folder" path="/%spliced_cms.admin_route_prefix%/file_manager/new-folder" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:newFolder</default>
+    </route>
+
+    <route id="spliced_cms_admin_file_manager_create_folder" path="/%spliced_cms.admin_route_prefix%/file_manager/new-folder/create" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:createFolder</default>
+    </route>
+
+    <!--
+        History
+    -->
+    <route id="spliced_cms_admin_history_add" path="/%spliced_cms.admin_route_prefix%/history/add" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:addHistory</default>
+    </route>
+
+    <route id="spliced_cms_admin_history_get" path="/%spliced_cms.admin_route_prefix%/history/get" methods="GET">
+        <default key="_controller">SplicedCmsBundle:Admin/FileManagement:getHistory</default>
+    </route>
+
+
+    <!--
+        Layout
+    -->
+    <route id="spliced_cms_admin_layout_list" path="/%spliced_cms.admin_route_prefix%/layout" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_new" path="/%spliced_cms.admin_route_prefix%/layout/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_save" path="/%spliced_cms.admin_route_prefix%/layout/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_edit" path="/%spliced_cms.admin_route_prefix%/layout/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_update" path="/%spliced_cms.admin_route_prefix%/layout/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_filter" path="/%spliced_cms.admin_route_prefix%/layout/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_filter_reset" path="/%spliced_cms.admin_route_prefix%/layout/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_layout_batch" path="/%spliced_cms.admin_route_prefix%/layout/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Layout:batch</default>
+    </route>
+
+    <!--
+        Menu
+    -->
+    <route id="spliced_cms_admin_menu_list" path="/%spliced_cms.admin_route_prefix%/menu" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_new" path="/%spliced_cms.admin_route_prefix%/menu/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_save" path="/%spliced_cms.admin_route_prefix%/menu/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_edit" path="/%spliced_cms.admin_route_prefix%/menu/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_update" path="/%spliced_cms.admin_route_prefix%/menu/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_filter" path="/%spliced_cms.admin_route_prefix%/menu/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_filter_reset" path="/%spliced_cms.admin_route_prefix%/menu/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_batch" path="/%spliced_cms.admin_route_prefix%/menu/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Menu:batch</default>
+    </route>
+
+    <!--
+        Menu Template
+    -->
+    <route id="spliced_cms_admin_menu_template_list" path="/%spliced_cms.admin_route_prefix%/menu_template" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_new" path="/%spliced_cms.admin_route_prefix%/menu_template/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_save" path="/%spliced_cms.admin_route_prefix%/menu_template/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_edit" path="/%spliced_cms.admin_route_prefix%/menu_template/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_update" path="/%spliced_cms.admin_route_prefix%/menu_template/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_filter" path="/%spliced_cms.admin_route_prefix%/menu_template/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_filter_reset" path="/%spliced_cms.admin_route_prefix%/menu_template/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_menu_template_batch" path="/%spliced_cms.admin_route_prefix%/menu_template/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/MenuTemplate:batch</default>
+    </route>
+
+    <!--
+        Site Context
+    -->
+    <route id="spliced_cms_admin_site_select" path="/%spliced_cms.admin_route_prefix%/select_site" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/SiteContext:select</default>
+    </route>
+
+    <route id="spliced_cms_admin_switch_site" path="/%spliced_cms.admin_route_prefix%/switch_site" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/SiteContext:switch</default>
+    </route>
+
+    <route id="spliced_cms_admin_switch_site_id" path="/%spliced_cms.admin_route_prefix%/switch_site/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/SiteContext:switchById</default>
+    </route>
+
+    <!--
+        Site
+    -->
+    <route id="spliced_cms_admin_site_list" path="/%spliced_cms.admin_route_prefix%/site" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:list</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_new" path="/%spliced_cms.admin_route_prefix%/site/new" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:new</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_save" path="/%spliced_cms.admin_route_prefix%/site/save" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:save</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_edit" path="/%spliced_cms.admin_route_prefix%/site/edit/{id}" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:edit</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_update" path="/%spliced_cms.admin_route_prefix%/site/update/{id}" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:update</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_filter" path="/%spliced_cms.admin_route_prefix%/site/filter" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:filter</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_filter_reset" path="/%spliced_cms.admin_route_prefix%/site/filter/reset" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:resetFilter</default>
+    </route>
+
+    <route id="spliced_cms_admin_site_batch" path="/%spliced_cms.admin_route_prefix%/site/batch" methods="POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Site:batch</default>
+    </route>
+    
+    <!--
+        Template
+    -->
+    <route id="spliced_cms_admin_template_list" path="/%spliced_cms.admin_route_prefix%/template" methods="GET POST">
+        <default key="_controller">SplicedCmsBundle:Admin/Template:list</default>
+    </route>
+
+</routes>

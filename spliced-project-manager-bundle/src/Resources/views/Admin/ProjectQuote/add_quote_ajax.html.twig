@@ -1,0 +1,15 @@
+			<tr class="project_quote_{{  quote.id }}">
+				<td>{{ quote.id }}</td>
+				<td>${{ quote.quotedAmount }}</td>
+				<td>{{ quote.lineItems|length }}</td>
+				<td>{{ quote.startDate|length>0 ? quote.startDate|date('m/d/y') : '' }}</td>
+				<td>{{ quote.estimatedCompletionDate|length>0 ? quote.estimatedCompletionDate|date('m/d/y') : '' }}</td>
+				<td></td>
+				<td>
+					<a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-primary btn-small"><i class="icon-pencil icon-white"></i> Edit</a>
+					<a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-inverse btn-small"><i class="icon-print icon-white"></i> PDF</a>
+					<a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-success btn-small"><i class="icon-inbox icon-white"></i> Invoice</a>
+					<a href="{{ path('project_quote_delete', { 'project' : quote.project.id, 'quote' : quote.id }) }}" class="ajax_link_confirm btn btn-danger btn-small" data-message="Are you sure you want to delete this media?"><i class="icon-remove-sign icon-white"></i> Delete</a>
+				</td>
+			</tr>
+		

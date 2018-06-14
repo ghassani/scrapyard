@@ -1,0 +1,9 @@
+<tr>
+	{% if listConfiguration.batchActions|length %}
+		<th></th>
+	{% endif %}
+{% for field in listConfiguration.fields %}
+	<th{% if pagination.isSorted(field.column) %} class="sorted"{% endif %}>{{ pagination.sortable(field.label, field.column)|raw }}</th>
+{% endfor %}
+	<th>Actions</th>
+</tr>

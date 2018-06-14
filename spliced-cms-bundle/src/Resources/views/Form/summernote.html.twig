@@ -1,0 +1,18 @@
+<!--<textarea <?php echo $view['form']->block($form, 'widget_attributes') ?>><?php echo $view->escape($value) ?></textarea>-->
+{% block textarea_widget %}
+    <div id="{{ id }}_summernote">{{ form.vars.data }}</div>
+    <input type="hidden" {{ block('widget_attributes') }} value="{{ form.vars.data|raw }}" />
+    <script>
+        $(document).ready(function() {
+            $('#{{ id }}_summernote').summernote({
+                height: 350,
+                minHeight: null,
+                maxHeight: null,
+                focus: false,
+                onChange: function(contents, $editable) {
+                    $("#{{ id }}").val(contents);
+                }
+            });
+        });
+    </script>
+{% endblock textarea_widget %}

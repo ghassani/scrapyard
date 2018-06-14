@@ -1,0 +1,82 @@
+.ace_editor {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    z-index: 999;
+}
+
+.full-screen-editor #ace-editor-wrapper{
+    height: auto!important;
+    width: auto!important;
+    border: 0;
+    margin: 0;
+    position: fixed !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+.full-screen-editor #ace-editor-wrapper .ace_editor {
+    height: 100%;
+}
+
+#ace_settingsmenu{
+    z-index: 1000;
+}
+
+.ace-editor-toolbar{
+    background: #B32017;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 6px;
+}
+
+.ace-editor-toolbar .btn-sm{
+    padding: 2px 5px;
+
+}
+
+
+.full-screen-editor .ace-editor-toolbar{
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+.ace-editor-toolbar .fa{
+    margin-left: 2px;
+    margin-right: 2px;
+    font-weight: normal;
+}
+.ace-editor-footer-bar{
+    background: #B32017;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 3px;
+}
+
+.full-screen-editor .ace-editor-footer-bar{
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.ace-editor-footer-bar .fa{
+    margin-left: 2px;
+    margin-right: 2px;
+    font-weight: normal;
+}
+#ace-editor-status-bar-wrapper{
+    color: #000;
+    background:#fff;
+    border: 1px solid #000;
+    display: inline-block;
+    *display:inline;
+    zoom:1;
+    min-width: 50px;
+    padding-left: 2px;
+    padding-right: 2px;
+    height: 100%;
+}
+
+.ace-editor-toolbar .dropdown-toggle{
+    color:#fff;
+    cursor: pointer;
+}

@@ -1,0 +1,26 @@
+<tr>
+	{% if listConfiguration.batchActions|length %}
+		<td><input type="checkbox" value="{{ object.id }}" name="ids[]" /></td>
+	{% endif %}
+{% for fieldName, fieldData in listConfiguration.fields %}
+	{% set value = attribute(object, fieldData.accessor) %}
+	<td>
+	{% if isDateTime(value) or fieldData.type == 'datetime' %}
+		{{ value|date(fieldData.date_format) }}
+	{% else %}
+		{% if fieldData.type is defined and fieldData.type == 'bool' %}
+			<i class="{{ value > 0 ? 'icon-ok' : 'icon-remove' }}"></i>
+		{% else %}
+			{{ value }}
+		{% endif %}
+	{% endif %}
+	</td>
+{% endfor %}
+	<td>
+		{% if listConfiguration.actions|length %}
+			{% for action in listConfiguration.actions %}
+				<a href="{{ path(action.route, {'id' : object.id }) }}" class="{{ action.css_class }}">{{ action.label|raw }}</a>
+			{% endfor %}
+		{% endif %}
+	</td>
+</tr>

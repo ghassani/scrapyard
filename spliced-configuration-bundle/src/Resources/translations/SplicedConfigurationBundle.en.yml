@@ -1,0 +1,6 @@
+configuration_item_filter_form:
+  key_label: Key
+  type_label: Type
+
+configuration_item_filter_form:
+  id_label: ID

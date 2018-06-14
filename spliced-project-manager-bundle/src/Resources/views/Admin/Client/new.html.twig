@@ -1,0 +1,24 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block content %}
+<div class="row-fluid">
+	<div class="col-xs-2">
+		<h4>Client</h4>
+		<div class="well">  
+			Enter the details and select an existing user to associate this client with or create a new one.
+		</div>
+	</div>
+	<div class="col-xs-10">
+		<form method="post" action="{{ path('spliced_pms_client_save', { }) }}" id="new_client_form">
+		<fieldset>
+		
+			{% include 'SplicedProjectManagerBundle:Client:form.html.twig' with { 'form' : form, 'newUserForm' : newUserForm is defined ? newUserForm : null } %}
+			
+			<div class="form_actions right">
+				<button type="submit" class="btn btn-success center"><i class="icon-arrow-right icon-white"></i> Continue</buton>
+			</div>
+		</fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}

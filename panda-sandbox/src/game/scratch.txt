@@ -1,0 +1,25 @@
+
+        hero1_name_text : null,
+        hero1_hp_text : null,
+        hero1_mp_text : null,
+
+        hero2_name_text : null,
+        hero2_hp_text : null,
+        hero2_mp_text : null,
+
+        hero3_name_text : null,
+        hero3_hp_text : null,
+        hero3_mp_text : null,
+
+        hero4_name_text : null,
+        hero4_hp_text : null,
+        hero4_mp_text : null,
+
+        action_menu_1 : null,
+        action_menu_2 : null,
+        action_menu_3 : null,
+        action_menu_4 : null,
+        action_menu_5 : null,
+        action_menu_6 : null,
+        action_menu_7 : null,
+        action_menu_8 : null,

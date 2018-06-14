@@ -1,0 +1,39 @@
+<div id="project-attribute-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-attribute-new" id="project-attribute-new"><i class="fa fa-plus"></i> Add Attribute</a>
+        </div>
+        <h2>Attributes</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="project-attribute-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+
+        </tfoot>
+        <tbody>
+            {% if project.attributes|length %}
+                {% for attribute in project.attributes %}
+                    <tr id="project-attribute-{{ attribute.id }}">
+                        <td>{{ attribute.name }}</td>
+                        <td>{{ attribute.value }}</td>
+                        <td>
+                            <a href="javascript:;" class="project-attribute-delete" data-id="{{ attribute.id }}"><i class="fa fa-trash"></i></a>
+                            <a href="javascript:;" class="project-attribute-edit" data-id="{{ attribute.id }}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr class="no-result">
+                    <td colspan="3" class="text-center"><strong>No Attributes</strong></td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,21 @@
+Spliced\Bundle\CmsBundle\Entity\User:
+    type: entity
+    table: fos_user
+    uniqueConstraints:
+        UNIQ_957A647992FC23A8:
+            columns:
+                - username_canonical
+        UNIQ_957A6479A0D96FBF:
+            columns:
+                - email_canonical
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields: ~
+    lifecycleCallbacks: {  }

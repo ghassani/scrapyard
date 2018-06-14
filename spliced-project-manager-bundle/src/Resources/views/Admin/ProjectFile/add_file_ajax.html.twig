@@ -1,0 +1,18 @@
+		<tr class="project_file_{{ projectFile.id }}">
+			<td>{{ projectFile.id }}</td>
+			<td>{{ projectFile.originalFilename }}</td>
+				<td>
+				{% set iconPath = '/bundles/splicedprojectmanager/images/icons/files/' ~ projectFile.fileExtension ~ '.png' %}
+				{%  if assetExists(iconPath) %}
+					<img src="{{ asset(iconPath) }}" alt="" />
+				{%  else %}
+					<img src="{{ asset('/bundles/splicedprojectmanager/images/icons/files/_blank.png') }}" alt="" />
+				{%  endif %}
+				{{ projectFile.fileType }}
+				</td>
+			<td>{{ projectFile.isPublished }}</td>
+			<td>
+				<a href="{{  path('project_file_download', { 'file' : projectFile.id }) }}" class="btn btn-primary"><i class="icon-download icon-white"></i> Download</a>
+				<a href="{{  path('project_file_delete', { 'project' : projectFile.project.id, 'file' : projectFile.id }) }}" class="ajax_link_confirm btn btn-danger" data-message="Are you sure you want to delete this file"><i class="icon-remove-sign icon-white"></i> Delete</a>
+			</td>
+		</tr>

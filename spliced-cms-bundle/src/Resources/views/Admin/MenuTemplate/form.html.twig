@@ -1,0 +1,42 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.template.version.content "SplicedCmsBundle:Form:ace.html.twig" %}
+
+
+{{ form_errors(form) }}
+
+<div role="tabpanel">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#page-content-content" aria-controls="page-content-content" role="tab" data-toggle="tab">Content</a></li>
+        <li role="presentation"><a href="#page-content-settings" aria-controls="page-content-settings" role="tab" data-toggle="tab">Settings</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fadein active" id="menu-template-template-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_widget(form.template.version.content) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.template.label) }}
+                </div>
+                <div class="col-xs-6">
+                    {% if form.template.revert is defined %}
+                        {{ form_row(form.template.revert, { 'attr' : { 'class' : 'template_version_revert' } }) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="page-content-settings">
+            {% if form.site is defined %}
+                {{ form_row(form.site) }}
+            {% endif %}
+
+            {{ form_row(form.name) }}
+        </div>
+
+
+    </div>
+</div>
+
+{{ form_widget(form._token) }}

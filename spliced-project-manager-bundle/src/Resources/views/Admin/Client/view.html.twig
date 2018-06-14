@@ -1,0 +1,41 @@
+{% extends 'SplicedProjectManagerBundle:Layout:default.html.twig' %}
+
+{% block content %}
+
+<div class="row-fluid">
+	<div class="col-xs-2">
+		<div>
+			<h4>Viewing Client</h4>
+			<h5>{{  client.displayName }}</h5>
+			<h6>User: {{  client.user.username }}</h6>
+			<ul class="nav nav-pills nav-stacked nav-pills-spliced" id="client_tab_menu">
+			    <li class="active"><a href="#details" data-toggle="tab"><i class="icon-arrow-right"></i> Details</a></li>
+			    <li><a href="#projects" data-toggle="tab"><i class="icon-arrow-right"></i> Projects</a></li>
+			    <li><a href="#quotes" data-toggle="tab"><i class="icon-arrow-right"></i> Quotes</a></li>
+			    <li><a href="#invoices" data-toggle="tab"><i class="icon-arrow-right"></i> Invoices</a></li>
+		    </ul>	
+	
+			<ul class="unstyled list-unstyled">
+				<li><a href="{{ path('client_index') }}" class="btn btn-warning btn-block" title="Back To List"><i class="fa fa-arrow-left"></i>Back To List</a></li>
+				<li><a href="" class="btn btn-danger btn-block" title="Delete Client"><i class="fa fa-remove"></i>Delete Client</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-10">
+	    <div class="tab-content">
+	    	<div class="tab-pane active" id="details">
+	    		{% include 'SplicedProjectManagerBundle:Client:view_details.html.twig' with { 'form' : form, 'client' : client} %}
+	    	</div>
+	    	<div class="tab-pane" id="projects">
+	    		{% include 'SplicedProjectManagerBundle:Client:view_projects.html.twig' with { 'client' : client} %}
+	    	</div>
+	    	<div class="tab-pane" id="quotes">
+	    		{% include 'SplicedProjectManagerBundle:Client:view_quotes.html.twig' with { 'client' : client} %}
+	    	</div>
+	    	<div class="tab-pane" id="invoices">
+	    		{% include 'SplicedProjectManagerBundle:Client:invoices.html.twig' with { 'client' : client} %}
+	    	</div>
+	    </div>
+	</div>
+</div>
+{% endblock content %}

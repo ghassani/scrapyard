@@ -1,0 +1,86 @@
+Spliced\Bundle\CmsBundle\Entity\Site:
+    type: entity
+    table: smc_site
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\SiteRepository
+    indexes:
+        alias_of:
+            columns:
+                - alias_of
+        default_page_id:
+            columns:
+                - default_page_id
+        is_active:
+            columns:
+                - is_active
+    uniqueConstraints:
+        domain:
+            columns:
+                - domain
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        domain:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        rootDir:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: root_dir
+        webDir:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: web_dir
+        templateDir:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+            column: template_dir
+        isActive:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '1'
+            column: is_active
+    manyToOne:
+        defaultPage:
+            targetEntity: ContentPage
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                default_page_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        aliasOf:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: aliases
+            joinColumns:
+                alias_of:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        aliases:
+          targetEntity: Site
+          mappedBy: aliasOf
+          cascade: ["persist"]
+    lifecycleCallbacks: {  }

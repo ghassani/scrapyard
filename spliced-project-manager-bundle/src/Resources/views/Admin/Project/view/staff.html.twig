@@ -1,0 +1,53 @@
+{% set colspan = 5 %}
+
+<div id="project-staff-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-staff-new" id="project-staff-new"><i class="fa fa-plus"></i> Add Staff</a>
+        </div>
+        <h2>Staff</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="project-staff-table">
+        <thead>
+        <tr>
+            <th width="20"><input type="checkbox" class="check-all" /></th>
+            <th width="100">ID</th>
+            <th>Member</th>
+            <th>Position</th>
+            <th width="50"></th>
+        </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% if project.staff|length %}
+            {% for projectStaff in project.staff %}
+                <tr id="project-staff-{{ projectStaff.id }}">
+                    <td><input type="checkbox" name="ids[]" value="{{ projectStaff.id }}" /></td>
+                    <td>{{ projectStaff.id }}</td>
+                    <td>{{ projectStaff.staff.displayName }}</td>
+                    <td>{{ projectStaff.position }}</td>
+                    <td><a href="javascript:;" class="project-staff-edit" data-id="{{ projectStaff.id }}"><i class="fa fa-pencil"></i></a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="{{ colspan }}" class="text-center"><strong>No Staff</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>

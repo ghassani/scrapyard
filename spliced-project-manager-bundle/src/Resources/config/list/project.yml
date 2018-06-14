@@ -1,0 +1,73 @@
+entity: SplicedProjectManagerBundle:Project
+batch_route: project_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: p.id
+    type: string
+  client:
+    accessor: client
+    label: Client
+    column: c.displayName
+    type: string
+  name:
+    accessor: name
+    label: Project Name
+    column: p.name
+    type: string
+  isHighlight:
+    accessor: isHighlight
+    label: Highlight
+    column: p.isHighlight
+    type: bool
+  isPublished:
+    accessor: isPublished
+    label: Published
+    column: p.isPublished
+    type: bool
+  status:
+    accessor: statusNamed
+    label: Status
+    column: p.status
+    type: string
+  createdAt:
+    accessor: createdAt
+    label: Created On
+    column: p.createdAt
+    type: datetime
+    date_format: m/d/y h:i a
+    
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  publish: 
+    label: Publish
+    value: publish
+    confirm: false
+  unpublish: 
+    label: Unpublish
+    value: unpublish
+    confirm: false
+  highlight: 
+    label: Highlight
+    value: highlight
+    confirm: false 
+  unhighlight: 
+    label: Unhighlight
+    value: unhighlight
+    confirm: false 
+  
+actions:
+  edit:
+    css_class: test
+    route: project_view
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class: test
+    route: project_delete
+    label: <i class="icon-remove"></i>

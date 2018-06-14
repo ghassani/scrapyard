@@ -1,0 +1,59 @@
+entity: SplicedProjectManagerBundle:Service
+batch_route: service_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: s.id
+    type: string
+  name:
+    accessor: name
+    label: Name
+    column: s.name
+    type: string
+  urlSlug:
+    accessor: urlSlug
+    label: URL Slug
+    column: s.urlSlug
+    type: string
+  urlSlug:
+    accessor: urlSlug
+    label: URL Slug
+    column: s.urlSlug
+    type: string
+  isPublished:
+    accessor: isPublished
+    label: Published
+    column: s.isPublished
+    type: bool 
+  createdAt:
+    accessor: createdAt
+    label: Created On
+    column: s.createdAt
+    type: datetime
+    date_format: m/d/y h:i a
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  publish: 
+    label: Publish
+    value: publish
+    confirm: false
+  unpublish: 
+    label: Unpublish
+    value: unpublish
+    confirm: false
+    
+actions:
+  edit:
+    css_class:
+    route: service_edit
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class:
+    route: service_delete
+    label: <i class="icon-remove"></i>

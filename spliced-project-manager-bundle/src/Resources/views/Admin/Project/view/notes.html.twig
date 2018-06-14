@@ -1,0 +1,54 @@
+{% set colspan = 4 %}
+<div id="project-note-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-note-new" id="project-note-new"><i class="fa fa-plus"></i> Add Note</a>
+        </div>
+        <h2>Notes</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="project-note-table">
+        <thead>
+        <tr>
+            <th width="20"><input type="checkbox" class="check-all" /></th>
+            <th width="100">ID</th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% if project.notes|length %}
+            {% for note in project.notes %}
+                <tr id="project-note-{{ note.id }}">
+                    <td><input type="checkbox" name="ids[]" value="{{ note.id }}" /></td>
+                    <td>{{ note.id }}</td>
+                    <td>
+                        <div><strong>By [name]</strong> on {{ note.createdAt|date('m/d/Y h:i a') }}</div>
+                        {{ note.note }}
+                    </td>
+                    <td><a href="javascript:;" class="project-note-edit" data-id="{{ note.id }}"><i class="fa fa-pencil"></i></a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        <tr class="no-result" style="{{ project.notes|length ? 'display:none;' : '' }}">
+            <td colspan="{{ colspan }}" class="text-center"><strong>No Notes</strong></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>

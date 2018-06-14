@@ -1,0 +1,60 @@
+project_attribute_add_form:
+    attribute_label: ~
+
+
+project_attribute_add_value_form:
+  value_label: ~
+
+
+project_staff_form:
+  staff_label: Staff Member
+  position_label: Project Position
+  earning_type_label: Earning Type
+  earning_percent_label: Earning (%)
+  earning_fixed_label: Earning (Fixed)
+
+project_media_form:
+  display_type_label: Display Type
+  file_label: File
+  file_code_label: File Code
+  is_public_label: Public
+
+project_file_form:
+  file_label: File
+  is_public_label: Public
+  description_label: Description
+
+project_quote_form:
+  line_items_label: Line Items
+  estimated_completion_date_label: Estimated Completion Date
+  start_date_label: Start Date
+  quoted_amount_label: Quoted Amount
+
+project_quote_line_item_form:
+  title_label: Title
+  sku_label: SKU
+  description_label: Description
+  price_label: Price
+  quantity_label: Quantity
+
+project_invoice_form:
+  start_date_label: Start Date
+  completion_date_label: Completion Date
+  line_items_label: Line Items
+
+project_invoice_line_item_form:
+  title_label: Title
+  sku_label: SKU
+  description_label: Description
+  price_label: Price
+  quantity_label: Quantity
+
+
+project_note_form:
+  note_label: Note
+  client_viewable_label: Client Viewable
+
+project_time_entry_form:
+  entry_date_label: Date
+  entry_time_label: Time
+  entry_note_label: Note

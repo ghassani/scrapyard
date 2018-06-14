@@ -1,0 +1,110 @@
+Spliced\Bundle\CmsBundle\Entity\ContentPage:
+    type: entity
+    table: smc_content_page
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\ContentPageRepository
+    indexes:
+        site_id:
+            columns:
+                - site_id
+        layout_id:
+            columns:
+                - layout_id
+        template_id:
+            columns:
+                - template_id
+        is_active:
+            columns:
+                - is_active
+    uniqueConstraints:
+        slug:
+            columns:
+                - slug
+                - site_id
+        site_id_2:
+            columns:
+                - site_id
+                - page_key
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        pageKey:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: page_key
+        name:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        slug:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        isActive:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '1'
+            column: is_active
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    manyToOne:
+        layout:
+            targetEntity: Layout
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                layout_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        template:
+            targetEntity: Template
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        routes:
+          targetEntity: Route
+          mappedBy: contentPage
+          cascade: ["persist"]
+        meta:
+          targetEntity: ContentPageMeta
+          mappedBy: contentPage
+          cascade: ["persist"]
+
+    lifecycleCallbacks: {  }

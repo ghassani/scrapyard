@@ -1,0 +1,58 @@
+{%  set colspan =  5 %}
+
+<div id="project-attribute-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-attribute-new" id="project-attribute-new"><i class="fa fa-plus"></i> Add Attribute</a>
+        </div>
+        <h2>Attributes</h2>
+    </div>
+
+    <form method="post" action="" id="attribute-batch-form">
+        <table class="table table-bordered table-striped spliced-admin-list" id="project-attribute-table">
+            <thead>
+                <tr>
+                    <th width="20"><input type="checkbox" class="check-all" /></th>
+                    <th width="100">ID</th>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th width="50"></th>
+                </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+                {% if project.attributes|length %}
+                    {% for attribute in project.attributes %}
+                        <tr id="project-attribute-{{ attribute.id }}">
+                            <td><input type="checkbox" name="ids[]" value="{{ attribute.id }}" /></td>
+                            <td>{{ attribute.id }}</td>
+                            <td>{{ attribute.name }}</td>
+                            <td>{{ attribute.value }}</td>
+                            <td>
+                                <a href="javascript:;" class="project-attribute-edit" data-id="{{ attribute.id }}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+                <tr class="no-result" style="{{ project.attributes|length ? 'display: none;' : '' }}">
+                    <td colspan="{{ colspan }}" class="text-center"><strong>No Attributes</strong></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,19 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme folderForm "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% block title %}- New Folder{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_file_manager', { 'dir' : dir.relativePath  }) }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-primary btn-sm" data-action="form-submit" data-target="#new-folder-form" title="Create"><i class="fa fa-save"></i></a>
+        </div>
+        <h1>Creating New Folder</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_file_manager_create_folder', { 'dir' : dir.relativePath }) }}" id="new-folder-form">
+        {{ form_row(folderForm.folderName) }}
+        {{ form_rest(folderForm) }}
+    </form>
+{% endblock %}

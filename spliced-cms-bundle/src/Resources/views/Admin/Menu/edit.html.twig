@@ -1,0 +1,33 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% block title %}- Editing Menu {{ menu.name }}{% endblock %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_menu_list') }}" class="btn btn-default btn-sm"><i class="fa fa-backward" title="Back To List"></i></a>
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#menu-form" title="Update"><i class="fa fa-save"></i></button>
+        </div>
+        <h1>Editing Menu: <small>{{ form.vars.data.name }} ({{ form.vars.data.id }})</small></h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_menu_update', { 'id' : form.vars.data.id }) }}" class="form" role="form" id="menu-form">
+        {{ include('SplicedCmsBundle:Admin/Menu:form.html.twig') }}
+    </form>
+{% endblock %}
+
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function($){
+            var menu = new SplicedMenu(document.getElementById("menu-form"), {{ form.vars.data.toJson()|raw }}, {
+                debug : true
+            });
+        });
+    </script>
+{% endblock %}

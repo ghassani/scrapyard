@@ -1,0 +1,14 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+
+{{ form_row(form.name, {'attr' : {'class' : ''}}) }}
+{{ form_row(form.client, {'attr' : {'class' : ''}}) }}
+{{ form_row(form.urlSlug, {'attr' : {'class' : ''}}) }}
+
+
+{% if project is defined %}
+    <label class="control-label">Status</label>
+    <div class="controls">
+        <span class="input-xlarge uneditable-input">{{ project.statusNamed }}</span>
+    </div>
+{% endif %}

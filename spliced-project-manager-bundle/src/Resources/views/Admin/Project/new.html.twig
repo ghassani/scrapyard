@@ -1,0 +1,33 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block title %}- New Project{% endblock %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_pms_project_list') }}" class="btn btn-default btn-sm"><i class="fa fa-backward"></i> Back To List</a>
+            <button type="button" class="btn btn-primary btn-sm" id="form-submit-button"><i class="fa fa-save"></i> Save</button>
+        </div>
+        <h1>New Project</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-xs-2">
+		<div class="well">
+			Enter the basic project settings. You will be able to set more advanced settings on the next step.
+		</div>
+	</div>
+	<div class="col-xs-10">
+		<form method="post" action="{{ path('spliced_pms_project_save', { }) }}" id="new_project_form">
+		<fieldset>
+		
+			{% include 'SplicedProjectManagerBundle:Project:form.html.twig' with { 'form' : form } %}
+
+		</fieldset>
+		{{ form_rest(form) }}
+		</form>
+	</div>
+</div>
+{% endblock %}

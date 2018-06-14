@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <services>
+        
+        <service id="spliced_cms.listener.http_kernel" class="Spliced\Bundle\CmsBundle\EventListener\HttpKernelListener">
+            <argument type="service" id="spliced.configuration_manager" />
+            <argument type="service" id="spliced_cms.site_manager" />
+            <argument type="service" id="security.context" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+        
+        <service id="spliced_cms.listener.site" class="Spliced\Bundle\CmsBundle\EventListener\SiteEventListener">
+            <argument type="service" id="spliced_cms.site_host_manager" />
+            <tag name="kernel.event_listener" event="spliced_cms.site.save"     method="onSave" />
+            <tag name="kernel.event_listener" event="spliced_cms.site.update"   method="onUpdate" />
+            <tag name="kernel.event_listener" event="spliced_cms.site.delete"   method="onDelete" />
+        </service>
+
+        <service id="spliced_cms.listener.content_block" class="Spliced\Bundle\CmsBundle\EventListener\TemplateEventListener">
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.save"    method="onSave" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.update"  method="onUpdate" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.delete"  method="onDelete" />
+        </service>
+        
+        <service id="spliced_cms.listener.layout" class="Spliced\Bundle\CmsBundle\EventListener\LayoutEventListener">
+            <tag name="kernel.event_listener" event="spliced_cms.layout.save"   method="onSave" />
+            <tag name="kernel.event_listener" event="spliced_cms.layout.update" method="onUpdate" />
+            <tag name="kernel.event_listener" event="spliced_cms.layout.delete" method="onDelete" />
+        </service>
+        
+        <service id="spliced_cms.listener.content_page" class="Spliced\Bundle\CmsBundle\EventListener\ContentPageEventListener">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_page.save"     method="onSave" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_page.update"   method="onUpdate" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_page.delete"   method="onDelete" />
+        </service>
+        
+        <service id="spliced_cms.listener.content_block" class="Spliced\Bundle\CmsBundle\EventListener\ContentBlockEventListener">
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.save"    method="onSave" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.update"  method="onUpdate" />
+            <tag name="kernel.event_listener" event="spliced_cms.content_block.delete"  method="onDelete" />
+        </service>
+        
+        <service id="spliced_cms.listener.admin_main_menu" class="Spliced\Bundle\CmsBundle\EventListener\MenuEventListener">
+            <argument type="service" id="spliced_cms.site_manager" />
+            <tag name="kernel.event_listener" event="spliced.admin_theme.build_menu.main"       method="buildAdminMainMenu" />
+            <tag name="kernel.event_listener" event="spliced.admin_theme.build_menu.user"       method="buildAdminUserMenu" />
+            <tag name="kernel.event_listener" event="spliced.admin_theme.build_menu.slide_out"  method="buildAdminSlideOutMenu" />
+        </service>
+        
+        <service id="spliced_cms.listener.template_render" class="Spliced\Bundle\CmsBundle\EventListener\TemplateRenderEventListener">
+            <argument type="service" id="spliced_cms.template_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <tag name="kernel.event_listener" event="spliced_cms.template.render" method="onRender" />
+        </service>
+    </services>
+
+</container>

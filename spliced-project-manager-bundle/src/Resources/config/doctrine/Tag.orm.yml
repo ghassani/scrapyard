@@ -1,0 +1,34 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\Tag:
+    type: entity
+    table: smpm_tag
+    repositoryClass: Spliced\Bundle\ProjectManagerBundle\Repository\TagRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        displayName:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+            column: display_name
+        description:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

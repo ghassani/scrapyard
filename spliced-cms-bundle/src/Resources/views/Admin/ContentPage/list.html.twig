@@ -1,0 +1,99 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% import "SplicedCmsBundle:Admin/Macros:knp_paginator.html.twig" as knpHelper %}
+
+{% block title %}- Content Page List{% endblock %}
+
+{% set colspan = spliced_cms.site_manager.getCurrentAdminSite|length ? 8 : 9  %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_content_page_new') }}" title="New Content Page" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+        </div>
+        <h1>Content Pages</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if filterForm is defined %}
+        {{ include('SplicedCmsBundle:Admin/ContentPage:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+    <form method="post" action="{{ path('spliced_cms_admin_content_page_batch') }}" id="batch-form">
+        <table class="table table-striped table-hover table-bordered spliced-admin-list">
+            <thead>
+                <tr>
+                    <th colspan="{{ colspan }}">
+                        <div class="pull-right">
+                            {% if filterForm is defined %}
+                                <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                            {% endif %}
+                        </div>
+                        {{ knp_pagination_render(contentPages, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="check-all" /></th>
+                    {{ knpHelper.table_header_row(contentPages, 'ID', 'c.id', {}) }}
+                    {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                        {{ knpHelper.table_header_row(contentPages, 'Site', 'c.site', {}) }}
+                    {% endif %}
+                    {{ knpHelper.table_header_row(contentPages, 'Name', 'c.name', { width : '55%'}) }}
+                    <th>Draft</th>
+                    {{ knpHelper.table_header_row(contentPages, 'Active', 'c.id', {}) }}
+                    {{ knpHelper.table_header_row(contentPages, 'Created', 'c.id', {}) }}
+                    {{ knpHelper.table_header_row(contentPages, 'Updated', 'c.updatedAt', {}) }}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="{{ colspan }}">
+                        <div class="pull-right">
+                            Showing {{ contentPages|length }}/{{ contentPages.getTotalItemCount }} Records
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                With Selected <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                                <li><a href="#" data-action="batch-list" data-batch-action="activate"  data-confirm="false">Activate</a></li>
+                                <li><a href="#" data-action="batch-list" data-batch-action="deactivate"  data-confirm="false">Deactivate</a></li>
+                                <li><a href="#" data-action="batch-list" data-batch-action="publish"  data-confirm="true">Publish Changes</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% if contentPages.getTotalItemCount > 0 %}
+                    {% for contentPage in contentPages %}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{ contentPage.id }}" /></td>
+                        <td>{{ contentPage.id }}</td>
+                        {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                            <td>{{ contentPage.site.domain }}</td>
+                        {% endif %}
+                        <td>{{ contentPage.name }}</td>
+                        <td><i class="fa {{ contentPage.template.version.id != contentPage.template.activeVersion.id ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                        <td><i class="fa {{ contentPage.isActive ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                        <td>{{ contentPage.createdAt|date('m/d/Y h:i a') }}</td>
+                        <td>{{ contentPage.updatedAt|date('m/d/Y h:i a') }}</td>
+                        <td>
+                            <a href="{{ path('spliced_cms_admin_content_page_edit', { 'id' : contentPage.id }) }}"><i class="fa fa-edit"></i></a>
+                            <a href="{{ path('spliced_cms_content_page_by_slug', { 'slug' : contentPage.slug }) }}"><i class="fa fa-eye"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="no-result">
+                        <td colspan="{{ colspan }}" class="text-center"><strong>No Content Pages Found</strong></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        {{ form_rest(batchActionForm) }}
+    </form>
+{% endblock %}

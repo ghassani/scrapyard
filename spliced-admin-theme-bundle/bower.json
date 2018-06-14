@@ -1,0 +1,14 @@
+{
+    "name": "SplicedAdminThemeBundle",
+    "dependencies": {
+    	"bootstrap": "3.*",
+    	"html5shiv" : "*",
+    	"jquery-colorbox" : "*",
+    	"moment" : "*",
+    	"requirejs" : "*",
+    	"switchery" : "*",
+    	"jqueryui" : "*",
+        "jquery.cookie": "*",
+        "blockui": "*"
+    }
+}

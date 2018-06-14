@@ -1,0 +1,29 @@
+{
+	"name" : "miva/zen-migrate",
+	"description" : "Migration Tools For Miva Merchant 5 and 9",
+	"require" : {
+		"php" : ">=5.3",
+		"symfony/http-foundation" : "2.3.*@stable",
+		"symfony/console" : "2.3.*@stable",
+		"symfony/dependency-injection" : "2.3.*@stable",
+		"symfony/process" : "2.3.*@stable",
+		"symfony/yaml" : "2.3.*@stable",
+		"symfony/finder" : "2.3.*@stable",
+		"monolog/monolog" : "1.17.2@stable",
+		"doctrine/dbal" : "*@stable",
+		"neitanod/forceutf8" : "dev-master",
+		"ghassani/miva-provision" : "dev-master"
+	},
+	"license" : "GPL",
+	"authors" : [{
+			"name" : "Gassan Idriss",
+			"email" : "gidriss@mivamerchant.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"autoload" : {
+		"psr-0" : {
+			"" : "src/"
+		}
+	}
+}

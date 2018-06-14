@@ -1,0 +1,28 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme fileForm "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme fileForm.content "SplicedCmsBundle:Form:ace_file.html.twig" %}
+{% block title %}- New File{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_file_manager', { 'dir' : dir.relativePath  }) }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-primary btn-sm" data-action="form-submit" data-target="#new-file-form" title="Save"><i class="fa fa-save"></i></a>
+        </div>
+        <h1>Creating New File</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_file_manager_save_file', { 'dir' : dir.relativePath }) }}" id="new-file-form">
+        {{ form_row(fileForm.fileName) }}
+        {{ form_row(fileForm.content) }}
+        {{ form_rest(fileForm) }}
+    </form>
+{% endblock %}
+{% block body_end %}
+    <script>
+        var editFile = new SplicedFileManagerEditFile(document.getElementById('new-file-form'), {
+            debug : {{ app.environment in ['dev','test'] ? 'true' : 'false' }}
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+<div class="modal fade" id="editorInsertImageModal" tabindex="-1" role="dialog" aria-labelledby="editorInsertImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editorInsertImageModalLabel">Insert Image</h4>
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#insert-image-tab-1" aria-controls="insert-image-tab-1" role="tab" data-toggle="tab">Gallery</a></li>
+                        <li role="presentation"><a href="#insert-image-tab-2" aria-controls="insert-image-tab-2" role="tab" data-toggle="tab">Upload</a></li>
+                        <li role="presentation"><a href="#insert-image-tab-3" aria-controls="insert-image-tab-3" role="tab" data-toggle="tab">External Image</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="insert-image-tab-1">
+                            {{ include('SplicedCmsBundle:Admin/Gallery:modal.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="insert-image-tab-2">
+                            {{ form_row(form.upload) }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="insert-image-tab-3">
+                            {{ form_row(form.external) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-state="invalid" id="btn-insert-image-continue">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+
+    <services>
+
+
+        <service id="spliced_pms.cms_extension.quote_form" class="Spliced\Bundle\ProjectManagerBundle\Cms\Extension\QuoteFormTemplateExtension">
+            <tag name="spliced_cms.template_extension" />
+            <argument type="service" id="spliced_cms.site_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="session" />
+            <argument type="service" id="router" />
+
+        </service>
+
+        <service id="spliced_pms.cms_extension.project" class="Spliced\Bundle\ProjectManagerBundle\Cms\Extension\ProjectTemplateExtension">
+            <tag name="spliced_cms.template_extension" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="spliced_pms.cms_extension.projects" class="Spliced\Bundle\ProjectManagerBundle\Cms\Extension\ProjectsTemplateExtension">
+            <tag name="spliced_cms.template_extension" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+
+
+</container>

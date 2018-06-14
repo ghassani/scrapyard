@@ -1,0 +1,79 @@
+Spliced\Bundle\CmsBundle\Entity\Menu:
+    type: entity
+    table: smc_menu
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\MenuRepository
+    indexes:
+        site_id:
+            columns:
+                - site_id
+        menu_template_id:
+            columns:
+                - menu_template_id
+        is_published:
+            columns:
+                - is_active
+    uniqueConstraints:
+        site_id_2:
+            columns:
+                - site_id
+                - menu_key
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        menuKey:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: menu_key
+        name:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+        options:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        isActive:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '1'
+            column: is_active
+    manyToOne:
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        menuTemplate:
+            targetEntity: MenuTemplate
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                menu_template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        items:
+          targetEntity: MenuItem
+          mappedBy: menu
+          cascade: ["persist"]
+    lifecycleCallbacks: {  }

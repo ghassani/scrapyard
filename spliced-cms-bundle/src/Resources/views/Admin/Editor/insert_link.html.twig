@@ -1,0 +1,18 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+<div class="modal fade" id="editorInsertLinkModal" tabindex="-1" role="dialog" aria-labelledby="editorInsertLinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editorInsertLinkModalLabel">Insert Link</h4>
+            </div>
+            <div class="modal-body">
+        {{ form_rest(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="insert-link">Insert</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+<table class="table table-striped table-bordered table-quote-items">
+	<thead>
+		<tr>
+			<th>Sku</th>
+			<th>Title</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Description</th>
+			<th>
+				<a href="{{ path('project_quote_add_line') }}" class="btn btn-sm btn-success ajax-link-add-quote-line"><i class="fa fa-plus-circle icon-white"></i></a>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="2">
+                {{ form_label(form.estimatedCompletionDate) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    {{ form_widget(form.estimatedCompletionDate, {'attr' : {'class' : '', 'data-format' : "yyyy-MM-dd" }}) }}
+                </div>
+			</td>
+            <td colspan="2">
+                {{ form_label(form.startDate) }}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    {{ form_widget(form.startDate, {'attr' : {'class' : '', 'data-format' : "yyyy-MM-dd" }}) }}
+                </div>
+            </td>
+            <td colspan="2">
+                {{ form_label(form.quotedAmount) }}
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    {{ form_widget(form.quotedAmount, {'attr' : {'class' : '', 'maxlength' : '99' }}) }}
+                </div>
+            </td>
+		</tr> 
+	</tfoot>
+	
+	<tbody id="project_quote_line_items">
+		{%  if form.lineItems|length %}
+			{%  for item in form.lineItems %}
+				{% include 'SplicedProjectManagerBundle:ProjectQuote:item_row.html.twig' with { 'form' : item } %}
+			{%  endfor %}
+		{% else %}
+			<tr class="no-result-row" id="project-quote-line-EMPTY">
+				<td colspan="6"><div class="text-center">No Items. Add One!</div></td>
+			</tr>
+		{% endif %}
+	</tbody>
+	
+</table>
+{{  form_rest(form) }}

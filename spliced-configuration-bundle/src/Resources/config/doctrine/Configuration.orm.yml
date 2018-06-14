@@ -1,0 +1,42 @@
+Spliced\Bundle\ConfigurationBundle\Entity\Configuration:
+    type: entity
+    table: smc_configuration
+    repositoryClass: Spliced\Bundle\ConfigurationBundle\Repository\ConfigurationRepository
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        type:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: ''
+            column: data_type
+        category:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: ''
+        key:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: data_key
+        value:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: data_value
+    lifecycleCallbacks: {  }

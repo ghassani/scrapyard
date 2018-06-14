@@ -1,0 +1,60 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectMedia:
+    type: entity
+    table: smpm_project_media
+    indexes:
+        IDX_436A67F6166D1F9C:
+            columns:
+                - project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        filename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        fileType:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: file_type
+        fileCode:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: file_code
+        displayType:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: display_type
+        isPublic:
+            type: boolean
+            nullable: false
+            comment: ''
+            column: is_public
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

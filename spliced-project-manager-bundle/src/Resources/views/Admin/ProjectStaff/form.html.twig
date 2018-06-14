@@ -1,0 +1,29 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+
+{{ form_row(form.staff) }}
+<div class="row">
+    <div class="col-sm-12">
+        {{ form_label(form.position) }}
+        <div class="input-group">
+            {{ form_widget(form.position) }}
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Presets <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="javascript:;" class="project-position-preset" rel="Designer">Designer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Lead Designer">Lead Designer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Co-Designer">Co-Designer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Developer">Developer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Lead Developer">Lead Developer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Co-Developer">Co-Developer</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Editor">Editor</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Tester">Tester</a></li>
+                    <li><a href="javascript:;" class="project-position-preset" rel="Debugging">Debugging</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_rest(form) }}
+

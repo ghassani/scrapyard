@@ -1,0 +1,51 @@
+Spliced\Bundle\CmsBundle\Entity\MenuTemplate:
+    type: entity
+    table: smc_menu_template
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\MenuTemplateRepository
+    indexes:
+        site_id:
+            columns:
+                - site_id
+                - template_id
+        template_id:
+            columns:
+                - template_id
+        IDX_5853E7F2F6BD1646:
+            columns:
+                - site_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+            comment: ''
+    manyToOne:
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        template:
+            targetEntity: Template
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

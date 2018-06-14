@@ -1,0 +1,9 @@
+{
+    "name": "SplicedCmsBundle",
+    "dependencies": {
+        "ace-builds" : "*",
+        "jquery" : "*",
+        "jquery.cookie": "*"
+
+    }
+}

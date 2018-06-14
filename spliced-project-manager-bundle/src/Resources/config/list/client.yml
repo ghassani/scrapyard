@@ -1,0 +1,46 @@
+entity: SplicedProjectManagerBundle:Client
+batch_route: spliced_pms_client_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: c.id
+    type: string
+  user:
+    accessor: user
+    label: Username
+    column: c.user
+    type: string
+  contactName:
+    accessor: contactName
+    label: Contact Name
+    column: c.contactName
+    type: string
+  companyName:
+    accessor: companyName
+    label: Company Name
+    column: c.companyName
+    type: string
+  displayName:
+    accessor: displayName
+    label: Display Name
+    column: c.displayName
+    type: string
+    
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  
+actions:
+  edit:
+    css_class:
+    route: client_view
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class:
+    route: client_delete
+    label: <i class="icon-remove"></i>

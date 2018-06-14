@@ -1,0 +1,41 @@
+entity: SplicedProjectManagerBundle:Staff
+batch_route: staff_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: s.id
+    type: string
+  user:
+    accessor: user
+    label: Username
+    column: s.user
+    type: string
+  contactName:
+    accessor: contactName
+    label: Contact Name
+    column: s.contactName
+    type: string
+  displayName:
+    accessor: displayName
+    label: Display Name
+    column: s.displayName
+    type: string
+    
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  
+actions:
+  edit:
+    css_class:
+    route: staff_edit
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class:
+    route: staff_delete
+    label: <i class="icon-remove"></i>

@@ -1,0 +1,33 @@
+
+<form method="post" action="{{ path('project_tag_add', { 'id' : project.id }) }}" class="ajax_form" id="project_tag_form">
+    <fieldset>
+    	<legend><i class="icon-tags"></i> Related Tags</legend>
+		<div class="row-fluid">
+
+			<div class="span7" id="project_tags">				
+				{% spaceless %}{% for tag in project.tags %}
+					<a href="{{ path('project_tag_delete', { 'project' : project.id, 'tag' : tag.id }) }}" class="ajax_link_confirm" data-message="Are you sure you want to unrelate {{ tag.tag.name }} from this project?">
+						<span class="label label-info">
+							<i class="icon-remove-sign icon-white"></i> {{ tag.tag.name }}
+						</span>
+					</a>
+				{% endfor %}{% endspaceless %}
+			</div>
+			
+			
+			<div class="span5">
+    			<div class="input-append">
+    				{{ form_widget(form.tag) }}
+    				<div class="btn-group">
+    					<button class="btn btn-success" type="submit"><i class="icon-plus-sign icon-white"></i> Add Tag</button>
+    				</div>
+    			</div>
+		    	{{ form_rest(form) }}
+			</div>
+			
+		</div>
+		
+		
+
+    </fieldset>
+</form>

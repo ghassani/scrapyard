@@ -1,0 +1,73 @@
+Spliced\Bundle\CmsBundle\Entity\Route:
+    type: entity
+    table: smc_route
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\RouteRepository
+    indexes:
+        site_id:
+            columns:
+                - site_id
+        page_id:
+            columns:
+                - page_id
+    uniqueConstraints:
+        unique_site_name:
+            columns:
+                - site_id
+                - request_path
+                - name
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        requestPath:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: request_path
+        targetPath:
+            type: string
+            nullable: false
+            length: 200
+            fixed: false
+            comment: ''
+            column: target_path
+        parameters:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+    manyToOne:
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        contentPage:
+            targetEntity: ContentPage
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                page_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

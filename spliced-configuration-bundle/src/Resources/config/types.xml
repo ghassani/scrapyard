@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spliced.configuration.type.array.class">Spliced\Bundle\ConfigurationBundle\Type\ArrayType</parameter>
+        <parameter key="spliced.configuration.type.boolean.class">Spliced\Bundle\ConfigurationBundle\Type\BooleanType</parameter>
+        <parameter key="spliced.configuration.type.float.class">Spliced\Bundle\ConfigurationBundle\Type\FloatType</parameter>
+        <parameter key="spliced.configuration.type.integer.class">Spliced\Bundle\ConfigurationBundle\Type\IntegerType</parameter>
+        <parameter key="spliced.configuration.type.json.class">Spliced\Bundle\ConfigurationBundle\Type\JsonType</parameter>
+        <parameter key="spliced.configuration.type.string.class">Spliced\Bundle\ConfigurationBundle\Type\StringType</parameter>
+        <parameter key="spliced.configuration.type.text.class">Spliced\Bundle\ConfigurationBundle\Type\TextType</parameter>
+    </parameters>
+
+    <services>
+        <service id="spliced.configuration.type.array" class="%spliced.configuration.type.array.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.boolean" class="%spliced.configuration.type.boolean.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.float" class="%spliced.configuration.type.float.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.integer" class="%spliced.configuration.type.integer.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.json" class="%spliced.configuration.type.json.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.string" class="%spliced.configuration.type.string.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+        <service id="spliced.configuration.type.text" class="%spliced.configuration.type.text.class%">
+            <tag name="spliced.configuration_type" />
+        </service>
+
+    </services>
+
+</container>

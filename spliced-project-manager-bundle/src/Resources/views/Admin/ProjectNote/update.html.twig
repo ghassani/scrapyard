@@ -1,0 +1,9 @@
+<tr id="project-note-{{ note.id }}">
+    <td><input type="checkbox" name="ids[]" value="{{ note.id }}" /></td>
+    <td>{{ note.id }}</td>
+    <td>
+        <div><strong>By [name]</strong> on {{ note.createdAt|date('m/d/Y h:i a') }}</div>
+        {{ note.note }}
+    </td>
+    <td><a href="javascript:;" class="project-note-edit" data-id="{{ note.id }}"><i class="fa fa-pencil"></i></a></td>
+</tr>

@@ -1,0 +1,18 @@
+<form id="fileupload" class="upload_form" action="{{ path('media_manager_process_upload') }}" method="post" enctype="multipart/form-data">
+{{  form_rest(form) }}
+    {# Hydrated by javascript #}
+    <div class="file-uploader"></div>
+
+</form>
+{% include "PunkAveFileUploaderBundle:Default:templates.html.twig" %}
+<script type="text/javascript">
+
+$(function() {
+ new PunkAveFileUploader({ 
+     'uploadUrl': {{ path('media_manager_process_upload') | json_encode | raw }},
+     'el': '.file-uploader',
+     'existingFiles': [],
+     'delaySubmitWhileUploading': '.upload_form'
+ });
+});
+</script>

@@ -1,0 +1,10 @@
+<form method="post" action="" class="ajax_form" id="detail_form">
+<fieldset>
+
+	{% include 'SplicedProjectManagerBundle:Client:form.html.twig' with { 'form' : form, 'client' : client } %}
+	<div class="form_actions">
+		<button type="submit" class="btn btn-success"><i class="icon-upload icon-white"></i> Update Details</buton>
+	</div>
+</fieldset>
+{{ form_rest(form) }}
+</form>

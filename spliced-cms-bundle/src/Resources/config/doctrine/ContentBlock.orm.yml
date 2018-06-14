@@ -1,0 +1,80 @@
+Spliced\Bundle\CmsBundle\Entity\ContentBlock:
+    type: entity
+    table: smc_content_block
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\ContentBlockRepository
+    indexes:
+        site_id:
+            columns:
+                - site_id
+        template_id:
+            columns:
+                - template_id
+        is_active:
+            columns:
+                - is_active
+    uniqueConstraints:
+        unique_site_block:
+            columns:
+                - site_id
+                - block_key
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        blockKey:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: block_key
+        name:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+        isActive:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: is_active
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    manyToOne:
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        template:
+            targetEntity: Template
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+
+    lifecycleCallbacks: {  }

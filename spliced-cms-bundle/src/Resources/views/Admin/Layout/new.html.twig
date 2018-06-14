@@ -1,0 +1,27 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% block title %}- New Layout{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_layout_list') }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#layout-form" title="Save"><i class="fa fa-save"></i></button>
+        </div>
+        <h1>New Layout</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_layout_save') }}" class="form" role="form" id="layout-form">
+        {{ include('SplicedCmsBundle:Admin/Layout:form.html.twig') }}
+    </form>
+{% endblock %}
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function($){
+            var contentBlock = new SplicedLayout(document.getElementById("layout-form"), {{ form.vars.data.toJson()|raw }}, {
+                debug : true
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% block title %}- Template List{% endblock %}
+{% block content %}
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <th></th>
+        </thead>
+        <tfoot>
+        </tfoot>
+        <tbody>
+        {% if templates|length %}
+            {% for template in templates %}
+                <tr>
+                    <td>{{ template.realPath }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

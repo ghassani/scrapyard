@@ -1,0 +1,21 @@
+<div class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" action="{{ path('spliced_pms_project_invoice_new', {'projectId' : project.id}) }}">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Invoice to Project</h4>
+                </div>
+                <div class="modal-body">
+                    {{ include('SplicedProjectManagerBundle:Admin/ProjectInvoice:form.html.twig') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-disk fa-save"></i> Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

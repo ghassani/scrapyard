@@ -1,0 +1,58 @@
+{% macro key_value_prototype(prototype, level) %}
+    {% import _self as renderHelper %}
+    {% if prototype.value is defined %}
+        {% if prototype.value[0] is defined %}
+            <div class="level-{{ level }}">
+            {{ form_row(prototype.key) }}
+                <strong>Values</strong>
+            {% for p in prototype.value %}
+                {{ renderHelper.key_value_prototype(p, level+1) }}
+            {% endfor %}
+            </div>
+        {% else %}
+            <div class="level-{{ level }}">
+                <div class="row">
+                    <div class="col-sm-6">{{ form_row(prototype.key) }}</div>
+                    <div class="col-sm-6">{{ form_row(prototype.value) }}</div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="level-{{ level }}">
+            {{ form_row(prototype.key) }}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+<style>
+    .configuration-array-value-wrapper .level-0{
+        margin-left: 0;
+    }
+    .configuration-array-value-wrapper .level-1{
+        margin-left: 5%;
+    }
+    .configuration-array-value-wrapper .level-2{
+        margin-left: 8%;
+    }
+    .configuration-array-value-wrapper .level-3{
+        margin-left: 10%;
+    }
+    .configuration-array-value-wrapper .level-4{
+    }
+    .configuration-array-value-wrapper .level-5{
+    }
+    .configuration-array-value-wrapper .level-6{
+    }
+    .configuration-array-value-wrapper .level-7{
+    }
+</style>
+
+<div class="configuration-array-value-wrapper">
+    <a href="javascript:;" class="btn btn-primary btn-sm" id="add-key-value" data-prototype="{{ renderHelper.key_value_prototype(form.value.vars.prototype, 0)|e }}">Add Key &amp; Value Pair</a>
+    <a href="javascript:;" class="btn btn-primary btn-sm" id="add-key-value" data-prototype="{{ renderHelper.key_value_prototype(form.value.vars.prototype, 0)|e }}">Add Key &amp; Value Collection</a>
+    {% for keyValue in form.value %}
+        <div class="level-0">{{ renderHelper.key_value_prototype(keyValue, 0) }}</div>
+    {% endfor %}
+</div>

@@ -1,0 +1,209 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% form_theme form.template.version.content "SplicedCmsBundle:Form:ace.html.twig" %}
+
+{% macro meta_row(meta) %}
+    <tr>
+        <td>{{ form_widget(meta.metaKey) }}</td>
+        <td>{{ form_widget(meta.metaValue) }}</td>
+        <td></td>
+    </tr>
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+{{ form_errors(form) }}
+<div role="tabpanel">
+    
+    <div class="pull-right">
+        <label>Published {{ form_widget(form.isActive, { 'attr' : { 'class' : 'js-switch' }}) }}</label>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#page-content-content" aria-controls="page-content-content" role="tab" data-toggle="tab">Content</a></li>
+        <li role="presentation"><a href="#page-content-settings" aria-controls="page-content-settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li role="presentation"><a href="#page-content-meta" aria-controls="page-content-meta" role="tab" data-toggle="tab">Page Meta</a></li>
+        {% if form.vars.data.id > 0 %}
+            <li role="presentation"><a href="#page-content-routes" aria-controls="page-content-routes" role="tab" data-toggle="tab">Routes</a></li>
+            <li role="presentation"><a href="#page-content-extensions" aria-controls="page-content-extensions" role="tab" data-toggle="tab">Extensions</a></li>
+            {% if form.vars.data.layout %}
+                <li role="presentation"><a href="#page-content-layout-extensions" aria-controls="page-content-layout-extensions" role="tab" data-toggle="tab">Layout Extensions</a></li>
+            {% endif %}
+        {% endif %}
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fadein active" id="page-content-content">
+            <!--<div class="row">
+                <div class="col-xs-12">
+                    <select>
+                        <option>View All Blocks</option>
+                        {% if definedBlocks is defined %}
+                            {% for blockSource, blocks in definedBlocks %}
+                                <optgroup label="{{ blockSource }}">
+                                    {% for block in blocks %}
+                                        <option value="{{ block }}">{{ block }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>-->
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_widget(form.template.version.content) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.template.label) }}
+                </div>
+                <div class="col-xs-6">
+                    {% if form.template.revert is defined %}
+                        {{ form_row(form.template.revert, { 'attr' : { 'class' : 'template_version_revert' } }) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="page-content-settings">
+            {% if form.site is defined %}
+                {{ form_row(form.site) }}
+            {% endif %}
+            {{ form_row(form.pageKey) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.slug) }}
+            {{ form_row(form.layout) }}
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="page-content-meta">
+            <table class="table table-striped table-hover table-bordered content-page-meta-table spliced-admin-list">
+                <thead>
+                    <tr>
+                        <th width="200">Key</th>
+                        <th>Value</th>
+                        <th width="100">
+                            <a class="btn btn-sm btn-primary content-page-add-meta add-row" data-prototype="{{
+                            renderHelper.meta_row(form.meta.vars.prototype)|e }}" href="javascript:;">
+                                <i class="fa fa-plus"></i> Add Meta
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if form.meta|length %}
+                    {% for meta in form.meta %}
+                        {{ renderHelper.meta_row(meta) }}
+                    {% endfor %}
+                {% else %}
+                    <tr class="no-result">
+                        <td colspan="3" class="text-center"><strong>No Meta Associated</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if form.vars.data.id > 0 %}
+        <div role="tabpanel" class="tab-pane fade" id="page-content-routes">
+            <table class="table table-striped table-hover table-bordered content-page-routes-table spliced-admin-list">
+                <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Name</th>
+                    <th>Path</th>
+                    <th width="100">
+                        <a class="btn btn-sm btn-primary content-page-add-route add-row" data-prototype="" href="javascript:;">
+                            <i class="fa fa-plus"></i> Add Route
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>-</td>
+                    <td>spliced_cms_content_view_by_slug</td>
+                    <td>http://www.{{ form.vars.data.site.domain }}/page/<span class="content-page-slug">{{ form.vars.data.slug }}</span></td>
+                    <td></td>
+                </tr>
+                {% if form.vars.data.routes|length %}
+                    {% for route in form.vars.data.routes %}
+                        <tr>
+                            <td>{{ route.id }}</td>
+                            <td>{{ route.name }}</td>
+                            <td>http://www.{{ form.vars.data.site.domain }}{{ route.requestPath }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="page-content-extensions">
+            <table class="table table-striped table-hover table-bordered content-page-extensions-table spliced-admin-list">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Version</th>
+                    <th>Settings</th>
+                    <th width="100">
+                        <a class="btn btn-sm btn-primary content-page-add-extension" href="javascript:;" data-href="{{ path('spliced_cms_admin_template_extension_new', { 'templateId' : form.vars.data.template.id }) }}">
+                            <i class="fa fa-plus"></i> Add Extension
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if form.vars.data.template.extensions|length %}
+                    {% for templateExtension in form.vars.data.template.extensions %}
+                        {% set extension = spliced_cms.template_manager.getExtension(templateExtension.extensionKey) %}
+                        {% if extension|length %}
+                            {{ include('SplicedCmsBundle:Admin/TemplateExtension:table_list_row.html.twig', { 'template' : contentPage.template }) }}
+                        {%  else %}
+                        {% endif %}
+                    {% endfor %}
+                 {% else %}
+                    <tr class="no-result">
+                        <td colspan="6" class="text-center"><strong>No Extensions Enabled</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if form.vars.data.layout %}
+            <div role="tabpanel" class="tab-pane fade" id="page-content-layout-extensions">
+                <table class="table table-striped table-hover table-bordered content-page-layout-extensions-table spliced-admin-list">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Version</th>
+                        <th>Settings</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if form.vars.data.layout|length and form.vars.data.layout.template.extensions|length %}
+                        {% for templateExtension in form.vars.data.layout.template.extensions %}
+                            {% set extension = spliced_cms.template_manager.getExtension(templateExtension.extensionKey) %}
+                            {% if extension|length %}
+                                {{ include('SplicedCmsBundle:Admin/TemplateExtension:table_list_row.html.twig', { 'noEdit' : true, 'template' : contentPage.template }) }}
+                            {%  else %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <tr class="no-result">
+                            <td colspan="6" class="text-center"><strong>No Extensions Enabled</strong></td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{{ form_widget(form._token) }}

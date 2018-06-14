@@ -1,0 +1,31 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme fileForm "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme fileForm.content "SplicedCmsBundle:Form:ace_file.html.twig" %}
+{% block title %}- Editing File{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_file_manager', { 'dir' : dir.realPath|replace({ (baseDir.realPath) : '' })  }) }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash-o"></i></a>
+            <a class="btn btn-default btn-sm" title="Copy"><i class="fa fa-copy"></i></a>
+            <a class="btn btn-default btn-sm" title="Move"><i class="fa fa-copy"></i></a>
+            <a class="btn btn-default btn-sm" title="Rename"><i class="fa fa-copy"></i></a>
+            <a class="btn btn-primary btn-sm" data-action="form-submit" data-target="#new-file-form" title="Update"><i class="fa fa-save"></i></a>
+        </div>
+        <h1>Editing File {{ file.filename }}</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_file_manager_update_file', { 'dir' : dir.realPath|replace({ (baseDir.realPath) : '' }) }) }}" id="edit-file-form">
+        {{ form_row(fileForm.content) }}
+        {{ form_rest(fileForm) }}
+    </form>
+{% endblock %}
+{% block body_end %}
+    <script>
+        var editFile = new SplicedFileManagerEditFile(document.getElementById('edit-file-form'), {
+            debug : {{ app.environment in ['dev','test'] ? 'true' : 'false' }}
+        });
+    </script>
+{% endblock %}

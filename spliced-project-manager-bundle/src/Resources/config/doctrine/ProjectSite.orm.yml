@@ -1,0 +1,62 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectSite:
+    type: entity
+    table: smpm_project_site
+    indexes:
+        project_id:
+            columns:
+                - project_id
+                - site_id
+        site_id:
+            columns:
+                - site_id
+        template_id:
+            columns:
+                - template_id
+        IDX_F64C6B9D166D1F9C:
+            columns:
+                - project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        isActive:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '1'
+            column: is_active
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        site:
+            targetEntity: Spliced\Bundle\CmsBundle\Entity\Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        template:
+            targetEntity: Spliced\Bundle\CmsBundle\Entity\Template
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

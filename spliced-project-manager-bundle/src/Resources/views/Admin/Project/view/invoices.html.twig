@@ -1,0 +1,61 @@
+{% set colspan = 7 %}
+
+<div id="project-invoice-wrapper">
+
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-invoice-new" id="project-invoice-new"><i class="fa fa-plus"></i> Add Invoice</a>
+        </div>
+        <h2>Invoices</h2>
+    </div>
+
+    <table class="table table-striped table-bordered" id="project-invoice-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Invoiced Amount</th>
+                <th>Items</th>
+                <th>Start Date</th>
+                <th>Completion Date</th>
+                <th>Invoiced</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td>
+                    ${{  project.invoicesSum }}
+                </td>
+                <td colspan="{{ colspan - 2 }}">
+
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% if project.invoices|length %}
+                {% for invoice in project.invoices %}
+                    <tr class="project-invoice-{{  invoice.id }}">
+                        <td>{{ invoice.id }}</td>
+                        <td>${{ invoice.invoicedAmount }}</td>
+                        <td>{{ invoice.lineItems|length }}</td>
+                        <td>{{ invoice.startDate|length>0 ? invoice.startDate|date('m/d/y') : '' }}</td>
+                        <td>{{ invoice.completionDate|length>0 ? invoice.completionDate|date('m/d/y') : '' }}</td>
+                        <td></td>
+                        <td>
+                            {#
+                            <a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-primary btn-small"><i class="fa fa-pencil fa fa-white"></i> Edit</a>
+                            <a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-inverse btn-small"><i class="fa fa-print fa fa-white"></i> PDF</a>
+                            <a href="{{ path('dashboard', { }) }}" class="ajax_link_confirm btn btn-success btn-small"><i class="fa fa-inbox fa fa-white"></i> Invoice</a>
+                            <a href="{{ path('project_invoice_delete', { 'project' : project.id, 'invoice' : invoice.id }) }}" class="ajax_link_confirm btn btn-danger btn-small" data-message="Are you sure you want to delete this media?"><i class="fa fa-remove-sign fa fa-white"></i> Delete</a>
+                            #}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            <tr class="no_result_row" style="{{ project.invoices|length ? 'dispaly:none;' : '' }}">
+                <td colspan="{{ colspan }}"><div class="center">No Invoices Found</div></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

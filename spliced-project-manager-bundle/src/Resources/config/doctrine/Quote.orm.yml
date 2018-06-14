@@ -1,0 +1,71 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\Quote:
+    type: entity
+    table: smpm_quote
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        services:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+        contactName:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+            column: contact_name
+        companyName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: ''
+            column: company_name
+        phoneNumber:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+            comment: ''
+            column: phone_number
+        emailAddress:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: email_address
+        heardAboutUs:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: heard_about_us
+        comments:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    lifecycleCallbacks: {  }

@@ -1,0 +1,37 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% block title %}- New Configuration Item{% endblock %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_configuration_item_list') }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#configuration-item-form" title="Continue"><i class="fa fa-forward"></i></button>
+        </div>
+        <h1>New Configuration Item</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if form.vars.data.type %}
+        <form method="post" action="{{ path('spliced_cms_admin_configuration_item_save') }}" class="form" role="form" id="configuration-item-form">
+    {% else %}
+        <form method="post" action="{{ path('spliced_cms_admin_configuration_item_new') }}" class="form" role="form" id="configuration-item-form">
+    {% endif %}
+        {{ include('SplicedCmsBundle:Admin/ConfigurationItem:form.html.twig') }}
+    </form>
+{% endblock %}
+
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        /*$(document).ready(function($){
+            var contentPage = new SplicedConfigurationItem(document.getElementById("configuration-item-form"), {# form.vars.data.toJson()|raw #}, {
+                debug : true
+            });
+        });*/
+    </script>
+{% endblock %}

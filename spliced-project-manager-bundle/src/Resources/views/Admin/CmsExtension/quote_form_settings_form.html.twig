@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.variableName, { 'form_group' : 'form-group-sm' }) }}
+    </div>
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.formName, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.errorMessage, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.successMessage, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.emailTo, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.emailCc, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.emailSubject, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+    <div class="col-xs-6 col-lg-6">
+        {{ form_row(form.emailSubmitter, { 'form_group' : 'form-group-sm', 'attr' : { 'class' : 'js-switch' }  }) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-lg-12">
+        {{ form_row(form.services, { 'form_group' : 'form-group-sm', 'attr' : { 'style' : 'height: 100px;' }  }) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6 col-lg-12">
+        {{ form_row(form.successPage, { 'form_group' : 'form-group-sm'  }) }}
+    </div>
+</div>
+
+{{ form_rest(form) }}

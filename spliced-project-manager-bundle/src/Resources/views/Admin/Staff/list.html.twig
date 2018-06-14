@@ -1,0 +1,63 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block title %}- Staff List{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_pms_staff_new') }}" class="btn btn-primary btn-sm"><i class="fa fa-new-user"></i> Add an eWarrior</a>
+        </div>
+        <h1>Staff</h1>
+    </div>
+
+    <div class="alert alert-info">
+        <p><i class="fa fa-info-circle"></i> We few... we band of brothers.</p>
+    </div>
+
+    <table class="table table-striped table-hover table-bordered spliced-admin-list">
+        <thead>
+            <th><input type="checkbox" class="check-all" /></th>
+            <th>Username</th>
+            <th>Contact Name</th>
+            <th>Display Name</th>
+            <th>Actions</th>
+        </thead>
+
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <!-- Single button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        With Selected <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% if pagination.getTotalItemCount > 0 %}
+            {% for staff in pagination %}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ staff.id }}" /></td>
+                    <td>{{ staff.user.username }}</td>
+                    <td>{{ staff.contactName }}</td>
+                    <td>{{ staff.displayName }}</td>
+                    <td>
+                        <a href="{{ path('spliced_pms_staff_edit', { 'id' : staff.id }) }}"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('spliced_pms_staff_delete', { 'id' : staff.id }) }}"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="5" class="text-center"><strong>No Staff Found</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

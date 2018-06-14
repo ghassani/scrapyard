@@ -1,0 +1,51 @@
+Spliced\Bundle\CmsBundle\Entity\TemplateExtension:
+    type: entity
+    table: smc_template_extension
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\TemplateExtensionRepository
+    indexes:
+        is_active:
+            columns:
+                - is_active
+        template_id:
+            columns:
+                - template_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        extensionKey:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: 'Service Container Name'
+            column: extension_key
+        settings:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        isActive:
+            type: boolean
+            nullable: false
+            comment: ''
+            default: '1'
+            column: is_active
+    manyToOne:
+        template:
+            targetEntity: Template
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

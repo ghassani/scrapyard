@@ -1,0 +1,7 @@
+<tr id="project-staff-{{ projectStaff.id }}">
+    <td><input type="checkbox" name="ids[]" value="{{ projectStaff.id }}" /></td>
+    <td>{{ projectStaff.id }}</td>
+    <td>{{ projectStaff.staff.displayName }}</td>
+    <td>{{ projectStaff.position }}</td>
+    <td><a href="javascript:;" class="project-staff-edit" data-id="{{ projectStaff.id }}"><i class="fa fa-pencil"></i></a></td>
+</tr>

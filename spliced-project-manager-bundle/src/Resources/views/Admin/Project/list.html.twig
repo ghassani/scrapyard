@@ -1,0 +1,84 @@
+{% extends 'SplicedProjectManagerBundle:Admin/Layout:admin_default.html.twig' %}
+
+{% block title %}- Project List{% endblock %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+           <a href="{{ path('spliced_pms_project_new') }}" class="btn btn-success btn-sm" title="Create a Project"><i class="fa fa-plus"></i></a>
+        </div>
+        <h1>Projects</h1>
+    </div>
+{% endblock %}
+
+{% set colspan = 7 %}
+
+{% block content %}
+
+    {% if filterForm is defined %}
+        {{ include('SplicedProjectManager:Admin/Project:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+
+    <table class="table table-striped table-hover table-bordered spliced-admin-list">
+        <thead>
+            <tr>
+                <th colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        {% if filterForm is defined %}
+                            <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                        {% endif %}
+                    </div>
+                    {{ knp_pagination_render(pagination, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="check-all" /></th>
+                <th>Client</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Created On</th>
+                <th>Last Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <!-- Single button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% if pagination.getTotalItemCount > 0 %}
+            {% for project in pagination %}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ project.id }}" /></td>
+                    <td>{{ project.client.displayName }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.status }}</td>
+                    <td>{{ project.createdAt|date('m/d/Y h:i a') }}</td>
+                    <td>{{ project.updatedAt|date('m/d/Y h:i a') }}</td>
+                    <td>
+                        <a href="{{ path('spliced_pms_project_view', { 'id' : project.id }) }}"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('spliced_pms_project_delete', { 'id' : project.id }) }}"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="{{ colspan }}" class="text-center"><strong>No Projects Found</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

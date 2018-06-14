@@ -1,0 +1,27 @@
+{
+    "name" : "splicedmedia/admin-theme-bundle",
+    "description" : "Core Admin Theme",    
+    "type" : "project",    
+    "license" : [
+        "Apache 2.0"
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-standard-edition":   "~2.3"
+    },    
+    "autoload" : {
+        "psr-4" : {
+            "Spliced\\Bundle\\AdminThemeBundle\\" : "src/"
+        }
+    },    
+    "scripts": {
+        "post-install-cmd": [
+            "bower install"
+        ],
+        "post-update-cmd": [
+            "bower install"
+        ]
+    },
+    "prefer-stable": true,
+    "minimum-stability" : "dev"
+}

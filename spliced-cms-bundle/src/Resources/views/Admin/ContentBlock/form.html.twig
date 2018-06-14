@@ -1,0 +1,71 @@
+<div role="tabpanel">
+    <div class="pull-right">
+        <label>Published {{ form_widget(form.isActive, { 'attr' : { 'class' : 'js-switch' }}) }}</label>
+    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#content-block-content" aria-controls="content-block-content" role="tab" data-toggle="tab">Content</a></li>
+        <li role="presentation"><a href="#content-block-settings" aria-controls="content-block-settings" role="tab" data-toggle="tab">Settings</a></li>
+        {% if form.vars.data.id|length %}
+            <li role="presentation"><a href="#content-block-extensions" aria-controls="content-block-extensions" role="tab" data-toggle="tab">Extensions</a></li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="content-block-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_widget(form.template.version.content) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.template.label) }}
+                </div>
+                <div class="col-xs-6">
+                    {% if form.template.revert is defined %}
+                        {{ form_row(form.template.revert, { 'attr' : { 'class' : 'template_version_revert' } }) }}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="content-block-settings">
+            {{ form_row(form.blockKey) }}
+            {{ form_row(form.name) }}
+        </div>
+        {% if form.vars.data.id|length %}
+            <div role="tabpanel" class="tab-pane fade" id="content-block-extensions">
+                <table class="table table-striped table-hover table-bordered content-block-extensions-table spliced-admin-list">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Version</th>
+                        <th>Settings</th>
+                        <th width="100">
+                            <a class="btn btn-sm btn-primary content-block-add-extension" href="javascript:;" data-href="{{ path('spliced_cms_admin_template_extension_new', { 'templateId' : form.vars.data.template.id }) }}">
+                                <i class="fa fa-plus"></i> Add Extension
+                            </a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if form.vars.data.template.extensions|length %}
+                        {% for templateExtension in form.vars.data.template.extensions %}
+                            {% set extension = spliced_cms.template_manager.getExtension(templateExtension.extensionKey) %}
+                            {% if extension|length %}
+                                {{ include('SplicedCmsBundle:Admin/TemplateExtension:table_list_row.html.twig', { 'template' : contentBlock.template }) }}
+                            {%  else %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <tr class="no-result">
+                            <td colspan="6" class="text-center"><strong>No Extensions Enabled</strong></td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{{ form_widget(form._token) }}

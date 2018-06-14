@@ -1,0 +1,124 @@
+{% macro item_row(item) %}
+    {% import _self as renderHelper %}
+    <tr>
+        <td>
+
+            <div class="col-xs-6">
+                {{ form_row(item.targetType) }}
+            </div>
+
+            <div class="col-xs-6">
+                {{ form_row(item.targetPath) }}
+            </div>
+
+            <div class="col-xs-4">
+                {{ form_row(item.anchorText) }}
+            </div>
+
+            <div class="col-xs-4">
+                {{ form_row(item.titleText) }}
+            </div>
+
+            <div class="col-xs-4">
+                {{ form_row(item.position) }}
+            </div>
+
+            <div class="col-xs-6">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th class="text-right"><a href="javascript:;"  data-prototype="{{ renderHelper.key_value_row(item.options.linkAttributes.vars.prototype)|e }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add Link Attribute</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if item.options.linkAttributes|length %}
+                            {% for kv in item.options.linkAttributes %}
+                                {{ renderHelper.key_value_row(kv) }}
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="no-result text-center"><strong>No Link Attributes</strong></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-6">
+                <table class="table table-condensed table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th class="text-right"><a href="javascript:;"  data-prototype="{{ renderHelper.key_value_row(item.options.childAttributes.vars.prototype)|e }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add Link Attribute</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if item.options.childAttributes|length %}
+                        {% for kv in item.options.childAttributes %}
+                            {{ renderHelper.key_value_row(kv) }}
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="no-result text-center"><strong>No Child Attributes</strong></td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
+{% endmacro %}
+{% macro key_value_row(kv) %}
+    <tr>
+        <td>{{ form_row(kv.key) }}</td>
+        <td>{{ form_row(kv.value) }}</td>
+        <td></td>
+    </tr>
+{% endmacro %}
+
+{% import _self as renderHelper %}
+
+
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.menuKey) }}
+    </div>
+    <div class="col-xs-6">
+        {{ form_row(form.name) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        {{ form_row(form.menuTemplate) }}
+    </div>
+</div>
+
+<div class="page-header">
+    <div class="pull-right">
+        <a class="btn btn-sm btn-primary content-page-add-meta add-menu-item-row" data-prototype="{{ renderHelper.item_row(form.items.vars.prototype)|e }}" href="javascript:;">
+            <i class="fa fa-plus"></i> Add Item
+        </a>
+    </div>
+    <h2>Items</h2>
+</div>
+<table class="table table-striped table-bordered menu-items-table" id="menu-items-table">
+    <thead>
+    </thead>
+    <tfoot>
+    </tfoot>
+    <tbody class="main">
+    {% if form.items|length %}
+        {% for item in form.items %}
+            {{ renderHelper.item_row(item) }}
+        {% endfor %}
+    {% else %}
+        <tr class="main-no-result">
+            <td class="text-center"><strong>No Items Associated</strong></td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+{{ form_widget(form._token) }}

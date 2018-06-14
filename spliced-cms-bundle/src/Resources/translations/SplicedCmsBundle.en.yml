@@ -1,0 +1,85 @@
+template_form:
+  revert_label: Recall Previous Version
+  version_label:
+  label_label: Version Label
+
+template_extension_form:
+  extension_key_label: Extension
+
+content_page_form:
+  name_label: Template Name
+  layout_label: Layout
+  template_label:
+  slug_label: URL Slug
+  is_active_label: Published
+  meta_label:
+  page_key_label: Key
+  site_label: Site
+
+layout_form:
+  name_label: Template Name
+  template_label:
+  site_label: Site
+  layout_key_label: Key
+
+layout_filter_form:
+  id_label: ID
+
+site_form:
+  domain_label: Domain
+  default_page_label: Default Page
+  is_active_label: Active
+
+site_filter_form:
+  id_label: ID
+
+site_selection_form:
+  site_label: Select a Site
+
+content_block_form:
+  block_key_label: Unique Key
+  name_label: Name
+  template_label:
+  is_active_label: Published
+
+content_page_meta_form:
+  meta_key_label: Key
+  meta_value_label: Value
+
+menu_form:
+  items_label: Items
+  name_label: Name
+  menu_key_label: Menu Key
+  item_options_link_attributes_label: Link Attributes
+  item_options_child_attributes_label: Child Attributes
+
+menu_template_form:
+  name_label: Template Name
+  template_label:
+
+editor_insert_link:
+  page_label: Page
+  url_label: URL
+  class_label: CSS Class
+  anchor_label: Anchor Text
+  title_label: Title Tag Text
+
+editor_insert_video:
+  url_label: Video URL
+
+file_form:
+  content_label: File Content
+  file_name_label: File Name
+
+folder_form:
+  folder_name_label: Folder Name
+
+content_page_filter_form:
+  id_label: ID
+  key_label: Key
+  name_label: Name
+  created_at_label: Created On
+  updated_at_label: Last Updated
+  is_active_label: Active
+  has_draft_label: Has Draft
+

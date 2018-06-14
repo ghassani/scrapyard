@@ -1,0 +1,14 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{{ form_row(form.key) }}
+{{ form_row(form.type) }}
+
+{% set typeHandler = spliced_configuration_get_type(form.vars.data.type) %}
+
+{% if typeHandler.getFormTemplatePath()|length %}
+    {{ include(typeHandler.getFormTemplatePath()) }}
+{% else %}
+    {{ form_rest(form) }}
+{% endif %}
+
+{{ form_widget(form._token) }}

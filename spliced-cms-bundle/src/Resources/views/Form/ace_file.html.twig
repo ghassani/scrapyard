@@ -1,0 +1,51 @@
+{% block textarea_widget %}
+    <div class="ace-editor-toolbar">
+        <div class="pull-right">
+            <div id="ace-editor-status-bar-wrapper">
+                <div id="ace-editor-status-bar"></div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-placement="top" title="Switch Editor Theme">
+                <i class="fa fa-paint-brush icon-white"></i>
+            </a>
+            <ul role="menu" class="dropdown-menu ace-editor-themes">
+                <li class="dropdown-menu-header">
+                    Switch Theme
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" placeholder="Search for...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-primary" type="button">Go!</button>
+                      </span>
+                    </div>
+                </li>
+                <li class="divider"></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-placement="top" title="Switch Editor Mode">
+                <i class="fa fa-code icon-white"></i>
+            </a>
+            <ul role="menu" class="dropdown-menu ace-editor-modes">
+                <li class="dropdown-menu-header">Switch Mode
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" placeholder="Search for...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-primary" type="button">Go!</button>
+                      </span>
+                    </div>
+                </li>
+                <li class="divider"></li>
+            </ul>
+        </div>
+    </div>
+    <div id="{{ id }}_ace" class="ace_editor">{{ form.vars.data|e }}</div>
+    <input type="hidden" {{ block('widget_attributes') }} value="{{ form.vars.data|e }}" />
+    <div class="ace-editor-footer-bar">
+        <div class="pull-right">
+            <a href="javascript:;" data-toggle="tooltip" data-placement="left" title="Create Gist on GitHub"><i class="fa fa-github-alt icon-white"></i></a>
+            <a href="javascript:;" ace-action="show-settings" data-toggle="tooltip" data-placement="left" title="Editor Settings"><i class="fa fa-cog icon-white"></i></a>
+        </div>
+        &nbsp;
+    </div>
+{% endblock textarea_widget %}

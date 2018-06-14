@@ -1,0 +1,7 @@
+logs/*
+vendor/*
+exports/*
+imports/*
+/config.yml
+composer.lock
+src/Miva/Migration/VendorSpecific

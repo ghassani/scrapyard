@@ -1,0 +1,59 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectInvoice:
+    type: entity
+    table: smpm_project_invoice
+    indexes:
+        IDX_C3150B0166D1F9C:
+            columns:
+                - project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        status:
+            type: integer
+            nullable: false
+            comment: ''
+            default: 1
+            column: status
+        startDate:
+            type: date
+            nullable: false
+            comment: ''
+            column: start_date
+        completionDate:
+            type: date
+            nullable: false
+            comment: ''
+            column: completion_date
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        lineItems:
+          targetEntity: ProjectInvoiceLineItem
+          mappedBy: invoice
+          cascade: ["persist"]
+    lifecycleCallbacks: {  }

@@ -1,0 +1,40 @@
+entity: SplicedProjectManagerBundle:Tag
+batch_route: tag_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: t.id
+    type: string
+  name:
+    accessor: name
+    label: Name
+    column: t.name
+    type: string
+  displayName:
+    accessor: displayName
+    label: Display Name
+    column: t.displayName
+    type: string
+  description:
+    accessor: description
+    label: Description
+    column: t.description
+    type: string
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  
+actions:
+  edit:
+    css_class:
+    route: tag_edit
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class:
+    route: tag_delete
+    label: <i class="icon-remove"></i>

@@ -1,0 +1,8 @@
+<tr id="project-time-entry-{{ projectTimeEntry.id }}">
+    <td><input type="checkbox" name="ids[]" value="{{ projectTimeEntry.id }}" /></td>
+    <td>{{ projectTimeEntry.id }}</td>
+    <td>{{ projectTimeEntry.entryDate|date('m/d/Y') }}</td>
+    <td>{{ projectTimeEntry.entryTime }}</td>
+    <td>{{ projectTimeEntry.entryNote }}</td>
+    <td><a href="javascript:;" class="project-time-entry-edit" data-id="{{ projectTimeEntry.id }}"><i class="fa fa-pencil"></i></a></td>
+</tr>

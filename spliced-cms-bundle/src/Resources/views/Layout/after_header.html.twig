@@ -1,0 +1,21 @@
+{#
+{% set siteForm = get_admin_site_selection_form() %}
+{% form_theme siteForm "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+<form method="post" action="{{ path('spliced_cms_admin_switch_site') }}">
+    <div class="row">
+        <div class="col-lg-6">
+            asd
+        </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">Currently Editing Site: </span>
+                {{ form_widget(siteForm.site, { 'attr' : { 'class' : 'input-sm' }}) }}
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-info" type="submit">Switch</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    {{ form_rest(siteForm) }}
+</form>
+#}

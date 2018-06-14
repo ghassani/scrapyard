@@ -1,0 +1,28 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% block title %}- New Site{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_site_list') }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#site-form" title="Save"><i class="fa fa-save"></i></button>
+        </div>
+        <h1>New Site</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_site_save') }}" class="form" role="form" id="site-form">
+        {{ include('SplicedCmsBundle:Admin/Site:form.html.twig') }}
+    </form>
+{% endblock %}
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function($){
+            var site = new SplicedSite(document.getElementById("site-form"), {{ form.vars.data.toJson()|raw }}, {
+                debug : true
+            });
+        });
+    </script>
+{% endblock %}

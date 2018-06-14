@@ -1,0 +1,63 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block title %}- Client List{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_pms_user_new') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> New User</a>
+        </div>
+        <h1>Users</h1>
+    </div>
+
+    <div class="alert alert-info">
+        <p><i class="fa fa-info-circle"></i> All user accounts.</p>
+    </div>
+
+    <table class="table table-striped table-hover table-bordered spliced-admin-list">
+        <thead>
+        <th><input type="checkbox" class="check-all" /></th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Active</th>
+        <th>Actions</th>
+        </thead>
+
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <!-- Single button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        With Selected <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% if pagination.getTotalItemCount > 0 %}
+            {% for user in pagination %}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ user.id }}" /></td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.enabled }}</td>
+                    <td>
+                        <a href="{{ path('spliced_pms_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('spliced_pms_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="5" class="text-center"><strong>No Users Found</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

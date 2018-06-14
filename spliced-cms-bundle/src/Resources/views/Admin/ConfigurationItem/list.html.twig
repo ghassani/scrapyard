@@ -1,0 +1,92 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% import "SplicedCmsBundle:Admin/Macros:knp_paginator.html.twig" as knpHelper %}
+
+{% block title %}- Configuration{% endblock %}
+
+{% set colspan = 7  %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_configuration_item_new') }}" title="New Configuration Item" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+        </div>
+        <h1>Configuration Items</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if filterForm is defined %}
+        {{ include('SplicedCmsBundle:Admin/ConfigurationItem:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+    <form method="post" action="{{ path('spliced_cms_admin_configuration_item_batch') }}" id="batch-form">
+        <table class="table table-striped table-hover table-bordered spliced-admin-list">
+            <thead>
+            <tr>
+                <th colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        {% if filterForm is defined %}
+                            <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                        {% endif %}
+                    </div>
+                    {{ knp_pagination_render(items, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                </th>
+            </tr>
+            <tr>
+                <th><input type="checkbox" class="check-all" /></th>
+                {{ knpHelper.table_header_row(items, 'ID', 'c.id', {}) }}
+                {{ knpHelper.table_header_row(items, 'Category', 'c.category', {}) }}
+                {{ knpHelper.table_header_row(items, 'Type', 'c.type', {}) }}
+                {{ knpHelper.table_header_row(items, 'Key', 'c.key', {}) }}
+                {{ knpHelper.table_header_row(items, 'Value', 'c.value', {}) }}
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        Showing {{ items|length }}/{{ items.getTotalItemCount }} Records
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% if items.getTotalItemCount > 0 %}
+                {% for item in items %}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{ item.id }}" /></td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.key }}</td>
+                        <td>
+                            {% set typeHandler = spliced_configuration_get_type(item.type) %}
+                            {{ typeHandler.transformValueToDisplay(item.value)|raw }}
+                        </td>
+                        <td>
+                            <a href="{{ path('spliced_cms_admin_configuration_item_edit', { 'id' : item.id }) }}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr class="no-result">
+                    <td colspan="{{ colspan }}" class="text-center"><strong>No Configuration Items Found</strong></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {% if batchActionForm is defined %}
+            {{ form_rest(batchActionForm) }}
+        {% endif %}
+    </form>
+{% endblock %}

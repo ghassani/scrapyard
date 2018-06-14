@@ -1,0 +1,58 @@
+Spliced\Bundle\CmsBundle\Entity\GalleryItem:
+    type: entity
+    table: smc_gallery_item
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\GalleryItemRepository
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        filePath:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: file_path
+        fileName:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: file_name
+        fileType:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: file_type
+        imageWidth:
+            type: smallint
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: image_width
+        imageHeight:
+            type: smallint
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: image_height
+    manyToOne:
+        site:
+            targetEntity: Site
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

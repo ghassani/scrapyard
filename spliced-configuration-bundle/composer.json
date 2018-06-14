@@ -1,0 +1,19 @@
+{
+    "name" : "splicedmedia/configuration-bundle",
+    "description" : "A bundle that adds a key value managment from a compatible Doctrine ORM Data Source",
+    "type" : "project",
+    "license" : [
+        "Apache 2.0"
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-standard-edition": "~2.3"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Spliced\\Bundle\\ConfigurationBundle\\" : "src/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability" : "dev"
+}

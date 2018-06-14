@@ -1,0 +1,9 @@
+table.media_manager_file_list{
+	width: 81%;
+}
+
+table.media_manager_file_list tr{
+	cursor: pointer;
+}
+
+

@@ -1,0 +1,34 @@
+{% form_theme form 'SplicedProjectManagerBundle:Form:repeated_password_field.html.twig' %}
+
+<div class="control-group">
+	{{ form_label(form.username, 'Username', {'attr' : {'class' : 'control-label'}}) }}
+		<div class="controls">
+			<div class="input-prepend">
+			<span class="add-on"><i class="icon-user"></i></span> 
+			{{ form_widget(form.username, {'attr' : {'class' : 'span8'}}) }}
+			<span class="help-inline"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-group">
+	{{ form_label(form.email, 'E-Mail Address', {'attr' : {'class' : 'control-label'}}) }}
+		<div class="controls">
+			<div class="input-prepend">
+			<span class="add-on">@</span> 
+			{{ form_widget(form.email, {'attr' : {'class' : 'span8'}}) }}
+			<span class="help-inline"></span>
+			</div>
+		</div>
+	</div>
+	<div class="control-group">
+	{{ form_label(form.roles, 'Access Level', {'attr' : {'class' : 'control-label'}}) }}
+		<div class="controls">
+			<div class="input-prepend">
+			<span class="add-on"><i class="icon-user"></i></span> 
+			{{ form_widget(form.roles, {'attr' : {'class' : 'span8'}}) }}
+			<span class="help-inline"></span>
+			</div>
+		</div>
+	</div>
+	{{ form_row(form.plainPassword) }}
+	{{ form_rest(form) }}

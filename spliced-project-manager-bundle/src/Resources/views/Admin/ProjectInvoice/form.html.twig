@@ -1,0 +1,79 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% macro item_row(form) %}
+    <tr id="project-invoice-line-">
+        <td>
+            {{ form_widget(form.sku, {}) }}
+        </td>
+        <td>
+            {{ form_widget(form.title, {}) }}
+        </td>
+        <td>
+            {{ form_widget(form.price, {'attr' : {'class' : 'line-price' }}) }}
+        </td>
+        <td>
+            {{ form_widget(form.quantity, {'attr' : {'class' : 'line-quantity' }}) }}
+        </td>
+        <td>
+            {{ form_widget(form.description, {}) }}
+        </td>
+        <td>
+            <a href="javascript:;" class="project-line-item-delete" data-id="{{ form.vars.data.id is defined ? form.vars.data.id : '' }}"><i class="fa fa-trash"></i></a>
+        </td>
+    </tr>
+{% endmacro %}
+
+{% import _self as itemHelper %}
+
+<table class="table table-striped table-bordered" id="project-invoice-item-table">
+	<thead>
+		<tr>
+			<th>Sku</th>
+			<th>Title</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Description</th>
+			<th>
+				<a href="javascript:;" data-prototype="{{ itemHelper.item_row(form.lineItems.vars.prototype)|e }}" class="btn btn-sm btn-success project-invoice-line-item-new">
+                    <i class="fa fa-plus-circle fa fa-white"></i>
+                </a>
+			</th>
+		</tr>
+	</thead>
+    <tfoot>
+    <tr>
+        <td colspan="3">
+            {{ form_label(form.completionDate) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                {{ form_widget(form.completionDate, {'attr' : {'class' : '', 'data-format' : "yyyy-MM-dd" }}) }}
+            </div>
+        </td>
+        <td colspan="3">
+            {{ form_label(form.startDate) }}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                {{ form_widget(form.startDate, {'attr' : {'class' : '', 'data-format' : "yyyy-MM-dd" }}) }}
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+	
+	<tbody id="project-invoice-line-items">
+		{%  if form.lineItems|length %}
+			{%  for item in form.lineItems %}
+				{{ itemHelper.item_row(item) }}
+			{%  endfor %}
+        {% endif %}
+
+        <tr class="no-result" style="{{ form.lineItems|length ? 'display:none;' : '' }}">
+            <td colspan="6" class="text-center"><strong>No Items</strong></td>
+        </tr>
+
+	</tbody>
+	
+</table>
+
+{% if form._token is defined %}
+    {{  form_widget(form._token) }}
+{% endif %}

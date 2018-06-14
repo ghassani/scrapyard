@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Spliced CMS Admin {% block title %}{% endblock title %}</title>
+    <meta name="description" content="">
+    <meta name="author" content="Spliced Media L.L.C">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/admin-favicon.ico">
+    <link rel="apple-touch-icon" href="/admin-apple-touch-icon.png">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {{ include('SplicedAdminThemeBundle:Layout:_stylesheets.html.twig') }}
+    {% block stylesheets %}{% endblock stylesheets %}
+    {% block head %}{% endblock head %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {% block body_start %}{% endblock body_start %}
+    <div id="slide-out-bar-left" class="slide-out-bar slide-out-bar-left slide-out-bar-black">
+        <div class="slider-wrapper">
+            <a href="javascript:;" class="close-icon toggle-slide-out-left"><i class="fa fa-close"></i></a>
+            <a href="javascript:;" class="pin-icon pin-slide-out-left"><i class="fa fa-thumb-tack"></i></a>
+            {% block slide_out_left %}
+                {{ knp_menu_render('slide_out', {'template': 'SplicedAdminThemeBundle:Menu:slide_out.html.twig'}) }}
+            {% endblock  %}
+        </div>
+    </div>
+    <div id="slide-out-bar-right" class="slide-out-bar slide-out-bar-right slide-out-bar-red">
+        <div class="slide-out-wrapper">
+            <a href="javascript:;" class="close-icon toggle-slide-out-right"><i class="fa fa-close"></i></a>
+            <a href="javascript:;" class="pin-icon pin-slide-out-right"><i class="fa fa-thumb-tack"></i></a>
+            {% block slide_out_right %}
+            {% endblock  %}
+        </div>
+    </div>
+    <div id="page-wrapper">
+        <div class="header-affixed" data-spy="affix" data-offset-top="150" data-offset-bottom="0">
+            <header class="navbar navbar-default navbar-header-main" id="top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="javascript:;" class="toggle-slide-out-left navbar-brand"><i class="fa fa-bars"></i> History</a>
+                    </div>
+                    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                        <ul class="nav navbar-nav navbar-right" data-level="0">
+                            <!--<li>
+                                <a href="javascript:;" class="navbar-brand"><i class="fa fa-search"></i> Search</a>
+                            </li>-->
+                            <li>
+                                <a href="javascript:;" class="toggle-slide-out-right navbar-brand"><i class="fa fa-bars"></i> Menu</a>
+                            </li>
+                        </ul>
+                        {{ knp_menu_render('main', {'template': 'SplicedAdminThemeBundle:Menu:main_menu.html.twig'}) }}
+                        {{ knp_menu_render('user', {'template': 'SplicedAdminThemeBundle:Menu:user_menu.html.twig'}) }}
+                    </nav>
+                </div>
+            </header>
+            <section class="page-header-bar">
+                <div class="container-fluid">
+                    {% block page_header %}{% endblock page_header %}
+                </div>
+            </section>
+        </div>
+        <section class="col-lg-12 content side-open">
+            <div class="content-inner-wrapper container-fluid">
+                {% for class, flash in { 'warning' : 'warning', 'danger' : 'error', 'info' : 'info', 'success' : 'success'} %}
+                    {% if app.session.flashBag.has(flash) %}
+                        {% for message in app.session.flashBag.get(flash) %}
+                            <div class="main-alert alert alert-{{ class }}">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }} </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% block content %}{% endblock content %}
+            </div>
+        </section>
+        <div class="clear"></div>
+    </div>
+    {{ include('SplicedAdminThemeBundle:Layout:_javascripts.html.twig') }}
+    {% block javascripts %}{% endblock javascripts %}
+    {% block body_end %}{% endblock body_end %}
+</body>
+</html>

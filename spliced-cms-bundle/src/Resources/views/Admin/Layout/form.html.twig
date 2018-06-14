@@ -1,0 +1,88 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.template.version.content "SplicedCmsBundle:Form:ace.html.twig" %}
+{% form_theme form.contentPageTemplate.version.content "SplicedCmsBundle:Form:ace.html.twig" %}
+<div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#layout-content" aria-controls="layout-content" role="tab" data-toggle="tab">Layout</a></li>
+        <li role="presentation"><a href="#content-page-layout-content" aria-controls="content-page-layout-content" role="tab" data-toggle="tab">Default Content Page Layout</a></li>
+        <li role="presentation"><a href="#layout-settings" aria-controls="layout-settings" role="tab" data-toggle="tab">Settings</a></li>
+        {% if form.vars.data.id|length %}
+            <li role="presentation"><a href="#layout-extensions" aria-controls="layout-extensions" role="tab" data-toggle="tab">Extensions</a></li>
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="layout-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_widget(form.template.version.content) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.template.label) }}
+                </div>
+                <div class="col-xs-6">
+                    {% if form.template.revert is defined %}
+                        {{ form_row(form.template.revert, { 'attr' : { 'class' : 'template_version_revert' } }) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="content-page-layout-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_widget(form.contentPageTemplate.version.content) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.contentPageTemplate.label) }}
+                </div>
+                <div class="col-xs-6">
+                    {% if form.contentPageTemplate.revert is defined %}
+                        {{ form_row(form.contentPageTemplate.revert, { 'attr' : { 'class' : 'template_version_revert' } }) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="layout-settings">
+            {{ form_row(form.name) }}
+            {{ form_row(form.layoutKey) }}
+            {% if form.site is defined %}
+                {{ form_row(form.site) }}
+            {% endif %}
+        </div>
+        {% if form.vars.data.id|length %}
+            <div role="tabpanel" class="tab-pane fade" id="layout-extensions">
+                <table class="table table-striped table-hover table-bordered layout-extensions-table spliced-admin-list">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Version</th>
+                        <th>Settings</th>
+                        <th width="100">
+                            <a class="btn btn-sm btn-primary layout-add-extension" href="javascript:;" data-href="{{ path('spliced_cms_admin_template_extension_new', { 'templateId' : form.vars.data.template.id }) }}">
+                                <i class="fa fa-plus"></i> Add Extension
+                            </a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if form.vars.data.template.extensions|length %}
+                        {% for templateExtension in form.vars.data.template.extensions %}
+                            {% set extension = spliced_cms.template_manager.getExtension(templateExtension.extensionKey) %}
+                            {% if extension|length %}
+                                {{ include('SplicedCmsBundle:Admin/TemplateExtension:table_list_row.html.twig', { 'template' : layout.template }) }}
+                            {%  else %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <tr class="no-result">
+                            <td colspan="6" class="text-center"><strong>No Extensions Enabled</strong></td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{{ form_widget(form._token) }}

@@ -1,0 +1,119 @@
+<div id="project-media-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary" id="project-media-add"><i class="fa fa-plus"></i> Add Media</a>
+        </div>
+        <h2>Media</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="project-media-table">
+        <thead>
+        <tr>
+            <th>File</th>
+            <th>Code</th>
+            <th>Type</th>
+            <th>Published</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tfoot>
+
+        </tfoot>
+        <tbody>
+        {% if project.media|length %}
+            {% for media in project.media %}
+                <tr class="project_media_{{  media.id }}">
+                    <td>{{ media.id }}</td>
+                    <td>{{ media.displayType }}</td>
+                    <td>
+                        {% set iconPath = '/bundles/splicedprojectmanager/images/icons/files/' ~ media.fileExtension ~ '.png' %}
+                        {%  if assetExists(iconPath) %}
+                            <img src="{{ asset(iconPath) }}" alt="" />
+                        {%  else %}
+                            <img src="{{ asset('/bundles/splicedprojectmanager/images/icons/files/_blank.png') }}" alt="" />
+                        {%  endif %}
+                        {{ media.fileType }}
+                    </td>
+                    <td>{{ media.filename }}</td>
+                    {% set mediaPath = '/' ~ spliced_configuration_get('project_media_web_rel_path') ~ '/' ~ media.filename %}
+                    <td><img src="{ mediaPath | apply_filter('media_thumbnail') }" /></td>
+                    <td><a href="{{  path('project_media_delete', { 'project' : project.id, 'media' : media.id }) }}" class="ajax_link_confirm btn btn-danger" data-message="Are you sure you want to delete this media?"><i class="icon-remove-sign icon-white"></i> Delete</a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="5" class="text-center"><strong>No Media</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+
+
+    {#
+    {% form_theme mediaForm 'SplicedProjectManagerBundle:Form:file_field.html.twig' %}
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Display Type</th>
+                <th>File Type</th>
+                <th>File Name</th>
+                <th>Preview</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+        </tfoot>
+        <tbody id="project_media">
+        {% if project.media|length %}
+            {% for media in project.media %}
+                <tr class="project_media_{{  media.id }}">
+                    <td>{{ media.id }}</td>
+                    <td>{{ media.displayType }}</td>
+                    <td>
+                    {% set iconPath = '/bundles/splicedprojectmanager/images/icons/files/' ~ media.fileExtension ~ '.png' %}
+                    {%  if assetExists(iconPath) %}
+                        <img src="{{ asset(iconPath) }}" alt="" />
+                    {%  else %}
+                        <img src="{{ asset('/bundles/splicedprojectmanager/images/icons/files/_blank.png') }}" alt="" />
+                    {%  endif %}
+                    {{ media.fileType }}
+                    </td>
+                    <td>{{ media.filename }}</td>
+                    {% set mediaPath = '/' ~ spliced_configuration_get('project_media_web_rel_path') ~ '/' ~ media.filename %}
+                    <td><img src="{ mediaPath | apply_filter('media_thumbnail') }" /></td>
+                    <td><a href="{{  path('project_media_delete', { 'project' : project.id, 'media' : media.id }) }}" class="ajax_link_confirm btn btn-danger" data-message="Are you sure you want to delete this media?"><i class="icon-remove-sign icon-white"></i> Delete</a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+                <tr>
+                    <td colspan="6"><div class="center">No Media Found</div></td>
+                </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <form method="post" action="{{ path('project_media_add', { 'id' : project.id }) }}" class="ajax_form" id="project_media_form" {{ form_enctype(mediaForm) }}>
+        {% form_theme mediaForm "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+        <fieldset>
+            <legend><i class="fa fa-camera"></i> Add Media</legend>
+            {{ form_row(mediaForm.displayType) }}
+            {{ form_row(mediaForm.file) }}
+            {{ form_row(mediaForm.fileCode) }}
+            {{ form_row(mediaForm.isPublished) }}
+
+           {{ form_rest(mediaForm) }}
+
+            <div class="form_actions">
+                <button type="submit" class="btn btn-success"><i class="fa fa-plus-sign icon-white"></i> Add Media to Project</button>
+            </div>
+        </fieldset>
+    </form>
+
+    #}
+</div>

@@ -1,0 +1,14 @@
+{% javascripts
+	'vendor/jquery/dist/jquery.min.js'
+	'vendor/bootstrap/dist/js/bootstrap.min.js'
+	'vendor/switchery/dist/switchery.min.js'
+	'vendor/moment/min/moment-with-locales.min.js'
+	'vendor/blockui/jquery.blockUI.js'
+	'vendor/jquery.cookie/jquery.cookie.js'
+	'@SplicedAdminThemeBundle/Resources/public/js/base.js'
+	'@SplicedAdminThemeBundle/Resources/public/js/list.js'
+	'@SplicedAdminThemeBundle/Resources/public/js/admin.js'
+	filter='?yui_js' output="/js/spliced_admin_theme_bundle.js"
+%}
+<script src="{{ asset_url }}" type="text/javascript" charset="utf-8"></script>
+{% endjavascripts %}

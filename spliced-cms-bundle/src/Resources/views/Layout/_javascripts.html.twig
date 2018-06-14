@@ -1,0 +1,40 @@
+{% javascripts
+	'vendor/jquery-colorbox/jquery.colorbox-min.js'
+	filter='?yui_js' output="/js/spliced_cms_plugins.js"
+%}
+<script src="{{ asset_url }}" type="text/javascript" charset="utf-8"></script>
+{% endjavascripts %}
+
+{% javascripts
+	'vendor/ace-builds/src-min/ace.js'
+	'vendor/ace-builds/src-min/ext-themelist.js'
+	'vendor/ace-builds/src-min/ext-statusbar.js'
+	'vendor/ace-builds/src-min/ext-spellcheck.js'
+	'vendor/ace-builds/src-min/ext-searchbox.js'
+	'vendor/ace-builds/src-min/ext-beautify.js'
+	'vendor/ace-builds/src-min/ext-modelist.js'
+	'vendor/ace-builds/src-min/ext-settings_menu.js'
+	'vendor/ace-builds/src-min/ext-language_tools.js'
+	filter='?yui_js' output="/js/spliced_cms_ace.js"
+%}
+<script src="{{ asset_url }}" type="text/javascript" charset="utf-8"></script>
+{% endjavascripts %}
+
+{% javascripts
+	'@SplicedCmsBundle/Resources/public/js/base.js'
+	'@SplicedCmsBundle/Resources/public/js/editor.js'
+	'@SplicedCmsBundle/Resources/public/js/template_extension.js'
+	'@SplicedCmsBundle/Resources/public/js/content_page.js'
+	'@SplicedCmsBundle/Resources/public/js/content_block.js'
+	'@SplicedCmsBundle/Resources/public/js/menu.js'
+	'@SplicedCmsBundle/Resources/public/js/menu_template.js'
+	'@SplicedCmsBundle/Resources/public/js/file_manager.js'
+	'@SplicedCmsBundle/Resources/public/js/file_manager_edit_file.js'
+	'@SplicedCmsBundle/Resources/public/js/media_gallery.js'
+	'@SplicedCmsBundle/Resources/public/js/site.js'
+	'@SplicedCmsBundle/Resources/public/js/layout.js'
+	'@SplicedCmsBundle/Resources/public/js/admin.js'
+	filter='?yui_js' output="/js/spliced_cms_admin_core.js"
+%}
+<script src="{{ asset_url }}" type="text/javascript" charset="utf-8"></script>
+{% endjavascripts %}

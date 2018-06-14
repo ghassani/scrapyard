@@ -1,0 +1,14 @@
+html{
+	height: 100%;
+}
+body{
+	
+	
+}
+
+.navbar .navbar-inner{
+	background: #000;
+}
+.navbar .navbar-inner a{
+	color: #fff;
+}

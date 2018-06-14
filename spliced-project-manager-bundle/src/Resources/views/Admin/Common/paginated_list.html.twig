@@ -1,0 +1,41 @@
+{% if listConfiguration.get('batch_route')|length %}
+<form method="post" action="{{ path(listConfiguration.get('batch_route')) }}">
+{% endif %}
+<table class="table table-striped table-bordered">
+	<thead>
+		{% include 'SplicedProjectManagerBundle:Common:paginated_list_header.html.twig' with {'listConfiguration' : listConfiguration } %}
+	</head>
+	<tfoot>
+	
+	</tfoot>
+	<tbody>
+		{% for object in pagination %}
+			{% include 'SplicedProjectManagerBundle:Common:paginated_list_row.html.twig' with {
+				'listConfiguration' : listConfiguration, 
+				'object' : object} 
+			%}
+		{% endfor %}
+	</tbody>
+</table>
+
+{% if listConfiguration.batchActions|length %}
+<ul class="inline">
+	<li>
+		<select name="batchAction">
+			<option value=""></option>
+		{% for action in listConfiguration.batchActions %}
+			{% if action.confirm == 'true' %}
+				<option value="{{ action.value }}" class="batch-confirm">{{ action.label }}</option>
+			{% else %}
+				<option value="{{ action.value }}">{{ action.label }}</option>
+			{% endif %}
+			
+		{% endfor %}
+		</select>
+	</li>
+	<li><input type="submit" class="btn btn-inverse" value="Go"></li>
+</ul>
+{% endif %}
+{% if listConfiguration.get('batch_route')|length %}
+</form>
+{% endif %}

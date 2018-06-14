@@ -1,0 +1,65 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% block title %}- Users{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_cms_admin_user_new') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> New User</a>
+        </div>
+        <h1>Users</h1>
+    </div>
+    <div class="alert alert-info">
+        <p><i class="fa fa-info-circle"></i> Users represent all users both front end and back end. Users are managed with privledges.</p>
+    </div>
+    <table class="table table-striped table-hover table-bordered spliced-admin-list">
+        <thead>
+            <th><input type="checkbox" class="check-all" /></th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>E-Mail</th>
+            <th>Enabled</th>
+            <th>Locked</th>
+            <th>Expired</th>
+            <th>Last Login</th>
+            <th></th>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="9">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        With Selected <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" data-action="batch-list" data-batch-action="delete">Delete</a></li>
+                        <!--<li><a href="#" data-action="batch-list" data-batch-action="promote">Promote</a></li>
+                        <li><a href="#" data-action="batch-list" data-batch-action="demote">Demote</a></li>
+                        <li><a href="#" data-action="batch-list" data-batch-action="password-reset">Force Password Reset</a></li>
+                        <li><a href="#" data-action="batch-list" data-batch-action="send-notification">Send Notification</a></li>-->
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% if users.getTotalItemCount > 0 %}
+            {% for user in users %}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ user.id }}" /></td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td><i class="fa {{ user.enabled ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                    <td><i class="fa {{ user.locked ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                    <td><i class="fa {{ user.expired ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                    <td>{{ user.lastLogin|length ? user.lastLogin|date('m/d/Y h:i a') : '' }}</td>
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

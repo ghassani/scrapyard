@@ -1,0 +1,90 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\Project:
+    type: entity
+    table: smpm_project
+    repositoryClass: Spliced\Bundle\ProjectManagerBundle\Repository\ProjectRepository
+    indexes:
+        IDX_CLIENT_ID:
+            columns:
+                - client_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+        urlSlug:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: url_slug
+        status:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    manyToOne:
+        client:
+            targetEntity: Client
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                client_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        timeEntries:
+          targetEntity: ProjectTimeEntry
+          mappedBy: project
+          cascade: ["persist"]
+        attributes:
+          targetEntity: ProjectAttribute
+          mappedBy: project
+          cascade: ["persist"]
+        media:
+          targetEntity: ProjectMedia
+          mappedBy: project
+          cascade: ["persist"]
+        staff:
+          targetEntity: ProjectStaff
+          mappedBy: project
+          cascade: ["persist"]
+        tags:
+          targetEntity: ProjectTag
+          mappedBy: project
+          cascade: ["persist"]
+        files:
+          targetEntity: ProjectFile
+          mappedBy: project
+          cascade: ["persist"]
+        invoices:
+          targetEntity: ProjectInvoice
+          mappedBy: project
+          cascade: ["persist"]
+        notes:
+          targetEntity: ProjectNote
+          mappedBy: project
+          cascade: ["persist"]
+    lifecycleCallbacks: {  }

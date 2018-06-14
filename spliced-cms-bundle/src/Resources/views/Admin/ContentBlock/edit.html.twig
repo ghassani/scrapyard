@@ -1,0 +1,41 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+
+{% form_theme form.template.version.content "SplicedCmsBundle:Form:ace.html.twig" %}
+
+{% block title %}- Content Block: ({{ contentBlock.blockKey }}) {{ contentBlock.name }}{% endblock %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_content_block_list') }}" class="btn btn-default btn-sm" title=" Back To List"><i class="fa fa-backward"></i></a>
+            {% if deleteForm is defined %}
+                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteConfirmationModal" title="Delete"><i class="fa fa-trash"></i></a>
+            {% endif %}
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#content-block-form" title="Update"><i class="fa fa-save"></i></button>
+        </div>
+        <h1>Editing {{ contentBlock.name }} <small>Content Block #{{ contentBlock.id }} - Key: {{ contentBlock.blockKey }}</small></h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_content_block_update', { 'id' : contentBlock.id }) }}" class="form" role="form" id="content-block-form">
+        {{ include('SplicedCmsBundle:Admin/ContentBlock:form.html.twig') }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function($){
+            var contentBlock = new SplicedContentBlock(document.getElementById("content-block-form"), {{ form.vars.data.toJson()|raw }}, {
+                debug : true
+            });
+        });
+    </script>
+{% endblock %}

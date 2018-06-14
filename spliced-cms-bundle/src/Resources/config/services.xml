@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <parameters>
+        <parameter key="templating.name_parser.class">Spliced\Bundle\CmsBundle\Templating\TemplateNameParser</parameter>
+    </parameters>
+        
+    <services>
+
+        <service id="spliced_cms.site_manager" class="Spliced\Bundle\CmsBundle\Manager\SiteManager">
+            <argument type="service" id="session" />
+            <argument type="service" id="spliced.configuration_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_cms.site_host_manager" class="Spliced\Bundle\CmsBundle\Manager\SiteHostManager">
+            <argument type="service" id="spliced_cms.site_manager" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="kernel" />
+        </service>
+
+        <service id="spliced_cms.history_manager" class="Spliced\Bundle\CmsBundle\Manager\HistoryManager">
+            <argument type="service" id="session" />
+        </service>
+
+        <service id="spliced_cms.content_page_manager" class="Spliced\Bundle\CmsBundle\Manager\ContentPageManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="spliced_cms.template_manager" />
+        </service>
+
+        <service id="spliced_cms.content_block_manager" class="Spliced\Bundle\CmsBundle\Manager\ContentBlockManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="spliced_cms.template_manager" />
+        </service>
+
+        <service id="spliced_cms.layout_manager" class="Spliced\Bundle\CmsBundle\Manager\LayoutManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="spliced_cms.template_manager" />
+        </service>
+
+        <service id="spliced_cms.menu_manager" class="Spliced\Bundle\CmsBundle\Manager\MenuManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_cms.menu_template_manager" class="Spliced\Bundle\CmsBundle\Manager\MenuTemplateManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="spliced_cms.template_manager" />
+        </service>
+
+        <service id="spliced_cms.template_manager" class="Spliced\Bundle\CmsBundle\Manager\TemplateManager">
+            <argument type="service" id="spliced.configuration_manager" />
+            <argument type="service" id="spliced_cms.site_manager" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="twig.loader" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="collection">
+            </argument>
+        </service>
+
+
+        <service id="spliced_cms.route_provider" class="Spliced\Bundle\CmsBundle\Routing\RouteProvider">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="spliced_cms.site_manager" />
+        </service>
+
+        <service id="spliced_cms.gallery_manager" class="Spliced\Bundle\CmsBundle\Manager\GalleryManager">
+            <argument type="service" id="spliced_cms.site_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="imagine" />
+            <argument type="collection">
+                <argument key="web_dir">%kernel.root_dir%/../web/</argument>
+                <argument key="cache_dir">%kernel.root_dir%/../web/cache/gallery</argument>
+            </argument>
+        </service>
+
+        <service id="imagine" class="Imagine\Gd\Imagine">
+
+        </service>
+
+    </services>
+</container>

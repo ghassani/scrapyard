@@ -1,0 +1,14 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme fileForm.contents "SplicedCmsBundle:Form:ace_file.html.twig" %}
+{% block title %}- Menus{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a class="btn btn-primary btn-sm" data-action="form-submit" data-target="#new-file-form><i class="fa fa-save"></i> Save</a>
+        </div>
+        <h1>Creating New File</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    {{ form_row(fileForm.contents) }}
+{% endblock %}

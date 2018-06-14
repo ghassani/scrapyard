@@ -1,0 +1,85 @@
+Spliced\Bundle\CmsBundle\Entity\Layout:
+    type: entity
+    table: smc_layout
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\LayoutRepository
+    indexes:
+        template_id:
+            columns:
+                - template_id
+        site_id:
+            columns:
+                - site_id
+        content_page_template_id:
+            columns:
+                - content_page_template_id
+    uniqueConstraints:
+        name:
+            columns:
+                - site_id
+                - name
+        site_id_2:
+            columns:
+                - site_id
+                - layout_key
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        layoutKey:
+            type: string
+            nullable: true
+            length: 50
+            fixed: false
+            comment: ''
+            column: layout_key
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: updated_at
+    manyToOne:
+        site:
+            targetEntity: Site
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                site_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+            cascade: ["persist"]
+        template:
+            targetEntity: Template
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+            cascade: ["persist"]
+        contentPageTemplate:
+            targetEntity: Template
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                content_page_template_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

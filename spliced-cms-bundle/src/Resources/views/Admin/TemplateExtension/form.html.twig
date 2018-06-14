@@ -1,0 +1,28 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+<div id="template-extension-settings-form">
+    {% if extension is defined %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group form-group-sm">
+                    <label for="" class="required">Extension</label>
+                    <div class="form-control disabled">{{ extension.name }} v{{ extension.version }}</div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="extensionKey" value="{{ extension.key }}" />
+    {% endif %}
+    {% if extension is defined and extension.settingsFormTemplate|length %}
+        {{  include(extension.settingsFormTemplate, { 'form' : form.settings, 'extension' : extension }) }}
+    {% else %}
+        {% for field in form %}
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(field, { 'form_group' : 'form-group-sm', 'attr' : { 'class' : 'input-sm' }  }) }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if form._token is defined %}
+        {{ form_widget(form._token) }}
+    {% endif %}
+</div>

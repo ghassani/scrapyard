@@ -1,0 +1,47 @@
+Spliced\Bundle\CmsBundle\Entity\Template:
+    type: entity
+    table: smc_template
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\TemplateRepository
+    indexes:
+        version_id:
+            columns:
+                - version_id
+        active_version_id:
+            columns:
+                - active_version_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        filename:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+            comment: ''
+    manyToOne:
+        version:
+            targetEntity: TemplateVersion
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                version_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+            cascade: ["persist"]
+        activeVersion:
+            targetEntity: TemplateVersion
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                active_version_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

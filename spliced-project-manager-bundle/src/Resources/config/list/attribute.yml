@@ -1,0 +1,50 @@
+entity: SplicedProjectManagerBundle:Attribute
+batch_route: attribute_batch_action
+
+fields:
+  id:
+    accessor: id
+    label: ID
+    column: a.id
+    type: string
+  context:
+    accessor: context
+    label: Context
+    column: a.context
+    type: string
+  attributeKey:
+    accessor: attributeKey
+    label: Attribute Key
+    column: a.attributeKey
+    type: string
+  type:
+    accessor: type
+    label: Type
+    column: a.type
+    type: string
+  attributeGroup:
+    accessor: attributeGroup
+    label: Attribute Group
+    column: a.attributeGroup
+    type: string
+  atributeLabel:
+    accessor: attributeLabel
+    label: Attribute Label
+    column: a.attributeLabel
+    type: string
+    
+batch_actions:
+  delete: 
+    label: Delete
+    value: delete
+    confirm: true
+  
+actions:
+  edit:
+    css_class: test
+    route: project_view
+    label: <i class="icon-edit"></i>
+  delete:
+    css_class: test
+    route: project_delete
+    label: <i class="icon-remove"></i>

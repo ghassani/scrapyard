@@ -1,0 +1,59 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectFile:
+    type: entity
+    table: smpm_project_file
+    indexes:
+        IDX_13905469166D1F9C:
+            columns:
+                - project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        filename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        originalFilename:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            column: original_filename
+        fileType:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: file_type
+        description:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        isPublic:
+            type: boolean
+            nullable: false
+            comment: ''
+            column: is_public
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

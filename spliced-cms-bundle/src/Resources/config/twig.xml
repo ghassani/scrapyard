@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+<services>
+
+    <service id="spliced_cms.twig.extension.cms" class="Spliced\Bundle\CmsBundle\Twig\Extension\CmsExtension"  public="false">
+        <tag name="twig.extension" />
+        <argument type="service" id="service_container" />
+    </service>
+    <service id="spliced_cms.twig.extension.content_block" class="Spliced\Bundle\CmsBundle\Twig\Extension\ContentBlockExtension"  public="false">
+        <tag name="twig.extension" />
+        <argument type="service" id="service_container" />
+    </service>
+    <service id="spliced_cms.twig.extension.site" class="Spliced\Bundle\CmsBundle\Twig\Extension\SiteExtension"  public="false">
+        <tag name="twig.extension" />
+        <argument type="service" id="service_container" />
+    </service>
+    <service id="spliced_cms.twig.extension.menu" class="Spliced\Bundle\CmsBundle\Twig\Extension\MenuExtension"  public="false">
+        <tag name="twig.extension" />
+        <argument type="service" id="service_container" />
+    </service>
+    <!--
+         <service id="spliced_cms.twig.extension.router" class="Spliced\Bundle\CmsBundle\Twig\Extension\RouterExtension"  public="false">
+             <tag name="twig.extension" />
+             <argument type="service" id="spliced_cms.router" />
+         </service>
+
+      <service id="spliced_cms.twig.extension.content_block" class="Spliced\Bundle\CmsBundle\Twig\Extension\ContentBlockExtension"  public="false">
+             <tag name="twig.extension" />
+             <argument type="service" id="service_container" />
+         </service>-->
+
+</services>
+</container>

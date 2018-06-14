@@ -1,0 +1,56 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% block body_class %}default pms-default{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('SplicedProjectManagerBundle:Admin/Layout:_javascripts.html.twig') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ include('SplicedProjectManagerBundle:Admin/Layout:_stylesheets.html.twig') }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_header %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_tab2_label %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_tab3_label %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_tab2_content %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_tab3_content %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_footer %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block slide_out_menu_additional_tabs_labels %}
+    {{ parent() }}
+{% endblock %}
+
+{% block slide_out_menu_additional_tabs_content %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+
+    <services>
+
+        <service id="spliced_pms.listener.admin_main_menu" class="Spliced\Bundle\ProjectManagerBundle\EventListener\AdminThemeMenuEventListener">
+            <tag name="kernel.event_listener" event="spliced.admin_theme.build_menu.main" method="buildAdminMainMenu" />
+            <tag name="kernel.event_listener" event="spliced.admin_theme.build_menu.slide_out" method="buildAdminSlideOutMenu" />
+        </service>
+
+        <service id="spliced_pms.listener.project" class="Spliced\Bundle\ProjectManagerBundle\EventListener\ProjectListener">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="spliced.configuration_manager" />
+
+            <tag name="kernel.event_listener" event="spliced_pms.project_attribute_save" method="onProjectAttributeSave" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_attribute_update" method="onProjectAttributeUpdate" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_attribute_delete" method="onProjectAttributeDelete" />
+
+            <tag name="kernel.event_listener" event="spliced_pms.project_staff_save" method="onProjectStaffSave" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_staff_update" method="onProjectStaffUpdate" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_staff_delete" method="onProjectStaffDelete" />
+
+            <tag name="kernel.event_listener" event="spliced_pms.project_file_save" method="onProjectFileSave" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_file_update" method="onProjectFileUpdate" />
+            <tag name="kernel.event_listener" event="spliced_pms.project_file_delete" method="onProjectFileDelete" />
+
+            
+        </service>
+
+
+    </services>
+
+
+</container>

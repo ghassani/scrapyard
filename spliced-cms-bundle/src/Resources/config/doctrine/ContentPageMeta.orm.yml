@@ -1,0 +1,48 @@
+Spliced\Bundle\CmsBundle\Entity\ContentPageMeta:
+    type: entity
+    table: smc_content_page_meta
+    repositoryClass: Spliced\Bundle\CmsBundle\Repository\ContentPageMetaRepository
+    indexes:
+        IDX_8837EEC9D34EBA57:
+            columns:
+                - content_page_id
+    uniqueConstraints:
+        content_page_id:
+            columns:
+                - content_page_id
+                - meta_key
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        metaKey:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+            column: meta_key
+        metaValue:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: meta_value
+    manyToOne:
+        contentPage:
+            targetEntity: ContentPage
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                content_page_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,51 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\Client:
+    type: entity
+    table: smpm_client
+    indexes:
+        IDX_300840C9A76ED395:
+            columns:
+                - user_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        userId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: user_id
+        contactName:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+            column: contact_name
+        companyName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: ''
+            column: company_name
+        displayName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: ''
+            column: display_name
+    oneToMany:
+        projects:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: client
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

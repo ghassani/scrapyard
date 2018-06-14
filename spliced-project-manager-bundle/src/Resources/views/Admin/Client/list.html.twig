@@ -1,0 +1,65 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block title %}- Client List{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_pms_client_new') }}" class="btn btn-primary btn-sm"><i class="fa fa-new-user"></i> New Client</a>
+        </div>
+        <h1>Clients</h1>
+    </div>
+
+    <div class="alert alert-info">
+        <p><i class="fa fa-info-circle"></i> The people we create awesomeness for.</p>
+    </div>
+
+    <table class="table table-striped table-hover table-bordered spliced-admin-list">
+        <thead>
+        <th><input type="checkbox" class="check-all" /></th>
+        <th>User</th>
+        <th>Contact Name</th>
+        <th>Company Name</th>
+        <th>Display Name</th>
+        <th>Actions</th>
+        </thead>
+
+        <tfoot>
+        <tr>
+            <td colspan="6">
+                <!-- Single button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        With Selected <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% if pagination.getTotalItemCount > 0 %}
+            {% for client in pagination %}
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ client.id }}" /></td>
+                    <td>{{ client.user.username }}</td>
+                    <td>{{ client.contactName }}</td>
+                    <td>{{ client.companyName }}</td>
+                    <td>{{ client.displayName }}</td>
+                    <td>
+                        <a href="{{ path('spliced_pms_client_edit', { 'id' : client.id }) }}"><i class="fa fa-edit"></i></a>
+                        <a href="{{ path('spliced_pms_client_delete', { 'id' : client.id }) }}"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="6" class="text-center"><strong>No Clients Found</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

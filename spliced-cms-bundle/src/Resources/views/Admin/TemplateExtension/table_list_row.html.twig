@@ -1,0 +1,23 @@
+<tr>
+    <td>{{ templateExtension.id }}</td>
+    <td>{{ extension.name }}</td>
+    <td>{{ extension.description }}</td>
+    <td>{{ extension.version }}</td>
+    <td>
+        {% if extension is defined and extension.settingsViewTemplate|length %}
+            {{  include(extension.settingsViewTemplate) }}
+        {% else %}
+            <ul class="list-unstyled">
+                {% for k,v in templateExtension.settings %}
+                    <li><strong>{{ k }}</strong>: {{ v }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </td>
+    {% if noEdit is not defined %}
+    <td>
+        <a href="javascript:;" class="delete-extension" data-href="{{ path('spliced_cms_admin_template_extension_delete', { 'templateId' : template.id, 'templateExtensionId' : templateExtension.id }) }}"><i class="fa fa-trash"></i></a>
+        <a href="javascript:;" class="edit-extension" data-href="{{ path('spliced_cms_admin_template_extension_edit', { 'templateId' : template.id, 'templateExtensionId' : templateExtension.id }) }}"><i class="fa fa-edit"></i></a>
+    </td>
+    {% endif %}
+</tr>

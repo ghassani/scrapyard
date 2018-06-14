@@ -1,0 +1,99 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% import "SplicedCmsBundle:Admin/Macros:knp_paginator.html.twig" as knpHelper %}
+
+{% block title %}- Menus{% endblock %}
+
+{% set colspan = spliced_cms.site_manager.getCurrentAdminSite|length ? 6 : 7  %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_menu_new') }}" class="btn btn-primary btn-sm" title="New Menu"><i class="fa fa-plus"></i></a>
+        </div>
+
+        <h1>Menus</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if filterForm is defined %}
+        {{ include('SplicedCmsBundle:Admin/Menu:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+
+    <form method="post" action="{{ path('spliced_cms_admin_menu_batch') }}" id="batch-form">
+        <table class="table table-striped table-hover table-bordered spliced-admin-list">
+            <thead>
+                <tr>
+                    <th colspan="{{ colspan }}">
+                        <div class="pull-right">
+                            {% if filterForm is defined %}
+                                <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                            {% endif %}
+                        </div>
+                        {{ knp_pagination_render(menus, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                    </th>
+                </tr>
+                <tr>
+                    <th width="20"><input type="checkbox" class="check-all" /></th>
+                    {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                        {{ knpHelper.table_header_row(menus, 'Site', 'm.site', {}) }}
+                    {% endif %}
+                    {{ knpHelper.table_header_row(menus, 'Key', 'm.menuKey', {}) }}
+                    {{ knpHelper.table_header_row(menus, 'Name', 'm.name', {}) }}
+                    <th>Items</th>
+                    {{ knpHelper.table_header_row(menus, 'Active', 'm.isActive', {}) }}
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        Showing {{ menus|length }}/{{ menus.getTotalItemCount }} Records
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                            <li><a href="#" data-action="batch-list" data-batch-action="activate"  data-confirm="false">Activate</a></li>
+                            <li><a href="#" data-action="batch-list" data-batch-action="deactivate"  data-confirm="false">Deactivate</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% if menus.getTotalItemCount > 0 %}
+                {% for menu in menus %}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{ menu.id }}" /></td>
+                        {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                            <td>{{ menu.site.domain }}</td>
+                        {% endif %}
+                        <td>{{ menu.menuKey }}</td>
+                        <td>{{ menu.name }}</td>
+                        <td>{{ menu.items|length }}</td>
+                        <td><i class="fa {{ menu.isActive ? 'fa-check-circle-o' : 'fa-circle-o' }}"></i></td>
+                        <td>
+                            <a href="{{ path('spliced_cms_admin_menu_edit', { 'id' : menu.id }) }}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="{{ colspan }}" class="text-center"><strong>No Menus Found</strong></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {{ form_rest(batchActionForm) }}
+    </form>
+
+{% endblock %}

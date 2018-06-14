@@ -1,0 +1,22 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{{ path('spliced_pms_project_time_entry_update', {'projectId' : project.id, 'projectTimeEntryId' : projectTimeEntry.id }) }}">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Editing Project Time Entry</h4>
+                </div>
+                <div class="modal-body">
+                    {{ include('SplicedProjectManagerBundle:Admin/ProjectTimeEntry:form.html.twig') }}
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-danger project-time-entry-delete" data-id="{{ projectTimeEntry.id }}"><i class="fa fa-disk fa-trash"></i> Delete</a>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-disk fa-save"></i> Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,89 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+
+{% block title %}- Menu Templates{% endblock %}
+
+{% import "SplicedCmsBundle:Admin/Macros:knp_paginator.html.twig" as knpHelper %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_menu_template_new') }}" class="btn btn-primary btn-sm" title="New Menu Template"><i class="fa fa-plus"></i></a>
+         </div>
+        <h1>Menu Templates</h1>
+    </div>
+{% endblock %}
+
+{% set colspan = spliced_cms.site_manager.getCurrentAdminSite|length ? 6 : 7 %}
+
+{% block content %}
+    {% if filterForm is defined %}
+        {{ include('SplicedCmsBundle:Admin/MenuTemplate:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+    <form method="post" action="{{ path('spliced_cms_admin_menu_template_batch') }}" id="batch-form">
+        <table class="table table-striped table-hover table-bordered spliced-admin-list">
+            <thead>
+                <tr>
+                    <th colspan="{{ colspan }}">
+                        <div class="pull-right">
+                            {% if filterForm is defined %}
+                                <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                            {% endif %}
+                        </div>
+                        {{ knp_pagination_render(menuTemplates, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                    </th>
+                </tr>
+                <tr>
+                    <th width="20"><input type="checkbox" class="check-all" /></th>
+                    {{ knpHelper.table_header_row(menuTemplates, 'ID', 'm.id', {}) }}
+                    {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                        {{ knpHelper.table_header_row(menuTemplates, 'Site', 'm.site', {}) }}
+                    {% endif %}
+                    {{ knpHelper.table_header_row(menuTemplates, 'Name', 'm.name', {}) }}
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        Showing {{ menuTemplates|length }}/{{ menuTemplates.getTotalItemCount }} Records
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                            <li><a href="#" data-action="batch-list" data-batch-action="publish"  data-confirm="true">Publish Changes</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% if menuTemplates.getTotalItemCount > 0 %}
+                {% for menuTemplate in menuTemplates %}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{ menuTemplate.id }}" /></td>
+                        <td>{{ menuTemplate.id }}</td>
+                        {% if not spliced_cms.site_manager.getCurrentAdminSite|length %}
+                            <td>{{ menuTemplate.site.domain }}</td>
+                        {% endif %}
+                        <td>{{ menuTemplate.name }}</td>
+                        <td>
+                            <a href="{{ path('spliced_cms_admin_menu_template_edit', { 'id' : menuTemplate.id }) }}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="{{ colspan }}" class="text-center"><strong>No Menu Templates Found</strong></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {{ form_rest(batchActionForm) }}
+    </form>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Spliced CMS Admin {% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="author" content="Spliced Media L.L.C">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+    <link rel="shortcut icon" href="/admin-favicon.ico">
+    <link rel="apple-touch-icon" href="/admin-apple-touch-icon.png">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/switchery/dist/switchery.min.css" rel="stylesheet">
+    <link href="/bundles/splicedadmintheme/css/bootstrap.theme.css" rel="stylesheet">
+    <link href="/bundles/splicedadmintheme/css/login.css" rel="stylesheet">
+</head>
+<body>
+<header class="navbar navbar-default navbar-static-top navbar-header-main" id="top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-brand">Login</a>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <section class="col-lg-offset-3 col-lg-6 col-lg-offset-3 ">
+            <div class="content-inner-wrapper container-fluid">
+                {% for class, flash in { 'warning' : 'warning', 'danger' : 'error', 'info' : 'info', 'success' : 'success'} %}
+                    {% if app.session.flashBag.has(flash) %}
+                        {% for message in app.session.flashBag.get(flash) %}
+                            <div class="main-alert alert alert-{{ class }}">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }} </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

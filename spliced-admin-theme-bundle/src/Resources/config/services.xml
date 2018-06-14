@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="spliced_admin_theme.menu_builder" class="Spliced\Bundle\AdminThemeBundle\Menu\Builder">
+            <argument type="service" id="knp_menu.factory" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service
+                id="spliced_admin_theme.menu.main"
+                class="Knp\Menu\MenuItem"
+                factory-service="spliced_admin_theme.menu_builder"
+                factory-method="createMainMenu" scope="request" >
+
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="main" />
+        </service>
+
+        <service
+                id="spliced_admin_theme.menu.user"
+                class="Knp\Menu\MenuItem"
+                factory-service="spliced_admin_theme.menu_builder"
+                factory-method="createUserMenu" scope="request" >
+
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="user" />
+        </service>
+
+        <service
+                id="spliced_admin_theme.menu.footer"
+                class="Knp\Menu\MenuItem"
+                factory-service="spliced_admin_theme.menu_builder"
+                factory-method="createFooterMenu" scope="request" >
+
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="footer" />
+        </service>
+
+        <service
+                id="spliced_admin_theme.menu.slide_out"
+                class="Knp\Menu\MenuItem"
+                factory-service="spliced_admin_theme.menu_builder"
+                factory-method="createSlideOutMenu" scope="request" >
+
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="slide_out" />
+        </service>
+
+    </services>
+
+</container>

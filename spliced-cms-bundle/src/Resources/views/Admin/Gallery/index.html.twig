@@ -1,0 +1,67 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% block title %}- Media Gallery{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="" class="btn btn-primary btn-sm" title="Upload an Image"><i class="fa fa-upload"></i></a>
+            <a href="{{ path('spliced_cms_admin_gallery') }}" class="btn btn-primary btn-sm" title="Clear Gallery Cache"><i class="fa fa-database"></i></a>
+            <a href="{{ path('spliced_cms_admin_gallery_sync') }}" class="btn btn-primary btn-sm" title="Re-Scan For New Images"><i class="fa fa-database"></i></a>
+        </div>
+        <h1>Gallery</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="list-pagination gallery top">
+        {{ knp_pagination_render(gallery, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+    </div>
+    <div class="gallery-wrapper gallery-full">
+        <ul id="gallery-items" class="gallery list-inline">
+            {% for image in gallery %}
+                {% if spliced_cms.gallery_manager.hasCached(image) %}
+                    <li class="gallery-item">
+                        <div class="overlay">
+                            <div>Filename: {{ image.fileName }}</div>
+                            <div>Location: {{ image.filePath|replace({ ('/' ~ image.fileName) : '' }) }}</div>
+                            <div>Dimensions: {{ image.imageWidth }} x {{ image.imageHeight }} pixels</div>
+                            <div>Created On: {{ image.fileInfo.getMTime()|date('m/d/Y h:i a') }}</div>
+                        </div>
+                        <div class="pull-right">
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                            <a href="#" class="btn btn-sm btn-info"><i class="fa fa-expand"></i></a>
+                            <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-check"></i></a>
+                        </div>
+                        <div class="pull-left">
+                            <img src="//{{  image.site.domain ~ asset(spliced_cms.gallery_manager.getCachedPath(image, true)) }}" class="thumbnail" data-id="{{ image.id }}" data-target="//{{ image.site.domain ~ image.filePath }}" />
+                            <div class="text-center">{{ image.fileName }}</div>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="javascript:;"><img src="{{ spliced_cms.gallery_manager.createCached(image).getCachedPath(image, true) }}" /></a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="list-pagination gallery bottom">
+        {{ knp_pagination_render(gallery, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+    </div>
+{% endblock %}
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('#gallery-items img.thumbnail').on('mouseover', function(){
+                var $item = $(this).parent();
+                if ($item.length) {
+                    $item.addClass('active');
+                }
+            });
+            $('#gallery-items img.thumbnail').on('mouseleave', function(){
+                var $item = $(this).parent();
+                if ($item.length) {
+                    $item.removeClass('active');
+                }
+            });
+        });
+    </script>
+{% endblock %}

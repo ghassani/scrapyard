@@ -1,0 +1,33 @@
+{% set domain = site.domain %}
+
+{% for alias in site.aliases %}
+    {% set domain = domain ~ ' ' ~ alias.domain %}
+{% endfor %}
+
+server {
+    
+    listen 80;
+    
+    server_name  {{ domain }};
+    
+    access_log  {{ site.rootDir }}/logs/access.log;
+    
+    error_log  {{ site.rootDir }}/logs/error.log;
+    
+    index index.html app.php;
+    
+    root   {{ site.webDir }};
+
+    location / {
+        try_files $uri $uri/ /app.php?$args;
+    }
+
+    location ~* \.php {
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/var/run/php5-fpm-{{ site.domain }}.sock;
+    }
+
+    merge_slashes off;
+    rewrite (.*)//+(.*) $1/$2 permanent;
+}

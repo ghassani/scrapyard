@@ -1,0 +1,23 @@
+<div class="gallery-wrapper gallery-modal">
+    <ul id="gallery-items" class="gallery list-inline">
+        {% for image in gallery %}
+            {% if spliced_cms.gallery_manager.hasCached(image) %}
+                <li class="gallery-item">
+                    <img src="//{{  image.site.domain ~ asset(spliced_cms.gallery_manager.getCachedPath(image, true)) }}" class="thumbnail" data-id="{{ image.id }}" data-target="//{{ image.site.domain ~ image.filePath }}" />
+                    <div class="overlay">
+                        Info:
+                        <div>Filename: {{ image.fileName }}</div>
+                        <div>Location: {{ image.filePath|replace({ ('/' ~ image.fileName) : '' }) }}</div>
+                        <div>Dimensions: {{ image.imageWidth }} x {{ image.imageHeight }} pixels</div>
+                        <div>Created On: {{ image.fileInfo.getMTime()|date('m/d/Y h:i a') }}</div>
+                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="#" class="btn btn-sm btn-info">Create Re-Sized Version</a>
+                        <a href="#" class="btn btn-sm btn-primary">View Full Size</a>
+                    </div>
+                </li>
+            {% else %}
+                <li><a href="javascript:;"><img src="{{ spliced_cms.gallery_manager.createCached(image).getCachedPath(image, true) }}" /></a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>

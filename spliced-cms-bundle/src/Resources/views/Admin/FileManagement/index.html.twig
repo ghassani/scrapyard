@@ -1,0 +1,94 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% block title %}- File Management{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_file_manager_new_folder', {'dir' : dir.relativePath}) }}" class="btn btn-primary btn-sm" title="Create Folder"><i class="fa fa-folder-o"></i></a>
+            <a href="{{ path('spliced_cms_admin_file_manager_new_file', {'dir' : dir.relativePath}) }}" class="btn btn-primary btn-sm" title="Create File"><i class="fa fa-file-o"></i></a>
+            <a class="btn btn-primary btn-sm" title="Upload File"><i class="fa fa-upload"></i></a>
+        </div>
+        <h1>File Management</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Location: {{ dir.relativePath }}</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="{{ path('spliced_cms_admin_file_manager_new_folder', {'dir' : dir.relativePath}) }}">Create a Folder</a></li>
+                    <li class="list-group-item"><a href="{{ path('spliced_cms_admin_file_manager_new_file', {'dir' : dir.relativePath}) }}">Create a File</a></li>
+                    <li class="list-group-item"><a href="#">Upload a File</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <table class="table" id="file-manager-list">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="check-all" /></th>
+                        <th>Filename</th>
+                        <th>Size</th>
+                        <th>Type</th>
+                        <th>Created</th>
+                        <th>Modified</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if dir.realPath != baseDir.realPath %}
+                    <tr>
+                        <td><a href=""><i class="fa fa-history"></i></a></td>
+                        <td colspan="5"><a href="{{ path('spliced_cms_admin_file_manager', { 'dir' : file_dirname(dir.relativePath) }) }}">...</a></td>
+                    </tr>
+                {% endif %}
+                {% if files|length %}
+                    {% for file in files %}
+                        <tr>
+                            {% if file.isDir or file.isLink %}
+                                <td><a href="{{ path('spliced_cms_admin_file_manager', { 'dir' : dir.relativePath ~ '/' ~ file.filename }) }}"><i class="fa fa-folder-open-o"></i></a></td>
+                                <td>{{ file.filename }}</td>
+                                <td>-</td>
+                                <td>{{ file.CTime|date('m/d/Y h:i a') }}</td>
+                                <td>{{ file.MTime|date('m/d/Y h:i a') }}</td>
+                                <td></td>
+                            {% else %}
+                                <td><a href="#"><i class="fa fa-file"></i></a></td>
+                                <td>{{ file.filename }}</td>
+                                <td>{{ file.size }} bytes</td>
+                                <td>{{ file.CTime|date('m/d/Y h:i a') }}</td>
+                                <td>{{ file.MTime|date('m/d/Y h:i a') }}</td>
+                                <td>
+                                    <a href="javascript:;" data-action="delete-file" data-href="{{ path('spliced_cms_admin_file_manager_delete_file', { 'file' : file.filename, 'dir' : dir.relativePath }) }}"><i class="fa fa-trash-o"></i></a>
+                                    <a href="{{ path('spliced_cms_admin_file_manager_download', { 'file' : file.filename, 'dir' : dir.relativePath }) }}"><i class="fa fa-download"></i></a>
+                                    {% if file.extension in ['css','js','html','html','xml','txt', 'php', 'log', 'gitignore', 'htaccess', 'conf', 'ini', 'tmpl', 'template', 'twig']  %}
+                                        <a href="{{ path('spliced_cms_admin_file_manager_edit_file', { 'file' : file.filename, 'dir' : dir.relativePath  }) }}"><i class="fa fa-edit"></i></a>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center"><strong>Nothing Here</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block body_end %}
+    <script>
+        var fileManager = new SplicedFileManager(document.getElementById('file-manager-list'), {
+            debug : {{ app.environment in ['dev','test'] ? 'true' : 'false' }},
+            basePath : '{{ baseDir.realPath }}',
+            currentPath : '{{ dir.realPath }}',
+            baseDir : '{{ baseDir.relativePath }}',
+            currentDir : '{{ dir.relativePath }}'
+        });
+    </script>
+{% endblock %}

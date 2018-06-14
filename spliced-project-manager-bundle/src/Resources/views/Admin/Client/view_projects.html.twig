@@ -1,0 +1,45 @@
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Highlight</th>
+			<th>Published</th>
+			<th>Status</th>
+			<th>Created On</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="7">
+			
+			</td>
+		</tr> 
+	</tfoot>
+	<tbody id="client_projects">
+	{% if client.projects|length %}
+		{% for project in client.projects %}
+			<tr class="client_project_{{  project.id }}">
+				<td>{{ project.id }}</td>
+				<td>{{ project.name }}</td>
+				<td><i class="{{ project.isPublished ? 'icon-ok' : 'icon-remove' }}"></i></td>
+				<td><i class="{{ project.isHighlight ? 'icon-ok' : 'icon-remove' }}"></i></td>
+				<td>{{ project.statusNamed }}</td>
+				<td>{{ project.createdAt|date('m/d/y h:i a') }}</td>
+				<td>
+					<a href="{{ path('project_view',{ 'id' : project.id }) }}"><i class="icon-edit"></i></a>
+				</td>
+			</tr>
+		{% endfor %}
+	{% else %}
+			<tr class="no_result_row">
+				<td colspan="7"><div class="center">No Projects Found</div></td>
+			</tr>
+	{% endif %}
+	</tbody>
+</table>
+
+<div>
+	<a title="Create a Project" class="btn btn-success" href="{{ path('project_new') }}"><i class="icon-plus-sign icon-white"></i> Create a Project</a>
+</div>

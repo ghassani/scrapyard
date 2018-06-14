@@ -1,0 +1,157 @@
+.right{text-align:right;}
+.left{text-align:left;}
+.center{text-align:center;}
+.justify{text-align:justify;}
+
+.main_container{
+	margin-top: 80px;
+}
+.navbar .navbar-inner{
+	background: #000;
+}
+.navbar .navbar-inner a{
+	color: #fff;
+}
+
+.navbar-fixed-top2{
+	color: #fff !important;
+	top: 30px;
+	left: auto;
+	right: 20px !important;
+	height: auto !important;
+	line-height: normal !important;
+}
+.navbar-fixed-top2 .navbar-inner-menu{
+	background: #da0414 !important;
+	border: 1px solid red;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	font-size: 14pt;
+	height: auto !important;
+	line-height: normal !important;
+	display: block !important;
+}
+.navbar-fixed-top2 .navbar-inner-menu ul{
+	padding-top: 3px;
+}
+.navbar-fixed-top2 .navbar-inner-menu ul li{
+	
+}
+.navbar-fixed-top2 .navbar-inner-menu a{
+	color: #fff;
+}
+.navbar-fixed-top2 .navbar-inner-menu a:hover{
+	text-decoration: none;
+}
+.navbar-inner .user-bar{
+	color: #fff;
+}
+.btn-spanfull{
+	width: 98%;
+	margin:0 !important;
+	margin-bottom: 3px !important;
+}
+.btn-spanfull i{
+	float:right;
+}
+
+#project_services a{
+	padding: 2px;
+}
+
+#project_tags a{
+	padding: 2px;
+}
+
+.staff_percentage_slider{
+	margin-bottom: 6px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+table.table-quote-items thead th{
+	font-size: 8pt;
+}
+table.table-quote-items tbody td{
+	font-size: 8pt;
+}
+
+#project_tab_menu{
+	background: #fff;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+#project_tab_menu.affix{
+	
+}
+
+ul.nav-pills-spliced{
+	
+}
+ul.nav-pills-spliced li a{
+	background: #EEEEEE !important;
+	color: #000 !important;
+}
+ul.nav-pills-spliced li.active a{
+	background: #B94A48 !important;
+	color: #fff !important;
+}
+.btn-icon{
+	padding: 0 !important;
+	padding-left: 5px  !important;
+	padding-right: 5px  !important;
+}
+.well-small{
+	padding: 6px !important;
+	font-size: 10px !important;
+	margin-bottom: 3px !important;
+}
+.well-small ul{
+	margin: 0 !important;
+}
+
+.form_actions{
+	padding-top: 6px;
+}
+
+ul.project_message_list{
+	margin:0;
+	padding:0;
+}
+ul.project_message_list li{
+	margin:3px; 
+	padding:8px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	background: #eeeeee;
+	font-size: 10pt;
+}
+ul.project_message_list li .info{
+	text-align: right;
+	font-size: 8pt;
+	float: right;
+}
+
+ul.project_message_list li .subject{
+	font-weight: bold;
+
+	
+}
+ul.project_message_list li .body{
+	
+}
+
+
+/**
+*
+*/
+.project-overview{
+
+}
+
+.project-overview .panel-overview{
+
+}

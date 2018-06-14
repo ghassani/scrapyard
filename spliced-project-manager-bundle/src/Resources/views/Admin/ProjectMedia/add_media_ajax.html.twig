@@ -1,0 +1,17 @@
+			<tr class="project_media_{{  projectMedia.id }}">
+				<td>{{ projectMedia.id }}</td>
+				<td>{{ projectMedia.displayType }}</td>
+				<td>
+				{% set iconPath = '/bundles/splicedprojectmanager/images/icons/files/' ~ projectMedia.fileExtension ~ '.png' %}
+				{%  if assetExists(iconPath) %}
+					<img src="{{ asset(iconPath) }}" alt="" />
+				{%  else %}
+					<img src="{{ asset('/bundles/splicedprojectmanager/images/icons/files/_blank.png') }}" alt="" />
+				{%  endif %}
+				{{ media.fileType }}
+				</td>
+				<td>{{ projectMedia.filename }}</td>
+				{% set mediaPath = '/' ~ appConfig('project_media_web_rel_path') ~ '/' ~ projectMedia.filename %}
+				<td><img src="{{ mediaPath | apply_filter('media_thumbnail') }}" /></td>
+				<td></td>
+			</tr>

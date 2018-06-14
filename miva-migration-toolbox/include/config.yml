@@ -1,0 +1,55 @@
+connections: []
+
+startup:
+    enable_logging: true
+    enable_output: true
+    start_command: start
+
+services:
+    database_manager:
+        id: database_manager
+        class: Miva\Migration\Database\Manager
+
+# register additional commands
+commands: 
+    # APPLICATION COMMAND ENTRY POINT
+    InteractiveMigrationCommand: Miva\Migration\Command\InteractiveMigrationCommand
+    
+    # ZEN CART SPECIFIC
+    ProductsToXmlCommand: Miva\Migration\Command\Zencart\ProductsToXmlCommand
+    ProductsMigrateCommand: Miva\Migration\Command\Zencart\ProductsMigrateCommand
+    CategoriesMigrateCommand: Miva\Migration\Command\Zencart\CategoriesMigrateCommand
+    CustomersMigrateCommand: Miva\Migration\Command\Zencart\CustomersMigrateCommand
+    OrdersMigrateCommand: Miva\Migration\Command\Zencart\OrdersMigrateCommand
+    DownloadProductImagesCommand: Miva\Migration\Command\Zencart\DownloadProductImagesCommand
+    ManufacturersToCategoriesMigrateCommand: Miva\Migration\Command\Zencart\ManufacturersToCategoriesMigrateCommand
+    ReviewsToSebenzaReviewsCommand: Miva\Migration\Command\Zencart\ReviewsToSebenzaReviewsCommand
+    ProductStockMigrateCommand: Miva\Migration\Command\Zencart\ProductStockMigrateCommand
+    CouponsToUltimateCouponsCommand: Miva\Migration\Command\Zencart\CouponsToUltimateCouponsCommand
+    
+    # PRO STORES SPECIFIC
+    ProStoresCustomersToXmlCommand: Miva\Migration\Command\ProStores\CustomersToXmlCommand
+    ProStoresProductsToXmlCommand: Miva\Migration\Command\ProStores\ProductsToXmlCommand
+    ProStoresOrdersToXmlCommand: Miva\Migration\Command\ProStores\OrdersToXmlCommand
+    ProStoresCustomersMigrateCommand: Miva\Migration\Command\ProStores\CustomersMigrateCommand
+    ProStoresAffiliatesMigrateCommand: Miva\Migration\Command\ProStores\AffiliatesMigrateCommand
+    ProductImagesToAdditionalImagesXmlCommand: Miva\Migration\Command\ProStores\ProductImagesToAdditionalImagesXmlCommand
+    ProductDimenstionsToBoxXmlCommand:  Miva\Migration\Command\ProStores\ProductDimenstionsToBoxXmlCommand
+    ProductsToUpdateXmlCommand: Miva\Migration\Command\ProStores\ProductsToUpdateXmlCommand
+    ProductInventoryToXmlCommand: Miva\Migration\Command\ProStores\ProductInventoryToXmlCommand
+    ProductPricingToPriceGroupsXmlCommand: Miva\Migration\Command\ProStores\ProductPricingToPriceGroupsXmlCommand
+    MissingProductsToXmlCommand: Miva\Migration\Command\ProStores\MissingProductsToXmlCommand
+    AffiliatesCreateMissingCustomersCommand: Miva\Migration\Command\ProStores\AffiliatesCreateMissingCustomersCommand
+    
+    # MIVA MERCHANT SPECIFIC
+    IncrementStoreKeysCommand: Miva\Migration\Command\Miva\IncrementStoreKeysCommand
+    ListModulesCommand: Miva\Migration\Command\Miva\ListModulesCommand
+    RebuildPagefinderLinksCommand: Miva\Migration\Command\Miva\RebuildPagefinderLinksCommand
+    CopyProductsMivaToMivaCommand: Miva\Migration\Command\Miva\CopyProductsMivaToMivaCommand
+    FixModuleIdsCommand: Miva\Migration\Command\Miva\FixModuleIdsCommand
+    LegacyImagesToAdditionalImagesXmlCommand: Miva\Migration\Command\Miva\LegacyImagesToAdditionalImagesXmlCommand
+
+    # GENERAL COMMANDS
+    AvailableConnectionsCommand: Miva\Migration\Command\Application\AvailableConnectionsCommand
+    DumpTablesToSqlCommand: Miva\Migration\Command\Application\DumpTablesToSqlCommand
+    ChunkCsvCommand: Miva\Migration\Command\Application\ChunkCsvCommand

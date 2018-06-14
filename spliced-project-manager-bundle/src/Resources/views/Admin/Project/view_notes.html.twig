@@ -1,0 +1,37 @@
+<div id="project-note-wrapper">
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-note-new" id="project-note-new"><i class="fa fa-plus"></i> Add Note</a>
+        </div>
+        <h2>Notes</h2>
+    </div>
+
+    <table class="table table-bordered table-striped" id="project-notes-table">
+        <thead>
+        <tr>
+            <th>Notes</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tfoot>
+
+        </tfoot>
+        <tbody>
+        {% if project.notes|length %}
+            {% for note in project.notes %}
+                <tr id="project-note-{{ note.id }}">
+                    <td>
+                        {{ note.subject }}
+                        {{ note.body }}
+                    </td>
+                    <td><a href="javascript:;" class="project-staff-delete" data-id="{{ projectStaff.id }}"><i class="fa fa-trash"></i></a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr class="no-result">
+                <td colspan="2" class="text-center"><strong>No Notes</strong></td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>

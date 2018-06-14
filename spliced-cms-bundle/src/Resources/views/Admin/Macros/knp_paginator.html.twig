@@ -1,0 +1,4 @@
+
+{% macro table_header_row(pagination, label, sortKey, options) %}
+    <th{% if pagination.isSorted(sortKey) %} class="sorted"{% endif %} {% if options.width is defined %}width="{{ options.width }}"{% endif %}>{{ knp_pagination_sortable(pagination, label, sortKey) }}</th>
+{% endmacro %}

@@ -1,0 +1,5 @@
+<a href="{{ path('project_tag_delete', { 'project' : projectTag.project.id, 'tag' : projectTag.id }) }}" class="ajax_link_confirm" data-message="Are you sure you want to unrelate {{ projectTag.tag.name }} from this project?">
+	<span class="label label-{{ class is defined ? class : 'success' }}">
+		<i class="icon-remove-sign icon-white"></i> {{ projectTag.tag.name }}
+	</span>
+</a>

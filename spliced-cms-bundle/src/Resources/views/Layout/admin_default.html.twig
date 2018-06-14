@@ -1,0 +1,66 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+{% block body_class %}default cms-default{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('SplicedCmsBundle:Layout:_javascripts.html.twig') }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ include('SplicedCmsBundle:Layout:_stylesheets.html.twig') }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body_start %}
+    {{ parent() }}
+    {% if spliced_cms.site_manager.getCurrentAdminSite() %}
+        <div class="site-top-current-site">
+            <strong>Currently Managing:</strong> {{ spliced_cms.site_manager.getCurrentAdminSite().domain }}
+        </div>
+    {% endif %}
+{% endblock body_start %}
+{% block slide_out_left %}
+    {% if spliced_cms.site_manager.getCurrentAdminSite|length %}
+        <div class="strip-bar bg-black white text-center">Currently Managing</div>
+        <div class="strip-bar bg-white black">{{ spliced_cms.site_manager.getCurrentAdminSite.domain }}</div>
+    {% endif %}
+    <div role="tabpanel" class="slide-out-left-tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#slide-out-menu-left-tab1" aria-controls="slide-out-menu-left-tab1" role="tab" data-toggle="tab"><i class="fa fa-history"></i></a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="slide-out-menu-left-tab1">
+                <ul class="list-unstyled slide-out-history-list history-list">
+                    {% for history in spliced_cms.history_manager.getHistory() %}
+                        <li><a href="{{ history.url }}">{{ history.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block slide_out_right %}
+    <div role="tabpanel" class="slide-out-right-tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#slide-out-menu-right-tab1" aria-controls="slide-out-menu-right-tab1" role="tab" data-toggle="tab"><i class="fa fa-bars"></i></a></li>
+            <li role="presentation"><a href="#slide-out-menu-right-tab2" aria-controls="slide-out-menu-right-tab2" role="tab" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+            {% block slide_out_right_tab_toggles %}
+            {% endblock %}
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="slide-out-menu-right-tab1">
+                {{ knp_menu_render('slide_out', {'template': 'SplicedAdminThemeBundle:Menu:slide_out.html.twig'}) }}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="slide-out-menu-right-tab2">
+                <ul class="nav nab-pills nav-stacked">
+                    {% for site in spliced_cms.site_manager.allSites %}
+                        {% if not site.aliasOf %}
+                            <li><a href="{{ path('spliced_cms_admin_switch_site_id', { 'id' : site.id }) }}">{{ site.domain }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="manager"><a href="{{ path('spliced_cms_admin_site_list') }}">Manage Sites</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

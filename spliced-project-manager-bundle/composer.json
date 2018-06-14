@@ -1,0 +1,19 @@
+{
+    "name" : "splicedmedia/project-manager-bundle",
+    "description" : "Project Management in Symfony 2.3+",
+    "type" : "project",
+    "license" : [
+        "Apache 2.0"
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-standard-edition": "~2.3"
+    },    
+    "autoload" : {
+        "psr-4" : {
+            "Spliced\\Bundle\\ProjectManagerBundle\\" : "src/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability" : "dev"
+}

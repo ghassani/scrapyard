@@ -1,0 +1,56 @@
+<div id="project-file-wrapper">
+
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-file-new" id="project-file-new"><i class="fa fa-plus"></i> Add File</a>
+        </div>
+        <h2>Files</h2>
+    </div>
+
+    <table class="table table-striped table-bordered" id="project-file-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>File Name</th>
+            <th>File Type</th>
+            <th>Description</th>
+            <th>Public</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+    </tfoot>
+    <tbody id="project_files">
+    {% if project.files|length %}
+        {% for file in project.files %}
+            <tr class="project_file_{{ file.id }}">
+                <td>{{ file.id }}</td>
+                <td>{{ file.originalFilename }}</td>
+                <td>
+                    {% set iconPath = '/bundles/splicedprojectmanager/images/icons/files/' ~ file.fileExtension ~ '.png' %}
+                    {%  if assetExists(iconPath) %}
+                        <img src="{{ asset(iconPath) }}" alt="" />
+                    {%  else %}
+                        <img src="{{ asset('/bundles/splicedprojectmanager/images/icons/files/_blank.png') }}" alt="" />
+                    {%  endif %}
+                    {{ file.fileType }}
+                </td>
+                <td>{{ file.description }}</td>
+                <td>{{ file.isPublic }}</td>
+                <td>
+                    <a href="{{  path('project_file_download', { 'file' : file.id }) }}" class="btn btn-primary"><i class="icon-download icon-white"></i> Download</a>
+                    <a href="{{  path('project_file_delete', { 'project' : project.id, 'file' : file.id }) }}" class="ajax_link_confirm btn btn-danger" data-message="Are you sure you want to delete this file"><i class="icon-remove-sign icon-white"></i> Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+            <tr class="no-result">
+                <td colspan="6" class="text-center"><strong>No Files Found</strong></td>
+            </tr>
+    {% endif %}
+    </tbody>
+    </table>
+</div>

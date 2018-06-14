@@ -1,0 +1,16 @@
+connections:
+    miva:
+        name: miva
+        params:
+            driver: pdo_mysql
+            user: root
+            password:
+            dbname: mm5
+            table_prefix: s01_
+            charset: utf8    
+
+# register additional commands
+# CUSTOM COMMANDS FOR VENDOR SPECIFIC OPERATIONS
+commands: []
+
+    

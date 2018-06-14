@@ -1,0 +1,22 @@
+{% extends 'SplicedAdminThemeBundle:Layout:default.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('SplicedCmsBundle:Layout:_javascripts.html.twig') }}
+    {{ include('SplicedProjectManagerBundle:Layout:_javascripts.html.twig') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ include('SplicedCmsBundle:Layout:_stylesheets.html.twig') }}
+    {{ include('SplicedProjectManagerBundle:Layout:_stylesheets.html.twig') }}
+{% endblock %}
+
+{% block after_header %}
+    {{ parent() }}
+    {{ include('SplicedCmsBundle:Layout:after_header.html.twig') }}
+{% endblock %}
+
+{% block content %}
+Dashboard
+{% endblock content %}

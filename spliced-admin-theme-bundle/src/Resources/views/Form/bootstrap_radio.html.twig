@@ -1,0 +1,11 @@
+{% block bootstrap_radio_widget %}
+	{% set value = value != 1 ? 0 : value %}
+    {% spaceless %}
+		<div class="btn-group btn-radio" data-toggle="buttons-radio">
+            {% for choice in choices %}
+                	<button type="button" class="btn {{ value == choice.value ? "active" : "" }}" data-target="{{ id }}" data-value="{{ choice.value }}">{{  choice.label }}</button>
+            {% endfor %}
+		</div>
+		<input type="hidden" {{ block('widget_attributes') }}>
+    {% endspaceless %}
+{% endblock %}

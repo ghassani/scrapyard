@@ -1,0 +1,32 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+<div class="modal fade" id="editorInsertVideoModal" tabindex="-1" role="dialog" aria-labelledby="editorInsertVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editorInsertVideoModalLabel">Insert Video</h4>
+            </div>
+            <div class="modal-body">
+                <div id="insert-video-form">
+                    {{ form_rest(form) }}
+                </div>
+                <div class="row" id="insert-video-details" style="display:none;">
+                    <div class="col-xs-6" id="insert-video-details-image"></div>
+                    <div class="col-xs-6">
+                        <div id="insert-video-details-title"></div>
+                        <div id="insert-video-details-id"></div>
+                        <div id="insert-video-details-url"></div>
+                        <div id="insert-video-details-data"></div>
+                    </div>
+                    <div class="col-xs-12">
+                        <textarea id="insert-video-details-code" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-state="invalid" id="btn-insert-video-continue">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% block title %}- New Content Page{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_content_page_list') }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <button type="button" class="btn btn-primary btn-sm" data-action="form-submit" data-target="#content-page-form" title="Save"><i class="fa fa-save"></i></button>
+        </div>
+        <h1>New Content Page</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <form method="post" action="{{ path('spliced_cms_admin_content_page_save') }}" class="form" role="form" id="content-page-form">
+        {{ include('SplicedCmsBundle:Admin/ContentPage:form.html.twig') }}
+        <div class="form-actions">
+        </div>
+    </form>
+{% endblock %}
+{% block body_end %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function($){
+            var contentPage = new SplicedContentPage(document.getElementById("content-page-form"), {{ form.vars.data.toJson()|raw }}, {
+                debug : true
+            });
+        });
+    </script>
+{% endblock %}

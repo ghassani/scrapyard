@@ -1,0 +1,75 @@
+{% extends layout %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" media="screen" href="/bundles/splicedmediamanager/css/media_manager.css" />
+<base href="http://www.savehealthcareinwa.org/" />
+{% endblock head %}
+
+{% block footer_js %}
+{% javascripts 
+	'@SplicedMediaManagerBundle/Resources/public/js/underscore.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'
+    '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js'
+	'@SplicedMediaManagerBundle/Resources/public/js/media_manager.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock footer_js %}
+
+{% block left %}
+	<div id="content" class="box">
+		<strong>Available Locations</strong>
+		<div><small>Select a location to view and manage files.</small></div>
+		<br />
+		<ul>
+			{% for repo in repositories %}
+				{% if repo.name == repository.name %}
+				<li><a href="{{ path("media_manager_index", { 'repo' : repo.name }) }}"><strong>{{ repo.name }}</strong></a></li>
+				{% else %}
+				<li><a href="{{ path("media_manager_index", { 'repo' : repo.name }) }}">{{ repo.name }}</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock left %}
+
+{% block content %}
+<h1>Media Manager</h1>
+<p>Current Viewing Repository: {{ repository.name }} - {{ currentDirectory.realPath }}</p>
+<table class="table media_manager_file_list" width="100%">
+	<thead>
+		<tr>
+			<th></th>
+			<th>File Name</th>
+			<th>File Size</th>
+			<th>Creation Date</th>
+			<th>Modification Date</th>
+			<th>Type</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% if repository.path != currentDirectory.realPath %}
+		<tr>
+			<td>...</td>
+			<td colspan="6"><a href="{{ path('media_manager_index',{'repo' :repository.name}) }}?subpath={{ currentDirectory.subPathBackOne|url_encode() }}">Go Back</a></td>
+		</tr>
+		{% endif %}
+	{%  if files|length %}
+		{% for key,file in files %}
+			{% include 'SplicedMediaManagerBundle:Default:file_row.html.twig' with { 'file' : file, 'repository' : repository } %}
+		{% endfor %}
+	{% else %}
+		<tr>
+			<td colspan="7"><div class="center"><strong>No Files</strong></div></td>
+		</tr>
+	{% endif %}
+	</tbody>
+</table>
+
+<br />
+
+<h1>Upload Files</h1>
+<p>Drag files in or browse for one or more files to upload to the current directory.</p>
+{% include "SplicedMediaManagerBundle:Default:uploader.html.twig" with { 'form' : form } %}	
+
+{% endblock content %}

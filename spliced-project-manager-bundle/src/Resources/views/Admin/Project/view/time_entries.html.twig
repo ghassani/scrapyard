@@ -1,0 +1,60 @@
+{% set colspan = 6 %}
+
+<div id="project-time-entry-wrapper">
+
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" class="btn btn-sm btn-primary project-time-entry-new" id="project-time-entry-new"><i class="fa fa-plus"></i> Add Time Entry</a>
+        </div>
+        <h2>Time Entries</h2>
+    </div>
+
+    <table class="table table-striped table-bordered" id="project-time-entry-table">
+        <thead>
+        <tr>
+            <th width="20"><input type="checkbox" class="check-all" /></th>
+            <th width="100">ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="{{ colspan - 2 }}">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        With Selected <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+            <td colspan="2">
+                <strong>Total Time:</strong> - <span id="time-entries-total"></span> Hours
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+            {% if project.timeEntries|length %}
+                {% for projectTimeEntry in project.timeEntries %}
+                    <tr id="project-time-entry-{{ projectTimeEntry.id }}">
+                        <td><input type="checkbox" name="ids[]" value="{{ projectTimeEntry.id }}" /></td>
+                        <td>{{ projectTimeEntry.id }}</td>
+                        <td>{{ projectTimeEntry.entryDate|date('m/d/Y') }}</td>
+                        <td>{{ projectTimeEntry.entryTime }}</td>
+                        <td>{{ projectTimeEntry.entryNote }}</td>
+                        <td><a href="javascript:;" class="project-time-entry-edit" data-id="{{ projectTimeEntry.id }}"><i class="fa fa-pencil"></i></a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+            <tr class="no-result-row" style="{{ project.timeEntries|length ? 'display:none;' : '' }}">
+                <td colspan="{{ colspan }}"><div class="center">No Time Entries Found</div></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

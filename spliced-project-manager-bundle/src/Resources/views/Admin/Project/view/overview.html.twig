@@ -1,0 +1,58 @@
+<div class="page-header">
+    <h2>Project Overview</h2>
+</div>
+
+<div class="row">
+    <div class="col-xs-3">
+        <div class="panel panel-default panel-overview">
+            <div class="panel-heading">Total Time</div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="panel panel-default panel-overview">
+            <div class="panel-heading">Total Sales</div>
+            <div class="panel-body">
+                $0.00
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="panel panel-default panel-overview">
+            <div class="panel-heading">Client</div>
+            <div class="panel-body">
+                {{  project.client.displayName }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <img src="//placehold.it/600x350" class="img-responsive" />
+    </div>
+    <div class="col-xs-6">
+        <div class="col-xs-6">
+            <div class="panel panel-default panel-overview">
+                <div class="panel-heading">Chrono</div>
+                <div class="panel-body">
+                    <div>Created: {{  project.createdAt|date('m/d/y h:i a') }}</div>
+                    <div>Updated: {{  project.updatedAt|date('m/d/y h:i a') }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default panel-overview">
+                <div class="panel-heading">Status</div>
+                <div class="panel-body">
+                    {{  project.getStatusNamed }}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <img src="//placehold.it/600x350" class="img-responsive" />
+        </div>
+    </div>
+</div>

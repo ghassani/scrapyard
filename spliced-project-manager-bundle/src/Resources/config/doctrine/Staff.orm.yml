@@ -1,0 +1,38 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\Staff:
+    type: entity
+    table: smpm_staff
+    indexes:
+        IDX_6C7D3206A76ED395:
+            columns:
+                - user_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        userId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: user_id
+        contactName:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: ''
+            column: contact_name
+        displayName:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: ''
+            column: display_name
+    lifecycleCallbacks: {  }

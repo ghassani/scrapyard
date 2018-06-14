@@ -1,0 +1,25 @@
+{% form_theme form "SplicedAdminThemeBundle:Form:bootstrap_form_row.html.twig" %}
+{% form_theme form.isPublic "SplicedAdminThemeBundle:Form:bootstrap_form_row_checkbox.html.twig" %}
+
+<div class="row">
+    <div class="col-sm-12">
+        {{ form_label(form.file) }}
+        {{ form_widget(form.file) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        {{ form_label(form.isPublic) }}
+         {{ form_widget(form.isPublic, { attr : { 'class' : 'js-swatch' } }) }}
+    </div>
+</div>
+
+{{ form_rest(form) }}

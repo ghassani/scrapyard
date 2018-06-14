@@ -1,0 +1,82 @@
+{% extends 'SplicedCmsBundle:Layout:admin_default.html.twig' %}
+{% import "SplicedCmsBundle:Admin/Macros:knp_paginator.html.twig" as knpHelper %}
+{% block title %}- Layout List{% endblock %}
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="javascript:;" data-action="toggle-help" class="btn btn-info btn-sm" title="Help"><i class="fa fa-question"></i></a>
+            <a href="{{ path('spliced_cms_admin_layout_new') }}" class="btn btn-primary btn-sm" title="New Layout"><i class="fa fa-plus"></i></a>
+        </div>
+        <h1>Layouts</h1>
+    </div>
+{% endblock %}
+{% set colspan = 6  %}
+{% block content %}
+    {% if filterForm is defined %}
+        {{ include('SplicedCmsBundle:Admin/Layout:list_filter_form.html.twig', { form : filterForm }) }}
+    {% endif %}
+    <form method="post" action="{{ path('spliced_cms_admin_layout_batch') }}" id="batch-form">
+        <table class="table table-striped table-hover table-bordered spliced-admin-list">
+            <thead>
+                <tr>
+                    <th colspan="{{ colspan }}">
+                        <div class="pull-right">
+                            {% if filterForm is defined %}
+                                <a class="btn btn-xs btn-default" data-toggle="modal" data-target="#filterModal" title="Filters"><i class="fa fa-filter"></i></a>
+                            {% endif %}
+                        </div>
+                        {{ knp_pagination_render(layouts, 'SplicedAdminThemeBundle:Pagination:knp_paginator_bootstrap.html.twig') }}
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" class="check-all" /></th>
+                    {{ knpHelper.table_header_row(layouts, 'ID', 'l.id', {}) }}
+                    {{ knpHelper.table_header_row(layouts, 'Name', 'l.name', { width : '55%'}) }}
+                    {{ knpHelper.table_header_row(layouts, 'Created', 'l.createdAt', {}) }}
+                    {{ knpHelper.table_header_row(layouts, 'Updated', 'l.updatedAt', {}) }}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="{{ colspan }}">
+                    <div class="pull-right">
+                        Showing {{ layouts|length }}/{{ layouts.getTotalItemCount }} Records
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            With Selected <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" data-action="batch-list" data-batch-action="delete" data-confirm="true">Delete</a></li>
+                            <li><a href="#" data-action="batch-list" data-batch-action="publish"  data-confirm="true">Publish Changes</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% if layouts.getTotalItemCount > 0 %}
+                {% for layout in layouts %}
+                    <tr>
+                        <td><input type="checkbox" name="ids[]" value="{{ layout.id }}" /></td>
+                        <td>{{ layout.id }}</td>
+                        <td>{{ layout.name }}</td>
+                        <td>{{ layout.createdAt|date('m/d/Y h:i a') }}</td>
+                        <td>{{ layout.updatedAt|date('m/d/Y h:i a') }}</td>
+                        <td>
+                            <a href="{{ path('spliced_cms_admin_layout_edit', { 'id' : layout.id }) }}"><i class="fa fa-edit"></i></a>
+                            <a href="{{ path('spliced_cms_admin_layout_edit', { 'id' : layout.id }) }}"><i class="fa fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="{{ colspan }}" class="text-center"><strong>No Layouts Found</strong></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {{ form_rest(batchActionForm) }}
+    </form>
+{% endblock %}

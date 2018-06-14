@@ -1,0 +1,24 @@
+<tr id="project-invoice-line-{{ proto is defined ? '__NAME__' : form.vars.data.id > 0 ? form.vars.data.id : '0' }}">
+    <td>
+        {{ form_widget(form.sku, {'attr' : {'class' : '' }}) }}
+    </td>
+    <td>
+        {{ form_widget(form.title, {'attr' : {'class' : '' }}) }}
+    </td>
+    <td>
+        {{ form_widget(form.price, {'attr' : {'class' : 'invoice-line-price' }}) }}
+    </td>
+    <td>
+        {{ form_widget(form.quantity, {'attr' : {'class' : 'invoice-line-quantity' }}) }}
+    </td>
+    <td>
+        {{ form_widget(form.description, {'attr' : {'class' : '' }}) }}
+    </td>
+    <td>
+        {% if form.vars.id > 0 %}
+            <a href="#" class="btn btn-sm btn-danger remove-invoice-line-item" data-id="{{ form.vars.data.id }}"><i class="fa fa-trash icon-white"></i></a>
+        {% else %}
+            <a href="#" class="btn btn-sm btn-danger remove-invoice-line-item" data-row="{{ proto is defined ? '__NAME__' : '0' }}"><i class="fa fa-trash icon-white"></i></a>
+        {% endif %}
+    </td>
+</tr>

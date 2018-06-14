@@ -1,0 +1,47 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectAttribute:
+    type: entity
+    table: smpm_project_attribute
+    indexes:
+        IDX_62128325166D1F9C:
+            columns:
+                - project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        type:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: ''
+            default: text
+        name:
+            type: string
+            nullable: false
+            length: 100
+            fixed: false
+            comment: ''
+        value:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

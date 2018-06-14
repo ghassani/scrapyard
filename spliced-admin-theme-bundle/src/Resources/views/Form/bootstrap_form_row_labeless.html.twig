@@ -1,0 +1,20 @@
+{% block money_widget %}
+	{% spaceless %}
+		<div class="input-group">
+		  <span class="input-group-addon">{{ money_pattern|replace({"{{ widget }}" : ""}) }}</span>
+		  {{ block('form_widget_simple') }}
+		</div>
+	{% endspaceless %}
+{% endblock money_widget %}
+
+{% block form_row %}
+	{% spaceless %}
+		<div class="form-group">
+		    {{ form_widget(form, { 'attr' : { 'class' : 'form-control '~(form.vars.attr.class is defined ? form.vars.attr.class : '') } }) }}
+		    {% if help_text is defined %}
+		    	<span class="help-block">{{ help_text }}</span>
+		    {% endif %}
+			{{ form_errors(form) }}
+		</div>
+	{% endspaceless %}
+{% endblock form_row %}

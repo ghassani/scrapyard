@@ -1,0 +1,25 @@
+<tr>
+	<td><img src="{{ asset('/bundles/splicedmediamanager/images') }}/{{ file.isDir ? "folder.png" : file.isImage ? "image.png" : "file.png" }}" /></td>
+	<td>
+	{% if file.isDir %}
+		<a href="{{ path('media_manager_index', { 'repo' : repository.name }) }}?subpath={{ file.subPath|url_encode() }}">{{ file.filename }}</a>
+	{% else %}
+		{{ file.filename }}
+	{% endif %}	
+	</td>
+	<td>{{ file.size|convertFromBytes }}</td>
+	<td>{{ file.CTime|date('m/d/y h:i a') }}</td>
+	<td>{{ file.MTime|date('m/d/y h:i a') }}</td>
+	<td>{{ file.isDir ? "Directory" : file.mimeType }}</td>
+	<td>
+
+		<a href="#" is-dir="{{ file.isDir }}" class="delete_file_confirmation" target-path="{{ path('media_manager_delete',{'repo' : repository.name, 'fileName' : file.filename }) }}?subpath={{ file.subPath|url_encode() }}" title="">Delete</a>
+		
+		{% if file.isDir %}
+			<a href="{{ path('media_manager_index', { 'repo' : repository.name }) }}?subpath={{ file.subPath|url_encode() }}">Go Into</a>
+		{% else %}
+			{% set filename = repository.webPath ~ "/" ~ file.subPath ~ file.filename %}
+			<a href="{{ asset(filename) }}" target="_blank" title="">View</a>
+		{% endif %}
+	</td>
+</tr>

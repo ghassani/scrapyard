@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+
+    <services>
+        <service id="spliced_pms.component.twig.extension.object_helper" class="Spliced\Component\Twig\Extension\ObjectHelperExtension"  public="true">
+            <tag name="twig.extension" />
+        </service>
+        <service id="spliced_pms.component.twig.extension.string_helper" class="Spliced\Component\Twig\Extension\StringHelperExtension"  public="true">
+            <tag name="twig.extension" />
+        </service>
+
+
+
+
+        <service id="spliced_pms.component.twig.extension.filesystem" class="Spliced\Bundle\ProjectManagerBundle\Twig\Extension\FilesystemExtension"  public="true">
+            <tag name="twig.extension" />
+            <argument type="service" id="spliced.configuration_manager" />
+            <argument type="service" id="kernel" />
+        </service>
+
+    </services>
+
+
+</container>

@@ -1,0 +1,19 @@
+<div class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" action="{{ path('spliced_cms_admin_template_extension_update', {'templateId' : template.id, 'templateExtensionId' : templateExtension.id  }) }}">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Editing Template Extension</h4>
+                </div>
+                <div class="modal-body">
+                    {{ include('SplicedCmsBundle:Admin/TemplateExtension:form.html.twig') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-disk fa-save"></i> Updated</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

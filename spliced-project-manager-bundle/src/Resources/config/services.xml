@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+
+    <services>
+
+        <service id="spliced_pms.project_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_file_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectFileManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_staff_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectStaffManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_note_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectNoteManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_media_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectMediaManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_invoice_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectInvoiceManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_attribute_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectAttributeManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_time_entry_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectTimeEntryManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.project_tag_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ProjectTagManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.tag_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\TagManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.staff_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\StaffManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="spliced_pms.client_manager" class="Spliced\Bundle\ProjectManagerBundle\Manager\ClientManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+    </services>
+
+    
+</container>

@@ -1,0 +1,46 @@
+Spliced\Bundle\ProjectManagerBundle\Entity\ProjectStaff:
+    type: entity
+    table: smpm_project_staff
+    indexes:
+        IDX_6B283568166D1F9C:
+            columns:
+                - project_id
+        IDX_6B283568D4D57CD:
+            columns:
+                - staff_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        position:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+    manyToOne:
+        project:
+            targetEntity: Project
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        staff:
+            targetEntity: Staff
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                staff_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,78 @@
+{% extends 'SplicedProjectManagerBundle:Admin/Layout:admin_default.html.twig' %}
+
+{% block page_header %}
+    <div class="page-header">
+        <div class="pull-right">
+            <a href="{{ path('spliced_pms_project_list') }}" class="btn btn-default btn-sm" title="Back To List"><i class="fa fa-backward"></i></a>
+            <a href="{{ path('spliced_pms_project_delete', {'id' : project.id}) }}" class="btn btn-danger btn-sm" title="Delete Project"><i class="fa fa-trash"></i></a>
+        </div>
+        <h1>Project <small>{{  project.name }}</small></h1>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+<div id="project-wrapper">
+    <div class="row">
+        <div class="col-xs-10">
+            {{ form_errors(form) }}
+
+            <div class="col-xs-12">
+                <div role="tabpanel">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="tab-overview">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:overview.html.twig') }}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="tab-settings">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:settings.html.twig') }}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="tab-attributes">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:attributes.html.twig') }}
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="tab-sites">
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="tab-staff">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:staff.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-media">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:media.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-files">
+                            {{  include('SplicedProjectManagerBundle:Admin/Project/view:files.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-notes">
+                            {{ include('SplicedProjectManagerBundle:Admin/Project/view:notes.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-invoices">
+                            {{ include('SplicedProjectManagerBundle:Admin/Project/view:invoices.html.twig') }}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-time-entries">
+                            {{ include('SplicedProjectManagerBundle:Admin/Project/view:time_entries.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            {{ include('SplicedProjectManagerBundle:Admin/Project/view:menu.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_end %}
+<script>
+    $(document).ready(function($){
+        var project = new SplicedProject(document.getElementById('project-wrapper'),
+            {{ project.toJson()|raw }},
+            {
+            base_uri    : '{{ path('spliced_pms_project_base', { 'id' : project.id }) }}',
+            project_id : '{{ project.id }}'
+        });
+    });
+</script>
+{% endblock body_end %}

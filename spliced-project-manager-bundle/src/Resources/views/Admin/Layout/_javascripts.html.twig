@@ -1,0 +1,18 @@
+{% javascripts
+    '@SplicedProjectManagerBundle/Resources/public/js/base.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_attribute.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_staff.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_file.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_media.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_invoice.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_note.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_time_entry.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project_file.js'
+    '@SplicedProjectManagerBundle/Resources/public/js/project.js'
+    filter='?yui_js' output="/js/spliced_pms_core.js"
+
+%}
+
+<script src="{{ asset_url }}" type="text/javascript" charset="utf-8"></script>
+
+{% endjavascripts %}
