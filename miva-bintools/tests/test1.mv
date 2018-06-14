@@ -1,0 +1,5 @@
+
+<MvFUNCTION NAME = "ReturnString" PARAMETERS = "some_string" STANDARDOUTPUTLEVEL = "html, text, compresswhitespace">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+    <MvFUNCTIONRETURN VALUE = "{ l.some_string }"> 
+</MvFUNCTION>

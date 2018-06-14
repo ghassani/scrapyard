@@ -1,0 +1,189 @@
+
+<MvFUNCTION NAME = "ReturnString" PARAMETERS = "some_string" STANDARDOUTPUTLEVEL = "html, text, compresswhitespace">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+    <MvFUNCTIONRETURN VALUE = "{ l.some_string }"> 
+</MvFUNCTION>
+<MvFUNCTION NAME = "ReturnStringAlt" PARAMETERS = "some_string2" STANDARDOUTPUTLEVEL = "text, compresswhitespace">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string2 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnStringAlt2" PARAMETERS = "some_string2" STANDARDOUTPUTLEVEL = "compresswhitespace">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvASSIGN name="l.foo_l3" value="foo_l3">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string2 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnStringAlt3" PARAMETERS = "some_string2" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvASSIGN name="l.foo_l3" value="foo_l3">
+	<MvASSIGN name="l.foo_l4" value="foo_l4">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string2 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnStringAlt4" PARAMETERS = "some_string3" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvASSIGN name="l.foo_l3" value="foo_l3">
+	<MvASSIGN name="l.foo_l4" value="foo_l4">
+	<MvASSIGN name="l.foo_l5" value="foo_l5">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string3 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnStringAlt5" PARAMETERS = "some_string3 var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvASSIGN name="l.foo_l3" value="foo_l3">
+	<MvASSIGN name="l.foo_l4" value="foo_l4">
+	<MvASSIGN name="l.foo_l5" value="foo_l5">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string3 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnStringAlt6" PARAMETERS = "some_string3, some_string4 var" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name="l.foo_l" value="foo_l">
+	<MvASSIGN name="l.foo_l2" value="foo_l2">
+	<MvASSIGN name="l.foo_l3" value="foo_l3">
+	<MvASSIGN name="l.foo_l4" value="foo_l4">
+	<MvASSIGN name="l.foo_l5" value="foo_l5">
+	<MvASSIGN name="l.foo_l6" value="foo_l6">
+	<MvASSIGN name="l.foo_l7" value="foo_l7">
+	<MvASSIGN name="g.foo_l7" value="foo_g7">
+	<MvASSIGN name="s.foo_l7" value="foo_s7">
+	<MvFUNCTIONRETURN VALUE = "{ l.some_string3 }"> 
+</MvFUNCTION>
+
+<MvFUNCTION NAME = "ReturnFloat" PARAMETERS = "" STANDARDOUTPUTLEVEL = "">
+	<MvASSIGN name="l.f1" value="{ 1000.50 }">
+	<MvASSIGN name="l.f2" value="{ 1 }">
+	<MvFUNCTIONRETURN VALUE = "{ l.f1 + l.f2 }"> 
+</MvFUNCTION>
+
+
+
+<MvASSIGN name="l.bar" value="bar">
+<MvASSIGN name="l.foo" value="foo">
+<MvASSIGN name="l.foo1" value="foo1">
+<MvASSIGN name="l.foo2" value="foo2">
+<MvASSIGN name="l.foo3" value="foo3">
+<MvASSIGN name="l.foo4" value="foo4">
+<MvASSIGN name="l.foo5" value="foo5">
+<MvASSIGN name="l.foo6" value="foo6">
+<MvASSIGN name="l.foo7" value="foo7">
+<MvASSIGN name="l.foo8" value="foo8">
+<MvASSIGN name="l.foo9" value="foo9">
+<MvASSIGN name="l.foo10" value="foo10">
+<MvASSIGN name="l.foo11" value="foo11">
+<MvASSIGN name="l.foo12" value="foo12">
+<MvASSIGN name="l.foo13" value="foo13">
+<MvASSIGN name="l.foo14" value="foo14">
+<MvASSIGN name="l.foo15" value="foo15">
+<MvASSIGN name="l.foo16" value="foo16">
+<MvASSIGN name="l.foo17" value="foo17">
+<MvASSIGN name="l.foo18" value="foo18">
+<MvASSIGN name="l.foo19" value="foo19">
+<MvASSIGN name="l.foo20" value="foo20">
+<MvASSIGN name="l.foo21" value="foo21">
+<MvASSIGN name="l.foo22" value="foo22">
+
+<MvASSIGN name="g.foo" value="gfoo">
+<MvASSIGN name="g.bar" value="gbar">
+<MvASSIGN name="g.bar1" value="gbar1">
+<MvASSIGN name="g.bar2" value="gbar2">
+<MvASSIGN name="g.bar3" value="gbar3">
+<MvASSIGN name="g.bar4" value="gbar4">
+<MvASSIGN name="g.num" value="2">
+
+<MvASSIGN name="s.foo" value="sfoo">
+<MvASSIGN name="s.bar" value="sbar">
+<MvASSIGN name="s.bar1" value="sbar1">
+<MvASSIGN name="s.bar2" value="sbar2">
+<MvASSIGN name="s.bar3" value="sbar3">
+<MvASSIGN name="s.bar4" value="sbar4">
+
+<MvASSIGN name="l.foo" value="lfoo">
+<MvASSIGN name="l.bar" value="lbar">
+<MvASSIGN name="l.bar1" value="lbar1">
+<MvASSIGN name="l.bar2" value="lbar2">
+<MvASSIGN name="l.bar3" value="lbar3">
+<MvASSIGN name="l.bar4" value="lbar4">
+<MvASSIGN name="l.num" value="1">
+
+<MvIF expr="{ l.foo EQ l.bar }">
+	local and local are equal
+<MvELSE>
+	local and local are not equal
+</MvIF>
+
+
+<MvIF expr="{ l.num EQ 1 }">
+	local and int are equal
+<MvELSE>
+	local and int are not equal
+</MvIF>
+
+
+<MvIF expr="{ g.foo EQ g.bar }">
+	global and global are equal
+<MvELSE>
+	global and global are not equal
+</MvIF>
+
+<MvIF expr="{ g.foo EQ 1 }">
+	global and int are equal
+<MvELSE>
+	global and int are not equal
+</MvIF>
+
+<MvIF expr="{ 1 GT 2 }">
+	1 is greater than 2
+<MvELSE>
+	2 is greater than 1
+</MvIF>
+
+<MvIF expr="{ 1 LT 2 }">
+	1 is less than 2
+<MvELSE>
+	2 is less than 1
+</MvIF>
+
+<MvIF expr="{ g.foo AND 1 }">
+	global and int are both "true"
+<MvELSE>
+	global and int are  not both "true"
+</MvIF>
+
+<MvASSIGN name="l.addition" value="{ g.num + l.num }">
+<MvASSIGN name="l.concat_globals" value="{ g.bar $ g.bar1 }">
+<MvASSIGN name="l.concat_locals" value="{ l.foo $ l.bar }">
+<MvASSIGN name="l.concat_system" value="{ s.foo $ s.bar }">
+
+<MvCALL ACTION = "http://localhost"
+        METHOD = "GET"
+        CONTENT-TYPE = "text/html"
+        TIMEOUT = "1">
+
+        <MvCALLCONTINUE>
+</MvCALL>
+
+
+<MvOPEN NAME = "Merchant" DATABASE = "test@localhost" TYPE = "mysql"  USERNAME = "root" PASSWORD = "">
+
+
+<MvASSIGN name="l.cmp_in" value="{ s.foo IN s.bar }">
+<MvASSIGN name="l.cmp_in_g_i" value="{ g.foo IN 1 }">
+<MvASSIGN name="l.round_with_math" value="{ 0.3366 ROUND 2 * 8 + 10 }">
+<MvASSIGN name="l.test_null" value="{ l.foo ISNULL }">
+<MvASSIGN name="l.test_not" value="{ NOT l.foo }">
+<MvASSIGN name="l.test_or" value="{ l.foo OR l.bar }">
+
+<MvEval EXPR="{ g.num++ }" />
+<MvEval EXPR="{ ++g.num }" />
+
+<MvASSIGN name="g.test" value="{ l.foo OR l.bar }">
+<MvASSIGN name="g.test" value="{ l.bar CRYPT ( substring( s.dyn_time_t, 8, 2 ) ) }">
+
+
+DONE!
