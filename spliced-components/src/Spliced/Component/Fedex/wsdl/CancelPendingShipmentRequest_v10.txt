@@ -1,0 +1,40 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v10="http://fedex.com/ws/ship/v10">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v10:CancelPendingShipmentRequest>
+         <v10:WebAuthenticationDetail>
+            <v10:UserCredential>
+               <v10:Key></v10:Key>
+               <v10:Password></v10:Password>
+            </v10:UserCredential>
+         </v10:WebAuthenticationDetail>
+         <v10:ClientDetail>
+            <v10:AccountNumber></v10:AccountNumber>
+            <v10:MeterNumber></v10:MeterNumber>
+            <v10:IntegratorId>12345</v10:IntegratorId>
+            <v10:Localization>
+               <v10:LanguageCode>EN</v10:LanguageCode>   
+               <v10:LocaleCode>ES</v10:LocaleCode>
+            </v10:Localization>
+         </v10:ClientDetail>
+         <v10:TransactionDetail>
+            <v10:CustomerTransactionId>Cancel Express Pending Shipment</v10:CustomerTransactionId>
+            <v10:Localization>
+               <v10:LanguageCode>EN</v10:LanguageCode>   
+               <v10:LocaleCode>ES</v10:LocaleCode>
+            </v10:Localization>
+         </v10:TransactionDetail>
+         <v10:Version>
+            <v10:ServiceId>ship</v10:ServiceId>
+            <v10:Major>10</v10:Major>
+            <v10:Intermediate>0</v10:Intermediate>
+            <v10:Minor>0</v10:Minor>
+         </v10:Version>
+         <v10:TrackingId>
+            <v10:TrackingIdType>EXPRESS</v10:TrackingIdType>
+            <v10:FormId>0201</v10:FormId>
+            <v10:TrackingNumber>794801818510</v10:TrackingNumber>
+         </v10:TrackingId>
+      </v10:CancelPendingShipmentRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

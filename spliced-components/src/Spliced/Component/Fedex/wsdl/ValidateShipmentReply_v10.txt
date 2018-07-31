@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><env:Header xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/><soapenv:Body><v10:ShipmentReply xmlns:v10="http://fedex.com/ws/ship/v10"><v10:HighestSeverity xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">SUCCESS</v10:HighestSeverity><v10:Notifications xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><v10:Severity>SUCCESS</v10:Severity><v10:Source>ship</v10:Source><v10:Code>0000</v10:Code><v10:Message>Success</v10:Message><v10:LocalizedMessage>Success</v10:LocalizedMessage></v10:Notifications><v10:TransactionDetail>
+            <v10:CustomerTransactionId>PROCESS SHIPMENT</v10:CustomerTransactionId>
+            <v10:Localization>
+               <v10:LanguageCode>EN</v10:LanguageCode>
+               <v10:LocaleCode>ES</v10:LocaleCode>
+            </v10:Localization>
+         </v10:TransactionDetail><v10:Version>
+            <v10:ServiceId>ship</v10:ServiceId>
+            <v10:Major>10</v10:Major>
+            <v10:Intermediate>0</v10:Intermediate>
+            <v10:Minor>0</v10:Minor>
+         </v10:Version></v10:ShipmentReply></soapenv:Body></soapenv:Envelope>

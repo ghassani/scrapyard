@@ -1,0 +1,28 @@
+{
+	"name" : "spliced/components",
+	"description" : "Shared libraries",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Gassan Idriss",
+			"email" : "ghassani@splicedmedia.com"
+		}
+	],
+	"homepage" : "http://www.splicedmedia.com",
+	"license" : [
+		"Apache-2.0"
+	],
+	"require" : {
+		"php" : ">=5.3.3"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Spliced\\" : "src/"
+		}
+	},
+	"minimum-stability" : "dev",
+	"suggest" : {
+		"guzzle/guzzle" : "Some of Spliced Component API Interfaces require the Guzzle HTTP Library",
+		"doctrine/orm" : "Spliced Components have some additional functionality for Doctrine ORM",
+		"symfony/browser-kit" : "Some of Spliced Component API Interfaces require the Symfony BrowserKit Component"
+	}
+}

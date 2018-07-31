@@ -1,0 +1,92 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://fedex.com/ws/ship/v10">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ProcessTagRequest>
+         <WebAuthenticationDetail>
+            <UserCredential>
+               <Key></Key>
+               <Password/>
+            </UserCredential>
+         </WebAuthenticationDetail>
+         <ClientDetail>
+            <AccountNumber></AccountNumber>
+            <MeterNumber></MeterNumber>
+         </ClientDetail>
+         <TransactionDetail>
+            <CustomerTransactionId>Process Tag V10</CustomerTransactionId>
+         </TransactionDetail>
+         <Version>
+            <ServiceId>ship</ServiceId>
+            <Major>10</Major>
+            <Intermediate>0</Intermediate>
+            <Minor>0</Minor>
+         </Version>
+         <RequestedShipment>
+            <ShipTimestamp>2011-06-16T09:30:47-05:00</ShipTimestamp>
+            <DropoffType>REGULAR_PICKUP</DropoffType>
+            <ServiceType>FEDEX_GROUND</ServiceType>
+            <PackagingType>YOUR_PACKAGING</PackagingType>
+            <Shipper>
+               <Contact>
+                  <PersonName>Joe Shipper</PersonName>
+                  <CompanyName>ABC Widgets</CompanyName>
+                  <PhoneNumber>8885551212</PhoneNumber>
+               </Contact>
+               <Address>
+                  <StreetLines>Test Sndr Address Line 1</StreetLines>
+                  <City>Memphis</City>
+                  <StateOrProvinceCode>TN</StateOrProvinceCode>
+                  <PostalCode>37501</PostalCode>
+                  <CountryCode>US</CountryCode>
+               </Address>
+            </Shipper>
+            <Recipient>
+               <Contact>
+                  <PersonName>Jane Recipient</PersonName>
+                  <CompanyName>XYZ Company</CompanyName>
+                  <PhoneNumber>8005551212</PhoneNumber>
+               </Contact>
+               <Address>
+                  <StreetLines>Test Recipient Line 1</StreetLines>
+                  <City>Long Beach</City>
+                  <StateOrProvinceCode>CA</StateOrProvinceCode>
+                  <PostalCode>90805</PostalCode>
+                  <CountryCode>US</CountryCode>
+               </Address>
+            </Recipient>
+            <ShippingChargesPayment>
+               <PaymentType>SENDER</PaymentType>
+               <Payor>
+                  <AccountNumber></AccountNumber>
+                  <CountryCode>US</CountryCode>
+               </Payor>
+            </ShippingChargesPayment>
+            <SpecialServicesRequested>
+               <SpecialServiceTypes>RETURN_SHIPMENT</SpecialServiceTypes>
+               <ReturnShipmentDetail>
+                  <ReturnType>FEDEX_TAG</ReturnType>
+               </ReturnShipmentDetail>
+            </SpecialServicesRequested>
+            <PickupDetail>
+               <ReadyDateTime>2011-06-16T10:30:47-05:00</ReadyDateTime>
+               <LatestPickupDateTime>2011-06-16T15:30:47-05:00</LatestPickupDateTime>
+               <CourierInstructions>Handle With Care</CourierInstructions>
+            </PickupDetail>
+            <LabelSpecification>
+               <LabelFormatType>COMMON2D</LabelFormatType>
+               <ImageType>PDF</ImageType>
+            </LabelSpecification>
+            <RateRequestTypes>ACCOUNT</RateRequestTypes>
+            <PackageCount>1</PackageCount>
+                        <RequestedPackageLineItems>
+               <SequenceNumber>1</SequenceNumber>
+               <Weight>
+                  <Units>LB</Units>
+                  <Value>10.0</Value>
+               </Weight>
+               <ItemDescription>Item Description</ItemDescription>
+            </RequestedPackageLineItems>
+         </RequestedShipment>
+      </ProcessTagRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

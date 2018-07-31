@@ -1,0 +1,99 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<SOAP-ENV:Body>
+<ship xmlns="http://fedex.com/ws/ship">
+<ProcessShipmentRequest>
+<AuthenticationDetail>
+<UserCredential></UserCredential>
+</AuthenticationDetail>
+<ClientDetail>
+<AccountNumber></AccountNumber>
+<MeterNumber></MeterNumber>
+</ClientDetail>
+<TransactionDetail>
+<CustomerTransactionId>TC01_USUS_E01011_HOLD AT LOC_POS</CustomerTransactionId>
+</TransactionDetail>
+<ApplicationId>esb</ApplicationId>
+<RequestedShipment>
+<ShipTimestamp>2010-06-16T11:08:04-06:00</ShipTimestamp>
+<ServiceType>PRIORITY_OVERNIGHT</ServiceType>
+<PackagingType>YOUR_PACKAGING</PackagingType>
+<PreferredCurrency>USD</PreferredCurrency>
+<Shipper>
+<Contact>
+<PersonName>2_U_M_T_D_E_PO_YP_P</PersonName>
+<CompanyName>CSCS-API</CompanyName>
+<Department>SNDR_DEPT</Department>
+<PhoneNumber>1234567890</PhoneNumber>
+</Contact>
+<Address>
+<StreetLines>Test Address Line 1-Sender</StreetLines>
+<StreetLines>Test Address Line 2-Sender</StreetLines>
+<City>Collierville</City>
+<StateOrProvinceCode>TN</StateOrProvinceCode>
+<PostalCode>38017</PostalCode>
+<CountryCode>US</CountryCode>
+</Address>
+</Shipper>
+<Recipient>
+<Contact>
+<PersonName>CSCS WAPI Recp</PersonName>
+<CompanyName>WAPI-RECIPIENT</CompanyName>
+<PhoneNumber>1234567890</PhoneNumber>
+</Contact>
+<Address>
+<StreetLines>Recipient Address Line 1</StreetLines>
+<City>AUSTIN</City>
+<StateOrProvinceCode>TX</StateOrProvinceCode>
+<PostalCode>73301</PostalCode>
+<CountryCode>US</CountryCode>
+</Address>
+</Recipient>
+<Origin>
+<Address>
+<StreetLines>Test Address Line 1-Sender</StreetLines>
+<StreetLines>Test Address Line 2-Sender</StreetLines>
+<City>Collierville</City>
+<StateOrProvinceCode>TN</StateOrProvinceCode>
+<PostalCode>38017</PostalCode>
+<CountryCode>US</CountryCode>
+</Address>
+</Origin>
+<ShippingChargesPayment>
+<PaymentType>SENDER</PaymentType>
+<Payor>
+<AccountNumber></AccountNumber>
+<CountryCode>US</CountryCode>
+</Payor>
+</ShippingChargesPayment>
+<LabelSpecification>
+<LabelFormatType>COMMON2D</LabelFormatType>
+<ImageType>PNG</ImageType>
+<LabelStockType>PAPER_7X4.75</LabelStockType>
+</LabelSpecification>
+<RateRequestTypes>LIST</RateRequestTypes>
+<RequestedPackages>
+<SequenceNumber>1</SequenceNumber>
+<Weight>
+<Units>LB</Units>
+<Value>50.0</Value>
+</Weight>
+<Dimensions>
+<Length>12</Length>
+<Width>12</Width>
+<Height>12</Height>
+<Units>IN</Units>
+</Dimensions>
+<CustomerReferences><CustomerReferenceType>CUSTOMER_REFERENCE</CustomerReferenceType><Value>$AW</Value></CustomerReferences>
+<SpecialServicesRequested>
+<SpecialServiceTypes>ALCOHOL</SpecialServiceTypes>
+<SpecialServiceTypes>SIGNATURE_OPTION</SpecialServiceTypes>
+<SignatureOptionDetail>
+<OptionType>ADULT</OptionType>
+</SignatureOptionDetail>
+</SpecialServicesRequested>
+</RequestedPackages>
+</RequestedShipment>
+</ProcessShipmentRequest>
+</ship>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
